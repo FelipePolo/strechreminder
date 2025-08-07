@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Theme.StretchReminderSplashScreen" parent="Theme.SplashScreen" >
+        <item name="windowSplashScreenBackground">@color/green</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/stretch_icon</item>
+        <item name="postSplashScreenTheme">@style/Theme.StretchReminder</item>
+    </style>
+
     <style name="Theme.StretchReminder" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
