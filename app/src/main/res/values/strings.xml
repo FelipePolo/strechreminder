@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">Stretch Reminder</string>
+    <string name="intro_promise">Move more. Sit less. Feel great every day at your own pace</string>
+    <string name="intro_button_text">Feel Better Now</string>
+    <string name="intro_term_services">Terms of Services</string>
+    <string name="intro_privacy">Privacy Policy</string>
+    <string name="intro_private_and_policy">By continuing, you agree to our</string>
+    <string name="and">and</string>
+    <string name="question">Question</string>
+    <string name="off">off</string>
+    <string name="agre_question">What is your age?</string>
+    <string name="over">Over</string>
+    <string name="gender_question">What is your gender?</string>
+    <string name="male">male</string>
+    <string name="female">female</string>
+    <string name="other">Other</string>
+    <string name="next">Continue</string>
+    <string name="work_days">Select your work days</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="sun">Sun</string>
+    <string name="working_hour">Working hours</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="main_posture">Select the main posture during your work day</string>
+    <string name="standing">Standing</string>
+    <string name="sitting">Sitting</string>
+    <string name="lying">Lying down</string>
+    <string name="allow_notification">Allow notification to support your routine</string>
 </resources>
