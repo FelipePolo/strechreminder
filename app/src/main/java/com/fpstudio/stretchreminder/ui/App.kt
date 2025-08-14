@@ -18,7 +18,9 @@ fun App() {
 
     NavHost(navController = navController, startDestination = Intro) {
         composable<Intro> {
-            IntroScreen()
+            IntroScreen {
+                navController.navigate(Form)
+            }
         }
         composable<Form> {
             Greeting("Form") {

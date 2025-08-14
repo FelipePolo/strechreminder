@@ -3,8 +3,12 @@ package com.fpstudio.stretchreminder.ui.screen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.ClickableText
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,20 +16,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.component.VideoPlayer
+import com.fpstudio.stretchreminder.ui.theme.Green
+import com.fpstudio.stretchreminder.util.Constants.PRIVATE_POLICY_URL
+import com.fpstudio.stretchreminder.util.Constants.SPACE
+import com.fpstudio.stretchreminder.util.Constants.TERMS_AND_CONDITIONS_URL
 
 
 @Composable
-fun IntroScreen() {
+fun IntroScreen(
+    onClick: () -> Unit
+) {
     Scaffold { paddingValues ->
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (backgroundVideo, grayOverlay, title, introButton, terms) = createRefs()
@@ -64,11 +77,33 @@ fun IntroScreen() {
                     }
             )
 
-            Terms(modifier = Modifier.constrainAs(terms) {
-                bottom.linkTo(parent.bottom, margin = 32.dp)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            })
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .constrainAs(introButton) {
+                        bottom.linkTo(terms.top, margin = 16.dp)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    }
+                    .padding(horizontal = 16.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Green),
+                shape = RoundedCornerShape(8.dp),
+                onClick = onClick
+            ) {
+                Text(
+                    text = stringResource(R.string.intro_button_text),
+                    fontSize = 20.sp
+                )
+            }
+
+            Terms(
+                modifier = Modifier.constrainAs(terms) {
+                    bottom.linkTo(parent.bottom, margin = 32.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+            )
         }
     }
 }
@@ -85,38 +120,37 @@ fun BackgroundVideo(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Terms(modifier: Modifier = Modifier, onClickLink: () -> Unit) {
+fun Terms(modifier: Modifier = Modifier) {
     val annotatedText = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Color.Gray)) {
-            append("textGray ")
+            appendLine(stringResource(R.string.intro_private_and_policy))
         }
-        // Parte clickeable
-        val start = length
-        withStyle(style = SpanStyle(color = Color.White)) {
-            append("textWhite ")
+
+        withLink(
+            LinkAnnotation.Url(
+                TERMS_AND_CONDITIONS_URL,
+                TextLinkStyles(style = SpanStyle(color = Color.White)),
+            )
+        ) {
+            append(stringResource(R.string.intro_term_services))
         }
-        addStringAnnotation(
-            tag = "URL",
-            annotation = "https://tu-link.com",
-            start = start,
-            end = length
-        )
+
         withStyle(style = SpanStyle(color = Color.Gray)) {
-            append("textGray ")
+            append(SPACE + stringResource(R.string.and) + SPACE)
         }
-        withStyle(style = SpanStyle(color = Color.White, fontWeight = FontWeight.Bold)) {
-            append("TextWhiteBold")
+
+        withLink(
+            LinkAnnotation.Url(
+                PRIVATE_POLICY_URL,
+                TextLinkStyles(style = SpanStyle(color = Color.White)),
+            )
+        ) {
+            append(stringResource(R.string.intro_privacy))
         }
     }
-
-    ClickableText(
-        text = annotatedText,
+    Text(
         modifier = modifier,
-        onClick = { offset ->
-            annotatedText.getStringAnnotations(tag = "URL", start = offset, end = offset)
-                .firstOrNull()?.let {
-                    onClickLink()
-                }
-        }
+        text = annotatedText,
+        textAlign = TextAlign.Center
     )
 }
