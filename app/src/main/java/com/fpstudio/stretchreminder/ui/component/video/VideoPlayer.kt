@@ -1,7 +1,5 @@
-package com.fpstudio.stretchreminder.ui.component
+package com.fpstudio.stretchreminder.ui.component.video
 
-import android.R.attr.repeatMode
-import android.net.Uri
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
 import androidx.compose.runtime.*

@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.fpstudio.stretchreminder.ui.screen.IntroScreen
+import com.fpstudio.stretchreminder.ui.screen.form.FormScreen
+import com.fpstudio.stretchreminder.ui.screen.intro.IntroScreen
+import org.koin.compose.koinInject
 
 @Composable
 fun App() {
@@ -23,9 +25,7 @@ fun App() {
             }
         }
         composable<Form> {
-            Greeting("Form") {
-                navController.navigate(Home)
-            }
+            FormScreen()
         }
         composable<Home> {
             Greeting("Home") {

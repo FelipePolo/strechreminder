@@ -1,4 +1,4 @@
-package com.fpstudio.stretchreminder.ui.screen
+package com.fpstudio.stretchreminder.ui.screen.intro
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,8 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.fpstudio.stretchreminder.R
-import com.fpstudio.stretchreminder.ui.component.VideoPlayer
-import com.fpstudio.stretchreminder.ui.theme.Green
+import com.fpstudio.stretchreminder.ui.component.video.VideoPlayer
+import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
+import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 import com.fpstudio.stretchreminder.util.Constants.PRIVATE_POLICY_URL
 import com.fpstudio.stretchreminder.util.Constants.SPACE
 import com.fpstudio.stretchreminder.util.Constants.TERMS_AND_CONDITIONS_URL
@@ -76,8 +74,7 @@ fun IntroScreen(
                         end.linkTo(parent.end)
                     }
             )
-
-            Button(
+            StretchButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
@@ -87,15 +84,12 @@ fun IntroScreen(
                         end.linkTo(parent.end)
                     }
                     .padding(horizontal = 16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Green),
-                shape = RoundedCornerShape(8.dp),
-                onClick = onClick
-            ) {
-                Text(
+                state = StretchButtonUiModel(
                     text = stringResource(R.string.intro_button_text),
-                    fontSize = 20.sp
-                )
-            }
+                    isVisible = true
+                ),
+                onClick = onClick
+            )
 
             Terms(
                 modifier = Modifier.constrainAs(terms) {
