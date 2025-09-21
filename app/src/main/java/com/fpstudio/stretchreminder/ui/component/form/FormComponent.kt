@@ -13,37 +13,61 @@ import com.fpstudio.stretchreminder.ui.composable.question.timeRange.TimeRangeQu
 import com.fpstudio.stretchreminder.ui.composable.question.workDay.WorkDaysQuestion
 import com.fpstudio.stretchreminder.ui.composable.question.imageSingleChoice.ImageSingleChoiceQuestion
 import com.fpstudio.stretchreminder.ui.composable.question.notificationQuestion.NotificationPermissionQuestion
-import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiSelection
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
+import com.fpstudio.stretchreminder.ui.composable.question.customBody.CustomBodyQuestion
+import com.fpstudio.stretchreminder.ui.composable.question.customGender.CustomGenderSingleChoiceQuestion
+import com.fpstudio.stretchreminder.ui.composable.question.inputText.InputTextQuestion
+import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.SideEffect
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun FormComponent(
     questions: List<QuestionUiModel>,
-    onSelect: (Int, QuestionUiSelection) -> Unit
+    onSelect: (Int, QuestionSelectionUiModel) -> Unit,
+    sideEffect: Flow<SideEffect>
 ) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
         questions.forEachIndexed { questionIndex, question ->
             when (question) {
+                is QuestionUiModel.InputText -> InputTextQuestion(model = question, sideEffect = sideEffect) { selection ->
+                    onSelect(questionIndex, selection)
+                }
+
                 is QuestionUiModel.SingleChoice -> SingleChoiceQuestion(question) { selection ->
                     onSelect(questionIndex, selection)
                 }
+
                 is QuestionUiModel.MultiChoice -> MultiChoiceQuestion(question) { selection ->
                     onSelect(questionIndex, selection)
                 }
+
                 is QuestionUiModel.WorkDays -> WorkDaysQuestion(question) { selection ->
                     onSelect(questionIndex, selection)
                 }
+
                 is QuestionUiModel.TimeRange -> TimeRangeQuestion(question) { selection ->
                     onSelect(questionIndex, selection)
                 }
-                is QuestionUiModel.ImageSingleChoice -> ImageSingleChoiceQuestion( question) { selection ->
+
+                is QuestionUiModel.ImageSingleChoice -> ImageSingleChoiceQuestion(question) { selection ->
                     onSelect(questionIndex, selection)
                 }
-                is QuestionUiModel.NotificationPermission -> NotificationPermissionQuestion { selection ->
+
+                is QuestionUiModel.CustomBodyQuestion -> CustomBodyQuestion(model = question) { selection ->
+                    onSelect(questionIndex, selection)
+                }
+
+                is QuestionUiModel.NotificationPermission -> NotificationPermissionQuestion(model = question) { selection ->
+                    onSelect(questionIndex, selection)
+                }
+
+                is QuestionUiModel.CustomGenderSingleChoice -> CustomGenderSingleChoiceQuestion(question) { selection ->
                     onSelect(questionIndex, selection)
                 }
             }
@@ -51,3 +75,5 @@ fun FormComponent(
         }
     }
 }
+
+

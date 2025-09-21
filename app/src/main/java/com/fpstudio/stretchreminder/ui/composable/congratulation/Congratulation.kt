@@ -29,10 +29,8 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.fpstudio.stretchreminder.R
-import com.fpstudio.stretchreminder.ui.theme.Gray
-import com.fpstudio.stretchreminder.ui.theme.Gray2
 import com.fpstudio.stretchreminder.ui.theme.Gray3
-import com.fpstudio.stretchreminder.ui.theme.Green2
+import com.fpstudio.stretchreminder.ui.theme.Green_primary
 
 @Composable
 fun Congratulation(
@@ -70,7 +68,7 @@ fun Congratulation(
                     200.dp
                 ),
                 colorFilter = ColorFilter.tint(
-                    color = Green2
+                    color = Green_primary
                 )
             )
 

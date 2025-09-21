@@ -2,21 +2,28 @@ package com.fpstudio.stretchreminder.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val Green_primary = Color(0xFF18D585)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val Green_secondary = Color(0xFF00D592)
 
-val Green = Color(0xFF35C75A)
-val Green2 = Color(0xFF5AC6A6)
+val Green_tertiary = Color(0xFFEBF9F7)
 
-val Green3 = Color(0xFFDEF3ED)
+val Green_quaternary = Color(0xFF04CAA4)
+
+val Green_gradient_1 = Color(0xFF00A17E)
+
+val Green_gradient_2 = Color(0xFF00D390)
+
+val Green_senary = Color(0xFF04CAA4)
+
+val text_primary = Color(0xFFFBFBFB)
 
 val Gray = Color(0xFFDDDDDE)
 
 val Gray3 = Color(0xFF8A8A8E)
 
+val Gray4 = Color(0xFF95989C)
+
 val Gray2 = Color(0xFFEEEEEF)
+
+val Gray5 = Color(0xFFF3F3F6)

@@ -18,7 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import com.fpstudio.stretchreminder.ui.theme.Green2
+import com.fpstudio.stretchreminder.ui.theme.Green_secondary
 import kotlinx.coroutines.delay
 
 @Composable
@@ -31,7 +31,7 @@ fun FancyAnimatedButton(
     var pressed by remember { mutableStateOf(false) }
 
     val backgroundColor by animateColorAsState(
-        targetValue = if (pressed) Color.White else Green2,
+        targetValue = if (pressed) Color.White else Green_secondary,
         animationSpec = tween(300, easing = FastOutSlowInEasing),
         label = "colorAnim"
     )

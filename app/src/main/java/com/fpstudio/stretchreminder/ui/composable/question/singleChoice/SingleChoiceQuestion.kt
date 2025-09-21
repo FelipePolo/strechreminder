@@ -11,27 +11,31 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fpstudio.stretchreminder.ui.composable.question.common.QuestionTitle
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
-import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiSelection
-import com.fpstudio.stretchreminder.ui.theme.Green2
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
 import com.fpstudio.stretchreminder.ui.theme.Gray
+import com.fpstudio.stretchreminder.ui.theme.Green_secondary
 
 @Composable
-fun SingleChoiceQuestion(model: QuestionUiModel.SingleChoice, onSelect: (QuestionUiSelection.StringSelection) -> Unit) {
-    Text(text = model.question, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+fun SingleChoiceQuestion(model: QuestionUiModel.SingleChoice, onSelect: (QuestionSelectionUiModel.StringSelectionUiModel) -> Unit) {
+    // Question title
+    Spacer(modifier = Modifier.height(12.dp))
+    QuestionTitle(model)
     Spacer(modifier = Modifier.height(18.dp))
+
+    // Content
     model.options.forEach { option ->
         val backgroundColor by animateColorAsState(
-            targetValue = if (model.selected == option) Green2 else Color.White,
+            targetValue = if (model.selected == option) Green_secondary else Color.White,
             animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing),
             label = "backgroundColor"
         )
         OutlinedButton(
             onClick = {
-                onSelect(QuestionUiSelection.StringSelection(option))
+                onSelect(QuestionSelectionUiModel.StringSelectionUiModel(option))
             },
             modifier = Modifier
                 .fillMaxWidth()

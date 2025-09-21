@@ -1,86 +1,143 @@
 package com.fpstudio.stretchreminder.ui.screen.form
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.fpstudio.stretchreminder.foundation.Mvi
+import com.fpstudio.stretchreminder.foundation.MviDelegate
 import com.fpstudio.stretchreminder.ui.component.form.FormComponentHelper
 import com.fpstudio.stretchreminder.ui.component.form.FormUiModel
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionErrorType
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
-import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiSelection
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
+import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.SideEffect
+import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.Intent
+import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.UiState
+import com.fpstudio.stretchreminder.ui.screen.promises.madeforyou.MadeForYouUiModel
+import com.fpstudio.stretchreminder.ui.screen.promises.plansuccess.PlanSuccessUiModel
 
-class FormViewModel : ViewModel() {
+class FormViewModel : ViewModel(), Mvi<UiState, Intent, SideEffect> by MviDelegate(UiState()) {
 
-    private val _state = MutableStateFlow(FormScreenState())
-    val uiState: StateFlow<FormScreenState> = _state.asStateFlow()
-
-
-    fun onEvent(event: FormEvent) {
-        when (event) {
-            is FormEvent.OnSelection -> {
+    override fun handleIntent(intent: Intent) {
+        when (intent) {
+            is Intent.OnQuestionAnswered -> {
                 onSelection(
-                    questionIndex = event.questionIndex,
-                    selection = event.selection
+                    questionIndex = intent.questionIndex,
+                    selection = intent.selection
                 )
             }
 
-            is FormEvent.OnContinueClick -> onContinueClick()
-            is FormEvent.OnNotificationAllow -> onContinueClick()
-            is FormEvent.OnNotificationDeny -> onContinueClick()
+            is Intent.OnContinueClick -> onContinue()
+            is Intent.OnNotificationAllow -> onContinue()
+            is Intent.OnNotificationDeny -> onContinue()
+            is Intent.OnBackClick -> onBack()
+            Intent.OnMadeForYouCloseClick -> onMadeForYouCloseClick()
+            Intent.OnPlanSuccessCloseClick -> onPlanSuccessCloseClick()
         }
     }
 
-    fun onContinueClick() {
-        val nextPage = getPageState()
+    private fun onMadeForYouCloseClick() {
+        updateUiState {
+            copy(
+                madeForYou = uiState.value.madeForYou.copy(isVisible = false)
+            )
+        }
+    }
+
+    private fun onPlanSuccessCloseClick() {
+        updateUiState {
+            copy(
+                planSuccess = uiState.value.planSuccess.copy(isVisible = false)
+            )
+        }
+    }
+
+    private fun onBack() {
+        val previousPage = getPreviousPage()
+        updateUiState {
+            copy(
+                page = previousPage,
+                nextButton = getNextButtonState(previousPage),
+                backButton = getBackButtonState(previousPage)
+            )
+        }
+    }
+
+    fun onContinue() {
+        val nextPage = getNextPage()
         if (nextPage == uiState.value.form.size) {
-            _state.update {
-                it.copy(
-                    page = nextPage,
+            updateUiState {
+                copy(
                     shouldShowQuestionProgressBar = false,
                     congratulation = uiState.value.congratulation.copy(visible = true)
                 )
             }
-        } else if (nextPage > uiState.value.form.size) {
-            // GO TO HOME SCREEN
         } else {
-            _state.update {
-                it.copy(
-                    page = nextPage,
-                    button = getStretchButtonState(nextPage)
+            val form = uiState.value.form[uiState.value.page]
+            if (FormComponentHelper.allRequiredQuestionAreAnswered(form)) {
+                val uiState = shouldShowPromiseScreen(nextPage)
+                updateUiState {
+                    uiState.copy(
+                        page = nextPage,
+                        nextButton = getNextButtonState(nextPage),
+                        backButton = getBackButtonState(nextPage)
+                    )
+                }
+            } else {
+                viewModelScope.emitSideEffect(
+                    SideEffect.ShowErrorOnQuestion(
+                        errorType = QuestionErrorType.INPUT_TEXT_INCOMPLETE
+                    )
                 )
             }
         }
     }
 
-    private fun onSelection(questionIndex: Int, selection: QuestionUiSelection) {
+    private fun getBackButtonState(nextPage: Int): StretchButtonUiModel {
+        return uiState.value.backButton.copy(
+            isVisible = nextPage > 0
+        )
+    }
+
+    private fun shouldShowPromiseScreen(nextPage: Int): UiState {
+        return when (nextPage) {
+            3 ->
+                uiState.value.copy(
+                    madeForYou = uiState.value.madeForYou.copy(isVisible = true)
+                )
+
+            6 ->
+                uiState.value.copy(
+                    planSuccess = uiState.value.planSuccess.copy(isVisible = true)
+                )
+
+            else -> uiState.value
+        }
+    }
+
+    private fun onSelection(questionIndex: Int, selection: QuestionSelectionUiModel) {
         val page = uiState.value.page
         val question = uiState.value.form[page].questions[questionIndex]
-        if (shouldRequestNotificationPermission(
+        if (!shouldRequestNotificationPermission(
                 questionModel = question,
                 selection = selection
             )
         ) {
-            _state.update {
-                it.copy(
-                    shouldRequestNotificationPermission = true
-                )
-            }
-        } else {
-            val nextPage = getPageState()
-            if (uiState.value.button.isVisible) {
-                _state.update {
-                    it.copy(
+            val nextPage = getNextPage()
+            val form = uiState.value.form[page]
+            if (form.addNextBtn) {
+                updateUiState {
+                    copy(
                         form = getFormListState(questionIndex, selection),
                     )
                 }
             } else {
-                _state.update {
-                    it.copy(
+                val uiState = shouldShowPromiseScreen(nextPage)
+                updateUiState {
+                    uiState.copy(
                         page = nextPage,
                         form = getFormListState(questionIndex, selection),
-                        button = getStretchButtonState(nextPage)
+                        nextButton = getNextButtonState(nextPage)
                     )
                 }
             }
@@ -89,34 +146,45 @@ class FormViewModel : ViewModel() {
 
     private fun shouldRequestNotificationPermission(
         questionModel: QuestionUiModel,
-        selection: QuestionUiSelection
+        selection: QuestionSelectionUiModel
     ): Boolean {
         if (questionModel is QuestionUiModel.NotificationPermission) {
-            return (selection as QuestionUiSelection.BooleanSelection).selection
+            val notificationAllowUserAnswer =
+                (selection as QuestionSelectionUiModel.BooleanSelectionUiModel).selection
+            if (notificationAllowUserAnswer) {
+                viewModelScope.emitSideEffect(SideEffect.RequestNotificationPermission)
+                return true
+            } else return false
         }
         return false
     }
 
-    private fun getPageState(): Int {
+    private fun getNextPage(): Int {
         val page = uiState.value.page
-        return page + 1
+        return (page + 1).coerceAtMost(uiState.value.form.size)
     }
 
-    private fun getStretchButtonState(page: Int): StretchButtonUiModel {
-        return if (page == 0 || page == 1 || page == 3 || page == 4 || page == 5) {
-            uiState.value.button.copy(
-                isVisible = false
+    private fun getPreviousPage(): Int {
+        val page = uiState.value.page
+        return (page - 1).coerceAtLeast(0)
+    }
+
+    private fun getNextButtonState(page: Int): StretchButtonUiModel {
+        val form = uiState.value.form[page]
+        return if (form.addNextBtn) {
+            uiState.value.nextButton.copy(
+                isVisible = true
             )
         } else {
-            uiState.value.button.copy(
-                isVisible = true
+            uiState.value.nextButton.copy(
+                isVisible = false
             )
         }
     }
 
     private fun getFormListState(
         questionIndex: Int,
-        selection: QuestionUiSelection
+        selection: QuestionSelectionUiModel
     ): List<FormUiModel> {
         val page = uiState.value.page
         val form = uiState.value.form.toMutableList()
@@ -125,5 +193,4 @@ class FormViewModel : ViewModel() {
         form[uiState.value.page] = updatedForm
         return form
     }
-
 }

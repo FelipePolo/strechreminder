@@ -14,32 +14,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.fpstudio.stretchreminder.ui.composable.question.common.QuestionTitle
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
-import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiSelection
-import com.fpstudio.stretchreminder.ui.theme.Green2
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
 import com.fpstudio.stretchreminder.ui.theme.Gray
+import com.fpstudio.stretchreminder.ui.theme.Green_secondary
 
 @Composable
 fun ImageSingleChoiceQuestion(
     model: QuestionUiModel.ImageSingleChoice,
-    onSelect: (QuestionUiSelection.IntSelection) -> Unit
+    onSelect: (QuestionSelectionUiModel.IntSelectionUiModel) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = model.question,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            textAlign = TextAlign.Center
-        )
+        // Question title
+        Spacer(modifier = Modifier.height(12.dp))
+        QuestionTitle(model)
         Spacer(modifier = Modifier.height(24.dp))
 
+        // Content
         if (model.imagesResId.size == 3) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -53,7 +49,7 @@ fun ImageSingleChoiceQuestion(
                         imageRes = model.imagesResId[0],
                         isSelected = model.selected == 0,
                         onClick = {
-                            onSelect(QuestionUiSelection.IntSelection( 0))
+                            onSelect(QuestionSelectionUiModel.IntSelectionUiModel( 0))
                         },
                         modifier = Modifier
                             .weight(0.5f)
@@ -63,7 +59,7 @@ fun ImageSingleChoiceQuestion(
                         imageRes = model.imagesResId[1],
                         isSelected = model.selected == 1,
                         onClick = {
-                            onSelect(QuestionUiSelection.IntSelection( 1))
+                            onSelect(QuestionSelectionUiModel.IntSelectionUiModel( 1))
                         },
                         modifier = Modifier
                             .weight(0.5f)
@@ -75,7 +71,7 @@ fun ImageSingleChoiceQuestion(
                     imageRes = model.imagesResId[2],
                     isSelected = model.selected == 2,
                     onClick = {
-                        onSelect(QuestionUiSelection.IntSelection( 2))
+                        onSelect(QuestionSelectionUiModel.IntSelectionUiModel( 2))
                     },
                     modifier = Modifier
                         .fillMaxWidth(1f)
@@ -89,7 +85,7 @@ fun ImageSingleChoiceQuestion(
                     imageRes = option,
                     isSelected = model.selected == i,
                     onClick = {
-                        onSelect(QuestionUiSelection.IntSelection( i))
+                        onSelect(QuestionSelectionUiModel.IntSelectionUiModel( i))
                     },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -107,7 +103,7 @@ private fun ImageItem(
     modifier: Modifier = Modifier
 ) {
     val backgroundColor by animateColorAsState(
-        targetValue = if (isSelected) Green2 else Color.White,
+        targetValue = if (isSelected) Green_secondary else Color.White,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
         label = "backgroundColor"
     )
@@ -118,7 +114,7 @@ private fun ImageItem(
         shape = RoundedCornerShape(8.dp),
         border = BorderStroke(
             width = if (isSelected) 2.dp else 1.dp,
-            color = if (isSelected) Green2 else Gray
+            color = if (isSelected) Green_secondary else Gray
         ),
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor

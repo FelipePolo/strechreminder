@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreen
+import com.fpstudio.stretchreminder.ui.screen.home.HomeScreen
 import com.fpstudio.stretchreminder.ui.screen.intro.IntroScreen
 import org.koin.compose.koinInject
 
@@ -25,26 +26,16 @@ fun App() {
             }
         }
         composable<Form> {
-            FormScreen()
-        }
-        composable<Home> {
-            Greeting("Home") {
-                navController.navigateUp()
+            FormScreen{
+                navController.navigate(Home)
             }
         }
-    }
-
-
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Text(
-            text = "Hello $name!",
-            modifier = modifier
-                .padding(innerPadding)
-                .clickable(onClick = onClick)
-        )
+        composable<Home> {
+            HomeScreen(
+                onStretchButtonClick = {
+                    // Aquí puedes agregar la navegación a la pantalla de estiramiento
+                }
+            )
+        }
     }
 }

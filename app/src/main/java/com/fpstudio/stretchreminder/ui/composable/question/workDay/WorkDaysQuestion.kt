@@ -16,26 +16,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
-import com.fpstudio.stretchreminder.ui.theme.Green2
-import com.fpstudio.stretchreminder.ui.theme.Green
-import com.fpstudio.stretchreminder.ui.theme.Green3
+import com.fpstudio.stretchreminder.ui.theme.Green_primary
 import com.fpstudio.stretchreminder.ui.theme.Gray
 import com.fpstudio.stretchreminder.R
-import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiSelection
+import com.fpstudio.stretchreminder.ui.composable.question.common.QuestionTitle
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
+import com.fpstudio.stretchreminder.ui.theme.Green_secondary
 
 @Composable
-fun WorkDaysQuestion(model: QuestionUiModel.WorkDays, onAnswer: (QuestionUiSelection.StringSelection) -> Unit) {
-    Text(text = model.question, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+fun WorkDaysQuestion(model: QuestionUiModel.WorkDays, onAnswer: (QuestionSelectionUiModel.StringSelectionUiModel) -> Unit) {
+    // Question title
+    Spacer(modifier = Modifier.height(12.dp))
+    QuestionTitle(model)
     Spacer(modifier = Modifier.height(16.dp))
+
+    // Content
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
         model.days.forEach { day ->
             val selected = model.selected.contains(day)
             val backgroundColor by animateColorAsState(
-                targetValue = if (selected) Green2 else Green3,
+                targetValue = if (selected) Green_secondary else Green_primary,
                 animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
                 label = "backgroundColor"
             )
@@ -45,7 +47,7 @@ fun WorkDaysQuestion(model: QuestionUiModel.WorkDays, onAnswer: (QuestionUiSelec
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
                     ) {
-                        onAnswer(QuestionUiSelection.StringSelection(day))
+                        onAnswer(QuestionSelectionUiModel.StringSelectionUiModel(day))
                     },
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -71,7 +73,7 @@ fun WorkDaysQuestion(model: QuestionUiModel.WorkDays, onAnswer: (QuestionUiSelec
                 }
                 Text(
                     day,
-                    color = if (selected) Green else Gray
+                    color = if (selected) Green_primary else Gray
                 )
             }
             Spacer(modifier = Modifier.width(2.dp))

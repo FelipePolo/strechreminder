@@ -12,28 +12,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiSelection
+import com.fpstudio.stretchreminder.ui.composable.question.common.QuestionTitle
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
 
 @Composable
-fun NotificationPermissionQuestion(onSelection: (QuestionUiSelection.BooleanSelection) -> Unit) {
+fun NotificationPermissionQuestion(
+    model: QuestionUiModel.NotificationPermission,
+    onSelection: (QuestionSelectionUiModel.BooleanSelectionUiModel) -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "Allow notifications to support your routine",
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(bottom = 32.dp)
-        )
+        Spacer(modifier = Modifier.height(12.dp))
+        QuestionTitle(model)
+        Spacer(modifier = Modifier.height(30.dp))
 
         Card(
             modifier = Modifier
                 .fillMaxWidth(0.9f)
-                .padding(8.dp),
+                .padding(8.dp)
+                .align(alignment = Alignment.CenterHorizontally)
+            ,
             shape = RoundedCornerShape(16.dp),
             border = BorderStroke(1.dp, Color.LightGray),
             colors = CardDefaults.cardColors(
@@ -71,7 +72,7 @@ fun NotificationPermissionQuestion(onSelection: (QuestionUiSelection.BooleanSele
                 ) {
                     // Don't Allow Button
                     OutlinedButton(
-                        onClick = { onSelection(QuestionUiSelection.BooleanSelection(false)) },
+                        onClick = { onSelection(QuestionSelectionUiModel.BooleanSelectionUiModel(false)) },
                         modifier = Modifier
                             .weight(1f)
                             .padding(end = 8.dp),
@@ -89,7 +90,7 @@ fun NotificationPermissionQuestion(onSelection: (QuestionUiSelection.BooleanSele
 
                     // Allow Button
                     Button(
-                        onClick = { onSelection(QuestionUiSelection.BooleanSelection(true)) },
+                        onClick = { onSelection(QuestionSelectionUiModel.BooleanSelectionUiModel(true)) },
                         modifier = Modifier
                             .weight(1f)
                             .padding(start = 8.dp),
