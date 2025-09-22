@@ -2,6 +2,8 @@ package com.fpstudio.stretchreminder.ui.screen.form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fpstudio.stretchreminder.data.mapper.toUser
+import com.fpstudio.stretchreminder.domain.usecase.SaveUserUseCase
 import com.fpstudio.stretchreminder.foundation.Mvi
 import com.fpstudio.stretchreminder.foundation.MviDelegate
 import com.fpstudio.stretchreminder.ui.component.form.FormComponentHelper
@@ -15,8 +17,11 @@ import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.Intent
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.UiState
 import com.fpstudio.stretchreminder.ui.screen.promises.madeforyou.MadeForYouUiModel
 import com.fpstudio.stretchreminder.ui.screen.promises.plansuccess.PlanSuccessUiModel
+import kotlinx.coroutines.launch
 
-class FormViewModel : ViewModel(), Mvi<UiState, Intent, SideEffect> by MviDelegate(UiState()) {
+class FormViewModel(
+    private val saveUserUseCase: SaveUserUseCase
+) : ViewModel(), Mvi<UiState, Intent, SideEffect> by MviDelegate(UiState()) {
 
     override fun handleIntent(intent: Intent) {
         when (intent) {
@@ -66,6 +71,9 @@ class FormViewModel : ViewModel(), Mvi<UiState, Intent, SideEffect> by MviDelega
     fun onContinue() {
         val nextPage = getNextPage()
         if (nextPage == uiState.value.form.size) {
+            viewModelScope.launch {
+                saveUserUseCase.invoke(uiState.value.toUser())
+            }
             updateUiState {
                 copy(
                     shouldShowQuestionProgressBar = false,
