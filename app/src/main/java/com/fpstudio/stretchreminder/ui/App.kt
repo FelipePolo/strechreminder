@@ -30,6 +30,9 @@ fun App() {
                 navController.navigate(Home)
             }
         }
+        composable<ThreeYes> {
+
+        }
         composable<Home> {
             HomeScreen(
                 onStretchButtonClick = {
