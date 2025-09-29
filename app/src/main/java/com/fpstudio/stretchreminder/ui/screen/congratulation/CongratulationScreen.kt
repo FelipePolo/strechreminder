@@ -1,4 +1,4 @@
-package com.fpstudio.stretchreminder.ui.composable.congratulation
+package com.fpstudio.stretchreminder.ui.screen.congratulation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +33,7 @@ import com.fpstudio.stretchreminder.ui.theme.Gray3
 import com.fpstudio.stretchreminder.ui.theme.Green_primary
 
 @Composable
-fun Congratulation(
+fun CongratulationScreen(
     modifier: Modifier = Modifier,
     uiModel: CongratulationUiModel,
 ) {
@@ -102,7 +102,7 @@ fun Congratulation(
 @Composable
 fun CongratulationPreview() {
     MaterialTheme {
-        Congratulation(
+        CongratulationScreen(
             uiModel = CongratulationUiModel()
         )
     }

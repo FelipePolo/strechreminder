@@ -1,7 +1,8 @@
 package com.fpstudio.stretchreminder.ui.screen.promises.madeforyou
 
 import androidx.compose.ui.graphics.Color
-import com.fpstudio.stretchreminder.ui.composable.button.ButtonType
+import androidx.compose.ui.unit.sp
+import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 
 data class MadeForYouUiModel(
@@ -24,11 +25,15 @@ data class MadeForYouUiModel(
         title = "Reduce muscle tension",
         description = "Relieve stiffness with guided micro-stretches you can do in minutes."
     ),
-    val nextButton: StretchButtonUiModel = StretchButtonUiModel(
+    val nextButton: StretchButtonUiModel = StretchButtonUiModel.Outline(
         text = "Continue",
-        isVisible = true,
-        buttonType = ButtonType.OUTLINE,
-        backgroundColor = Color.White
+        backgroundColor = Color.White,
+        fontSize = 16.sp,
+        textColor = Color.Black,
+    ),
+    val backButton: StretchButtonUiModel = StretchButtonUiModel.Lottie(
+        lottieFile = R.raw.back_white,
+        iterations = 3,
     )
 )
 

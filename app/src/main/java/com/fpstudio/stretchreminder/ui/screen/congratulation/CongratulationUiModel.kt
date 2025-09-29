@@ -1,4 +1,4 @@
-package com.fpstudio.stretchreminder.ui.composable.congratulation
+package com.fpstudio.stretchreminder.ui.screen.congratulation
 
 data class CongratulationUiModel(
     val visible: Boolean = false,

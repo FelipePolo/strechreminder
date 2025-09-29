@@ -12,12 +12,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -54,29 +50,26 @@ fun MadeForYouScreen(
             .fillMaxSize()
             .background(
                 brush = gradient
-            ).padding(top = 24.dp)
+            )
+            .padding(top = 40.dp, bottom = 24.dp)
     ) {
         // Back Button
         if (uiState.showBackButton) {
-            IconButton(
-                onClick = onBackClick,
+            StretchButton(
                 modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.TopStart)
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color.White
-                )
-            }
+                    .size(40.dp)
+                    .rotate(90f)
+                    .align(Alignment.TopStart),
+                state = uiState.backButton,
+                onClick = onBackClick
+            )
         }
 
         // Main Content
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp)
+                .padding(horizontal = 24.dp)
         ) {
             Spacer(modifier = Modifier.height(48.dp))
 
@@ -96,7 +89,9 @@ fun MadeForYouScreen(
                 title = uiState.card2.title,
                 description = uiState.card2.description,
                 gradient = gradient,
-                modifier = Modifier.rotate(3f).offset(x = 16.dp)
+                modifier = Modifier
+                    .rotate(3f)
+                    .offset(x = 16.dp)
             )
 
             Spacer(modifier = Modifier.height(30.dp))
@@ -131,7 +126,9 @@ fun MadeForYouScreen(
 
             // Continue Button
             StretchButton(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
                 state = uiState.nextButton,
                 onClick = onContinueClick
             )
@@ -157,7 +154,7 @@ fun FeatureCard(
             defaultElevation = 6.dp
         )
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),

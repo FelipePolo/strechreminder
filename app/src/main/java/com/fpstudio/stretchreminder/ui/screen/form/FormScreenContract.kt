@@ -1,9 +1,7 @@
 package com.fpstudio.stretchreminder.ui.screen.form
 
 import com.fpstudio.stretchreminder.ui.component.form.FormUiModel
-import com.fpstudio.stretchreminder.ui.composable.button.ButtonType
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
-import com.fpstudio.stretchreminder.ui.composable.congratulation.CongratulationUiModel
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionErrorType
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
 import com.fpstudio.stretchreminder.ui.screen.promises.madeforyou.MadeForYouUiModel
@@ -13,18 +11,15 @@ interface FormScreenContract {
     data class UiState(
         val page: Int = 0,
         val form: List<FormUiModel> = getForms(),
-        val backButton: StretchButtonUiModel = StretchButtonUiModel(
+        val backButton: StretchButtonUiModel = StretchButtonUiModel.Lottie(
             isVisible = false,
-            text = "Back",
-            buttonType = ButtonType.LOTTIE_BACK
+            iterations = 3
         ),
-        val nextButton: StretchButtonUiModel = StretchButtonUiModel(
+        val nextButton: StretchButtonUiModel = StretchButtonUiModel.Animated(
             isVisible = true,
-            text = "Continue",
-            buttonType = ButtonType.ANIMATED
+            text = "Continue"
         ),
         val shouldShowQuestionProgressBar: Boolean = true,
-        val congratulation: CongratulationUiModel = CongratulationUiModel(),
         val madeForYou: MadeForYouUiModel = MadeForYouUiModel(),
         val planSuccess: PlanSuccessUiModel = PlanSuccessUiModel()
     )
@@ -42,6 +37,8 @@ interface FormScreenContract {
 
     sealed interface SideEffect {
         object RequestNotificationPermission : SideEffect
+
+        object NavigateNext : SideEffect
 
         data class ShowErrorOnQuestion(val errorType: QuestionErrorType) : SideEffect
     }

@@ -84,7 +84,7 @@ fun IntroScreen(
                         end.linkTo(parent.end)
                     }
                     .padding(horizontal = 16.dp),
-                state = StretchButtonUiModel(
+                state = StretchButtonUiModel.Default(
                     text = stringResource(R.string.intro_button_text),
                     isVisible = true
                 ),

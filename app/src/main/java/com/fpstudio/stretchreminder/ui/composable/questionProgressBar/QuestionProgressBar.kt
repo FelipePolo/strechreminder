@@ -33,7 +33,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.fpstudio.stretchreminder.ui.composable.button.ButtonType
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 import com.fpstudio.stretchreminder.ui.theme.Gray5
@@ -122,10 +121,8 @@ fun PreviewQuestionProgressBar() {
             totalQuestions = 7,
             modifier = Modifier.fillMaxWidth(),
             visibility = true,
-            backButton = StretchButtonUiModel(
-                isVisible = true,
-                text = "Back",
-                buttonType = ButtonType.LOTTIE_BACK
+            backButton = StretchButtonUiModel.Lottie(
+                iterations = 3
             )
         ) {}
 

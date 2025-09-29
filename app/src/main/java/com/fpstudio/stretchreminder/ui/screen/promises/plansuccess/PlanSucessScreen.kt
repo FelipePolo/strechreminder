@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -21,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
@@ -41,6 +43,7 @@ import com.fpstudio.stretchreminder.ui.theme.text_primary
 
 @Composable
 fun PlanSuccessScreen(
+    modifier: Modifier = Modifier,
     model: PlanSuccessUiModel = PlanSuccessUiModel(),
     onBackClick: () -> Unit = {},
     onContinueClick: () -> Unit = {}
@@ -52,10 +55,10 @@ fun PlanSuccessScreen(
     )
 
     Box(
-        modifier = Modifier
-            .padding(top = 24.dp)
+        modifier = modifier
             .fillMaxSize()
             .background(gradient)
+            .padding(top = 40.dp)
     ) {
 
         Image(
@@ -74,17 +77,14 @@ fun PlanSuccessScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Back button
-            IconButton(
-                onClick = onBackClick,
+            StretchButton(
                 modifier = Modifier
-                    .align(Alignment.Start)
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color.Black
-                )
-            }
+                    .size(40.dp)
+                    .rotate(90f)
+                    .align(Alignment.Start),
+                state = model.backButton,
+                onClick = onBackClick
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -93,7 +93,7 @@ fun PlanSuccessScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 8.dp),
+                        .padding(horizontal = 16.dp),
                     shape = RoundedCornerShape(16.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = Color(0xFF00B54D)
@@ -136,17 +136,20 @@ fun PlanSuccessScreen(
 
             // Continue button
             StretchButton(
-                modifier = Modifier.fillMaxWidth().padding(8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .padding(horizontal = 16.dp),
                 state = model.nextButton,
                 onClick = onContinueClick
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun PlanSuccessScreenPreview() {
     StretchReminderTheme {

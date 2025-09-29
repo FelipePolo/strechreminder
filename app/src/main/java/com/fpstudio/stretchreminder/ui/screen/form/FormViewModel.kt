@@ -15,8 +15,6 @@ import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiMo
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.SideEffect
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.Intent
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.UiState
-import com.fpstudio.stretchreminder.ui.screen.promises.madeforyou.MadeForYouUiModel
-import com.fpstudio.stretchreminder.ui.screen.promises.plansuccess.PlanSuccessUiModel
 import kotlinx.coroutines.launch
 
 class FormViewModel(
@@ -70,16 +68,11 @@ class FormViewModel(
 
     fun onContinue() {
         val nextPage = getNextPage()
-        if (nextPage == uiState.value.form.size) {
+        if (nextPage >= uiState.value.form.size) {
             viewModelScope.launch {
                 saveUserUseCase.invoke(uiState.value.toUser())
             }
-            updateUiState {
-                copy(
-                    shouldShowQuestionProgressBar = false,
-                    congratulation = uiState.value.congratulation.copy(visible = true)
-                )
-            }
+            viewModelScope.emitSideEffect(SideEffect.NavigateNext)
         } else {
             val form = uiState.value.form[uiState.value.page]
             if (FormComponentHelper.allRequiredQuestionAreAnswered(form)) {
@@ -102,7 +95,8 @@ class FormViewModel(
     }
 
     private fun getBackButtonState(nextPage: Int): StretchButtonUiModel {
-        return uiState.value.backButton.copy(
+        val newButton = uiState.value.backButton as StretchButtonUiModel.Lottie
+        return newButton.copy(
             isVisible = nextPage > 0
         )
     }
@@ -179,12 +173,13 @@ class FormViewModel(
 
     private fun getNextButtonState(page: Int): StretchButtonUiModel {
         val form = uiState.value.form[page]
+        val newButton = uiState.value.nextButton as StretchButtonUiModel.Animated
         return if (form.addNextBtn) {
-            uiState.value.nextButton.copy(
+            newButton.copy(
                 isVisible = true
             )
         } else {
-            uiState.value.nextButton.copy(
+            newButton.copy(
                 isVisible = false
             )
         }

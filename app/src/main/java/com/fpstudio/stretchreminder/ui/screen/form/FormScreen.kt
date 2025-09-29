@@ -1,9 +1,5 @@
 package com.fpstudio.stretchreminder.ui.screen.form
 
-import android.Manifest
-import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,8 +23,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fpstudio.stretchreminder.foundation.LaunchedSideEffect
 import com.fpstudio.stretchreminder.ui.component.form.FormComponent
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
-import com.fpstudio.stretchreminder.ui.composable.congratulation.Congratulation
-import com.fpstudio.stretchreminder.ui.composable.dialog.DialogElement
 import com.fpstudio.stretchreminder.ui.composable.permision.notification.AskNotificationPermission
 import com.fpstudio.stretchreminder.ui.composable.questionProgressBar.QuestionProgressBar
 import com.fpstudio.stretchreminder.ui.composable.transitions.smooth.SmoothOverlay
@@ -37,14 +31,14 @@ import kotlinx.coroutines.flow.Flow
 import org.koin.androidx.compose.koinViewModel
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.Intent
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.SideEffect.RequestNotificationPermission
+import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.SideEffect.NavigateNext
 import com.fpstudio.stretchreminder.ui.screen.promises.madeforyou.MadeForYouScreen
 import com.fpstudio.stretchreminder.ui.screen.promises.plansuccess.PlanSuccessScreen
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun FormScreen(
     viewmodel: FormViewModel = koinViewModel(),
-    onNavigateToHome: () -> Unit
+    onNavigate: () -> Unit
 ) {
     val uiState = viewmodel.uiState.collectAsStateWithLifecycle()
 
@@ -54,6 +48,12 @@ fun FormScreen(
         sideEffect = viewmodel.sideEffect,
         modifier = Modifier
     )
+
+    LaunchedSideEffect(viewmodel.sideEffect) { effect ->
+        if (effect is NavigateNext) {
+            onNavigate()
+        }
+    }
 }
 
 @Composable
@@ -110,19 +110,13 @@ fun FormScreenContent(
                         }
                         .fillMaxSize()
                 ) { page ->
-                    if (uiState.value.congratulation.visible) {
-                        Congratulation(
-                            uiModel = uiState.value.congratulation
-                        )
-                    } else {
-                        FormComponent(
-                            questions = uiState.value.form[page].questions,
-                            sideEffect = sideEffect,
-                            onSelect = { index, answer ->
-                                onIntent(Intent.OnQuestionAnswered(index, answer))
-                            }
-                        )
-                    }
+                    FormComponent(
+                        questions = uiState.value.form[page].questions,
+                        sideEffect = sideEffect,
+                        onSelect = { index, answer ->
+                            onIntent(Intent.OnQuestionAnswered(index, answer))
+                        }
+                    )
                 }
 
                 StretchButton(
