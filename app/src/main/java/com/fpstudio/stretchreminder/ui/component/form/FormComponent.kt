@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.Flow
 fun FormComponent(
     questions: List<QuestionUiModel>,
     onSelect: (Int, QuestionSelectionUiModel) -> Unit,
-    sideEffect: Flow<SideEffect>
+    onError: Flow<SideEffect>
 ) {
     Column(
         modifier = Modifier
@@ -35,7 +35,7 @@ fun FormComponent(
     ) {
         questions.forEachIndexed { questionIndex, question ->
             when (question) {
-                is QuestionUiModel.InputText -> InputTextQuestion(model = question, sideEffect = sideEffect) { selection ->
+                is QuestionUiModel.InputText -> InputTextQuestion(model = question, sideEffect = onError) { selection ->
                     onSelect(questionIndex, selection)
                 }
 

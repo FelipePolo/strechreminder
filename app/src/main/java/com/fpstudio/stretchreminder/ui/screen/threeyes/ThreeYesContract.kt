@@ -17,14 +17,17 @@ import com.fpstudio.stretchreminder.util.Constants.SPACE
 interface ThreeYesContract {
 
     data class UiState(
+        val page: Int = 0,
         val agreementScreens: List<AgreementUiModel> = getBaseThreeYesList()
     )
 
     sealed interface Intent {
-        object OnContinue: Intent
+        object OnContinue : Intent
     }
 
-    sealed interface SideEffect
+    sealed interface SideEffect {
+        object NavigateNext : SideEffect
+    }
 }
 
 private fun getBaseThreeYesList(): List<AgreementUiModel> = listOf(
@@ -77,7 +80,7 @@ private fun getScreen2(): AgreementUiModel {
         }
 
         withStyle(style = SpanStyle(color = Green_quaternary, fontWeight = FontWeight.Bold)) {
-            append("improve")
+            append(SPACE + "improve")
         }
 
         withStyle(style = SpanStyle(color = Color.White, fontWeight = FontWeight.Bold)) {
@@ -86,7 +89,7 @@ private fun getScreen2(): AgreementUiModel {
     }
     return AgreementUiModel(
         title = annotatedText,
-        backgroundImg = R.drawable.male1,
+        backgroundImg = R.drawable.male2,
         noButton = StretchButtonUiModel.Outline(
             text = "No",
             shape = RoundedCornerShape(12.dp),
@@ -122,7 +125,7 @@ private fun getScreen3(): AgreementUiModel {
     }
     return AgreementUiModel(
         title = annotatedText,
-        backgroundImg = R.drawable.male1,
+        backgroundImg = R.drawable.male3,
         noButton = StretchButtonUiModel.Outline(
             text = "No",
             shape = RoundedCornerShape(12.dp),

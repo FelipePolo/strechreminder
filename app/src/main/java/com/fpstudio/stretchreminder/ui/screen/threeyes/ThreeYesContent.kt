@@ -4,14 +4,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.fpstudio.stretchreminder.foundation.LaunchedSideEffect
 import com.fpstudio.stretchreminder.ui.screen.promises.agreement.AgreementScreen
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import org.koin.androidx.compose.koinViewModel
-
 
 @Composable
 fun ThreeYesScreen(
@@ -22,19 +28,27 @@ fun ThreeYesScreen(
 
     ThreeYesContent(
         state = uiState.value,
-        onIntent = viewmodel::handleIntent,
-        onSideEffect = viewmodel.sideEffect
+        onIntent = viewmodel::handleIntent
     )
+
+    LaunchedSideEffect(viewmodel.sideEffect) { effect ->
+        if (effect is ThreeYesContract.SideEffect.NavigateNext) {
+            onNavigateToHome()
+        }
+    }
 }
 
 @Composable
 fun ThreeYesContent(
     state: ThreeYesContract.UiState,
-    onIntent: (ThreeYesContract.Intent) -> Unit,
-    onSideEffect: Flow<ThreeYesContract.SideEffect>
+    onIntent: (ThreeYesContract.Intent) -> Unit
 ) {
     val pagerState = rememberPagerState {
         state.agreementScreens.size
+    }
+
+    LaunchedEffect(state.page) {
+        pagerState.animateScrollToPage(state.page)
     }
 
     HorizontalPager(
@@ -50,13 +64,17 @@ fun ThreeYesContent(
     }
 }
 
-// Implementent Preview
 @Preview
 @Composable
 fun ThreeYesScreenPreview() {
+    var state by remember { mutableStateOf(ThreeYesContract.UiState()) }
+
     ThreeYesContent(
-        state = ThreeYesContract.UiState(),
-        onIntent = {},
-        onSideEffect = emptyFlow()
+        state = state,
+        onIntent = {
+            state = state.copy(
+                page = state.page + 1
+            )
+        }
     )
 }

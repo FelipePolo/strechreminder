@@ -24,8 +24,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.media3.common.Player
 import com.fpstudio.stretchreminder.R
-import com.fpstudio.stretchreminder.ui.component.video.VideoPlayer
+import com.fpstudio.stretchreminder.ui.composable.video.Video
+import com.fpstudio.stretchreminder.ui.composable.video.rememberVideoState
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 import com.fpstudio.stretchreminder.util.Constants.PRIVATE_POLICY_URL
@@ -106,10 +108,13 @@ fun IntroScreen(
 fun BackgroundVideo(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val rawUri = "android.resource://${context.packageName}/raw/onboarding"
-    VideoPlayer(
+    val state = rememberVideoState(
         videoSource = rawUri,
-        modifier = modifier.fillMaxSize(),
-        showControls = false
+        repeatMode = Player.REPEAT_MODE_ALL
+    )
+    Video(
+        state = state,
+        modifier = modifier.fillMaxSize()
     )
 }
 

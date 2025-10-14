@@ -12,6 +12,9 @@ object Form
 object ThreeYes
 
 @Serializable
+object Congratulation
+
+@Serializable
 object Home
 
 

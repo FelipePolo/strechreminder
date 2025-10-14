@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,12 +32,20 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.theme.Gray3
 import com.fpstudio.stretchreminder.ui.theme.Green_primary
+import kotlinx.coroutines.delay
 
 @Composable
 fun CongratulationScreen(
     modifier: Modifier = Modifier,
-    uiModel: CongratulationUiModel,
+    uiModel: CongratulationUiModel = CongratulationUiModel(),
+    navigateNext: () -> Unit
 ) {
+
+    LaunchedEffect(Unit) {
+        delay(3000)
+        navigateNext()
+    }
+
     val composition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(R.raw.congratulations)
     )
@@ -103,7 +112,8 @@ fun CongratulationScreen(
 fun CongratulationPreview() {
     MaterialTheme {
         CongratulationScreen(
-            uiModel = CongratulationUiModel()
+            uiModel = CongratulationUiModel(),
+            navigateNext = {}
         )
     }
 }

@@ -11,10 +11,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -23,7 +19,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fpstudio.stretchreminder.foundation.LaunchedSideEffect
 import com.fpstudio.stretchreminder.ui.component.form.FormComponent
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
-import com.fpstudio.stretchreminder.ui.composable.permision.notification.AskNotificationPermission
+import com.fpstudio.stretchreminder.ui.composable.permision.notification.askPermission
+import com.fpstudio.stretchreminder.ui.composable.permision.notification.createNotificationPermissionLauncher
 import com.fpstudio.stretchreminder.ui.composable.questionProgressBar.QuestionProgressBar
 import com.fpstudio.stretchreminder.ui.composable.transitions.smooth.SmoothOverlay
 import com.fpstudio.stretchreminder.ui.composable.transitions.splash.LiquidSplashOverlay
@@ -43,27 +40,30 @@ fun FormScreen(
     val uiState = viewmodel.uiState.collectAsStateWithLifecycle()
 
     FormScreenContent(
-        uiState = uiState,
+        uiState = uiState.value,
         onIntent = viewmodel::handleIntent,
         sideEffect = viewmodel.sideEffect,
+        onNavigate = onNavigate,
         modifier = Modifier
     )
-
-    LaunchedSideEffect(viewmodel.sideEffect) { effect ->
-        if (effect is NavigateNext) {
-            onNavigate()
-        }
-    }
 }
 
 @Composable
 fun FormScreenContent(
-    uiState: State<FormScreenContract.UiState>,
+    uiState: FormScreenContract.UiState,
     onIntent: (Intent) -> Unit,
     sideEffect: Flow<FormScreenContract.SideEffect>,
+    onNavigate: () -> Unit,
     modifier: Modifier
 ) {
-    var askNotificationPermission by remember { mutableStateOf(false) }
+    val notificationPermission = createNotificationPermissionLauncher(
+        oGranted = {
+            onIntent(Intent.OnNotificationAllow)
+        },
+        onDenied = {
+            onIntent(Intent.OnNotificationDeny)
+        }
+    )
 
     Scaffold(
         containerColor = Color.White
@@ -74,20 +74,20 @@ fun FormScreenContent(
                     .padding(paddingValues)
                     .fillMaxSize()
             ) {
-                val pagerState = rememberPagerState(initialPage = uiState.value.page) {
-                    uiState.value.form.size
+                val pagerState = rememberPagerState(initialPage = uiState.page) {
+                    uiState.form.size
                 }
                 val (questionProgressBar, pager, nextButton) = createRefs()
 
-                LaunchedEffect(uiState.value.page) {
-                    pagerState.animateScrollToPage(uiState.value.page)
+                LaunchedEffect(uiState.page) {
+                    pagerState.animateScrollToPage(uiState.page)
                 }
 
                 QuestionProgressBar(
-                    visibility = uiState.value.shouldShowQuestionProgressBar,
-                    currentQuestion = uiState.value.page + 1,
-                    totalQuestions = uiState.value.form.size,
-                    backButton = uiState.value.backButton,
+                    visibility = uiState.shouldShowQuestionProgressBar,
+                    currentQuestion = uiState.page + 1,
+                    totalQuestions = uiState.form.size,
+                    backButton = uiState.backButton,
                     modifier = modifier
                         .fillMaxWidth()
                         .constrainAs(questionProgressBar) {
@@ -111,8 +111,8 @@ fun FormScreenContent(
                         .fillMaxSize()
                 ) { page ->
                     FormComponent(
-                        questions = uiState.value.form[page].questions,
-                        sideEffect = sideEffect,
+                        questions = uiState.form[page].questions,
+                        onError = sideEffect,
                         onSelect = { index, answer ->
                             onIntent(Intent.OnQuestionAnswered(index, answer))
                         }
@@ -120,7 +120,7 @@ fun FormScreenContent(
                 }
 
                 StretchButton(
-                    state = uiState.value.nextButton,
+                    state = uiState.nextButton,
                     modifier = modifier
                         .fillMaxWidth()
                         .height(48.dp)
@@ -136,20 +136,8 @@ fun FormScreenContent(
                 )
             }
 
-            AskNotificationPermission(
-                shouldAsk = askNotificationPermission,
-                oGranted = {
-                    onIntent(Intent.OnNotificationAllow)
-                    askNotificationPermission = false
-                },
-                onDenied = {
-                    onIntent(Intent.OnNotificationDeny)
-                    askNotificationPermission = false
-                }
-            )
-
             SmoothOverlay(
-                visible = uiState.value.madeForYou.isVisible,
+                visible = uiState.madeForYou.isVisible,
             ) {
                 MadeForYouScreen(
                     onBackClick = {
@@ -162,7 +150,7 @@ fun FormScreenContent(
             }
 
             LiquidSplashOverlay(
-                visible = uiState.value.planSuccess.isVisible,
+                visible = uiState.planSuccess.isVisible,
             ) {
                 PlanSuccessScreen(
                     onBackClick = {
@@ -176,7 +164,12 @@ fun FormScreenContent(
 
             LaunchedSideEffect(sideEffect) { effect ->
                 if (effect is RequestNotificationPermission) {
-                    askNotificationPermission = true
+                    notificationPermission.askPermission {
+                        onIntent(Intent.OnNotificationAllow)
+                    }
+                }
+                if (effect is NavigateNext) {
+                    onNavigate()
                 }
             }
         }

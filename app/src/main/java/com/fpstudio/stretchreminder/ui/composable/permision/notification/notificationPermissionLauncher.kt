@@ -2,14 +2,14 @@ package com.fpstudio.stretchreminder.ui.composable.permision.notification
 
 import android.Manifest
 import android.os.Build
+import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
-import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.Intent
 
 @Composable
-fun AskNotificationPermission(shouldAsk: Boolean = false, oGranted: () -> Unit, onDenied: () -> Unit) {
-    val notificationPermissionLauncher = rememberLauncherForActivityResult(
+fun createNotificationPermissionLauncher(oGranted: () -> Unit, onDenied: () -> Unit): ManagedActivityResultLauncher<String, Boolean> {
+    return rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
@@ -18,12 +18,12 @@ fun AskNotificationPermission(shouldAsk: Boolean = false, oGranted: () -> Unit, 
             onDenied()
         }
     }
-    if (shouldAsk) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-        } else {
-            oGranted()
-        }
-    }
 }
 
+fun ManagedActivityResultLauncher<String, Boolean>.askPermission(oGranted: () -> Unit) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        launch(Manifest.permission.POST_NOTIFICATIONS)
+    } else {
+        oGranted()
+    }
+}

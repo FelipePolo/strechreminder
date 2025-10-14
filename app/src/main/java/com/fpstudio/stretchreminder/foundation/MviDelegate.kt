@@ -1,12 +1,12 @@
 package com.fpstudio.stretchreminder.foundation
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -17,8 +17,9 @@ class MviDelegate<UiState, Intent, SideEffect> internal constructor(
     private val _uiState = MutableStateFlow(initialState)
     override val uiState: StateFlow<UiState> = _uiState.asStateFlow()
 
-    private val _sideEffect by lazy { Channel<SideEffect>() }
-    override val sideEffect: Flow<SideEffect> by lazy { _sideEffect.receiveAsFlow() }
+    // Use SharedFlow to multicast side effects to all collectors
+    private val _sideEffect by lazy { MutableSharedFlow<SideEffect>(replay = 0, extraBufferCapacity = 64) }
+    override val sideEffect: Flow<SideEffect> by lazy { _sideEffect.asSharedFlow() }
 
     override fun handleIntent(intent: Intent) {
         // Do nothing by default
@@ -33,7 +34,8 @@ class MviDelegate<UiState, Intent, SideEffect> internal constructor(
     }
 
     override fun CoroutineScope.emitSideEffect(sideEffect: SideEffect) {
-        this.launch { _sideEffect.send(sideEffect) }
+        // Emit so all active collectors receive the event
+        this.launch { _sideEffect.emit(sideEffect) }
     }
 
 }
