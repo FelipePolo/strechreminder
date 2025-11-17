@@ -10,13 +10,12 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.fpstudio.stretchreminder.foundation.LaunchedSideEffect
+import com.fpstudio.stretchreminder.util.foundation.LaunchedSideEffect
 import com.fpstudio.stretchreminder.ui.component.form.FormComponent
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
 import com.fpstudio.stretchreminder.ui.composable.permision.notification.askPermission

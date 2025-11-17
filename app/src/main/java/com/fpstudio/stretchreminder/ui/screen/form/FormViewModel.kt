@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fpstudio.stretchreminder.data.mapper.toUser
 import com.fpstudio.stretchreminder.domain.usecase.SaveUserUseCase
-import com.fpstudio.stretchreminder.foundation.Mvi
-import com.fpstudio.stretchreminder.foundation.MviDelegate
+import com.fpstudio.stretchreminder.util.foundation.Mvi
+import com.fpstudio.stretchreminder.util.foundation.MviDelegate
 import com.fpstudio.stretchreminder.ui.component.form.FormComponentHelper
 import com.fpstudio.stretchreminder.ui.component.form.FormUiModel
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel

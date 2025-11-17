@@ -15,6 +15,9 @@ object ThreeYes
 object Congratulation
 
 @Serializable
+object Tutorial
+
+@Serializable
 object Home
 
 

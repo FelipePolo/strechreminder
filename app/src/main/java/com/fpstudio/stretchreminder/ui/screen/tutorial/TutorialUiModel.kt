@@ -2,6 +2,7 @@ package com.fpstudio.stretchreminder.ui.screen.tutorial
 
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 import com.fpstudio.stretchreminder.ui.screen.congratulation.CongratulationUiModel
+import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenContract
 
 sealed class TutorialUiModel {
     data class Welcome(
@@ -12,8 +13,7 @@ sealed class TutorialUiModel {
     ) : TutorialUiModel()
 
     data class Tutorial(
-        val disclaimer: String,
-        val video: Int,
+        val exerciseScreenState: ExerciseScreenContract.UiState,
     ) : TutorialUiModel()
 
     data class Complete(

@@ -12,11 +12,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.fpstudio.stretchreminder.foundation.LaunchedSideEffect
+import com.fpstudio.stretchreminder.util.foundation.LaunchedSideEffect
 import com.fpstudio.stretchreminder.ui.screen.promises.agreement.AgreementScreen
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.emptyFlow
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

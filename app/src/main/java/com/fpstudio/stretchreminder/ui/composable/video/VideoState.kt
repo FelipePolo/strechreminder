@@ -1,6 +1,7 @@
 package com.fpstudio.stretchreminder.ui.composable.video
 
 import android.content.Context
+import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -9,43 +10,74 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.AspectRatioFrameLayout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Stable
+@UnstableApi
 class VideoState(
-    val videoSource: String,
+    val useController: Boolean = false,
     val playWhenReady: Boolean = true,
-    val repeatMode: Int = Player.REPEAT_MODE_ONE,
+    val repeatMode: Int = Player.REPEAT_MODE_OFF,
+    val resizeMode: Int = AspectRatioFrameLayout.RESIZE_MODE_ZOOM,
     val context: Context,
     val coroutineScope: CoroutineScope
-): Player.Listener {
+) : Player.Listener {
 
-    val exo: ExoPlayer = createPreparedExoPlayer(
-        context, videoSource
-    ).also {
+    private var currentPlaying: Boolean = false
+
+    private var onReadyListener: (VideoState) -> Unit = {}
+    private var onVideoEndListener: (VideoState) -> Unit = {}
+
+    val exo: ExoPlayer = createPreparedExoPlayer(context).also {
         it.repeatMode = repeatMode
+        currentPlaying = playWhenReady
         it.playWhenReady = playWhenReady
         it.addListener(this)
     }
 
-    fun progressListener(listener: (Long) -> Unit) {
+    fun getRemainingTime(listener: (Long) -> Unit) {
         coroutineScope.launch {
             while (true) {
-                listener(exo.currentPosition)
+                val remaining = (exo.duration - exo.currentPosition).coerceAtLeast(0L)
+                listener(remaining)
                 delay(300)
             }
         }
     }
 
+    fun onVideoEnd(listener: (VideoState) -> Unit) {
+        onVideoEndListener = listener
+    }
+
+    fun onReady(listener: (VideoState) -> Unit) {
+        onReadyListener = listener
+    }
+
     fun play() {
         exo.play()
+        currentPlaying = true
+    }
+
+    fun isPlaying(): Boolean {
+        return exo.isPlaying
+    }
+
+    fun isNotPlaying(): Boolean {
+        return !exo.isPlaying
+    }
+
+    fun shouldPlay(): Boolean {
+        return currentPlaying && !exo.isPlaying
     }
 
     fun pause() {
         exo.pause()
+        currentPlaying = false
     }
 
     fun prepare() {
@@ -72,6 +104,24 @@ class VideoState(
     fun release() {
         exo.release()
     }
+
+    fun loadVideo(videoSource: String) {
+        exo.setMediaItem(createMediaSource(videoSource))
+        exo.prepare()
+    }
+
+    override fun onPlaybackStateChanged(playbackState: Int) {
+        super.onPlaybackStateChanged(playbackState)
+        if (playbackState == Player.STATE_READY) {
+            if (playWhenReady) {
+                play()
+            }
+            onReadyListener(this)
+        }
+        if (playbackState == Player.STATE_ENDED) {
+            onVideoEndListener(this)
+        }
+    }
 }
 
 private fun createMediaSource(videoSource: String): MediaItem {
@@ -80,28 +130,30 @@ private fun createMediaSource(videoSource: String): MediaItem {
         .build()
 }
 
-private fun createPreparedExoPlayer(context: Context, videoSource: String): ExoPlayer {
+private fun createPreparedExoPlayer(context: Context): ExoPlayer {
     val exoPlayer = ExoPlayer.Builder(context).build()
-    val mediaItem = createMediaSource(videoSource)
-    exoPlayer.setMediaItem(mediaItem)
     return exoPlayer
 }
 
 @Composable
+@OptIn(UnstableApi::class)
+
 fun rememberVideoState(
-    videoSource: String,
-    playWhenReady: Boolean = true,
-    repeatMode: Int = Player.REPEAT_MODE_ONE,
-    coroutineScope: CoroutineScope = rememberCoroutineScope()
+    useController: Boolean = false,
+    playWhenReady: Boolean = false,
+    repeatMode: Int = Player.REPEAT_MODE_OFF,
+    resizeMode: Int = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
 ): VideoState {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     return remember {
         VideoState(
-            videoSource,
-            playWhenReady,
-            repeatMode,
-            context,
-            coroutineScope
+            useController = useController,
+            playWhenReady = playWhenReady,
+            repeatMode = repeatMode,
+            resizeMode = resizeMode,
+            context = context,
+            coroutineScope = coroutineScope
         )
     }
 }

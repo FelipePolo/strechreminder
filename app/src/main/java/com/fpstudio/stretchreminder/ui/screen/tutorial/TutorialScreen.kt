@@ -5,15 +5,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -22,12 +27,14 @@ import com.airbnb.lottie.compose.LottieCompositionSpec.RawRes
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.fpstudio.stretchreminder.util.foundation.LaunchedSideEffect
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
 import com.fpstudio.stretchreminder.ui.screen.congratulation.CongratulationScreen
+import com.fpstudio.stretchreminder.ui.screen.exercise.ExerciseScreen
 import org.koin.androidx.compose.koinViewModel
 import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.Intent
 import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.UiState
-import com.fpstudio.stretchreminder.ui.theme.Gray2
+import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.SideEffect
 import com.fpstudio.stretchreminder.ui.theme.Gray3
 
 @Composable
@@ -41,20 +48,34 @@ fun TutorialScreen(
         uiState = uiState.value,
         onIntent = viewModel::handleIntent
     )
+
+    LaunchedSideEffect(viewModel.sideEffect) {
+        when (it) {
+            is SideEffect.NavigateNext -> {
+                onNavigateNext()
+            }
+        }
+    }
 }
 
 @Composable
 fun TutorialContent(
-    modifier: Modifier = Modifier,
     uiState: UiState,
-    onIntent: (Intent) -> Unit
+    onIntent: (Intent) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val pagerState = rememberPagerState {
         uiState.tutorialScreens.size
     }
 
+    LaunchedEffect(uiState.page) {
+        pagerState.animateScrollToPage(uiState.page)
+    }
+
     HorizontalPager(
-        state = pagerState
+        modifier = modifier,
+        state = pagerState,
+        userScrollEnabled = false
     ) { page ->
         val screen = uiState.tutorialScreens[page]
         when (screen) {
@@ -66,11 +87,19 @@ fun TutorialContent(
             }
 
             is TutorialUiModel.Tutorial -> {
-
+                TutorialScreen(
+                    state = screen,
+                    onIntent = onIntent
+                )
             }
 
             is TutorialUiModel.Complete -> {
-
+                if (pagerState.settledPage == 2) {
+                    CompleteScreen(
+                        state = screen,
+                        onIntent = onIntent
+                    )
+                }
             }
         }
     }
@@ -82,7 +111,9 @@ private fun WelcomeScreen(
     onIntent: (Intent) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -96,6 +127,7 @@ private fun WelcomeScreen(
         )
 
         LottieAnimation(
+            modifier = Modifier.size(80.dp),
             composition = composition,
             contentScale = ContentScale.FillBounds,
             progress = { progress }
@@ -105,7 +137,8 @@ private fun WelcomeScreen(
 
         Text(
             text = state.title,
-            color = Gray2,
+            color = Color.Black,
+            textAlign = TextAlign.Center,
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold
         )
@@ -115,6 +148,7 @@ private fun WelcomeScreen(
         Text(
             text = state.description,
             color = Gray3,
+            textAlign = TextAlign.Center,
             fontSize = 16.sp,
             fontWeight = FontWeight.Normal
         )
@@ -124,29 +158,23 @@ private fun WelcomeScreen(
         StretchButton(state = state.button) {
             onIntent(Intent.StartTutorial)
         }
-
-        val pagerState = rememberPagerState { 5 }
-        HorizontalPager(
-            state = pagerState,
-            userScrollEnabled = false,
-        ) {
-
-        }
     }
 }
 
 @Composable
-private fun TutorialScreen(state: TutorialUiModel.Tutorial) {
-    
+private fun TutorialScreen(state: TutorialUiModel.Tutorial, onIntent: (Intent) -> Unit) {
+    ExerciseScreen(
+        state = state.exerciseScreenState
+    ) {
+        onIntent(Intent.FinishTutorial)
+    }
 }
 
 @Composable
-private fun CompleteScreen(state: TutorialUiModel.Complete) {
+private fun CompleteScreen(state: TutorialUiModel.Complete, onIntent: (Intent) -> Unit) {
     CongratulationScreen(
         uiModel = state.congrats,
     ) {
-
+        onIntent(Intent.CongratulationsComplete)
     }
 }
-
-

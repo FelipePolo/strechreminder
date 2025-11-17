@@ -14,11 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.fpstudio.stretchreminder.ui.screen.home.components.CalendarComponent
+import com.fpstudio.stretchreminder.ui.composable.calendar.Calendar
+import com.fpstudio.stretchreminder.ui.composable.calendar.CalendarElement
 import com.fpstudio.stretchreminder.ui.screen.home.components.DailyStatsComponent
 import com.fpstudio.stretchreminder.ui.screen.home.components.HeaderComponent
 import com.fpstudio.stretchreminder.ui.screen.home.components.StretchButton
-import com.fpstudio.stretchreminder.ui.screen.home.model.CalendarUiState
 import com.fpstudio.stretchreminder.ui.screen.home.model.DailyStatsUiState
 import com.fpstudio.stretchreminder.ui.screen.home.model.HeaderUiState
 import com.fpstudio.stretchreminder.ui.screen.home.model.HomeUiState
@@ -26,6 +26,7 @@ import com.fpstudio.stretchreminder.ui.theme.Gray
 import com.fpstudio.stretchreminder.ui.theme.StretchReminderTheme
 import java.time.Month
 import org.koin.androidx.compose.koinViewModel
+import java.time.LocalDate
 
 @Composable
 fun HomeScreen(
@@ -79,7 +80,9 @@ fun HomeContent(
                 uiState = uiState.dailyStatsState
             )
 
-            CalendarComponent(uiState = uiState.calendarState)
+            CalendarElement(
+                model = uiState.calendarState
+            )
         }
     }
 }
@@ -96,11 +99,9 @@ fun HomeScreenPreview() {
                 stretchingTime = 0,
                 stretchDays = 0
             ),
-            calendarState = CalendarUiState(
-                currentMonth = Month.JULY,
-                currentYear = 2023,
-                selectedDay = 27,
-                markedDays = listOf(5, 12, 19)
+            calendarState = Calendar(
+                today = LocalDate.now(),
+                markedDays = listOf(10, 24)
             )
         )
 

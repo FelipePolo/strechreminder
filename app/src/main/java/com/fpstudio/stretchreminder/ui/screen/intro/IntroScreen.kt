@@ -1,5 +1,6 @@
 package com.fpstudio.stretchreminder.ui.screen.intro
 
+import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.composable.video.Video
 import com.fpstudio.stretchreminder.ui.composable.video.rememberVideoState
@@ -105,13 +107,15 @@ fun IntroScreen(
 }
 
 @Composable
+@OptIn(UnstableApi::class)
 fun BackgroundVideo(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val rawUri = "android.resource://${context.packageName}/raw/onboarding"
     val state = rememberVideoState(
-        videoSource = rawUri,
-        repeatMode = Player.REPEAT_MODE_ALL
+        repeatMode = Player.REPEAT_MODE_ONE,
+        playWhenReady = true
     )
+    state.loadVideo(rawUri)
     Video(
         state = state,
         modifier = modifier.fillMaxSize()

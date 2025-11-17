@@ -22,3 +22,9 @@ fun vibrateOneShot(context: Context, millis: Long = 100) {
         )
     )
 }
+
+fun Long.getTimeString(): String {
+    val minutes = (this / 1000) / 60
+    val seconds = (this / 1000) % 60
+    return "%02d:%02d".format(minutes, seconds)
+}

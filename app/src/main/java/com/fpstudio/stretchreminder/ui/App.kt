@@ -10,6 +10,7 @@ import com.fpstudio.stretchreminder.ui.screen.form.FormScreen
 import com.fpstudio.stretchreminder.ui.screen.home.HomeScreen
 import com.fpstudio.stretchreminder.ui.screen.intro.IntroScreen
 import com.fpstudio.stretchreminder.ui.screen.threeyes.ThreeYesScreen
+import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreen
 
 @Composable
 fun App() {
@@ -39,6 +40,12 @@ fun App() {
 
         composable<Congratulation> {
             CongratulationScreen {
+                navController.navigate(Tutorial)
+            }
+        }
+
+        composable<Tutorial> {
+            TutorialScreen {
                 navController.navigate(Home)
             }
         }

@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
+import com.fpstudio.stretchreminder.ui.composable.progress.ProgressBar
 import com.fpstudio.stretchreminder.ui.theme.Gray5
 
 @Composable
@@ -46,14 +47,7 @@ fun QuestionProgressBar(
     visibility: Boolean,
     onBackClick: () -> Unit,
 ) {
-    val progress = (currentQuestion.toFloat() - 1) / totalQuestions.toFloat()
 
-    // Animación suave del progreso
-    val animatedProgress by animateFloatAsState(
-        targetValue = progress,
-        animationSpec = tween(durationMillis = 600, easing = LinearOutSlowInEasing),
-        label = "progressAnimation"
-    )
 
     // Animación suave del tamaño del botón
     val buttonSize by animateDpAsState(
@@ -83,22 +77,16 @@ fun QuestionProgressBar(
                     onClick = onBackClick
                 )
 
-                Box(
+                ProgressBar(
+                    total = totalQuestions.toFloat(),
+                    progress = (currentQuestion.toFloat() - 1),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 8.dp)
                         .height(18.dp)
                         .clip(RoundedCornerShape(50))
                         .background(Gray5)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .fillMaxWidth(animatedProgress)
-                            .clip(RoundedCornerShape(50))
-                            .background(Color(0xFF4ABDAC))
-                    )
-                }
+                )
             }
         }
     }
