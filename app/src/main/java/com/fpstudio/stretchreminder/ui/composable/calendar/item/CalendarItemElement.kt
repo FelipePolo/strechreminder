@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +30,11 @@ import com.fpstudio.stretchreminder.ui.theme.Gray2
 import com.fpstudio.stretchreminder.ui.theme.Gray3
 import com.fpstudio.stretchreminder.ui.theme.Green_gradient_1
 import com.fpstudio.stretchreminder.ui.theme.Green_gradient_2
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.Month
+import java.time.format.TextStyle
+import java.util.Locale
 
 
 @Composable
@@ -37,7 +43,7 @@ fun CalendarItemElement(
     model: CalendarItemUiModel
 ) {
     if (model.dayNumber.isNotEmpty()) {
-        Box (modifier = modifier) {
+        Box(modifier = modifier) {
             Column(
                 modifier = Modifier
                     .border(1.dp, model.borderColor, RoundedCornerShape(8.dp))
@@ -52,12 +58,19 @@ fun CalendarItemElement(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(gradient)
-                            .clip(RoundedCornerShape(8.dp))
+                            .border(
+                                2.dp,
+                                gradient,
+                                RoundedCornerShape(8.dp, 8.dp, 0.dp, 0.dp),
+                            )
+                            .padding(2.dp)
                     ) {
                         Text(
-                            modifier = Modifier.align(Alignment.Center),
+                            modifier = Modifier
+                                .background(gradient)
+                                .fillMaxWidth(),
                             text = model.dayOfTheMonth,
+                            textAlign = TextAlign.Center,
                             fontSize = 8.sp,
                             fontWeight = FontWeight.Medium,
                             color = Color.White,
@@ -65,13 +78,26 @@ fun CalendarItemElement(
                         )
                     }
                 }
-                Box (modifier = Modifier.fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .then(
+                            if (isWeekend(model.dayNumber.toInt(), model.currentMonth)) {
+                                Modifier.background(
+                                    color = Gray2,
+                                    shape = RoundedCornerShape(0.dp, 0.dp, 8.dp, 8.dp)
+                                )
+                            } else {
+                                Modifier
+                            }
+                        )
+                ) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = model.dayNumber,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
-                        color = Color.Black
+                        color = model.dayTextColor
                     )
                 }
             }
@@ -80,12 +106,27 @@ fun CalendarItemElement(
                 Image(
                     modifier = Modifier
                         .size(16.dp)
-                        .align(Alignment.TopEnd).offset(y = (-4).dp, x = (+4).dp),
+                        .align(Alignment.TopEnd)
+                        .offset(y = (-4).dp, x = (+4).dp),
                     painter = painterResource(id = R.drawable.check),
                     contentDescription = "Checked"
                 )
             }
         }
+    }
+}
+
+private fun isWeekend(day: Int, month: Month): Boolean {
+    try {
+        val weekendDays = listOf(
+            DayOfWeek.SATURDAY,
+            DayOfWeek.SUNDAY
+        )
+        return weekendDays.contains(
+            LocalDate.of(LocalDate.now().year, month, day).dayOfWeek
+        )
+    } catch (e: Exception) {
+        return false
     }
 }
 
@@ -96,50 +137,77 @@ fun CalendarItemElement(
 @Preview(showBackground = false)
 @Composable
 private fun PreviewCalendarItem() {
-    CalendarItemElement(
-        model = CalendarItemUiModel(
-            dayNumber = "1",
-            dayOfTheMonth = "MON",
-            borderColor = Gray3,
-            backgroundColor = Color.White
+    Box(
+        modifier = Modifier
+            .size(80.dp)
+            .padding(5.dp)
+    ) {
+        CalendarItemElement(
+            model = CalendarItemUiModel(
+                dayNumber = "1",
+                dayOfTheMonth = "MON",
+                dayTextColor = Gray2,
+                borderColor = Gray3,
+                backgroundColor = Color.White,
+                currentMonth = Month.DECEMBER,
+            )
         )
-    )
+    }
 }
 
 @Preview(showBackground = false)
 @Composable
 private fun PreviewCalendarItemDisabled() {
-    CalendarItemElement(
-        model = CalendarItemUiModel(
-            dayNumber = "20",
-            borderColor = Gray3,
-            backgroundColor = Gray2
+    Box(
+        modifier = Modifier
+            .size(80.dp)
+            .padding(5.dp)
+    ) {
+        CalendarItemElement(
+            model = CalendarItemUiModel(
+                dayNumber = "20",
+                borderColor = Gray3,
+                backgroundColor = Gray2,
+                currentMonth = Month.DECEMBER,
+            )
         )
-    )
+    }
 }
 
 @Preview(showBackground = false)
 @Composable
 private fun PreviewCalendarItemSelected() {
-    CalendarItemElement(
-        model = CalendarItemUiModel(
-            dayNumber = "19",
-            borderColor = Green_gradient_1,
-            backgroundColor = Color.White
-        )
-    )
-}
-
-@Preview(showBackground = false)
-@Composable
-private fun PreviewCalendarItemChecked() {
-    Box (modifier = Modifier.size(80.dp).padding(5.dp)) {
+    Box(
+        modifier = Modifier
+            .size(80.dp)
+            .padding(5.dp)
+    ) {
         CalendarItemElement(
             model = CalendarItemUiModel(
                 dayNumber = "19",
                 borderColor = Green_gradient_1,
                 backgroundColor = Color.White,
-                checked = true
+                currentMonth = Month.DECEMBER,
+            )
+        )
+    }
+}
+
+@Preview(showBackground = false)
+@Composable
+private fun PreviewCalendarItemChecked() {
+    Box(
+        modifier = Modifier
+            .size(80.dp)
+            .padding(5.dp)
+    ) {
+        CalendarItemElement(
+            model = CalendarItemUiModel(
+                dayNumber = "19",
+                borderColor = Green_gradient_1,
+                backgroundColor = Color.White,
+                checked = true,
+                currentMonth = Month.DECEMBER,
             )
         )
     }
@@ -148,14 +216,20 @@ private fun PreviewCalendarItemChecked() {
 @Preview(showBackground = false)
 @Composable
 private fun PreviewCalendarItemWeekChecked() {
-    Box (modifier = Modifier.size(80.dp).padding(5.dp)) {
+    Box(
+        modifier = Modifier
+            .size(80.dp)
+            .padding(5.dp)
+    ) {
         CalendarItemElement(
             model = CalendarItemUiModel(
                 dayNumber = "1",
                 dayOfTheMonth = "MON",
+                dayTextColor = Gray2,
                 borderColor = Gray3,
                 backgroundColor = Color.White,
-                checked = true
+                checked = true,
+                currentMonth = Month.DECEMBER,
             )
         )
     }

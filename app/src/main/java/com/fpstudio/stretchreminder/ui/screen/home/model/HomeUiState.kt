@@ -6,6 +6,7 @@ import java.time.Month
 
 data class HomeUiState(
     val headerState: HeaderUiState = HeaderUiState(),
+    val dailyGoalState: DailyGoalUiState = DailyGoalUiState(),
     val dailyStatsState: DailyStatsUiState = DailyStatsUiState(),
     val calendarState: Calendar = Calendar(
         today = LocalDate.now(),
@@ -14,9 +15,12 @@ data class HomeUiState(
 )
 
 data class HeaderUiState(
-    val dayOfWeek: String = "",
-    val month: Month = Month.JANUARY,
-    val day: Int = 1
+    val userName: String = "",
+    val formattedDate: String = ""
+)
+
+data class DailyGoalUiState(
+    val progress: Int = 0
 )
 
 data class DailyStatsUiState(

@@ -14,10 +14,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.ui.composable.calendar.item.CalendarItemElement
 import com.fpstudio.stretchreminder.ui.composable.calendar.item.CalendarItemUiModel
+import com.fpstudio.stretchreminder.ui.theme.Gray2
 import com.fpstudio.stretchreminder.ui.theme.Gray3
+import com.fpstudio.stretchreminder.ui.theme.Gray5
 import com.fpstudio.stretchreminder.ui.theme.Green_gradient_1
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.Month
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
@@ -190,10 +193,12 @@ fun PreviousMonthDay(
         modifier = modifier,
         model = CalendarItemUiModel(
             dayNumber = day.toString(),
+            dayTextColor = Gray2,
             dayOfTheMonth = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()),
-            borderColor = Gray3,
+            borderColor = Gray2,
             backgroundColor = Color.White,
-            checked = markedDays.contains(day)
+            checked = markedDays.contains(day),
+            currentMonth = previousMonthDate.month
         )
     )
 }
@@ -215,9 +220,10 @@ fun CurrentMonthDay(
             dayOfTheMonth = if (week == 0)
                 date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
             else "",
-            borderColor = if (day == currentDate.dayOfMonth) Green_gradient_1 else Gray3,
+            borderColor = if (day == currentDate.dayOfMonth) Green_gradient_1 else Gray5,
             backgroundColor = Color.White,
-            checked = markedDays.contains(day)
+            checked = markedDays.contains(day),
+            currentMonth = currentDate.month
         )
     )
 }
@@ -233,7 +239,9 @@ fun NextMonthDay(
             dayNumber = day.toString(),
             dayOfTheMonth = "",
             borderColor = Gray3,
-            backgroundColor = Color.White
+            backgroundColor = Color.White,
+            currentMonth = Month.DECEMBER,
+            checked = false
         )
     )
 }

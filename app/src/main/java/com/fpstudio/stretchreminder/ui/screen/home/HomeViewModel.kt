@@ -28,20 +28,17 @@ class HomeViewModel : ViewModel() {
     private fun loadInitialData() {
         viewModelScope.launch {
             val today = LocalDate.now()
-            val dayOfWeek = today.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()).lowercase()
-            
+
             _uiState.update { currentState ->
                 currentState.copy(
-                    headerState = HeaderUiState(
-                        dayOfWeek = dayOfWeek
-                    ),
+                    headerState = HeaderUiState(),
                     dailyStatsState = DailyStatsUiState(
                         stretchingTime = 0,
                         stretchDays = 0
                     ),
                     calendarState = Calendar(
                         today = today,
-                        markedDays = listOf(10, 24)
+                        markedDays = listOf(10, 2)
                     )
                 )
             }

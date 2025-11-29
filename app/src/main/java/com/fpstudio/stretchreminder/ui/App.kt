@@ -16,7 +16,7 @@ import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreen
 fun App() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = Home) {
+    NavHost(navController = navController, startDestination = Intro) {
 
         composable<Intro> {
             IntroScreen {
