@@ -2,7 +2,7 @@ package com.fpstudio.stretchreminder.ui.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fpstudio.stretchreminder.ui.screen.home.model.CalendarUiState
+import com.fpstudio.stretchreminder.ui.composable.calendar.Calendar
 import com.fpstudio.stretchreminder.ui.screen.home.model.DailyStatsUiState
 import com.fpstudio.stretchreminder.ui.screen.home.model.HeaderUiState
 import com.fpstudio.stretchreminder.ui.screen.home.model.HomeUiState
@@ -39,11 +39,9 @@ class HomeViewModel : ViewModel() {
                         stretchingTime = 0,
                         stretchDays = 0
                     ),
-                    calendarState = CalendarUiState(
-                        currentMonth = today.month,
-                        currentYear = today.year,
-                        selectedDay = today.dayOfMonth,
-                        markedDays = emptyList()
+                    calendarState = Calendar(
+                        today = today,
+                        markedDays = listOf(10, 24)
                     )
                 )
             }

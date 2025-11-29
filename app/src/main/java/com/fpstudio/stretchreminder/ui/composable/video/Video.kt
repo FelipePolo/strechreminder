@@ -76,7 +76,7 @@ fun VideoPreview() {
         playWhenReady = true,
         useController = false
     )
-    state.loadVideo(videoSource = "https://v1.pinimg.com/videos/mc/720p/57/1b/8f/571b8fe9511642186296640552970415.mp4")
+    state.loadVideo(videoSource = "https://stretchreminder.net/my_api/get_video.php?video=tutorial&token=1283aa0acb83bba15bb599b95458ba02d93a468c149dec46d503857775c09608")
     Video(
         modifier = Modifier,
         state = state

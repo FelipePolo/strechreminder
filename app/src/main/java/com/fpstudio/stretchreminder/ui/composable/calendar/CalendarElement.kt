@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -44,12 +45,14 @@ fun CalendarElement(
     var nextMonthCounter = 1
 
     Column (
-        modifier = modifier.background(Color.White)
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
 
         for (week in 0 until totalWeeks) {
 
             CalendarWeekRow(
+                modifier = modifier.weight(1f),
                 week = week,
                 leadingEmptyDays = leadingEmptyDays,
                 daysInPrevMonth = daysInPrevMonth,
@@ -61,14 +64,13 @@ fun CalendarElement(
                 onDayCounterChange = { dayCounter = it },
                 onNextMonthCounterChange = { nextMonthCounter = it }
             )
-
-            Spacer(modifier = Modifier.height(2.dp))
         }
     }
 }
 
 @Composable
 fun CalendarWeekRow(
+    modifier: Modifier = Modifier,
     week: Int,
     leadingEmptyDays: Int,
     daysInPrevMonth: Int,
@@ -82,7 +84,8 @@ fun CalendarWeekRow(
 ) {
 
     Row(
-        horizontalArrangement = Arrangement.spacedBy(2.dp)
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
 
         var mutableDayCounter = dayCounter
@@ -93,6 +96,7 @@ fun CalendarWeekRow(
             val cellIndex = week * 7 + dayOfWeek
 
             CalendarDayCell(
+                modifier = Modifier.weight(1f),
                 cellIndex = cellIndex,
                 leadingEmptyDays = leadingEmptyDays,
                 daysInPrevMonth = daysInPrevMonth,
@@ -119,6 +123,7 @@ fun CalendarWeekRow(
 
 @Composable
 fun CalendarDayCell(
+    modifier: Modifier = Modifier,
     cellIndex: Int,
     leadingEmptyDays: Int,
     daysInPrevMonth: Int,
@@ -137,6 +142,7 @@ fun CalendarDayCell(
         // Día del mes anterior
         cellIndex < leadingEmptyDays -> {
             PreviousMonthDay(
+                modifier = modifier,
                 cellIndex = cellIndex,
                 leadingEmptyDays = leadingEmptyDays,
                 daysInPrevMonth = daysInPrevMonth,
@@ -148,6 +154,7 @@ fun CalendarDayCell(
         // Día del mes actual
         dayCounter <= daysInMonth -> {
             CurrentMonthDay(
+                modifier = modifier,
                 day = dayCounter,
                 currentDate = currentDate,
                 week = week,
@@ -158,7 +165,10 @@ fun CalendarDayCell(
 
         // Día del mes siguiente
         else -> {
-            NextMonthDay(day = nextMonthCounter)
+            NextMonthDay(
+                modifier = modifier,
+                day = nextMonthCounter
+            )
             onNextMonthCounterConsumed()
         }
     }
@@ -166,6 +176,7 @@ fun CalendarDayCell(
 
 @Composable
 fun PreviousMonthDay(
+    modifier: Modifier = Modifier,
     cellIndex: Int,
     leadingEmptyDays: Int,
     daysInPrevMonth: Int,
@@ -176,6 +187,7 @@ fun PreviousMonthDay(
     val date = LocalDate.of(previousMonthDate.year, previousMonthDate.month, day)
 
     CalendarItemElement(
+        modifier = modifier,
         model = CalendarItemUiModel(
             dayNumber = day.toString(),
             dayOfTheMonth = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()),
@@ -188,6 +200,7 @@ fun PreviousMonthDay(
 
 @Composable
 fun CurrentMonthDay(
+    modifier: Modifier = Modifier,
     day: Int,
     currentDate: LocalDate,
     week: Int,
@@ -196,6 +209,7 @@ fun CurrentMonthDay(
     val date = LocalDate.of(currentDate.year, currentDate.month, day)
 
     CalendarItemElement(
+        modifier = modifier,
         model = CalendarItemUiModel(
             dayNumber = day.toString(),
             dayOfTheMonth = if (week == 0)
@@ -209,8 +223,12 @@ fun CurrentMonthDay(
 }
 
 @Composable
-fun NextMonthDay(day: Int) {
+fun NextMonthDay(
+    modifier: Modifier = Modifier,
+    day: Int
+) {
     CalendarItemElement(
+        modifier = modifier,
         model = CalendarItemUiModel(
             dayNumber = day.toString(),
             dayOfTheMonth = "",

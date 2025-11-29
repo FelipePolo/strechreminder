@@ -37,10 +37,9 @@ fun CalendarItemElement(
     model: CalendarItemUiModel
 ) {
     if (model.dayNumber.isNotEmpty()) {
-        Box {
+        Box (modifier = modifier) {
             Column(
-                modifier = modifier
-                    .size(40.dp, 45.dp)
+                modifier = Modifier
                     .border(1.dp, model.borderColor, RoundedCornerShape(8.dp))
                     .background(model.backgroundColor)
             ) {
@@ -55,7 +54,6 @@ fun CalendarItemElement(
                             .fillMaxWidth()
                             .background(gradient)
                             .clip(RoundedCornerShape(8.dp))
-                            .padding(4.dp)
                     ) {
                         Text(
                             modifier = Modifier.align(Alignment.Center),
@@ -67,7 +65,7 @@ fun CalendarItemElement(
                         )
                     }
                 }
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box (modifier = Modifier.fillMaxSize()) {
                     Text(
                         modifier = Modifier.align(Alignment.Center),
                         text = model.dayNumber,
