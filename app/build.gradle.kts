@@ -67,6 +67,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // Gson
+    implementation(libs.gson)
+
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
@@ -79,5 +82,8 @@ dependencies {
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
+
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
 
 }

@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.R
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionID
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
 import com.fpstudio.stretchreminder.ui.composable.question.common.QuestionTitle
@@ -189,6 +189,7 @@ fun CustomGenderSingleChoiceQuestionPreview() {
     StretchReminderTheme {
         CustomGenderSingleChoiceQuestion(
             model = QuestionUiModel.CustomGenderSingleChoice(
+                id = QuestionID.GENDER,
                 question = "What is your gender?",
                 subtitle1 = "About you",
                 subtitle2 = "Just to personalize your experience a little more.",
@@ -208,6 +209,7 @@ fun CustomGenderSingleChoiceQuestionFemaleSelectedPreview() {
     StretchReminderTheme {
         CustomGenderSingleChoiceQuestion(
             model = QuestionUiModel.CustomGenderSingleChoice(
+                id = QuestionID.GENDER,
                 question = "What is your gender?",
                 subtitle1 = "About you",
                 subtitle2 = "Just to personalize your experience a little more.",
@@ -227,6 +229,7 @@ fun CustomGenderSingleChoiceQuestionPreferNotToSayPreview() {
     StretchReminderTheme {
         CustomGenderSingleChoiceQuestion(
             model = QuestionUiModel.CustomGenderSingleChoice(
+                id = QuestionID.GENDER,
                 question = "What is your gender?",
                 subtitle1 = "About you",
                 subtitle2 = "Just to personalize your experience a little more.",
@@ -246,6 +249,7 @@ fun CustomGenderSingleChoiceQuestionPreferNotToSayPreview2() {
     StretchReminderTheme {
         CustomGenderSingleChoiceQuestion(
             model = QuestionUiModel.CustomGenderSingleChoice(
+                id = QuestionID.GENDER,
                 question = "What is your gender?",
                 subtitle1 = "About you",
                 subtitle2 = "Just to personalize your experience a little more.",

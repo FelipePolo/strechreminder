@@ -6,10 +6,14 @@ import com.fpstudio.stretchreminder.ui.composable.question.QuestionErrorType
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
 import com.fpstudio.stretchreminder.ui.screen.promises.madeforyou.MadeForYouUiModel
 import com.fpstudio.stretchreminder.ui.screen.promises.plansuccess.PlanSuccessUiModel
+import com.fpstudio.stretchreminder.util.Constants.EMPTY
 
 interface FormScreenContract {
     data class UiState(
         val page: Int = 0,
+        val userName: String = EMPTY,
+        val userGender: String = EMPTY,
+        val achievements: List<String> = emptyList(),
         val form: List<FormUiModel> = getForms(),
         val backButton: StretchButtonUiModel = StretchButtonUiModel.Lottie(
             isVisible = false,

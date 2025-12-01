@@ -2,10 +2,9 @@ package com.fpstudio.stretchreminder.ui.screen.form
 
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.component.form.FormUiModel
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionID
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
 import kotlin.collections.listOf
-
-
 
 fun getForms(): List<FormUiModel> {
     return listOf(
@@ -13,6 +12,7 @@ fun getForms(): List<FormUiModel> {
             addNextBtn = true,
             questions = listOf(
                 QuestionUiModel.InputText(
+                    id = QuestionID.NAME,
                     subtitle1 = "First thing first",
                     question = "What should we call you?",
                     required = true
@@ -23,7 +23,8 @@ fun getForms(): List<FormUiModel> {
             addNextBtn = true,
             questions = listOf(
                 QuestionUiModel.MultiChoice(
-                    subtitle1 = "So tell us",
+                    id = QuestionID.ACHIEVEMENT,
+                    subtitle1 = "So tell us, {USER_NAME}",
                     question = "What do you want to achieve?",
                     selected = listOf("🧍‍♂️ ️All"),
                     nothingOption = true,
@@ -45,6 +46,7 @@ fun getForms(): List<FormUiModel> {
             addNextBtn = true,
             questions = listOf(
                 QuestionUiModel.CustomBodyQuestion(
+                    id = QuestionID.BODY_PARTS,
                     subtitle1 = "Now...,",
                     nothingOption = true,
                     question = "¿Which parts of your body do you want to exercise?",
@@ -66,6 +68,7 @@ fun getForms(): List<FormUiModel> {
         FormUiModel(
             questions = listOf(
                 QuestionUiModel.SingleChoice(
+                    id = QuestionID.FREQUENCY,
                     subtitle1 = "Building habits that work for you",
                     question = "How often do you stretch during your workday?",
                     subtitle2 = "Your answer heps us to create a personalized plan for you",
@@ -83,6 +86,7 @@ fun getForms(): List<FormUiModel> {
             addNextBtn = true,
             questions = listOf(
                 QuestionUiModel.CustomGenderSingleChoice(
+                    id = QuestionID.GENDER,
                     question = "What is your gender?",
                     subtitle2 = "Just to personalize your experience a little more.",
                     male = Pair(R.drawable.man, "Male"),
@@ -95,6 +99,7 @@ fun getForms(): List<FormUiModel> {
         FormUiModel(
             questions = listOf(
                 QuestionUiModel.SingleChoice(
+                    id = QuestionID.AGE,
                     subtitle1 = "Let's make this routine truly yours",
                     subtitle2 = "Your age helps you get the right exercises",
                     question = "What is your age?",
@@ -106,12 +111,14 @@ fun getForms(): List<FormUiModel> {
             addNextBtn = true,
             questions = listOf(
                 QuestionUiModel.WorkDays(
+                    id = QuestionID.WORK_DAYS,
                     question = "Select your work days",
                     subtitle2 = "So we can know which days and when to remind you to stretch",
                     selected = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
                     days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
                 ),
                 QuestionUiModel.TimeRange(
+                    id = QuestionID.WORK_HOURS,
                     question = "Working Hours"
                 )
             )
@@ -120,6 +127,7 @@ fun getForms(): List<FormUiModel> {
             addNextBtn = true,
             questions = listOf(
                 QuestionUiModel.ImageSingleChoice(
+                    id = QuestionID.MAIN_POSTURE,
                     question = "Select the main posture during your workday",
                     subtitle2 = "Sitting, standing or lying down -- so exercises adapt to your posture",
                     imagesResId = listOf(
@@ -133,6 +141,7 @@ fun getForms(): List<FormUiModel> {
         FormUiModel(
             questions = listOf(
                 QuestionUiModel.NotificationPermission(
+                    id = QuestionID.NOTIFICATION_PERMISSION,
                     question = "Stay on track with notifications",
                     subtitle2 = "Get gentle reminders to keep up with your stretches and feel your best every day",
                 )

@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
@@ -33,9 +32,6 @@ import com.fpstudio.stretchreminder.ui.theme.Green_gradient_2
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Month
-import java.time.format.TextStyle
-import java.util.Locale
-
 
 @Composable
 fun CalendarItemElement(

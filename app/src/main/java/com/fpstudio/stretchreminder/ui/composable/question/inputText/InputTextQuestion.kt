@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -20,13 +22,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.ImeAction
 import com.fpstudio.stretchreminder.ui.composable.question.common.QuestionTitle
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionErrorType
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionID
 import com.fpstudio.stretchreminder.ui.composable.vibrateOneShot
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.SideEffect
 import com.fpstudio.stretchreminder.ui.theme.Gray
@@ -37,12 +43,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.emptyFlow
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun InputTextQuestion(
     model: QuestionUiModel.InputText,
     sideEffect: Flow<SideEffect>,
+    onDone: () -> Unit,
     onSelect: (QuestionSelectionUiModel.StringSelectionUiModel) -> Unit,
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     Column {
         Spacer(modifier = Modifier.height(12.dp))
         QuestionTitle(model)
@@ -105,7 +114,16 @@ fun InputTextQuestion(
                 unfocusedBorderColor = unfocusedBorderColor,
                 focusedBorderColor = focusedBorderColor,
             ),
-            singleLine = true
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                    onDone()
+                }
+            )
         )
     }
 }
@@ -115,6 +133,7 @@ fun InputTextQuestion(
 fun InputTextQuestionPreview() {
     InputTextQuestion(
         model = QuestionUiModel.InputText(
+            id = QuestionID.NAME,
             question = "What should we call you?",
             subtitle1 = "First thing first",
             subtitle2 = "This will be used throughout the app",
@@ -122,5 +141,6 @@ fun InputTextQuestionPreview() {
         ),
         sideEffect = emptyFlow(),
         onSelect = {},
+        onDone = {}
     )
 }

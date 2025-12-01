@@ -12,9 +12,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.Month
-import java.time.format.TextStyle
-import java.util.Locale
 
 class HomeViewModel : ViewModel() {
 

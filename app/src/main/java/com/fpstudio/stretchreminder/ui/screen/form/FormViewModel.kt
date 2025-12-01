@@ -3,6 +3,7 @@ package com.fpstudio.stretchreminder.ui.screen.form
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fpstudio.stretchreminder.data.mapper.toUser
+import com.fpstudio.stretchreminder.domain.usecase.GetUserUseCase
 import com.fpstudio.stretchreminder.domain.usecase.SaveUserUseCase
 import com.fpstudio.stretchreminder.util.foundation.Mvi
 import com.fpstudio.stretchreminder.util.foundation.MviDelegate
@@ -10,15 +11,18 @@ import com.fpstudio.stretchreminder.ui.component.form.FormComponentHelper
 import com.fpstudio.stretchreminder.ui.component.form.FormUiModel
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionErrorType
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionID
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.SideEffect
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.Intent
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.UiState
+import com.fpstudio.stretchreminder.util.Constants.EMPTY
 import kotlinx.coroutines.launch
 
 class FormViewModel(
-    private val saveUserUseCase: SaveUserUseCase
+    private val saveUserUseCase: SaveUserUseCase,
+    private val getUserUseCase: GetUserUseCase
 ) : ViewModel(), Mvi<UiState, Intent, SideEffect> by MviDelegate(UiState()) {
 
     override fun handleIntent(intent: Intent) {
@@ -68,6 +72,13 @@ class FormViewModel(
 
     fun onContinue() {
         val nextPage = getNextPage()
+        var userName = EMPTY
+        if (nextPage == 1) {
+            val questionName = uiState.value.form.find { questionsList ->
+                questionsList.questions.any { it.id == QuestionID.NAME }
+            }?.questions?.find { it.id == QuestionID.NAME } as? QuestionUiModel.InputText
+            userName = questionName?.selected ?: EMPTY
+        }
         if (nextPage >= uiState.value.form.size) {
             viewModelScope.launch {
                 saveUserUseCase.invoke(uiState.value.toUser())
@@ -79,6 +90,7 @@ class FormViewModel(
                 val uiState = shouldShowPromiseScreen(nextPage)
                 updateUiState {
                     uiState.copy(
+                        userName = userName,
                         page = nextPage,
                         nextButton = getNextButtonState(nextPage),
                         backButton = getBackButtonState(nextPage)
@@ -128,10 +140,33 @@ class FormViewModel(
             val nextPage = getNextPage()
             val form = uiState.value.form[page]
             if (form.addNextBtn) {
-                updateUiState {
-                    copy(
-                        form = getFormListState(questionIndex, selection),
-                    )
+                val updatedForm = getFormListState(questionIndex, selection)
+                when (question) {
+                    is QuestionUiModel.CustomGenderSingleChoice -> {
+                        updateUiState {
+                            copy(
+                                userGender = question.selected,
+                                form = updatedForm,
+                            )
+                        }
+                    }
+                    is QuestionUiModel.MultiChoice -> {
+                        if (question.id == QuestionID.ACHIEVEMENT) {
+                            updateUiState {
+                                copy(
+                                    achievements = question.selected,
+                                    form = updatedForm,
+                                )
+                            }
+                        }
+                    }
+                    else -> {
+                        updateUiState {
+                            copy(
+                                form = updatedForm,
+                            )
+                        }
+                    }
                 }
             } else {
                 val uiState = shouldShowPromiseScreen(nextPage)

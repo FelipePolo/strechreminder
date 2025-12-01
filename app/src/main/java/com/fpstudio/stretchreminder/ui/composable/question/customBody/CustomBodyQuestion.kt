@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.R
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionID
 import com.fpstudio.stretchreminder.ui.composable.question.common.QuestionTitle
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
@@ -169,6 +170,7 @@ fun CustomBodyQuestionPreview() {
     )
 
     val question = QuestionUiModel.CustomBodyQuestion(
+        id = QuestionID.ACHIEVEMENT,
         subtitle1 = "Selecciona las áreas",
         question = "¿Qué partes del cuerpo quieres ejercitar?",
         options = bodyParts,

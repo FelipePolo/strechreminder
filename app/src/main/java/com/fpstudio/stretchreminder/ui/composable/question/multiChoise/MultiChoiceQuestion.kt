@@ -21,15 +21,19 @@ import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiMo
 import com.fpstudio.stretchreminder.ui.theme.Gray
 import com.fpstudio.stretchreminder.ui.theme.Green_secondary
 import com.fpstudio.stretchreminder.ui.theme.Green_tertiary
+import com.fpstudio.stretchreminder.util.Constants.EMPTY
 
 @Composable
 fun MultiChoiceQuestion(
+    userName: String = EMPTY,
     model: QuestionUiModel.MultiChoice,
     onSelected: (QuestionSelectionUiModel.StringSelectionUiModel) -> Unit
 ) {
     // Question title
     Spacer(modifier = Modifier.height(12.dp))
-    QuestionTitle(model)
+    QuestionTitle(model.copy(
+        subtitle1 = model.subtitle1.replace("{USER_NAME}", userName)
+    ))
     Spacer(modifier = Modifier.height(18.dp))
 
     // Content

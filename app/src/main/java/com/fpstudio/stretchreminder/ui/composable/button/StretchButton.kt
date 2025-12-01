@@ -15,7 +15,6 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec.*
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.composable.button.animate.AnimatedButton
 import com.fpstudio.stretchreminder.ui.composable.button.fancy.FancyAnimatedButton
 

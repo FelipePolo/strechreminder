@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fpstudio.stretchreminder.ui.composable.question.QuestionID
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
 
 @Composable
@@ -57,6 +58,7 @@ fun QuestionTitlePreview() {
         // Preview con subtitle1
         QuestionTitle(
             model = QuestionUiModel.InputText(
+                id = QuestionID.NAME,
                 question = "What should we call you?",
                 subtitle1 = "First thing first,",
                 subtitle2 = "",
@@ -69,6 +71,7 @@ fun QuestionTitlePreview() {
         // Preview con subtitle2
         QuestionTitle(
             model = QuestionUiModel.InputText(
+                id = QuestionID.NAME,
                 question = "What should we call you?",
                 subtitle1 = "",
                 subtitle2 = "This will be used throughout the app",
@@ -81,6 +84,7 @@ fun QuestionTitlePreview() {
         // Preview con ambos subtítulos
         QuestionTitle(
             model = QuestionUiModel.InputText(
+                id = QuestionID.NAME,
                 question = "What should we call you?",
                 subtitle1 = "First thing first",
                 subtitle2 = "This will be used throughout the app",
@@ -93,6 +97,7 @@ fun QuestionTitlePreview() {
         // Preview sin subtítulos
         QuestionTitle(
             model = QuestionUiModel.InputText(
+                id = QuestionID.NAME,
                 question = "What should we call you?",
                 subtitle1 = "",
                 subtitle2 = "",

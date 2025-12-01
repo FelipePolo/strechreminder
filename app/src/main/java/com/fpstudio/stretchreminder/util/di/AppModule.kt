@@ -1,7 +1,5 @@
 package com.fpstudio.stretchreminder.util.di
 
-import com.fpstudio.stretchreminder.domain.usecase.GetUserUseCase
-import com.fpstudio.stretchreminder.domain.usecase.SaveUserUseCase
 import com.fpstudio.stretchreminder.ui.screen.exercise.ExerciseScreenViewModel
 import com.fpstudio.stretchreminder.ui.screen.form.FormViewModel
 import com.fpstudio.stretchreminder.ui.screen.home.HomeViewModel
@@ -12,7 +10,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 val appModule = module {
-    viewModel { FormViewModel(saveUserUseCase = get()) }
+    viewModel { FormViewModel(saveUserUseCase = get(), getUserUseCase = get()) }
     viewModelOf(::TutorialViewModel)
     viewModel { parametersHolder ->
         ExerciseScreenViewModel(initialState = parametersHolder.get())

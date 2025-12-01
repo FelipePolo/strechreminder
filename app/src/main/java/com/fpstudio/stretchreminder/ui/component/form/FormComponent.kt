@@ -2,9 +2,6 @@ package com.fpstudio.stretchreminder.ui.component.form
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,8 +22,10 @@ import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun FormComponent(
+    userName: String,
     questions: List<QuestionUiModel>,
     onSelect: (Int, QuestionSelectionUiModel) -> Unit,
+    onDone: () -> Unit,
     onError: Flow<SideEffect>
 ) {
     Column(
@@ -38,7 +37,11 @@ fun FormComponent(
     ) {
         questions.forEachIndexed { questionIndex, question ->
             when (question) {
-                is QuestionUiModel.InputText -> InputTextQuestion(model = question, sideEffect = onError) { selection ->
+                is QuestionUiModel.InputText -> InputTextQuestion(
+                    model = question,
+                    sideEffect = onError,
+                    onDone = onDone
+                ) { selection ->
                     onSelect(questionIndex, selection)
                 }
 
@@ -46,7 +49,7 @@ fun FormComponent(
                     onSelect(questionIndex, selection)
                 }
 
-                is QuestionUiModel.MultiChoice -> MultiChoiceQuestion(question) { selection ->
+                is QuestionUiModel.MultiChoice -> MultiChoiceQuestion(userName, question) { selection ->
                     onSelect(questionIndex, selection)
                 }
 
@@ -70,7 +73,9 @@ fun FormComponent(
                     onSelect(questionIndex, selection)
                 }
 
-                is QuestionUiModel.CustomGenderSingleChoice -> CustomGenderSingleChoiceQuestion(question) { selection ->
+                is QuestionUiModel.CustomGenderSingleChoice -> CustomGenderSingleChoiceQuestion(
+                    question
+                ) { selection ->
                     onSelect(questionIndex, selection)
                 }
             }

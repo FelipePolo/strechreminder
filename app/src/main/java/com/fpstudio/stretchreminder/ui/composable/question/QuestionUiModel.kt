@@ -4,6 +4,7 @@ import com.fpstudio.stretchreminder.util.Constants.EMPTY
 import java.util.Calendar
 
 sealed class QuestionUiModel(
+    open val id: QuestionID = QuestionID.NONE,
     open val subtitle1: String = EMPTY,
     open val subtitle2: String = EMPTY,
     open val question: String = EMPTY,
@@ -12,6 +13,7 @@ sealed class QuestionUiModel(
 ) {
 
     data class InputText(
+        override val id: QuestionID,
         override val subtitle1: String = EMPTY,
         override val subtitle2: String = EMPTY,
         override val question: String,
@@ -21,6 +23,7 @@ sealed class QuestionUiModel(
     ) : QuestionUiModel()
 
     data class SingleChoice(
+        override val id: QuestionID,
         override val subtitle1: String = EMPTY,
         override val subtitle2: String = EMPTY,
         override val question: String,
@@ -29,6 +32,7 @@ sealed class QuestionUiModel(
     ) : QuestionUiModel()
 
     data class MultiChoice(
+        override val id: QuestionID,
         override val subtitle1: String = EMPTY,
         override val subtitle2: String = EMPTY,
         override val question: String,
@@ -38,6 +42,7 @@ sealed class QuestionUiModel(
     ) : QuestionUiModel()
 
     data class WorkDays(
+        override val id: QuestionID,
         override val subtitle1: String = EMPTY,
         override val subtitle2: String = EMPTY,
         override val question: String,
@@ -46,6 +51,7 @@ sealed class QuestionUiModel(
     ) : QuestionUiModel()
 
     data class TimeRange(
+        override val id: QuestionID,
         override val subtitle1: String = EMPTY,
         override val subtitle2: String = EMPTY,
         override val question: String,
@@ -60,6 +66,7 @@ sealed class QuestionUiModel(
     ) : QuestionUiModel()
 
     data class ImageSingleChoice(
+        override val id: QuestionID,
         override val subtitle1: String = EMPTY,
         override val subtitle2: String = EMPTY,
         override val question: String,
@@ -68,6 +75,7 @@ sealed class QuestionUiModel(
     ) : QuestionUiModel()
 
     data class CustomBodyQuestion(
+        override val id: QuestionID,
         override val subtitle1: String = EMPTY,
         override val subtitle2: String = EMPTY,
         override val question: String,
@@ -77,6 +85,7 @@ sealed class QuestionUiModel(
     ) : QuestionUiModel()
 
     data class CustomGenderSingleChoice(
+        override val id: QuestionID,
         override val subtitle1: String = EMPTY,
         override val subtitle2: String = EMPTY,
         override val question: String,
@@ -87,9 +96,22 @@ sealed class QuestionUiModel(
     ) : QuestionUiModel()
 
     data class NotificationPermission(
+        override val id: QuestionID,
         override val subtitle2: String = EMPTY,
         override val question: String,
     ) : QuestionUiModel()
 }
 
-
+enum class QuestionID {
+    NONE,
+    NAME,
+    ACHIEVEMENT,
+    BODY_PARTS,
+    FREQUENCY,
+    GENDER,
+    AGE,
+    MAIN_POSTURE,
+    WORK_DAYS,
+    WORK_HOURS,
+    NOTIFICATION_PERMISSION,
+}

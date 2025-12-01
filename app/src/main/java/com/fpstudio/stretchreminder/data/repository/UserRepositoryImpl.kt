@@ -10,5 +10,6 @@ class UserRepositoryImpl(
     override suspend fun saveUser(user: User) {
         localDataSource.saveUser(user)
     }
-    override suspend fun getLastUser(): User? = localDataSource.getLastUser()
+
+    override suspend fun getUser(): User? = localDataSource.getUser()
 }

@@ -110,10 +110,14 @@ fun FormScreenContent(
                         .fillMaxSize()
                 ) { page ->
                     FormComponent(
+                        userName = uiState.userName,
                         questions = uiState.form[page].questions,
                         onError = sideEffect,
                         onSelect = { index, answer ->
                             onIntent(Intent.OnQuestionAnswered(index, answer))
+                        },
+                        onDone = {
+                            onIntent(Intent.OnContinueClick)
                         }
                     )
                 }
