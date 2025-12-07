@@ -33,6 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.R
+import com.fpstudio.stretchreminder.data.model.BodyPart
+import com.fpstudio.stretchreminder.data.model.BodyPartID
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionID
 import com.fpstudio.stretchreminder.ui.composable.question.common.QuestionTitle
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
@@ -64,7 +66,7 @@ fun CustomBodyQuestion(
                 modifier = Modifier
                     .align(Alignment.TopEnd),
                 onSelect = {
-                    onSelect(QuestionSelectionUiModel.StringSelectionUiModel(it))
+                    onSelect(QuestionSelectionUiModel.CustomBodySelectionUiModel(it))
                 }
             )
         }
@@ -74,25 +76,25 @@ fun CustomBodyQuestion(
 @Composable
 fun BodyPartButtons(
     modifier: Modifier,
-    bodyPartButtons: List<String>,
-    selectedBodyParts: List<String>,
-    onSelect: (String) -> Unit = {}
+    bodyPartButtons: List<BodyPart>,
+    selectedBodyParts: List<BodyPartID>,
+    onSelect: (BodyPartID) -> Unit = {}
 ) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         bodyPartButtons.forEach { bodyPart ->
             val backgroundColor by animateColorAsState(
-                targetValue = if (selectedBodyParts.contains(bodyPart)) Green_tertiary else Color.White,
+                targetValue = if (selectedBodyParts.contains(bodyPart.id)) Green_tertiary else Color.White,
                 animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing),
                 label = "backgroundColor"
             )
             val borderColor by animateColorAsState(
-                targetValue = if (selectedBodyParts.contains(bodyPart)) Green_secondary else Gray,
+                targetValue = if (selectedBodyParts.contains(bodyPart.id)) Green_secondary else Gray,
                 animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing),
                 label = "borderColor"
             )
             OutlinedButton(
                 onClick = {
-                    onSelect(bodyPart)
+                    onSelect(bodyPart.id)
                 },
                 modifier = Modifier
                     .width(150.dp)
@@ -105,7 +107,7 @@ fun BodyPartButtons(
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Text(
-                    bodyPart,
+                    bodyPart.name,
                     color = Color.Black,
                     textAlign = TextAlign.Start,
                     modifier = Modifier.fillMaxWidth()
@@ -130,7 +132,7 @@ fun BodyDiagramBackground(
         )
         model.options.forEach { option ->
             AnimatedVisibility(
-                visible = model.selected.contains(option.second),
+                visible = model.selected.contains(option.second.id),
                 enter = fadeIn(animationSpec = tween(durationMillis = 600)) +
                         slideInVertically(
                             initialOffsetY = { -120 },
@@ -156,17 +158,61 @@ fun BodyDiagramBackground(
 @Preview(showBackground = true)
 @Composable
 fun CustomBodyQuestionPreview() {
-    
+
     val bodyParts = listOf(
-        Pair(R.drawable.selected_neck, "Cuello"),
-        Pair(R.drawable.selected_shoulder, "Hombros"),
-        Pair(R.drawable.selected_arms, "Brazos"),
-        Pair(R.drawable.selected_trapezoids, "Trapecios"),
-        Pair(R.drawable.selected_lower_back, "Espalda baja"),
-        Pair(R.drawable.selected_hands, "manos"),
-        Pair(R.drawable.selected_hips, "Caderas"),
-        Pair(R.drawable.selected_legs, "Piernas"),
-        Pair(R.drawable.selected_all, "Cuerpo")
+        Pair(
+            R.drawable.selected_all, BodyPart(
+                id = BodyPartID.All, "All My Body"
+            )
+        ),
+        Pair(
+            R.drawable.selected_neck,
+            BodyPart(
+                id = BodyPartID.NECK, "Neck"
+            )
+        ),
+        Pair(
+            R.drawable.selected_shoulder,
+            BodyPart(
+                id = BodyPartID.SHOULDERS, "Shoulders"
+            )
+        ),
+        Pair(
+            R.drawable.selected_arms,
+            BodyPart(
+                id = BodyPartID.ARMS, "Arms"
+            )
+        ),
+        Pair(
+            R.drawable.selected_trapezoids,
+            BodyPart(
+                id = BodyPartID.TRAPEZOIDS, "Trapezoids"
+            )
+        ),
+        Pair(
+            R.drawable.selected_lower_back,
+            BodyPart(
+                id = BodyPartID.LOWER_BACK, "Lower Back"
+            )
+        ),
+        Pair(
+            R.drawable.selected_hands,
+            BodyPart(
+                id = BodyPartID.HANDS, "Hands"
+            )
+        ),
+        Pair(
+            R.drawable.selected_hips,
+            BodyPart(
+                id = BodyPartID.HIP, "Hips"
+            )
+        ),
+        Pair(
+            R.drawable.selected_legs,
+            BodyPart(
+                id = BodyPartID.LEGS, "Legs"
+            )
+        ),
     )
 
     val question = QuestionUiModel.CustomBodyQuestion(
@@ -174,7 +220,7 @@ fun CustomBodyQuestionPreview() {
         subtitle1 = "Selecciona las áreas",
         question = "¿Qué partes del cuerpo quieres ejercitar?",
         options = bodyParts,
-        selected = listOf("Caderas", "Trapecios", "Cuello", "manos","Espalda baja")
+        selected = listOf(BodyPartID.All)
     )
 
     CustomBodyQuestion(

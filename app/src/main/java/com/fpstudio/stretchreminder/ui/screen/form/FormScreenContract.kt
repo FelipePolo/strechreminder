@@ -1,5 +1,6 @@
 package com.fpstudio.stretchreminder.ui.screen.form
 
+import com.fpstudio.stretchreminder.data.model.UserAchievement
 import com.fpstudio.stretchreminder.ui.component.form.FormUiModel
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionErrorType
@@ -13,7 +14,7 @@ interface FormScreenContract {
         val page: Int = 0,
         val userName: String = EMPTY,
         val userGender: String = EMPTY,
-        val achievements: List<String> = emptyList(),
+        val achievements: List<UserAchievement> = emptyList(),
         val form: List<FormUiModel> = getForms(),
         val backButton: StretchButtonUiModel = StretchButtonUiModel.Lottie(
             isVisible = false,

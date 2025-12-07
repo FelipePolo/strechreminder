@@ -1,6 +1,9 @@
 package com.fpstudio.stretchreminder.data.mapper
 
+import androidx.compose.material3.Text
+import com.fpstudio.stretchreminder.data.model.BodyPartID
 import com.fpstudio.stretchreminder.data.model.User
+import com.fpstudio.stretchreminder.data.model.UserAchievement
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionID
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
@@ -13,10 +16,10 @@ fun FormScreenContract.UiState.toUser(): User {
     var age = EMPTY
     var mainPosture = 0
     var workDays: List<String> = emptyList()
-    var achievement: List<String> = emptyList()
+    var achievement: List<UserAchievement> = emptyList()
     var startWorkTime = 0L
     var endWorkTime = 0L
-    var bodyParts: List<String> = emptyList()
+    var bodyParts: List<BodyPartID> = emptyList()
     var frequency = 0
     var notificationPermission = false
 
@@ -33,7 +36,9 @@ fun FormScreenContract.UiState.toUser(): User {
             }
 
             is QuestionUiModel.MultiChoice -> {
-                if (question.id == QuestionID.ACHIEVEMENT) achievement = question.selected
+                if (question.id == QuestionID.ACHIEVEMENT) {
+                    achievement = question.selected
+                }
             }
 
             is QuestionUiModel.WorkDays -> {
@@ -68,7 +73,7 @@ fun FormScreenContract.UiState.toUser(): User {
         name = name,
         lastFormPage = this.page,
         gender = gender,
-        age = age,
+        ageRange = age,
         mainPosture = mainPosture,
         workDays = workDays,
         achievement = achievement,

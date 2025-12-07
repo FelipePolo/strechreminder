@@ -27,7 +27,7 @@ import com.fpstudio.stretchreminder.util.Constants.EMPTY
 fun MultiChoiceQuestion(
     userName: String = EMPTY,
     model: QuestionUiModel.MultiChoice,
-    onSelected: (QuestionSelectionUiModel.StringSelectionUiModel) -> Unit
+    onSelected: (QuestionSelectionUiModel.CustomUserAchivementUiModel) -> Unit
 ) {
     // Question title
     Spacer(modifier = Modifier.height(12.dp))
@@ -51,7 +51,7 @@ fun MultiChoiceQuestion(
             )
             OutlinedButton(
                 onClick = {
-                    onSelected(QuestionSelectionUiModel.StringSelectionUiModel(option))
+                    onSelected(QuestionSelectionUiModel.CustomUserAchivementUiModel(option))
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -64,7 +64,7 @@ fun MultiChoiceQuestion(
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Text(
-                    option,
+                    "${option.iconStr}  ${option.title}",
                     color = Color.Black,
                     textAlign = TextAlign.Start,
                     modifier = Modifier.fillMaxWidth()

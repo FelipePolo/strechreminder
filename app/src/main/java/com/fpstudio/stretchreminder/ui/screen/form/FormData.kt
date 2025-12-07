@@ -1,6 +1,9 @@
 package com.fpstudio.stretchreminder.ui.screen.form
 
 import com.fpstudio.stretchreminder.R
+import com.fpstudio.stretchreminder.data.model.BodyPart
+import com.fpstudio.stretchreminder.data.model.BodyPartID
+import com.fpstudio.stretchreminder.data.model.UserAchievement
 import com.fpstudio.stretchreminder.ui.component.form.FormUiModel
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionID
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
@@ -26,18 +29,60 @@ fun getForms(): List<FormUiModel> {
                     id = QuestionID.ACHIEVEMENT,
                     subtitle1 = "So tell us, {USER_NAME}",
                     question = "What do you want to achieve?",
-                    selected = listOf("🧍‍♂️ ️All"),
+                    selected = listOf(
+                        UserAchievement(
+                            iconStr = "🧍‍♂️",
+                            title = "All",
+                            description = "All"
+                        )
+                    ),
                     nothingOption = true,
                     options = listOf(
-                        "🧍‍♂️ ️All",
-                        "💪  Reduce Muscle Tension",
-                        "🧘‍♂️ Improve Posture",
-                        "⚡  Increase Energy",
-                        "😌  Reduce Stress And Anxiety",
-                        "😴  Improve Sleep quality",
-                        "⏱️  Build Healthy Work Breaks",
-                        "🤸‍♂️  Enhanced Flexibility and Mobility",
-                        "❤️  Prevent Long-Term Health Issues"
+                        UserAchievement(
+                            iconStr = "🧍‍♂️",
+                            title = "All",
+                            description = "All"
+                        ),
+                        UserAchievement(
+                            iconStr = "💪",
+                            title = "Reduce Muscle Tension",
+                            description = "Reduce Muscle Tension"
+                        ),
+                        UserAchievement(
+                            iconStr = "🧘‍♂️",
+                            title = "Improve Posture",
+                            description = "Improve Posture"
+                        ),
+                        UserAchievement(
+                            iconStr = "⚡",
+                            title = "Increase Energy",
+                            description = "Increase Energy"
+                        ),
+                        UserAchievement(
+                            iconStr = "😌",
+                            title = "Reduce Stress And Anxiety",
+                            description = "Reduce Stress And Anxiety"
+                        ),
+                        UserAchievement(
+                            iconStr = "😴",
+                            title = "Improve Sleep quality",
+                            description = "Improve Sleep quality"
+                        ),
+                        UserAchievement(
+                            iconStr = "⏱️",
+                            title = "Build Healthy Work Breaks",
+                            description = "Build Healthy Work Breaks"
+                        ),
+                        UserAchievement(
+                            iconStr = "🤸‍♂️",
+                            title = "Enhanced Flexibility and Mobility",
+                            description = "Enhanced Flexibility and Mobility"
+                        ),
+                        UserAchievement(
+                            iconStr = "❤️",
+                            title = "Prevent Long-Term Health Issues",
+                            description = "Prevent Long-Term Health Issues"
+                        )
                     )
                 )
             )
@@ -51,17 +96,61 @@ fun getForms(): List<FormUiModel> {
                     nothingOption = true,
                     question = "¿Which parts of your body do you want to exercise?",
                     options = listOf(
-                        Pair(R.drawable.selected_all, "All My Body"),
-                        Pair(R.drawable.selected_neck, "Neck"),
-                        Pair(R.drawable.selected_shoulder, "Shoulders"),
-                        Pair(R.drawable.selected_arms, "Arms"),
-                        Pair(R.drawable.selected_trapezoids, "Trapezoids"),
-                        Pair(R.drawable.selected_lower_back, "Lower Back"),
-                        Pair(R.drawable.selected_hands, "Hands"),
-                        Pair(R.drawable.selected_hips, "Hips"),
-                        Pair(R.drawable.selected_legs, "Legs"),
+                        Pair(
+                            R.drawable.selected_all, BodyPart(
+                                id = BodyPartID.All, "All My Body"
+                            )
+                        ),
+                        Pair(
+                            R.drawable.selected_neck,
+                            BodyPart(
+                                id = BodyPartID.NECK, "Neck"
+                            )
+                        ),
+                        Pair(
+                            R.drawable.selected_shoulder,
+                            BodyPart(
+                                id = BodyPartID.SHOULDERS, "Shoulders"
+                            )
+                        ),
+                        Pair(
+                            R.drawable.selected_arms,
+                            BodyPart(
+                                id = BodyPartID.ARMS, "Arms"
+                            )
+                        ),
+                        Pair(
+                            R.drawable.selected_trapezoids,
+                            BodyPart(
+                                id = BodyPartID.TRAPEZOIDS, "Trapezoids"
+                            )
+                        ),
+                        Pair(
+                            R.drawable.selected_lower_back,
+                            BodyPart(
+                                id = BodyPartID.LOWER_BACK, "Lower Back"
+                            )
+                        ),
+                        Pair(
+                            R.drawable.selected_hands,
+                            BodyPart(
+                                id = BodyPartID.HANDS, "Hands"
+                            )
+                        ),
+                        Pair(
+                            R.drawable.selected_hips,
+                            BodyPart(
+                                id = BodyPartID.HIP, "Hips"
+                            )
+                        ),
+                        Pair(
+                            R.drawable.selected_legs,
+                            BodyPart(
+                                id = BodyPartID.LEGS, "Legs"
+                            )
+                        ),
                     ),
-                    selected = listOf("Neck", "Hands")
+                    selected = listOf(BodyPartID.NECK, BodyPartID.HANDS)
                 )
             )
         ),

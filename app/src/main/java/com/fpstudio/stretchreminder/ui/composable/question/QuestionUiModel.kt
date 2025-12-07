@@ -1,5 +1,8 @@
 package com.fpstudio.stretchreminder.ui.composable.question
 
+import com.fpstudio.stretchreminder.data.model.BodyPart
+import com.fpstudio.stretchreminder.data.model.BodyPartID
+import com.fpstudio.stretchreminder.data.model.UserAchievement
 import com.fpstudio.stretchreminder.util.Constants.EMPTY
 import java.util.Calendar
 
@@ -37,8 +40,8 @@ sealed class QuestionUiModel(
         override val subtitle2: String = EMPTY,
         override val question: String,
         val nothingOption: Boolean = false,
-        val options: List<String>,
-        val selected: List<String> = emptyList()
+        val options: List<UserAchievement>,
+        val selected: List<UserAchievement> = emptyList()
     ) : QuestionUiModel()
 
     data class WorkDays(
@@ -80,8 +83,8 @@ sealed class QuestionUiModel(
         override val subtitle2: String = EMPTY,
         override val question: String,
         val nothingOption: Boolean = false,
-        val options: List<Pair<Int, String>>,
-        val selected: List<String> = emptyList()
+        val options: List<Pair<Int, BodyPart>>,
+        val selected: List<BodyPartID> = emptyList()
     ) : QuestionUiModel()
 
     data class CustomGenderSingleChoice(

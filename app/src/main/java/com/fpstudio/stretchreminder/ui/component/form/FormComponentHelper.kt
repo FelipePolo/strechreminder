@@ -27,7 +27,7 @@ class FormComponentHelper {
                 }
 
                 is QuestionUiModel.MultiChoice -> {
-                    val selected = (selection as QuestionSelectionUiModel.StringSelectionUiModel)
+                    val selected = (selection as QuestionSelectionUiModel.CustomUserAchivementUiModel)
                     val selectedList = question.selected.toMutableList()
                     if (selectedList.size > 1 && selectedList.contains(selected.selection)) {
                         selectedList.remove(selected.selection)
@@ -69,14 +69,14 @@ class FormComponentHelper {
                 is QuestionUiModel.NotificationPermission -> question
 
                 is QuestionUiModel.CustomBodyQuestion -> {
-                    val selected = (selection as QuestionSelectionUiModel.StringSelectionUiModel)
+                    val selected = (selection as QuestionSelectionUiModel.CustomBodySelectionUiModel)
                     val selectedList = question.selected.toMutableList()
                     if (selectedList.size > 1 && selectedList.contains(selected.selection)) {
                         selectedList.remove(selected.selection)
                     } else {
                         selectedList.add(selected.selection)
                     }
-                    val questionsOptions = question.options.map{it.second}
+                    val questionsOptions = question.options.map {it.second.id}
                     if (question.nothingOption) {
                         if (questionsOptions.indexOf(selected.selection) == 0) {
                             selectedList.clear()
