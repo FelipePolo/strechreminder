@@ -77,7 +77,9 @@ private fun RoutineSelectionContent(
                 enabled = uiState.selectedVideos.isNotEmpty(),
                 selectedCount = uiState.selectedVideos.size,
                 totalDurationSeconds = totalDuration,
-                onClick = { onContinue(uiState.selectedVideos) }
+                onClick = {
+                    onContinue(uiState.selectedVideos)
+                }
             )
         },
         containerColor = Color(0xFFF5F5F5)

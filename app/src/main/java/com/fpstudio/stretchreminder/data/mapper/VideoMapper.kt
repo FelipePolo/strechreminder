@@ -8,7 +8,7 @@ import com.fpstudio.stretchreminder.data.remote.dto.VideoDto
 
 object VideoMapper {
     
-    private const val BASE_URL = "https://stretchreminder.net/"
+    private const val BASE_URL = "https://stretchreminder.net"
     
     fun VideoDto.toDomain(): Video {
         return Video(

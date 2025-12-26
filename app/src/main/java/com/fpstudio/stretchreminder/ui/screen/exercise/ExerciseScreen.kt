@@ -151,9 +151,13 @@ private fun ExerciseScreenVideo(
     )
 
     LaunchedEffect(state.playlist.playIndex) {
-        val rawUri =
-            "android.resource://${context.packageName}/raw/${state.playlist.videos[state.playlist.playIndex]}"
-        videoState.loadVideo(rawUri)
+        val videoUrl = state.playlist.videos[state.playlist.playIndex]
+        val videoUri = if (videoUrl.startsWith("http")) {
+            videoUrl
+        } else {
+            "android.resource://${context.packageName}/raw/$videoUrl"
+        }
+        videoState.loadVideo(videoUri)
     }
 
     Box(modifier = modifier) {

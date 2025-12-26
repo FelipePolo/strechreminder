@@ -5,7 +5,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import androidx.navigation.toRoute
 import com.fpstudio.stretchreminder.ui.screen.congratulation.CongratulationScreen
+import com.fpstudio.stretchreminder.ui.screen.exercise.ExerciseScreen
+import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenContract
+import com.fpstudio.stretchreminder.ui.screen.exercise.contract.Playlist
+import com.fpstudio.stretchreminder.ui.screen.exercise.contract.PreText
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreen
 import com.fpstudio.stretchreminder.ui.screen.home.HomeScreen
 import com.fpstudio.stretchreminder.ui.screen.intro.IntroScreen
@@ -48,11 +53,11 @@ fun App() {
 
         composable<Congratulation> {
             CongratulationScreen {
-                navController.navigate(ExerciseRoutine)
+                navController.navigate(Tutorial)
             }
         }
 
-        composable<ExerciseRoutine> {
+        composable<Tutorial> {
             TutorialScreen {
                 navController.navigate(Home)
             }
@@ -72,10 +77,35 @@ fun App() {
                     navController.navigateUp()
                 },
                 onContinue = { selectedVideos ->
-                    // TODO: Navigate to exercise screen with selected videos
-                    // navController.navigate(Exercise(selectedVideos.map { it.id }))
+                    navController.navigate(Exercise(selectedVideos.map {
+                        it.videoUrl
+                    }))
                 }
             )
+        }
+
+        composable<Exercise> {
+            // Actually, in Navigation Compose with type-safe routes, 
+            // the data is already in the backStackEntry.toRoute<Exercise>()
+            val args = it.toRoute<Exercise>()
+            
+            ExerciseScreen(
+                state = ExerciseScreenContract.UiState(
+                    playlist = Playlist(
+                        videos = args.videoUrls
+                    ),
+                    preText = PreText(
+                        text = "Get Ready",
+                        secondsToShowPreText = 3000,
+                        isVisible = true
+                    ),
+                    disclaimer = "If your experience pain or discomfort while exercising, please stop immediately and consult your doctor or qualified healthcare professional before continuing."
+                )
+            ) {
+                navController.navigate(Home) {
+                    popUpTo(Home) { inclusive = true }
+                }
+            }
         }
     }
 }

@@ -15,12 +15,15 @@ object ThreeYes
 object Congratulation
 
 @Serializable
-object ExerciseRoutine
+object Tutorial
 
 @Serializable
 object Home
 
 @Serializable
 object RoutineSelection
+
+@Serializable
+data class Exercise(val videoUrls: List<String>)
 
 
