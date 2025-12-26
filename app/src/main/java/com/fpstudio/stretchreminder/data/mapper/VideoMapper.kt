@@ -19,10 +19,12 @@ object VideoMapper {
             videoUrl = "$BASE_URL$url",
             title = title,
             bodyPart = bodypart.toBodyPartID(),
-            badge = Badge(
-                name = badge.name,
-                backgroundColor = parseColor(badge.backgroundColor)
-            ),
+            badge = badge?.let {
+                Badge(
+                    name = it.name,
+                    backgroundColor = parseColor(it.backgroundColor)
+                )
+            },
             isSelected = false
         )
     }

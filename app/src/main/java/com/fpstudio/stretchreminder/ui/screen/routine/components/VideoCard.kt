@@ -74,20 +74,22 @@ fun VideoCard(
                     )
                 }
                 
-                // New Badge (Top Right)
-                if (video.badge.name.isNotEmpty()) {
-                    Badge(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(8.dp),
-                        containerColor = video.badge.backgroundColor
-                    ) {
-                        Text(
-                            text = video.badge.name,
-                            color = Color.White,
-                            style = MaterialTheme.typography.labelSmall,
-                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                        )
+                // Badge (Top Right) - only show if badge exists
+                video.badge?.let { badge ->
+                    if (badge.name.isNotEmpty()) {
+                        Badge(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(8.dp),
+                            containerColor = badge.backgroundColor
+                        ) {
+                            Text(
+                                text = badge.name,
+                                color = Color.White,
+                                style = MaterialTheme.typography.labelSmall,
+                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                            )
+                        }
                     }
                 }
             }

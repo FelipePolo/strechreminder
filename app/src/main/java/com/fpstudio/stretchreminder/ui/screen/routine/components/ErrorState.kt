@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 
 @Composable
 fun ErrorState(
@@ -65,7 +66,7 @@ fun ErrorState(
             Button(
                 onClick = onRetry,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary
+                    containerColor = TurquoiseAccent
                 )
             ) {
                 Text(

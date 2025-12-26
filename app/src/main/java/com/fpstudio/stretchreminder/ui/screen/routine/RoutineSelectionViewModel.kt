@@ -61,8 +61,9 @@ class RoutineSelectionViewModel(
         _uiState.update { state ->
             val filtered = when (filter) {
                 VideoFilter.All -> state.allVideos
-                VideoFilter.Recommended -> state.allVideos.filter { 
-                    it.badge.name.equals("Beginner", ignoreCase = true)
+                VideoFilter.Recommended -> state.allVideos.filter {
+                    // por hacer, filtrar recomendados por partes del cuerpo del usuario
+                   true
                 }
                 is VideoFilter.ByBodyPart -> state.allVideos.filter { 
                     it.bodyPart == filter.bodyPart 
@@ -87,8 +88,9 @@ class RoutineSelectionViewModel(
             // Apply current filter to get filtered list
             val filtered = when (state.selectedFilter) {
                 VideoFilter.All -> updatedAllVideos
-                VideoFilter.Recommended -> updatedAllVideos.filter { 
-                    it.badge.name.equals("Beginner", ignoreCase = true)
+                VideoFilter.Recommended -> updatedAllVideos.filter {
+                    // por hacer, filtrar recomendados por partes del cuerpo del usuario
+                    true
                 }
                 is VideoFilter.ByBodyPart -> updatedAllVideos.filter { 
                     it.bodyPart == (state.selectedFilter as VideoFilter.ByBodyPart).bodyPart 
