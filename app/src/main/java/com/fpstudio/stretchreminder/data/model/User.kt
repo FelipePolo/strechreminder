@@ -36,5 +36,18 @@ enum class BodyPartID {
     HANDS,
     HIP,
     LEGS,
-    All
+    All;
+    
+    val displayName: String
+        get() = when (this) {
+            NECK -> "Neck"
+            SHOULDERS -> "Shoulders"
+            ARMS -> "Arms"
+            TRAPEZOIDS -> "Trapezoids"
+            LOWER_BACK -> "Lower Back"
+            HANDS -> "Hands"
+            HIP -> "Hips"
+            LEGS -> "Legs"
+            All -> "All"
+        }
 }

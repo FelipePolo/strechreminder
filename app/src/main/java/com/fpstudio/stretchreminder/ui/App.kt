@@ -10,7 +10,8 @@ import com.fpstudio.stretchreminder.ui.screen.form.FormScreen
 import com.fpstudio.stretchreminder.ui.screen.home.HomeScreen
 import com.fpstudio.stretchreminder.ui.screen.intro.IntroScreen
 import com.fpstudio.stretchreminder.ui.screen.threeyes.ThreeYesScreen
-import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreen
+import com.fpstudio.stretchreminder.ui.screen.exerciseroutine.ExerciseRoutineScreen
+import com.fpstudio.stretchreminder.ui.screen.routine.RoutineSelectionScreen
 
 @Composable
 fun App() {
@@ -40,12 +41,12 @@ fun App() {
 
         composable<Congratulation> {
             CongratulationScreen {
-                navController.navigate(Tutorial)
+                navController.navigate(ExerciseRoutine)
             }
         }
 
-        composable<Tutorial> {
-            TutorialScreen {
+        composable<ExerciseRoutine> {
+            ExerciseRoutineScreen {
                 navController.navigate(Home)
             }
         }
@@ -53,7 +54,19 @@ fun App() {
         composable<Home> {
             HomeScreen(
                 onStretchButtonClick = {
-                    // Aquí puedes agregar la navegación a la pantalla de estiramiento
+                    navController.navigate(RoutineSelection)
+                }
+            )
+        }
+        
+        composable<RoutineSelection> {
+            RoutineSelectionScreen(
+                onBackClick = {
+                    navController.navigateUp()
+                },
+                onContinue = { selectedVideos ->
+                    // TODO: Navigate to exercise screen with selected videos
+                    // navController.navigate(Exercise(selectedVideos.map { it.id }))
                 }
             )
         }

@@ -1,4 +1,4 @@
-package com.fpstudio.stretchreminder.ui.screen.tutorial
+package com.fpstudio.stretchreminder.ui.screen.exerciseroutine
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,19 +32,19 @@ import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
 import com.fpstudio.stretchreminder.ui.screen.congratulation.CongratulationScreen
 import com.fpstudio.stretchreminder.ui.screen.exercise.ExerciseScreen
 import org.koin.androidx.compose.koinViewModel
-import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.Intent
-import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.UiState
-import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.SideEffect
+import com.fpstudio.stretchreminder.ui.screen.exerciseroutine.ExerciseRoutineContract.Intent
+import com.fpstudio.stretchreminder.ui.screen.exerciseroutine.ExerciseRoutineContract.UiState
+import com.fpstudio.stretchreminder.ui.screen.exerciseroutine.ExerciseRoutineContract.SideEffect
 import com.fpstudio.stretchreminder.ui.theme.Gray3
 
 @Composable
-fun TutorialScreen(
-    viewModel: TutorialViewModel = koinViewModel(),
+fun ExerciseRoutineScreen(
+    viewModel: ExerciseRoutineViewModel = koinViewModel(),
     onNavigateNext: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-    TutorialContent(
+    ExerciseRoutineContent(
         uiState = uiState.value,
         onIntent = viewModel::handleIntent
     )
@@ -59,13 +59,13 @@ fun TutorialScreen(
 }
 
 @Composable
-fun TutorialContent(
+fun ExerciseRoutineContent(
     uiState: UiState,
     onIntent: (Intent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val pagerState = rememberPagerState {
-        uiState.tutorialScreens.size
+        uiState.exerciseRoutineScreens.size
     }
 
     LaunchedEffect(uiState.page) {
@@ -77,23 +77,23 @@ fun TutorialContent(
         state = pagerState,
         userScrollEnabled = false
     ) { page ->
-        val screen = uiState.tutorialScreens[page]
+        val screen = uiState.exerciseRoutineScreens[page]
         when (screen) {
-            is TutorialUiModel.Welcome -> {
+            is ExerciseRoutineUiModel.Welcome -> {
                 WelcomeScreen(
                     state = screen,
                     onIntent = onIntent
                 )
             }
 
-            is TutorialUiModel.Tutorial -> {
-                TutorialScreen(
+            is ExerciseRoutineUiModel.ExerciseRoutine -> {
+                ExerciseRoutinePlayer(
                     state = screen,
                     onIntent = onIntent
                 )
             }
 
-            is TutorialUiModel.Complete -> {
+            is ExerciseRoutineUiModel.Complete -> {
                 if (pagerState.settledPage == 2) {
                     CompleteScreen(
                         state = screen,
@@ -107,7 +107,7 @@ fun TutorialContent(
 
 @Composable
 private fun WelcomeScreen(
-    state: TutorialUiModel.Welcome,
+    state: ExerciseRoutineUiModel.Welcome,
     onIntent: (Intent) -> Unit
 ) {
     Column(
@@ -156,22 +156,22 @@ private fun WelcomeScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         StretchButton(state = state.button) {
-            onIntent(Intent.StartTutorial)
+            onIntent(Intent.StartExerciseRoutine)
         }
     }
 }
 
 @Composable
-private fun TutorialScreen(state: TutorialUiModel.Tutorial, onIntent: (Intent) -> Unit) {
+private fun ExerciseRoutinePlayer(state: ExerciseRoutineUiModel.ExerciseRoutine, onIntent: (Intent) -> Unit) {
     ExerciseScreen(
         state = state.exerciseScreenState
     ) {
-        onIntent(Intent.FinishTutorial)
+        onIntent(Intent.FinishExerciseRoutine)
     }
 }
 
 @Composable
-private fun CompleteScreen(state: TutorialUiModel.Complete, onIntent: (Intent) -> Unit) {
+private fun CompleteScreen(state: ExerciseRoutineUiModel.Complete, onIntent: (Intent) -> Unit) {
     CongratulationScreen(
         uiModel = state.congrats,
     ) {

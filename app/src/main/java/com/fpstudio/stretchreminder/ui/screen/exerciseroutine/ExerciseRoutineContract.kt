@@ -1,4 +1,4 @@
-package com.fpstudio.stretchreminder.ui.screen.tutorial
+package com.fpstudio.stretchreminder.ui.screen.exerciseroutine
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
@@ -9,15 +9,15 @@ import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenCo
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.Playlist
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.PreText
 
-interface TutorialScreenContract {
+interface ExerciseRoutineContract {
     data class UiState(
         val page: Int = 0,
-        val tutorialScreens: List<TutorialUiModel> = getBaseTutorialList()
+        val exerciseRoutineScreens: List<ExerciseRoutineUiModel> = getBaseExerciseRoutineList()
     )
 
     sealed interface Intent {
-        object StartTutorial : Intent
-        object FinishTutorial : Intent
+        object StartExerciseRoutine : Intent
+        object FinishExerciseRoutine : Intent
         object CongratulationsComplete : Intent
     }
 
@@ -26,18 +26,18 @@ interface TutorialScreenContract {
     }
 }
 
-private fun getBaseTutorialList(): List<TutorialUiModel> {
+private fun getBaseExerciseRoutineList(): List<ExerciseRoutineUiModel> {
     return listOf(
-        TutorialUiModel.Welcome(
+        ExerciseRoutineUiModel.Welcome(
             icon = R.raw.search,
             title = "No Stretches logged yet.",
-            description = "This short tutorial will help you understand how stretch sessions work--simple, guided, and easy to follow.",
+            description = "This short exercise will help you understand how stretch sessions work--simple, guided, and easy to follow.",
             button = StretchButtonUiModel.Default(
-                text = "Start Tutorial",
+                text = "Start Exercise",
                 shape = RoundedCornerShape(20.dp)
             )
         ),
-        TutorialUiModel.Tutorial(
+        ExerciseRoutineUiModel.ExerciseRoutine(
             exerciseScreenState = UiState(
                 playlist = Playlist(
                     videos = listOf("tutorial"),
@@ -50,7 +50,7 @@ private fun getBaseTutorialList(): List<TutorialUiModel> {
                 disclaimer = "If your experience pain or discomfort while exercising, please stop immediately and consult your doctor or qualified healthcare professional before continuing."
             )
         ),
-        TutorialUiModel.Complete(
+        ExerciseRoutineUiModel.Complete(
             congrats = CongratulationUiModel()
         )
     )

@@ -15,9 +15,12 @@ object ThreeYes
 object Congratulation
 
 @Serializable
-object Tutorial
+object ExerciseRoutine
 
 @Serializable
 object Home
+
+@Serializable
+object RoutineSelection
 
 
