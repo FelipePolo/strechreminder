@@ -10,7 +10,7 @@ import com.fpstudio.stretchreminder.ui.screen.form.FormScreen
 import com.fpstudio.stretchreminder.ui.screen.home.HomeScreen
 import com.fpstudio.stretchreminder.ui.screen.intro.IntroScreen
 import com.fpstudio.stretchreminder.ui.screen.threeyes.ThreeYesScreen
-import com.fpstudio.stretchreminder.ui.screen.exerciseroutine.ExerciseRoutineScreen
+import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreen
 import com.fpstudio.stretchreminder.ui.screen.routine.RoutineSelectionScreen
 
 @Composable
@@ -20,11 +20,18 @@ fun App() {
     NavHost(navController = navController, startDestination = Intro) {
 
         composable<Intro> {
-            IntroScreen {
-                navController.navigate(Form, navOptions = navOptions {
-                    popUpTo(Intro) { saveState = true }
-                })
-            }
+            IntroScreen(
+                onNavigateToForm = {
+                    navController.navigate(Form, navOptions = navOptions {
+                        popUpTo(Intro) { saveState = true }
+                    })
+                },
+                onNavigateToHome = {
+                    navController.navigate(Home, navOptions = navOptions {
+                        popUpTo(Intro) { inclusive = true }
+                    })
+                }
+            )
         }
 
         composable<Form> {
@@ -46,7 +53,7 @@ fun App() {
         }
 
         composable<ExerciseRoutine> {
-            ExerciseRoutineScreen {
+            TutorialScreen {
                 navController.navigate(Home)
             }
         }

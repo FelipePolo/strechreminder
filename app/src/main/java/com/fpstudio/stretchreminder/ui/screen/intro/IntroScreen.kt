@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -25,6 +27,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import com.fpstudio.stretchreminder.R
@@ -35,12 +38,32 @@ import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 import com.fpstudio.stretchreminder.util.Constants.PRIVATE_POLICY_URL
 import com.fpstudio.stretchreminder.util.Constants.SPACE
 import com.fpstudio.stretchreminder.util.Constants.TERMS_AND_CONDITIONS_URL
+import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun IntroScreen(
-    onClick: () -> Unit
+    viewModel: IntroViewModel = koinViewModel(),
+    onNavigateToForm: () -> Unit,
+    onNavigateToHome: () -> Unit
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    
+    // Navigate to Home if user already completed onboarding
+    LaunchedEffect(uiState.isOnboardingComplete) {
+        if (!uiState.isLoading && uiState.isOnboardingComplete) {
+            onNavigateToHome()
+        }
+    }
+    
+    // Only show intro screen if user hasn't completed onboarding
+    if (!uiState.isOnboardingComplete && !uiState.isLoading) {
+        IntroContent(onClick = onNavigateToForm)
+    }
+}
+
+@Composable
+private fun IntroContent(onClick: () -> Unit) {
     Scaffold { paddingValues ->
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (backgroundVideo, grayOverlay, title, introButton, terms) = createRefs()

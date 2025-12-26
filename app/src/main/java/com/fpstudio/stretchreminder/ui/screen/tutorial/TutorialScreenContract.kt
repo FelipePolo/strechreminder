@@ -1,4 +1,4 @@
-package com.fpstudio.stretchreminder.ui.screen.exerciseroutine
+package com.fpstudio.stretchreminder.ui.screen.tutorial
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
@@ -9,10 +9,10 @@ import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenCo
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.Playlist
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.PreText
 
-interface ExerciseRoutineContract {
+interface TutorialScreenContract {
     data class UiState(
         val page: Int = 0,
-        val exerciseRoutineScreens: List<ExerciseRoutineUiModel> = getBaseExerciseRoutineList()
+        val exerciseRoutineScreens: List<TutorialScreenUiModel> = getBaseExerciseRoutineList()
     )
 
     sealed interface Intent {
@@ -26,9 +26,9 @@ interface ExerciseRoutineContract {
     }
 }
 
-private fun getBaseExerciseRoutineList(): List<ExerciseRoutineUiModel> {
+private fun getBaseExerciseRoutineList(): List<TutorialScreenUiModel> {
     return listOf(
-        ExerciseRoutineUiModel.Welcome(
+        TutorialScreenUiModel.Welcome(
             icon = R.raw.search,
             title = "No Stretches logged yet.",
             description = "This short exercise will help you understand how stretch sessions work--simple, guided, and easy to follow.",
@@ -37,7 +37,7 @@ private fun getBaseExerciseRoutineList(): List<ExerciseRoutineUiModel> {
                 shape = RoundedCornerShape(20.dp)
             )
         ),
-        ExerciseRoutineUiModel.ExerciseRoutine(
+        TutorialScreenUiModel.TutorialScreen(
             exerciseScreenState = UiState(
                 playlist = Playlist(
                     videos = listOf("tutorial"),
@@ -50,7 +50,7 @@ private fun getBaseExerciseRoutineList(): List<ExerciseRoutineUiModel> {
                 disclaimer = "If your experience pain or discomfort while exercising, please stop immediately and consult your doctor or qualified healthcare professional before continuing."
             )
         ),
-        ExerciseRoutineUiModel.Complete(
+        TutorialScreenUiModel.Complete(
             congrats = CongratulationUiModel()
         )
     )

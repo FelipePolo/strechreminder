@@ -16,6 +16,8 @@ val Green_gradient_2 = Color(0xFF00D390)
 
 val Green_senary = Color(0xFF04CAA4)
 
+val TurquoiseAccent = Color(0xFF00d196)
+
 val text_primary = Color(0xFFFBFBFB)
 
 val Gray = Color(0xFFDDDDDE)

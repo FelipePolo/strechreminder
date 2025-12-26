@@ -1,15 +1,15 @@
-package com.fpstudio.stretchreminder.ui.screen.exerciseroutine
+package com.fpstudio.stretchreminder.ui.screen.tutorial
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fpstudio.stretchreminder.util.foundation.Mvi
 import com.fpstudio.stretchreminder.util.foundation.MviDelegate
-import com.fpstudio.stretchreminder.ui.screen.exerciseroutine.ExerciseRoutineContract.UiState
-import com.fpstudio.stretchreminder.ui.screen.exerciseroutine.ExerciseRoutineContract.Intent
-import com.fpstudio.stretchreminder.ui.screen.exerciseroutine.ExerciseRoutineContract.SideEffect
+import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.UiState
+import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.Intent
+import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.SideEffect
 import kotlinx.coroutines.launch
 
-class ExerciseRoutineViewModel : ViewModel(), Mvi<UiState, Intent, SideEffect> by MviDelegate(UiState()) {
+class TutorialScreenViewModel : ViewModel(), Mvi<UiState, Intent, SideEffect> by MviDelegate(UiState()) {
 
     override fun handleIntent(intent: Intent) {
         when (intent) {

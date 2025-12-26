@@ -12,7 +12,7 @@ class VideoRepositoryImpl(
     
     override suspend fun getVideos(language: String): Result<List<Video>> {
         return try {
-            val token = TokenGenerator.generateHmacToken()
+            val token = TokenGenerator.generateHmacToken(message = language)
             val response = apiService.getVideos(language, token)
             
             if (response.success) {

@@ -25,4 +25,13 @@ object TokenGenerator {
             ""
         }
     }
+
+    fun generateToken(lang: String, secretKey: String): String {
+        val mac = Mac.getInstance("HmacSHA256")
+        val secretKeySpec = SecretKeySpec(secretKey.toByteArray(), "HmacSHA256")
+        mac.init(secretKeySpec)
+
+        val hash = mac.doFinal(lang.toByteArray())
+        return hash.joinToString("") { "%02x".format(it) }
+    }
 }

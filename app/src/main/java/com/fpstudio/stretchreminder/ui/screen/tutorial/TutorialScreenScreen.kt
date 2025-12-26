@@ -1,4 +1,4 @@
-package com.fpstudio.stretchreminder.ui.screen.exerciseroutine
+package com.fpstudio.stretchreminder.ui.screen.tutorial
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,19 +32,19 @@ import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
 import com.fpstudio.stretchreminder.ui.screen.congratulation.CongratulationScreen
 import com.fpstudio.stretchreminder.ui.screen.exercise.ExerciseScreen
 import org.koin.androidx.compose.koinViewModel
-import com.fpstudio.stretchreminder.ui.screen.exerciseroutine.ExerciseRoutineContract.Intent
-import com.fpstudio.stretchreminder.ui.screen.exerciseroutine.ExerciseRoutineContract.UiState
-import com.fpstudio.stretchreminder.ui.screen.exerciseroutine.ExerciseRoutineContract.SideEffect
+import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.Intent
+import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.UiState
+import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.SideEffect
 import com.fpstudio.stretchreminder.ui.theme.Gray3
 
 @Composable
-fun ExerciseRoutineScreen(
-    viewModel: ExerciseRoutineViewModel = koinViewModel(),
+fun TutorialScreen(
+    viewModel: TutorialScreenViewModel = koinViewModel(),
     onNavigateNext: () -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-    ExerciseRoutineContent(
+    TutorialScreenContent(
         uiState = uiState.value,
         onIntent = viewModel::handleIntent
     )
@@ -59,7 +59,7 @@ fun ExerciseRoutineScreen(
 }
 
 @Composable
-fun ExerciseRoutineContent(
+fun TutorialScreenContent(
     uiState: UiState,
     onIntent: (Intent) -> Unit,
     modifier: Modifier = Modifier,
@@ -79,21 +79,21 @@ fun ExerciseRoutineContent(
     ) { page ->
         val screen = uiState.exerciseRoutineScreens[page]
         when (screen) {
-            is ExerciseRoutineUiModel.Welcome -> {
+            is TutorialScreenUiModel.Welcome -> {
                 WelcomeScreen(
                     state = screen,
                     onIntent = onIntent
                 )
             }
 
-            is ExerciseRoutineUiModel.ExerciseRoutine -> {
-                ExerciseRoutinePlayer(
+            is TutorialScreenUiModel.TutorialScreen -> {
+                TutorialScreenPlayer(
                     state = screen,
                     onIntent = onIntent
                 )
             }
 
-            is ExerciseRoutineUiModel.Complete -> {
+            is TutorialScreenUiModel.Complete -> {
                 if (pagerState.settledPage == 2) {
                     CompleteScreen(
                         state = screen,
@@ -106,8 +106,8 @@ fun ExerciseRoutineContent(
 }
 
 @Composable
-private fun WelcomeScreen(
-    state: ExerciseRoutineUiModel.Welcome,
+fun WelcomeScreen(
+    state: TutorialScreenUiModel.Welcome,
     onIntent: (Intent) -> Unit
 ) {
     Column(
@@ -162,7 +162,7 @@ private fun WelcomeScreen(
 }
 
 @Composable
-private fun ExerciseRoutinePlayer(state: ExerciseRoutineUiModel.ExerciseRoutine, onIntent: (Intent) -> Unit) {
+private fun TutorialScreenPlayer(state: TutorialScreenUiModel.TutorialScreen, onIntent: (Intent) -> Unit) {
     ExerciseScreen(
         state = state.exerciseScreenState
     ) {
@@ -171,7 +171,7 @@ private fun ExerciseRoutinePlayer(state: ExerciseRoutineUiModel.ExerciseRoutine,
 }
 
 @Composable
-private fun CompleteScreen(state: ExerciseRoutineUiModel.Complete, onIntent: (Intent) -> Unit) {
+private fun CompleteScreen(state: TutorialScreenUiModel.Complete, onIntent: (Intent) -> Unit) {
     CongratulationScreen(
         uiModel = state.congrats,
     ) {

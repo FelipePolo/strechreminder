@@ -8,7 +8,7 @@ import com.fpstudio.stretchreminder.data.remote.dto.VideoDto
 
 object VideoMapper {
     
-    private const val BASE_URL = "https://stretchreminder.net/my_api"
+    private const val BASE_URL = "https://stretchreminder.net/"
     
     fun VideoDto.toDomain(): Video {
         return Video(
@@ -23,7 +23,6 @@ object VideoMapper {
                 name = badge.name,
                 backgroundColor = parseColor(badge.backgroundColor)
             ),
-            isNew = false, // Can be determined by logic (e.g., upload date)
             isSelected = false
         )
     }

@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.fpstudio.stretchreminder.data.model.Video
+import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 
 @Composable
 fun VideoCard(
@@ -39,7 +40,7 @@ fun VideoCard(
             defaultElevation = if (video.isSelected) 4.dp else 2.dp
         ),
         border = if (video.isSelected) {
-            BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
+            BorderStroke(2.dp, TurquoiseAccent)
         } else null
     ) {
         Column {
@@ -68,38 +69,26 @@ fun VideoCard(
                     Icon(
                         imageVector = Icons.Default.PlayArrow,
                         contentDescription = "Play",
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = TurquoiseAccent,
                         modifier = Modifier.size(32.dp)
                     )
                 }
                 
                 // New Badge (Top Right)
-                if (video.isNew) {
+                if (video.badge.name.isNotEmpty()) {
                     Badge(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                             .padding(8.dp),
-                        containerColor = Color(0xFFFF6B6B)
+                        containerColor = video.badge.backgroundColor
                     ) {
                         Text(
-                            text = "New",
+                            text = video.badge.name,
                             color = Color.White,
-                            style = MaterialTheme.typography.labelSmall
+                            style = MaterialTheme.typography.labelSmall,
+                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                         )
                     }
-                }
-                
-                // Selected Indicator (Top Left)
-                if (video.isSelected) {
-                    Icon(
-                        imageVector = Icons.Default.CheckCircle,
-                        contentDescription = "Selected",
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .padding(8.dp)
-                            .size(24.dp)
-                    )
                 }
             }
             
@@ -123,24 +112,13 @@ fun VideoCard(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+
                     // Duration
                     Text(
-                        text = video.duration.toTimeString(),
+                        text = "${video.duration.toTimeString()}" ,
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
-                    
-                    // Level Badge
-                    Badge(
-                        containerColor = video.badge.backgroundColor
-                    ) {
-                        Text(
-                            text = video.badge.name,
-                            color = Color.White,
-                            style = MaterialTheme.typography.labelSmall,
-                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                        )
-                    }
                 }
             }
         }

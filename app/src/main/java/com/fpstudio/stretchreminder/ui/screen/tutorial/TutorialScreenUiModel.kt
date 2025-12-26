@@ -1,23 +1,23 @@
-package com.fpstudio.stretchreminder.ui.screen.exerciseroutine
+package com.fpstudio.stretchreminder.ui.screen.tutorial
 
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 import com.fpstudio.stretchreminder.ui.screen.congratulation.CongratulationUiModel
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenContract
 
-sealed class ExerciseRoutineUiModel {
+sealed class TutorialScreenUiModel {
     data class Welcome(
         val icon: Int,
         val title: String,
         val description: String,
         val button: StretchButtonUiModel
-    ) : ExerciseRoutineUiModel()
+    ) : TutorialScreenUiModel()
 
-    data class ExerciseRoutine(
+    data class TutorialScreen(
         val exerciseScreenState: ExerciseScreenContract.UiState,
-    ) : ExerciseRoutineUiModel()
+    ) : TutorialScreenUiModel()
 
     data class Complete(
         val congrats: CongratulationUiModel = CongratulationUiModel()
-    ) : ExerciseRoutineUiModel()
+    ) : TutorialScreenUiModel()
 
 }

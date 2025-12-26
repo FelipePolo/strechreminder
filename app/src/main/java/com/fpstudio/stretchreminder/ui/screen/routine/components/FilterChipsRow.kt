@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.data.model.BodyPartID
+import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 
 sealed class VideoFilter {
     object All : VideoFilter()
@@ -45,11 +47,13 @@ fun FilterChipsRow(
                     )
                 },
                 colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                    selectedContainerColor = TurquoiseAccent,
                     selectedLabelColor = Color.White,
-                    containerColor = Color(0xFFF0F0F0),
+                    containerColor = Color.White,
                     labelColor = Color.Black
-                )
+                ),
+                shape = CircleShape,
+                border = null
             )
         }
         
@@ -65,11 +69,13 @@ fun FilterChipsRow(
                     )
                 },
                 colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                    selectedContainerColor = TurquoiseAccent,
                     selectedLabelColor = Color.White,
-                    containerColor = Color(0xFFF0F0F0),
+                    containerColor = Color.White,
                     labelColor = Color.Black
-                )
+                ),
+                shape = CircleShape,
+                border = null
             )
         }
         
@@ -86,11 +92,13 @@ fun FilterChipsRow(
                     )
                 },
                 colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = MaterialTheme.colorScheme.primary,
+                    selectedContainerColor = TurquoiseAccent,
                     selectedLabelColor = Color.White,
-                    containerColor = Color(0xFFF0F0F0),
+                    containerColor = Color.White,
                     labelColor = Color.Black
-                )
+                ),
+                shape = CircleShape,
+                border = null
             )
         }
     }
