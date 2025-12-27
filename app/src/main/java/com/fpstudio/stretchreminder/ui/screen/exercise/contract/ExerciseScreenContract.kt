@@ -7,7 +7,8 @@ interface ExerciseScreenContract {
     data class UiState(
         val playlist: Playlist = Playlist(),
         val disclaimer: String = Constants.EMPTY,
-        val preText: PreText = PreText()
+        val preText: PreText = PreText(),
+        val showCongratulations: Boolean = false
     )
 
     sealed class Intent {

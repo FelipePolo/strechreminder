@@ -44,6 +44,8 @@ import com.fpstudio.stretchreminder.ui.screen.exercise.contract.Playlist
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.PreText
 import com.fpstudio.stretchreminder.ui.theme.Gray3
 import com.fpstudio.stretchreminder.ui.theme.Gray5
+import com.fpstudio.stretchreminder.ui.screen.congratulation.CongratulationScreen
+import com.fpstudio.stretchreminder.ui.screen.congratulation.CongratulationUiModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import org.koin.androidx.compose.koinViewModel
@@ -82,31 +84,47 @@ private fun ExerciseScreenContent(
     Scaffold(
         containerColor = Color.White
     ) { paddingValues ->
-        Column(
-            modifier = Modifier.padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(24.dp))
-            ExerciseScreenHeader(state = state)
-            Spacer(modifier = Modifier.height(24.dp))
-            ExerciseScreenVideo(
-                state = state,
-                onIntent = onIntent,
-                sideEffect = sideEffect,
-                modifier = Modifier
-                    .weight(1F)
-                    .fillMaxWidth(),
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            Text(
-                text = state.disclaimer,
-                textAlign = TextAlign.Center,
-                fontSize = 12.sp,
-                lineHeight = 12.sp,
-                color = Gray3,
-                modifier = Modifier.padding(horizontal = 12.dp)
-            )
-            Spacer(modifier = Modifier.height(24.dp))
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Main exercise content
+            Column(
+                modifier = Modifier.padding(paddingValues),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(24.dp))
+                ExerciseScreenHeader(state = state)
+                Spacer(modifier = Modifier.height(24.dp))
+                ExerciseScreenVideo(
+                    state = state,
+                    onIntent = onIntent,
+                    sideEffect = sideEffect,
+                    modifier = Modifier
+                        .weight(1F)
+                        .fillMaxWidth(),
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = state.disclaimer,
+                    textAlign = TextAlign.Center,
+                    fontSize = 12.sp,
+                    lineHeight = 12.sp,
+                    color = Gray3,
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+
+            // Congratulations overlay
+            if (state.showCongratulations) {
+                CongratulationScreen(
+                    modifier = Modifier
+                        .background(Color.White),
+                    uiModel = CongratulationUiModel(
+                        title = "Congratulations!",
+                        subtitle = "You have completed your exercise routine"
+                    ),
+                    navigateNext = {} // Navigation is handled by ViewModel
+                )
+            }
         }
     }
 
@@ -120,8 +138,16 @@ private fun ExerciseScreenHeader(state: UiState) {
             .padding(horizontal = 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Show time with video count if there are multiple videos
+        val timeText = if (state.playlist.videos.size > 1) {
+            val currentVideo = state.playlist.playIndex + 1
+            val totalVideos = state.playlist.videos.size
+            "⏱️ ${state.playlist.remainingTime.getTimeString()} ($currentVideo/$totalVideos)"
+        } else {
+            "⏱️ ${state.playlist.remainingTime.getTimeString()}"
+        }
 
-        Text("⏱️ ${state.playlist.remainingTime.getTimeString()}")
+        Text(timeText)
         Spacer(modifier = Modifier.height(8.dp))
         ProgressBar(
             total = state.playlist.videoDuration.toFloat(),
@@ -239,7 +265,7 @@ private fun PreVideoText(
             )
         }
     }
-    LaunchedEffect(Unit) {
+    LaunchedEffect(state.isVisible) {
         if (state.isVisible) {
             delay(state.secondsToShowPreText)
             onPreTextTimeOut()

@@ -97,7 +97,8 @@ fun App() {
                     preText = PreText(
                         text = "Get Ready",
                         secondsToShowPreText = 3000,
-                        isVisible = true
+                        isVisible = true,
+                        showPreTextForEachVideo = true
                     ),
                     disclaimer = "If your experience pain or discomfort while exercising, please stop immediately and consult your doctor or qualified healthcare professional before continuing."
                 )
