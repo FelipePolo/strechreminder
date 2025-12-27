@@ -18,15 +18,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
 import coil.compose.AsyncImage
 import com.fpstudio.stretchreminder.data.model.Video
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import org.koin.compose.koinInject
 
 @Composable
 fun VideoCard(
     video: Video,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    imageLoader: ImageLoader = koinInject()
 ) {
     Card(
         modifier = modifier
@@ -50,10 +53,11 @@ fun VideoCard(
                     .fillMaxWidth()
                     .height(120.dp)
             ) {
-                // Thumbnail Image
+                // Thumbnail Image with caching
                 AsyncImage(
                     model = video.thumbnailUrl,
                     contentDescription = video.title,
+                    imageLoader = imageLoader,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )

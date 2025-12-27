@@ -11,6 +11,7 @@ import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.cache.Cache
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import kotlinx.coroutines.CoroutineScope
@@ -25,7 +26,8 @@ class VideoState(
     val repeatMode: Int = Player.REPEAT_MODE_OFF,
     val resizeMode: Int = AspectRatioFrameLayout.RESIZE_MODE_ZOOM,
     val context: Context,
-    val coroutineScope: CoroutineScope
+    val coroutineScope: CoroutineScope,
+    val cache: Cache? = null
 ) : Player.Listener {
 
     private var currentPlaying: Boolean = false
@@ -33,7 +35,7 @@ class VideoState(
     private var onReadyListener: (VideoState) -> Unit = {}
     private var onVideoEndListener: (VideoState) -> Unit = {}
 
-    val exo: ExoPlayer = createPreparedExoPlayer(context).also {
+    val exo: ExoPlayer = createPreparedExoPlayer(context, cache).also {
         it.repeatMode = repeatMode
         currentPlaying = playWhenReady
         it.playWhenReady = playWhenReady
@@ -130,9 +132,28 @@ private fun createMediaSource(videoSource: String): MediaItem {
         .build()
 }
 
-private fun createPreparedExoPlayer(context: Context): ExoPlayer {
-    val exoPlayer = ExoPlayer.Builder(context).build()
-    return exoPlayer
+@OptIn(UnstableApi::class)
+private fun createPreparedExoPlayer(context: Context, cache: Cache?): ExoPlayer {
+    val exoPlayerBuilder = ExoPlayer.Builder(context)
+    
+    // If cache is provided, configure ExoPlayer to use it
+    if (cache != null) {
+        val cacheDataSourceFactory = androidx.media3.datasource.cache.CacheDataSource.Factory()
+            .setCache(cache)
+            .setUpstreamDataSourceFactory(
+                androidx.media3.datasource.DefaultHttpDataSource.Factory()
+                    .setUserAgent("StretchReminder")
+            )
+            .setCacheWriteDataSinkFactory(null) // Use default
+            .setFlags(androidx.media3.datasource.cache.CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
+        
+        exoPlayerBuilder.setMediaSourceFactory(
+            androidx.media3.exoplayer.source.DefaultMediaSourceFactory(context)
+                .setDataSourceFactory(cacheDataSourceFactory)
+        )
+    }
+    
+    return exoPlayerBuilder.build()
 }
 
 @Composable
@@ -142,18 +163,20 @@ fun rememberVideoState(
     useController: Boolean = false,
     playWhenReady: Boolean = false,
     repeatMode: Int = Player.REPEAT_MODE_OFF,
-    resizeMode: Int = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+    resizeMode: Int = AspectRatioFrameLayout.RESIZE_MODE_ZOOM,
+    cache: Cache? = org.koin.compose.koinInject()
 ): VideoState {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-    return remember {
+    return remember(cache) {
         VideoState(
             useController = useController,
             playWhenReady = playWhenReady,
             repeatMode = repeatMode,
             resizeMode = resizeMode,
             context = context,
-            coroutineScope = coroutineScope
+            coroutineScope = coroutineScope,
+            cache = cache
         )
     }
 }
