@@ -13,6 +13,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +37,9 @@ fun CalendarCard(
     modifier: Modifier = Modifier,
     model: Calendar
 ) {
+    // State to track the currently displayed month
+    var displayedDate by remember { mutableStateOf(model.today) }
+    
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
@@ -41,14 +48,23 @@ fun CalendarCard(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // Header with title, month/year and navigation
-        CalendarHeader(currentDate = model.today)
+        CalendarHeader(
+            currentDate = displayedDate,
+            onPreviousMonth = {
+                displayedDate = displayedDate.minusMonths(1)
+            },
+            onNextMonth = {
+                displayedDate = displayedDate.plusMonths(1)
+            }
+        )
         
         // Days of week
         DaysOfWeekHeader()
         
         // Calendar grid
         CalendarGrid(
-            currentDate = model.today,
+            currentDate = displayedDate,
+            actualToday = model.today,
             markedDays = model.markedDays
         )
         
@@ -58,7 +74,11 @@ fun CalendarCard(
 }
 
 @Composable
-private fun CalendarHeader(currentDate: LocalDate) {
+private fun CalendarHeader(
+    currentDate: LocalDate,
+    onPreviousMonth: () -> Unit,
+    onNextMonth: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -81,7 +101,7 @@ private fun CalendarHeader(currentDate: LocalDate) {
                 color = Color.Black
             )
             
-            IconButton(onClick = { /* Previous month */ }) {
+            IconButton(onClick = onPreviousMonth) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowLeft,
                     contentDescription = "Previous month",
@@ -89,7 +109,7 @@ private fun CalendarHeader(currentDate: LocalDate) {
                 )
             }
             
-            IconButton(onClick = { /* Next month */ }) {
+            IconButton(onClick = onNextMonth) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowRight,
                     contentDescription = "Next month",
@@ -123,6 +143,7 @@ private fun DaysOfWeekHeader() {
 @Composable
 private fun CalendarGrid(
     currentDate: LocalDate,
+    actualToday: LocalDate,
     markedDays: List<Int>
 ) {
     val yearMonth = YearMonth.of(currentDate.year, currentDate.month)
@@ -164,7 +185,10 @@ private fun CalendarGrid(
                         }
                         // Current month days
                         dayCounter <= daysInMonth -> {
-                            val isToday = dayCounter == currentDate.dayOfMonth
+                            // Check if this day is actually today
+                            val isToday = dayCounter == actualToday.dayOfMonth && 
+                                         currentDate.month == actualToday.month && 
+                                         currentDate.year == actualToday.year
                             val isMarked = markedDays.contains(dayCounter)
                             DayCell(
                                 day = dayCounter,
