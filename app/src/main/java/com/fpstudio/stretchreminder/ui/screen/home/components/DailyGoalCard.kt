@@ -2,12 +2,14 @@ package com.fpstudio.stretchreminder.ui.screen.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -27,50 +29,62 @@ import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.ui.screen.home.model.DailyGoalUiState
 import com.fpstudio.stretchreminder.ui.theme.Green_gradient_1
 import com.fpstudio.stretchreminder.ui.theme.StretchReminderTheme
+import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 
 @Composable
 fun DailyGoalCard(
     modifier: Modifier = Modifier,
     uiState: DailyGoalUiState
 ) {
-    Column(
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
-            .background(Color.White)
-            .padding(16.dp)
+            .background(TurquoiseAccent)
+            .padding(20.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                imageVector = Icons.Default.Favorite,
-                contentDescription = null,
-                tint = Green_gradient_1
-            )
-            Text(
-                text = "Your Daily Goal",
-                style = MaterialTheme.typography.titleMedium,
-                color = Green_gradient_1,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 8.dp)
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        // Circular Progress Indicator
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.size(80.dp)
         ) {
-            LinearProgressIndicator(
+            androidx.compose.material3.CircularProgressIndicator(
                 progress = { uiState.progress / 100f },
-                color = Green_gradient_1,
-                modifier = Modifier.weight(1f).height(16.dp),
+                modifier = Modifier.size(80.dp),
+                color = Color.White,
+                strokeWidth = 8.dp,
+                trackColor = Color.White.copy(alpha = 0.3f)
             )
             Text(
                 text = "${uiState.progress}%",
-                style = MaterialTheme.typography.bodyMedium,
-                color = Green_gradient_1,
+                style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                modifier = Modifier.padding(start = 8.dp)
+                color = Color.White
+            )
+        }
+        
+        // Right side content
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                text = "Daily Goal",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
+            )
+            Text(
+                text = "${uiState.sessionsCompleted}/${uiState.totalSessions} sessions done",
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White
+            )
+            Text(
+                text = uiState.motivationalMessage,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.White.copy(alpha = 0.9f)
             )
         }
     }
@@ -80,6 +94,13 @@ fun DailyGoalCard(
 @Composable
 private fun DailyGoalCardPreview() {
     StretchReminderTheme {
-        DailyGoalCard(uiState = DailyGoalUiState(progress = 50))
+        DailyGoalCard(
+            uiState = DailyGoalUiState(
+                progress = 100,
+                sessionsCompleted = 2,
+                totalSessions = 2,
+                motivationalMessage = "You're doing great, keep it up!"
+            )
+        )
     }
 }

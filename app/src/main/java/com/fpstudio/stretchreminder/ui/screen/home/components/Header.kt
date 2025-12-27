@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.ui.screen.home.model.HeaderUiState
 import com.fpstudio.stretchreminder.ui.theme.StretchReminderTheme
 
@@ -31,36 +32,30 @@ fun Header(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 0.dp, top = 16.dp, bottom = 16.dp),
+            .padding(end = 16.dp, start = 16.dp, top = 32.dp, bottom = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = "Hello, ${uiState.userName}!",
-                style = MaterialTheme.typography.headlineMedium,
+                text = "Ready to stretch?",
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Gray,
                 fontWeight = FontWeight.SemiBold,
-                color = Color.White
+                fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = null,
-                    tint = Color.White
-                )
-                Text(
-                    text = uiState.formattedDate,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = Color.White,
-                    modifier = Modifier.padding(start = 4.dp)
-                )
-            }
+            Text(
+                text = "Hello, ${uiState.userName}!",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
         }
         IconButton(onClick = { /*TODO*/ }) {
             Icon(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "Menu",
-                tint = Color.White
+                tint = Color.Black
             )
         }
     }

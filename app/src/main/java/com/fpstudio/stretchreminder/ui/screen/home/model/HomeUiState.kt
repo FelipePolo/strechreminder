@@ -19,7 +19,10 @@ data class HeaderUiState(
 )
 
 data class DailyGoalUiState(
-    val progress: Int = 0
+    val progress: Int = 0,
+    val sessionsCompleted: Int = 0,
+    val totalSessions: Int = 2,
+    val motivationalMessage: String = "You're doing great, keep it up!"
 )
 
 data class DailyStatsUiState(

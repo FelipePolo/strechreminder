@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.ui.composable.calendar.Calendar
-import com.fpstudio.stretchreminder.ui.composable.calendar.CalendarElement
+import com.fpstudio.stretchreminder.ui.composable.calendar.CalendarCard
 import com.fpstudio.stretchreminder.ui.screen.home.model.DailyStatsUiState
 import com.fpstudio.stretchreminder.ui.screen.home.model.HeaderUiState
 import com.fpstudio.stretchreminder.ui.screen.home.model.HomeUiState
@@ -39,6 +39,7 @@ import com.fpstudio.stretchreminder.ui.screen.home.components.InfoCard
 import com.fpstudio.stretchreminder.ui.screen.home.model.DailyGoalUiState
 import com.fpstudio.stretchreminder.ui.theme.Green_gradient_1
 import com.fpstudio.stretchreminder.ui.theme.Green_gradient_2
+import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 import java.time.LocalDate
 
 @Composable
@@ -59,23 +60,19 @@ fun HomeContent(
     uiState: HomeUiState,
     onStretchButtonClick: () -> Unit = {}
 ) {
-    val gradient = Brush.horizontalGradient(
-        startX = 1F,
-        colors = listOf(Green_gradient_1, Green_gradient_2),
-        tileMode = TileMode.Decal
-    )
     Scaffold(
+        containerColor = Color(0xFFF5F5F5),
         bottomBar = {
             Column {
                 StretchButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
+                        .height(56.dp)
                         .padding(horizontal = 16.dp),
                     state = StretchButtonUiModel.Default(
-                        text = stringResource(R.string.intro_button_text),
+                        text = "Build Your Routine",
                         isVisible = true,
-                        backgroundColor = Green_gradient_1
+                        backgroundColor = TurquoiseAccent
                     ),
                     onClick = onStretchButtonClick
                 )
@@ -87,55 +84,49 @@ fun HomeContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(Color(0xFFF0F4F3), Color.White),
-                        startY = 0f,
-                        endY = 1f,
-                    ),
-                )
+                .background(Color(0xFFF5F5F5))
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp))
-                    .background(gradient)
-                    .padding(16.dp)
-            ) {
-                Header(uiState = uiState.headerState)
-                Spacer(modifier = Modifier.height(16.dp))
-                DailyGoalCard(uiState = uiState.dailyGoalState)
-            }
+            // Header without gradient background
+            Header(uiState = uiState.headerState)
+            
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            // Daily Goal Card
+            DailyGoalCard(
+                uiState = uiState.dailyGoalState,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
+            // Info Cards Row
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 InfoCard(
                     modifier = Modifier.weight(1f),
-                    title = "Todays streching",
-                    value = "${uiState.dailyStatsState.stretchingTime} min",
-                    icon = R.drawable.clock
+                    title = "Streak",
+                    value = "${uiState.dailyStatsState.stretchDays} Day",
+                    icon = R.drawable.fire
                 )
                 InfoCard(
                     modifier = Modifier.weight(1f),
-                    title = "Stretching streak",
-                    value = "${uiState.dailyStatsState.stretchDays} Days",
-                    icon = R.drawable.fire
+                    title = "Duration",
+                    value = "${uiState.dailyStatsState.stretchingTime} min",
+                    icon = R.drawable.clock
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-            CalendarElement(
+            // Calendar
+            CalendarCard(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(300.dp)
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = 16.dp),
                 model = uiState.calendarState
             )
         }
@@ -151,19 +142,22 @@ fun HomeScreenPreview() {
     StretchReminderTheme {
         val previewUiState = HomeUiState(
             headerState = HeaderUiState(
-                userName = "Pipe",
+                userName = "Juan",
                 formattedDate = "29 Nov, 2025"
             ),
             dailyGoalState = DailyGoalUiState(
-                progress = 20
+                progress = 100,
+                sessionsCompleted = 2,
+                totalSessions = 2,
+                motivationalMessage = "You're doing great, keep it up!"
             ),
             dailyStatsState = DailyStatsUiState(
-                stretchingTime = 2,
-                stretchDays = 2
+                stretchingTime = 1,
+                stretchDays = 1
             ),
             calendarState = Calendar(
-                today = LocalDate.of(2025, 11, 16),
-                markedDays = listOf(1, 2, 10, 15, 16, 22, 23)
+                today = LocalDate.of(2025, 12, 27),
+                markedDays = listOf(1, 2, 8, 9, 10, 15, 16, 22, 23, 27)
             )
         )
 

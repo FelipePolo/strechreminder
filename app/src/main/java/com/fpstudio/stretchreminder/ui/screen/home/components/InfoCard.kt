@@ -2,6 +2,7 @@ package com.fpstudio.stretchreminder.ui.screen.home.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,51 +37,35 @@ fun InfoCard(
 ) {
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(16.dp, 16.dp, 16.dp, 16.dp))
-            .background(
-                Brush.horizontalGradient(
-                    colors = listOf(Color.White, Color.Transparent),
-                    startX = 0f,
-                    endX = 1f,
-                ),
-            )
-            .border(
-                2.dp,
-                Brush.horizontalGradient(
-                    colors = listOf(Green_gradient_1, Green_gradient_2),
-                    startX = 0f,
-                    endX = 1f,
-                ),
-                RoundedCornerShape(16.dp, 16.dp, 16.dp, 16.dp),
-            )
+            .clip(RoundedCornerShape(16.dp))
             .background(Color.White)
             .padding(16.dp)
     ) {
-        Row (
-            verticalAlignment = Alignment.CenterVertically
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Icon(
                 painter = painterResource(id = icon),
                 contentDescription = null,
-                tint = Green_gradient_1
+                tint = if (title.contains("Streak", ignoreCase = true)) {
+                    Color(0xFFFF6B35) // Orange for Streak
+                } else {
+                    Color(0xFFE63946) // Red/Pink for Duration
+                }
             )
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 22.sp,
-                color = Green_gradient_1,
-                modifier = Modifier.padding(start = 8.dp)
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.Gray
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = value,
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
-            fontSize = 26.sp,
-            color = Green_gradient_1,
-            modifier = Modifier.padding(start = 32.dp)
+            color = Color.Black
         )
     }
 }
@@ -90,9 +75,9 @@ fun InfoCard(
 private fun InfoCardPreview() {
     StretchReminderTheme {
         InfoCard(
-            title = "Todays stretching",
-            value = "2 min",
-            icon = R.drawable.clock
+            title = "Streak",
+            value = "1 Day",
+            icon = R.drawable.fire
         )
     }
 }
