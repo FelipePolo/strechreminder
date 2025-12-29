@@ -27,7 +27,8 @@ import com.fpstudio.stretchreminder.ui.theme.StretchReminderTheme
 @Composable
 fun Header(
     modifier: Modifier = Modifier,
-    uiState: HeaderUiState
+    uiState: HeaderUiState,
+    onMenuClick: () -> Unit = {}
 ) {
     Row(
         modifier = modifier
@@ -51,7 +52,7 @@ fun Header(
                 color = Color.Black
             )
         }
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = onMenuClick) {
             Icon(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "Menu",

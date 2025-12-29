@@ -17,6 +17,7 @@ import com.fpstudio.stretchreminder.ui.screen.intro.IntroScreen
 import com.fpstudio.stretchreminder.ui.screen.threeyes.ThreeYesScreen
 import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreen
 import com.fpstudio.stretchreminder.ui.screen.routine.RoutineSelectionScreen
+import com.fpstudio.stretchreminder.ui.screen.settings.SettingsScreen
 
 @Composable
 fun App() {
@@ -67,6 +68,9 @@ fun App() {
             HomeScreen(
                 onStretchButtonClick = {
                     navController.navigate(RoutineSelection)
+                },
+                onMenuClick = {
+                    navController.navigate(Settings)
                 }
             )
         }
@@ -107,6 +111,14 @@ fun App() {
                     popUpTo(Home) { inclusive = true }
                 }
             }
+        }
+        
+        composable<Settings> {
+            SettingsScreen(
+                onNavigateBack = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }

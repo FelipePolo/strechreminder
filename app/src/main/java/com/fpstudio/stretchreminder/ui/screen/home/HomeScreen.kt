@@ -45,20 +45,23 @@ import java.time.LocalDate
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(),
-    onStretchButtonClick: () -> Unit = {}
+    onStretchButtonClick: () -> Unit = {},
+    onMenuClick: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     HomeContent(
         uiState = uiState,
-        onStretchButtonClick = onStretchButtonClick
+        onStretchButtonClick = onStretchButtonClick,
+        onMenuClick = onMenuClick
     )
 }
 
 @Composable
 fun HomeContent(
     uiState: HomeUiState,
-    onStretchButtonClick: () -> Unit = {}
+    onStretchButtonClick: () -> Unit = {},
+    onMenuClick: () -> Unit = {}
 ) {
     Scaffold(
         containerColor = Color(0xFFF5F5F5),
@@ -87,7 +90,10 @@ fun HomeContent(
                 .background(Color(0xFFF5F5F5))
         ) {
             // Header without gradient background
-            Header(uiState = uiState.headerState)
+            Header(
+                uiState = uiState.headerState,
+                onMenuClick = onMenuClick
+            )
             
             Spacer(modifier = Modifier.height(16.dp))
             

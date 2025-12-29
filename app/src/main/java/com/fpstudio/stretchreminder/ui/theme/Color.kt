@@ -20,6 +20,8 @@ val TurquoiseAccent = Color(0xFF00d196)
 
 val text_primary = Color(0xFFFBFBFB)
 
+val Bg_gray = Color(0xFFf2f3f5)
+
 val Gray = Color(0xFFDDDDDE)
 
 val Gray3 = Color(0xFF8A8A8E)

@@ -7,6 +7,7 @@ import com.fpstudio.stretchreminder.ui.screen.threeyes.ThreeYesViewModel
 import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenViewModel
 import com.fpstudio.stretchreminder.ui.screen.routine.RoutineSelectionViewModel
 import com.fpstudio.stretchreminder.ui.screen.intro.IntroViewModel
+import com.fpstudio.stretchreminder.ui.screen.settings.SettingsScreenViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
@@ -21,4 +22,5 @@ val appModule = module {
     viewModelOf(::HomeViewModel)
     viewModel { RoutineSelectionViewModel(get()) }
     viewModel { IntroViewModel(get()) }
+    viewModelOf(::SettingsScreenViewModel)
 }

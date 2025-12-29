@@ -26,4 +26,5 @@ object RoutineSelection
 @Serializable
 data class Exercise(val videoUrls: List<String>)
 
-
+@Serializable
+object Settings
