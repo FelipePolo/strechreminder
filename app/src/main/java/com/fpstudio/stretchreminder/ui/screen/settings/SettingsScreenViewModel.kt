@@ -91,12 +91,6 @@ class SettingsScreenViewModel : ViewModel() {
                 )
             }
             
-            Intent.EditProfile -> {
-                viewModelScope.launch {
-                    _sideEffect.emit(SideEffect.NavigateToEditProfile)
-                }
-            }
-            
             Intent.UpgradeToPremium -> {
                 viewModelScope.launch {
                     _sideEffect.emit(SideEffect.NavigateToPremium)

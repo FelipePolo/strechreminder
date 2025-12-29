@@ -71,7 +71,6 @@ object SettingsScreenContract {
         data class UpdateEndTime(val time: String) : Intent()
         data class ToggleNotifications(val enabled: Boolean) : Intent()
         data class UpdateDisplayName(val name: String) : Intent()
-        object EditProfile : Intent()
         object UpgradeToPremium : Intent()
         object RateApp : Intent()
         object SendFeedback : Intent()
@@ -82,7 +81,6 @@ object SettingsScreenContract {
     
     sealed class SideEffect {
         object NavigateBack : SideEffect()
-        object NavigateToEditProfile : SideEffect()
         object NavigateToPremium : SideEffect()
         object NavigateToRateApp : SideEffect()
         object NavigateToFeedback : SideEffect()

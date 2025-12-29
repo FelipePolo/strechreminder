@@ -45,9 +45,6 @@ fun SettingsScreen(
         viewModel.sideEffect.collect { effect ->
             when (effect) {
                 SideEffect.NavigateBack -> onNavigateBack()
-                SideEffect.NavigateToEditProfile -> {
-                    // TODO: Navigate to edit profile
-                }
 
                 SideEffect.NavigateToPremium -> {
                     // TODO: Navigate to premium
@@ -166,7 +163,6 @@ fun SettingsContent(
                 // Profile Section
                 ProfileSection(
                     displayName = uiState.profile.displayName,
-                    onEditClick = { onIntent(Intent.EditProfile) },
                     onNameChanged = { newName -> onIntent(Intent.UpdateDisplayName(newName)) }
                 )
 

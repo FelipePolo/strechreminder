@@ -25,7 +25,6 @@ import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 @Composable
 fun ProfileSection(
     displayName: String,
-    onEditClick: () -> Unit,
     onNameChanged: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
