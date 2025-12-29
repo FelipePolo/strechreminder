@@ -40,7 +40,7 @@ fun SettingsScreen(
     onNavigateBack: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    
+
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
@@ -48,22 +48,26 @@ fun SettingsScreen(
                 SideEffect.NavigateToEditProfile -> {
                     // TODO: Navigate to edit profile
                 }
+
                 SideEffect.NavigateToPremium -> {
                     // TODO: Navigate to premium
                 }
+
                 SideEffect.NavigateToRateApp -> {
                     // TODO: Open Play Store
                 }
+
                 SideEffect.NavigateToFeedback -> {
                     // TODO: Open feedback form
                 }
+
                 SideEffect.ShowSaveSuccess -> {
                     // TODO: Show success message
                 }
             }
         }
     }
-    
+
     SettingsContent(
         uiState = uiState,
         onIntent = viewModel::handleIntent,
@@ -83,7 +87,7 @@ fun SettingsContent(
     val hasUnsavedChanges = remember(uiState) {
         uiState != initialState
     }
-    
+
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
     var showUnsavedChangesDialog by remember { mutableStateOf(false) }
@@ -116,35 +120,30 @@ fun SettingsContent(
                 )
             )
         },
-        bottomBar = {
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                color = Color(0xFFF5F5F5)
+        floatingActionButton = {
+            Button(
+                onClick = { onIntent(Intent.SaveChanges) },
+                modifier = Modifier
+                    .fillMaxWidth(0.9f),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = TurquoiseAccent
+                ),
+                shape = RoundedCornerShape(24.dp),
+                elevation = ButtonDefaults.buttonElevation(
+                    defaultElevation = 12.dp,
+                    pressedElevation = 16.dp
+                )
             ) {
-                Button(
-                    onClick = { onIntent(Intent.SaveChanges) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = TurquoiseAccent
-                    ),
-                    shape = RoundedCornerShape(24.dp),
-                    elevation = ButtonDefaults.buttonElevation(
-                        defaultElevation = 8.dp,
-                        pressedElevation = 12.dp
-                    )
-                ) {
-                    Text(
-                        text = "Save Changes",
-                        color = Color.White,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp,
-                        modifier = Modifier.padding(vertical = 12.dp)
-                    )
-                }
+                Text(
+                    text = "Save Changes",
+                    color = Color.White,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(vertical = 12.dp)
+                )
             }
-        }
+        },
+        floatingActionButtonPosition = FabPosition.Center
     ) { paddingValues ->
         Box(
             modifier = Modifier.fillMaxSize()
@@ -163,71 +162,68 @@ fun SettingsContent(
                     adsEnabled = uiState.plan.adsEnabled,
                     onUpgradeClick = { onIntent(Intent.UpgradeToPremium) }
                 )
-                
+
                 // Profile Section
                 ProfileSection(
                     displayName = uiState.profile.displayName,
                     onEditClick = { onIntent(Intent.EditProfile) },
                     onNameChanged = { newName -> onIntent(Intent.UpdateDisplayName(newName)) }
                 )
-            
-            // Routine Preferences
-            RoutinePreferencesSection(
-                preferences = uiState.routinePreferences,
-                onIntent = onIntent,
-                onStartTimeClick = { showStartTimePicker = true },
-                onEndTimeClick = { showEndTimePicker = true }
-            )
-            
-            // App Settings
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(Color.White)
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(0.dp)
-            ) {
-                SettingsItem(
-                    iconRes = R.drawable.ic_bell,
-                    iconBackgroundColor = Color(0xFFE3F2FD),
-                    iconTint = Color(0xFF2196F3),
-                    title = "Notifications",
-                    hasToggle = true,
-                    toggleValue = uiState.appSettings.notificationsEnabled,
-                    onToggleChanged = { onIntent(Intent.ToggleNotifications(it)) }
-                )
-                
-                Divider(color = Color(0xFFF5F5F5), thickness = 1.dp)
-                
-                SettingsItem(
-                    iconRes = R.drawable.premium_icon,
-                    iconBackgroundColor = Color(0xFFFFF9C4),
-                    iconTint = Color(0xFFFFA000),
-                    title = "Rate on Google Play",
-                    hasArrow = true,
-                    onClick = { onIntent(Intent.RateApp) }
-                )
-                
-                Divider(color = Color(0xFFF5F5F5), thickness = 1.dp)
-                
-                SettingsItem(
-                    iconRes = R.drawable.ic_bell,
-                    iconBackgroundColor = Color(0xFFF3E5F5),
-                    iconTint = Color(0xFF9C27B0),
-                    title = "Send Feedback",
-                    hasArrow = true,
-                    onClick = { onIntent(Intent.SendFeedback) }
-                )
-            }
-            
-                Spacer(modifier = Modifier.height(16.dp))
-            }
 
-            Spacer(modifier = Modifier.height(16.dp))
+                // Routine Preferences
+                RoutinePreferencesSection(
+                    preferences = uiState.routinePreferences,
+                    onIntent = onIntent,
+                    onStartTimeClick = { showStartTimePicker = true },
+                    onEndTimeClick = { showEndTimePicker = true }
+                )
+
+                // App Settings
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(Color.White)
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(0.dp)
+                ) {
+                    SettingsItem(
+                        iconRes = R.drawable.ic_bell,
+                        iconBackgroundColor = Color(0xFFE3F2FD),
+                        iconTint = Color(0xFF2196F3),
+                        title = "Notifications",
+                        hasToggle = true,
+                        toggleValue = uiState.appSettings.notificationsEnabled,
+                        onToggleChanged = { onIntent(Intent.ToggleNotifications(it)) }
+                    )
+
+                    Divider(color = Color(0xFFF5F5F5), thickness = 1.dp)
+
+                    SettingsItem(
+                        iconRes = R.drawable.premium_icon,
+                        iconBackgroundColor = Color(0xFFFFF9C4),
+                        iconTint = Color(0xFFFFA000),
+                        title = "Rate on Google Play",
+                        hasArrow = true,
+                        onClick = { onIntent(Intent.RateApp) }
+                    )
+
+                    Divider(color = Color(0xFFF5F5F5), thickness = 1.dp)
+
+                    SettingsItem(
+                        iconRes = R.drawable.ic_bell,
+                        iconBackgroundColor = Color(0xFFF3E5F5),
+                        iconTint = Color(0xFF9C27B0),
+                        title = "Send Feedback",
+                        hasArrow = true,
+                        onClick = { onIntent(Intent.SendFeedback) }
+                    )
+                }
+                Spacer(modifier = Modifier.height(80.dp))
+            }
         }
     }
-    
+
     // Unsaved changes dialog
     if (showUnsavedChangesDialog) {
         UnsavedChangesDialog(
@@ -243,7 +239,7 @@ fun SettingsContent(
             }
         )
     }
-    
+
     // Time picker dialogs
     if (showStartTimePicker) {
         TimePickerDialog(
@@ -254,7 +250,7 @@ fun SettingsContent(
             }
         )
     }
-    
+
     if (showEndTimePicker) {
         TimePickerDialog(
             initialTime = uiState.routinePreferences.endTime,
@@ -297,22 +293,22 @@ private fun RoutinePreferencesSection(
                 color = Color.Black
             )
         }
-        
+
         WorkPositionSelector(
             selectedPosition = preferences.workPosition,
             onPositionSelected = { onIntent(Intent.SelectWorkPosition(it)) }
         )
-        
+
         FocusAreaSelector(
             selectedAreas = preferences.focusAreas,
             onAreaToggled = { onIntent(Intent.ToggleFocusArea(it)) }
         )
-        
+
         WorkdaySelector(
             selectedDays = preferences.workdays,
             onDayToggled = { onIntent(Intent.ToggleWorkday(it)) }
         )
-        
+
         TimePickerRow(
             startTime = preferences.startTime,
             endTime = preferences.endTime,
