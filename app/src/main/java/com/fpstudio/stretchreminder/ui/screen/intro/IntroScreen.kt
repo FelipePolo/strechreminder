@@ -133,12 +133,20 @@ private fun IntroContent(onClick: () -> Unit) {
 @OptIn(UnstableApi::class)
 fun BackgroundVideo(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val rawUri = "android.resource://${context.packageName}/raw/onboarding"
+    
+    // Create video state with cache support (now works with both remote and local videos)
     val state = rememberVideoState(
         repeatMode = Player.REPEAT_MODE_ONE,
         playWhenReady = true
     )
-    state.loadVideo(rawUri)
+    
+    // Use proper raw resource URI format with resource ID
+    val videoUri = "android.resource://${context.packageName}/${R.raw.onboarding}"
+    
+    LaunchedEffect(Unit) {
+        state.loadVideo(videoUri)
+    }
+    
     Video(
         state = state,
         modifier = modifier.fillMaxSize()

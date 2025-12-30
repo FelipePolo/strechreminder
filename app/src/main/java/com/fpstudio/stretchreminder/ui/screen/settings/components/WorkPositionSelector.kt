@@ -17,7 +17,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.screen.settings.contract.SettingsScreenContract.WorkPosition
 import com.fpstudio.stretchreminder.ui.theme.Bg_gray
@@ -64,7 +63,7 @@ fun WorkPositionSelector(
                                     contentDescription = "controll icon"
                                 )
 
-                            WorkPosition.ACTIVE ->
+                            WorkPosition.LAYING_DOWN ->
                                 Icon(
                                     modifier = Modifier.size(24.dp),
                                     painter = painterResource(R.drawable.laying_down),

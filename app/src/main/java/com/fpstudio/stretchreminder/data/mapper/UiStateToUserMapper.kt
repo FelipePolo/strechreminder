@@ -8,6 +8,51 @@ import com.fpstudio.stretchreminder.ui.composable.question.QuestionID
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
 import com.fpstudio.stretchreminder.util.Constants.EMPTY
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
+
+/**
+ * Converts a time string in format "HH:MM AM/PM" to timestamp
+ */
+private fun parseTimeToTimestamp(timeString: String): Long {
+    return try {
+        android.util.Log.d("TimeParser", "Parsing time string: '$timeString'")
+        // Use Locale.US to ensure consistent AM/PM parsing
+        val format = SimpleDateFormat("hh:mm a", Locale.US)
+        format.isLenient = false
+        val parsedDate = format.parse(timeString)
+        
+        if (parsedDate != null) {
+            android.util.Log.d("TimeParser", "Parsed date: $parsedDate")
+            // Create a calendar with today's date and the parsed time
+            val calendar = Calendar.getInstance().apply {
+                time = parsedDate
+                // Keep the hour and minute from parsed time
+                val hour = get(Calendar.HOUR_OF_DAY)
+                val minute = get(Calendar.MINUTE)
+                
+                android.util.Log.d("TimeParser", "Extracted hour: $hour, minute: $minute")
+                
+                // Set to today's date with the parsed time
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+            val result = calendar.timeInMillis
+            android.util.Log.d("TimeParser", "Result timestamp: $result")
+            result
+        } else {
+            android.util.Log.e("TimeParser", "Failed to parse time string: '$timeString'")
+            0L
+        }
+    } catch (e: Exception) {
+        android.util.Log.e("TimeParser", "Exception parsing time: ${e.message}", e)
+        0L
+    }
+}
 
 fun FormScreenContract.UiState.toUser(): User {
     val answers = form.flatMap { it.questions }
@@ -47,8 +92,8 @@ fun FormScreenContract.UiState.toUser(): User {
 
             is QuestionUiModel.TimeRange -> {
                 if (question.id == QuestionID.WORK_HOURS) {
-                    startWorkTime = question.startTime.timeInMillis
-                    endWorkTime = question.endTime.timeInMillis
+                    startWorkTime = parseTimeToTimestamp(question.startTime)
+                    endWorkTime = parseTimeToTimestamp(question.endTime)
                 }
             }
 

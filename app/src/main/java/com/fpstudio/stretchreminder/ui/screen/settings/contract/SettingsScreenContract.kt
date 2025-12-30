@@ -1,8 +1,5 @@
 package com.fpstudio.stretchreminder.ui.screen.settings.contract
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-
 object SettingsScreenContract {
     
     data class UiState(
@@ -13,7 +10,7 @@ object SettingsScreenContract {
     )
     
     data class ProfileState(
-        val displayName: String = "Alex Smith"
+        val displayName: String = ""
     )
     
     data class PlanState(
@@ -23,34 +20,31 @@ object SettingsScreenContract {
     
     data class RoutinePreferencesState(
         val workPosition: WorkPosition = WorkPosition.SITTING,
-        val focusAreas: Set<FocusArea> = setOf(FocusArea.NECK, FocusArea.SHOULDERS),
-        val workdays: Set<Workday> = setOf(
-            Workday.MONDAY,
-            Workday.TUESDAY,
-            Workday.WEDNESDAY,
-            Workday.FRIDAY
-        ),
-        val startTime: String = "01:00 AM",
-        val endTime: String = "01:00 AM"
+        val focusAreas: Set<FocusArea> = emptySet(),
+        val workdays: Set<Workday> = emptySet(),
+        val startTime: String = "09:00 AM",
+        val endTime: String = "05:00 PM"
     )
     
     data class AppSettingsState(
-        val notificationsEnabled: Boolean = true
+        val notificationsEnabled: Boolean = false
     )
     
     enum class WorkPosition(val displayName: String) {
         SITTING("Sitting"),
         STANDING("Standing"),
-        ACTIVE("Active")
+        LAYING_DOWN("Laying down")
     }
     
     enum class FocusArea(val displayName: String) {
         NECK("Neck"),
         SHOULDERS("Shoulders"),
+        ARMS("Arms"),
+        TRAPEZOIDS("Trapezoids"),
         LOWER_BACK("Lower Back"),
         HANDS("Hands"),
-        LEGS("Legs"),
-        ABDOMEN("Abdomen")
+        HIP("Hips"),
+        LEGS("Legs")
     }
     
     enum class Workday(val displayName: String, val shortName: String) {

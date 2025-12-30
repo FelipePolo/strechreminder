@@ -58,14 +58,8 @@ sealed class QuestionUiModel(
         override val subtitle1: String = EMPTY,
         override val subtitle2: String = EMPTY,
         override val question: String,
-        val startTime: Calendar = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 8)
-            set(Calendar.MINUTE, 0)
-        },
-        val endTime: Calendar = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 17)
-            set(Calendar.MINUTE, 0)
-        }
+        val startTime: String = "09:00 AM",
+        val endTime: String = "05:00 PM"
     ) : QuestionUiModel()
 
     data class ImageSingleChoice(

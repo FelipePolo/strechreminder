@@ -115,10 +115,20 @@ class FormViewModel(
 
     private fun shouldShowPromiseScreen(nextPage: Int): UiState {
         return when (nextPage) {
-            3 ->
-                uiState.value.copy(
-                    madeForYou = uiState.value.madeForYou.copy(isVisible = true)
+            3 -> {
+                // Generate dynamic cards from user achievements
+                val (card1, card2, card3) = com.fpstudio.stretchreminder.ui.screen.promises.madeforyou.createMadeForYouCards(
+                    uiState.value.achievements
                 )
+                uiState.value.copy(
+                    madeForYou = uiState.value.madeForYou.copy(
+                        isVisible = true,
+                        card1 = card1,
+                        card2 = card2,
+                        card3 = card3
+                    )
+                )
+            }
 
             6 ->
                 uiState.value.copy(

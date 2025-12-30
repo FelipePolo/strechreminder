@@ -22,5 +22,5 @@ val appModule = module {
     viewModelOf(::HomeViewModel)
     viewModel { RoutineSelectionViewModel(get()) }
     viewModel { IntroViewModel(get()) }
-    viewModelOf(::SettingsScreenViewModel)
+    viewModel { SettingsScreenViewModel(getUserUseCase = get(), saveUserUseCase = get()) }
 }

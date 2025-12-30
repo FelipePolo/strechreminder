@@ -6,7 +6,7 @@ import java.util.Calendar
 
 sealed class QuestionSelectionUiModel {
     data class StringSelectionUiModel(val selection: String) : QuestionSelectionUiModel()
-    data class TimeRangeSelectionUiModel(val startTime: Calendar, val endTime: Calendar) :
+    data class TimeRangeSelectionUiModel(val startTime: String, val endTime: String) :
         QuestionSelectionUiModel()
 
     data class IntSelectionUiModel(val selection: Int) : QuestionSelectionUiModel()

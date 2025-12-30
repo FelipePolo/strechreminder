@@ -143,6 +143,7 @@ fun FormScreenContent(
                 visible = uiState.madeForYou.isVisible,
             ) {
                 MadeForYouScreen(
+                    uiState = uiState.madeForYou,
                     onBackClick = {
                         onIntent(Intent.OnMadeForYouCloseClick)
                     },

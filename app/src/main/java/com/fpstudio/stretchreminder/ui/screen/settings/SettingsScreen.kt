@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -68,7 +69,8 @@ fun SettingsScreen(
     SettingsContent(
         uiState = uiState,
         onIntent = viewModel::handleIntent,
-        onNavigateBack = onNavigateBack
+        onNavigateBack = onNavigateBack,
+        viewModel = viewModel
     )
 }
 
@@ -77,12 +79,12 @@ fun SettingsScreen(
 fun SettingsContent(
     uiState: UiState,
     onIntent: (Intent) -> Unit,
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
+    viewModel: SettingsScreenViewModel
 ) {
-    // Track initial state to detect changes
-    val initialState = remember { uiState }
-    val hasUnsavedChanges = remember(uiState) {
-        uiState != initialState
+    // Use ViewModel's change detection
+    val hasUnsavedChanges by remember {
+        derivedStateOf { viewModel.hasUnsavedChanges() }
     }
 
     var showStartTimePicker by remember { mutableStateOf(false) }
@@ -317,8 +319,18 @@ private fun RoutinePreferencesSection(
 @Preview
 @Composable
 fun SettingsScreenPreview() {
-    SettingsContent(
-        uiState = UiState(),
-        onIntent = {}
-    )
+    // Preview without ViewModel - change detection won't work in preview
+    MaterialTheme {
+        Scaffold(
+            containerColor = Color(0xFFF5F5F5)
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                Text("Settings Preview")
+            }
+        }
+    }
 }

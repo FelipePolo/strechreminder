@@ -138,12 +138,16 @@ private fun createPreparedExoPlayer(context: Context, cache: Cache?): ExoPlayer 
     
     // If cache is provided, configure ExoPlayer to use it
     if (cache != null) {
+        // Use DefaultDataSource.Factory to support both HTTP and local resources
+        val upstreamFactory = androidx.media3.datasource.DefaultDataSource.Factory(
+            context,
+            androidx.media3.datasource.DefaultHttpDataSource.Factory()
+                .setUserAgent("StretchReminder")
+        )
+        
         val cacheDataSourceFactory = androidx.media3.datasource.cache.CacheDataSource.Factory()
             .setCache(cache)
-            .setUpstreamDataSourceFactory(
-                androidx.media3.datasource.DefaultHttpDataSource.Factory()
-                    .setUserAgent("StretchReminder")
-            )
+            .setUpstreamDataSourceFactory(upstreamFactory)
             .setCacheWriteDataSinkFactory(null) // Use default
             .setFlags(androidx.media3.datasource.cache.CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
         

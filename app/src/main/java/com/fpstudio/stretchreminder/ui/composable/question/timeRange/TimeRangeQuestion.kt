@@ -1,6 +1,5 @@
 package com.fpstudio.stretchreminder.ui.composable.question.timeRange
 
-import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -8,7 +7,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -17,18 +15,18 @@ import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
 import com.fpstudio.stretchreminder.ui.theme.Green_primary
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.theme.Gray2
-import android.app.TimePickerDialog
 import com.fpstudio.stretchreminder.ui.composable.question.common.QuestionTitle
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiModel
+import com.fpstudio.stretchreminder.ui.screen.settings.components.TimePickerDialog
 import com.fpstudio.stretchreminder.util.Constants.GUION
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 @Composable
-fun TimeRangeQuestion(model: QuestionUiModel.TimeRange, onSelect: (QuestionSelectionUiModel.TimeRangeSelectionUiModel) -> Unit) {
-    val context = LocalContext.current
-    val timeFormat = SimpleDateFormat("h:mm a", Locale.getDefault())
+fun TimeRangeQuestion(
+    model: QuestionUiModel.TimeRange,
+    onSelect: (QuestionSelectionUiModel.TimeRangeSelectionUiModel) -> Unit
+) {
+    var showStartTimePicker by remember { mutableStateOf(false) }
+    var showEndTimePicker by remember { mutableStateOf(false) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -61,11 +59,7 @@ fun TimeRangeQuestion(model: QuestionUiModel.TimeRange, onSelect: (QuestionSelec
                     modifier = Modifier.width(120.dp)
                 ) {
                     Button(
-                        onClick = {
-                            showTimePicker(context) { calendar ->
-                                onSelect(QuestionSelectionUiModel.TimeRangeSelectionUiModel(calendar, model.endTime))
-                            }
-                        },
+                        onClick = { showStartTimePicker = true },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Transparent,
                             contentColor = Color.Black
@@ -75,7 +69,7 @@ fun TimeRangeQuestion(model: QuestionUiModel.TimeRange, onSelect: (QuestionSelec
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = timeFormat.format(model.startTime.time),
+                            text = model.startTime,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Medium
                         )
@@ -107,11 +101,7 @@ fun TimeRangeQuestion(model: QuestionUiModel.TimeRange, onSelect: (QuestionSelec
                     modifier = Modifier.width(120.dp)
                 ) {
                     Button(
-                        onClick = {
-                            showTimePicker(context) { calendar ->
-                                onSelect(QuestionSelectionUiModel.TimeRangeSelectionUiModel(model.startTime, calendar))
-                            }
-                        },
+                        onClick = { showEndTimePicker = true },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Transparent,
                             contentColor = Color.Black
@@ -121,7 +111,7 @@ fun TimeRangeQuestion(model: QuestionUiModel.TimeRange, onSelect: (QuestionSelec
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = timeFormat.format(model.endTime.time),
+                            text = model.endTime,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Medium
                         )
@@ -130,22 +120,38 @@ fun TimeRangeQuestion(model: QuestionUiModel.TimeRange, onSelect: (QuestionSelec
             }
         }
     }
-}
 
-private fun showTimePicker(context: Context, onComplete: (Calendar) -> Unit) {
-    val timePicker = TimePickerDialog(
-        context,
-        { _, selectedHour, selectedMinute ->
-            val updatedCalendar = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, selectedHour)
-                set(Calendar.MINUTE, selectedMinute)
+    // Show custom TimePickerDialog for start time
+    if (showStartTimePicker) {
+        TimePickerDialog(
+            initialTime = model.startTime,
+            onDismiss = { showStartTimePicker = false },
+            onTimeSelected = { selectedTime ->
+                onSelect(
+                    QuestionSelectionUiModel.TimeRangeSelectionUiModel(
+                        startTime = selectedTime,
+                        endTime = model.endTime
+                    )
+                )
+                showStartTimePicker = false
             }
+        )
+    }
 
-            onComplete(updatedCalendar)
-        },
-        0,
-        0,
-        false
-    )
-    timePicker.show()
+    // Show custom TimePickerDialog for end time
+    if (showEndTimePicker) {
+        TimePickerDialog(
+            initialTime = model.endTime,
+            onDismiss = { showEndTimePicker = false },
+            onTimeSelected = { selectedTime ->
+                onSelect(
+                    QuestionSelectionUiModel.TimeRangeSelectionUiModel(
+                        startTime = model.startTime,
+                        endTime = selectedTime
+                    )
+                )
+                showEndTimePicker = false
+            }
+        )
+    }
 }
