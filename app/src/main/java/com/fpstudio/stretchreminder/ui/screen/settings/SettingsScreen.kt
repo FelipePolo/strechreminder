@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.screen.settings.components.*
 import com.fpstudio.stretchreminder.ui.screen.settings.contract.SettingsScreenContract.Intent
@@ -32,6 +33,9 @@ import com.fpstudio.stretchreminder.ui.screen.settings.contract.SettingsScreenCo
 import com.fpstudio.stretchreminder.ui.screen.settings.contract.SettingsScreenContract.UiState
 import com.fpstudio.stretchreminder.ui.screen.settings.contract.SettingsScreenContract.RoutinePreferencesState
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import com.fpstudio.stretchreminder.ui.composable.permision.notification.createNotificationPermissionLauncher
+import com.fpstudio.stretchreminder.ui.composable.permision.notification.askPermission
+import com.fpstudio.stretchreminder.ui.composable.permision.notification.hasNotificationPermission
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,6 +92,20 @@ fun SettingsContent(
         derivedStateOf { viewModel.hasUnsavedChanges() }
     }
 
+    val context = LocalContext.current
+    
+    // Notification permission launcher
+    val notificationPermissionLauncher = createNotificationPermissionLauncher(
+        oGranted = {
+            // Permission granted, enable notifications
+            onIntent(Intent.ToggleNotifications(true))
+        },
+        onDenied = {
+            // Permission denied, keep notifications disabled
+            onIntent(Intent.ToggleNotifications(false))
+        }
+    )
+    
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
     var showUnsavedChangesDialog by remember { mutableStateOf(false) }
@@ -193,7 +211,23 @@ fun SettingsContent(
                         title = "Notifications",
                         hasToggle = true,
                         toggleValue = uiState.appSettings.notificationsEnabled,
-                        onToggleChanged = { onIntent(Intent.ToggleNotifications(it)) }
+                        onToggleChanged = { enabled ->
+                            if (enabled) {
+                                // Check if we already have permission
+                                if (context.hasNotificationPermission()) {
+                                    // Already have permission, just enable
+                                    onIntent(Intent.ToggleNotifications(true))
+                                } else {
+                                    // Need to request permission
+                                    notificationPermissionLauncher.askPermission {
+                                        onIntent(Intent.ToggleNotifications(true))
+                                    }
+                                }
+                            } else {
+                                // Disabling notifications, no permission needed
+                                onIntent(Intent.ToggleNotifications(false))
+                            }
+                        }
                     )
 
                     Divider(color = Color(0xFFF5F5F5), thickness = 1.dp)
