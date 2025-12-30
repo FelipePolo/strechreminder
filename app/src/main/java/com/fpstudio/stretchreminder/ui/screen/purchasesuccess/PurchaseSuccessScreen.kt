@@ -1,4 +1,4 @@
-package com.fpstudio.stretchreminder.ui.screen.premium
+package com.fpstudio.stretchreminder.ui.screen.purchasesuccess
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -24,7 +24,7 @@ import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 
 @Composable
-fun PremiumSuccessScreen(
+fun PurchaseSuccessScreen(
     onCloseClick: () -> Unit,
     onStartStretchingClick: () -> Unit
 ) {
@@ -166,7 +166,7 @@ fun PremiumSuccessScreen(
                     
                     SuccessFeatureItem("Ad-free experience")
                     SuccessFeatureItem("Unlimited Custom Routines")
-                    SuccessFeatureItem("Advanced Statistics")
+                    SuccessFeatureItem("Access all content")
                 }
             }
         }

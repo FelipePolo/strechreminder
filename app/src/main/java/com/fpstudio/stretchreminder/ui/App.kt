@@ -14,6 +14,7 @@ import com.fpstudio.stretchreminder.ui.screen.exercise.contract.PreText
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreen
 import com.fpstudio.stretchreminder.ui.screen.home.HomeScreen
 import com.fpstudio.stretchreminder.ui.screen.intro.IntroScreen
+import com.fpstudio.stretchreminder.ui.screen.purchasesuccess.PurchaseSuccessScreen
 import com.fpstudio.stretchreminder.ui.screen.threeyes.ThreeYesScreen
 import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreen
 import com.fpstudio.stretchreminder.ui.screen.routine.RoutineSelectionScreen
@@ -62,7 +63,7 @@ fun App() {
 
         composable<Tutorial> {
             TutorialScreen {
-                navController.navigate(Home) {
+                navController.navigate(Premium(fromOnboarding = true)) {
                     popUpTo(Tutorial) { inclusive = true }
                 }
             }
@@ -123,37 +124,45 @@ fun App() {
                     navController.navigateUp()
                 },
                 onNavigateToPremium = {
-                    navController.navigate(Premium)
+                    navController.navigate(Premium(fromOnboarding = false))
                 }
             )
         }
         
-        composable<Premium> {
+        composable<Premium> { backStackEntry ->
+            val args = backStackEntry.toRoute<Premium>()
             com.fpstudio.stretchreminder.ui.screen.premium.PremiumScreen(
                 onNavigateBack = {
-                    navController.navigateUp()
+                    if (args.fromOnboarding) {
+                        navController.navigate(Home) {
+                            popUpTo(0) // Clear entire stack
+                        }
+                    } else {
+                        navController.navigateUp()
+                    }
                 },
                 onNavigateToSuccess = {
                     navController.navigate(PremiumSuccess) {
-                        popUpTo(Home) { saveState = true } // Or popUpTo(Premium)?
-                        // Ideally checking user flow. If they came from Settings -> Premium -> Success -> Home (Start Stretching)
-                        // If they came from Home -> Routine -> Premium -> Success -> Home.
-                        // The user said: "button start streching lo redirige a la homescreen".
+                        if (args.fromOnboarding) {
+                            popUpTo(0) // Clear stack for onboarding flow
+                        } else {
+                            popUpTo(Home) { saveState = true }
+                        }
                     }
                 }
             )
         }
         
         composable<PremiumSuccess> {
-            com.fpstudio.stretchreminder.ui.screen.premium.PremiumSuccessScreen(
+            PurchaseSuccessScreen(
                 onCloseClick = {
                     navController.navigate(Home) {
-                        popUpTo(Home) { inclusive = true }
+                        popUpTo(0) { inclusive = true }
                     }
                 },
                 onStartStretchingClick = {
                     navController.navigate(Home) {
-                        popUpTo(Home) { inclusive = true }
+                        popUpTo(0) { inclusive = true }
                     }
                 }
             )

@@ -122,7 +122,7 @@ fun PremiumMemberCard(
             Spacer(modifier = Modifier.height(12.dp))
             PremiumFeature("Unlimited Routines")
             Spacer(modifier = Modifier.height(12.dp))
-            PremiumFeature("Advanced Analytics")
+            PremiumFeature("Access all content")
             
             Spacer(modifier = Modifier.height(24.dp))
             
