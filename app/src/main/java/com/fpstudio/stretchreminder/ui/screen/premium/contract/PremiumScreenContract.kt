@@ -1,15 +1,15 @@
 package com.fpstudio.stretchreminder.ui.screen.premium.contract
 
-import com.android.billingclient.api.ProductDetails
+import com.revenuecat.purchases.Package
 
 object PremiumScreenContract {
     
     data class UiState(
         val selectedPlan: SubscriptionPlan = SubscriptionPlan.ANNUAL,
         val isLoading: Boolean = false,
-        val billingConnected: Boolean = false,
-        val annualProduct: ProductDetails? = null,
-        val monthlyProduct: ProductDetails? = null,
+        val billingConnected: Boolean = true, // RevenueCat is always connected basically
+        val annualPackage: Package? = null,
+        val monthlyPackage: Package? = null,
         val errorMessage: String? = null,
         val purchaseState: PurchaseState = PurchaseState.IDLE
     )

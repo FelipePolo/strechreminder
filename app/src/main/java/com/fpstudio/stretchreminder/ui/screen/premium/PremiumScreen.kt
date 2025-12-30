@@ -193,7 +193,7 @@ fun PremiumScreen(
             ) {
                 SubscriptionPlanCardWithBilling(
                     plan = SubscriptionPlan.ANNUAL,
-                    productDetails = uiState.annualProduct,
+                    packageInfo = uiState.annualPackage,
                     isSelected = uiState.selectedPlan == SubscriptionPlan.ANNUAL,
                     onPlanSelected = { 
                         viewModel.handleIntent(Intent.SelectPlan(SubscriptionPlan.ANNUAL))
@@ -202,7 +202,7 @@ fun PremiumScreen(
                 
                 SubscriptionPlanCardWithBilling(
                     plan = SubscriptionPlan.MONTHLY,
-                    productDetails = uiState.monthlyProduct,
+                    packageInfo = uiState.monthlyPackage,
                     isSelected = uiState.selectedPlan == SubscriptionPlan.MONTHLY,
                     onPlanSelected = { 
                         viewModel.handleIntent(Intent.SelectPlan(SubscriptionPlan.MONTHLY))

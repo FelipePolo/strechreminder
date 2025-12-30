@@ -20,29 +20,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    flavorDimensions += "subscription"
+    flavorDimensions += "environment"
     
     productFlavors {
-        create("premium") {
-            dimension = "subscription"
-            buildConfigField("boolean", "BYPASS_SUBSCRIPTION", "true")
-            buildConfigField("boolean", "IS_PREMIUM_FLAVOR", "true")
-            applicationIdSuffix = ".premium"
-            versionNameSuffix = "-premium"
-        }
-        
-        create("free") {
-            dimension = "subscription"
-            buildConfigField("boolean", "BYPASS_SUBSCRIPTION", "false")
-            buildConfigField("boolean", "IS_PREMIUM_FLAVOR", "false")
-            applicationIdSuffix = ".free"
-            versionNameSuffix = "-free"
+        create("sandbox") {
+            dimension = "environment"
+            buildConfigField("String", "REVENUECAT_API_KEY", "\"test_BdwdCXvFTRKaBYBzcrHPtakECas\"")
+            applicationIdSuffix = ".sandbox"
+            versionNameSuffix = "-sandbox"
         }
         
         create("production") {
-            dimension = "subscription"
-            buildConfigField("boolean", "BYPASS_SUBSCRIPTION", "false")
-            buildConfigField("boolean", "IS_PREMIUM_FLAVOR", "false")
+            dimension = "environment"
+            buildConfigField("String", "REVENUECAT_API_KEY", "\"YOUR_PRODUCTION_KEY_HERE\"")
             // No suffix for production
         }
     }
@@ -127,7 +117,7 @@ dependencies {
     // Image Loading
     implementation(libs.coil.compose)
 
-    // Billing
-    implementation(libs.billing.ktx)
+    // RevenueCat
+    implementation(libs.revenuecat.purchases)
 
 }

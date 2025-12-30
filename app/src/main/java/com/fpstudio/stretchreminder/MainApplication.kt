@@ -21,5 +21,11 @@ class MainApplication: Application() {
             androidContext(this@MainApplication)
             modules(appModule, userModule, networkModule, videoModule, imageModule, videoCacheModule)
         }
+        
+        // Initialize RevenueCat
+        com.revenuecat.purchases.Purchases.logLevel = if (BuildConfig.DEBUG) com.revenuecat.purchases.LogLevel.DEBUG else com.revenuecat.purchases.LogLevel.INFO
+        com.revenuecat.purchases.Purchases.configure(
+            com.revenuecat.purchases.PurchasesConfiguration.Builder(this, BuildConfig.REVENUECAT_API_KEY).build()
+        )
     }
 }

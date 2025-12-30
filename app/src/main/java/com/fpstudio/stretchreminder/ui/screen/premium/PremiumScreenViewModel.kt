@@ -3,14 +3,8 @@ package com.fpstudio.stretchreminder.ui.screen.premium
 import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.billingclient.api.ProductDetails
-import com.fpstudio.stretchreminder.data.repository.BillingRepositoryImpl
-import com.fpstudio.stretchreminder.domain.repository.BillingConnectionState
-import com.fpstudio.stretchreminder.domain.repository.BillingRepository
-import com.fpstudio.stretchreminder.domain.repository.BillingResult
-import com.fpstudio.stretchreminder.domain.usecase.GetSubscriptionStatusUseCase
-import com.fpstudio.stretchreminder.domain.usecase.PurchaseSubscriptionUseCase
-import com.fpstudio.stretchreminder.domain.usecase.RestorePurchasesUseCase
+import com.fpstudio.stretchreminder.domain.repository.RevenueCatRepository
+import com.fpstudio.stretchreminder.domain.usecase.CheckEntitlementUseCase
 import com.fpstudio.stretchreminder.ui.screen.premium.contract.PremiumScreenContract.Intent
 import com.fpstudio.stretchreminder.ui.screen.premium.contract.PremiumScreenContract.PurchaseState
 import com.fpstudio.stretchreminder.ui.screen.premium.contract.PremiumScreenContract.SideEffect
@@ -25,10 +19,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class PremiumScreenViewModel(
-    private val billingRepository: BillingRepository,
-    private val purchaseSubscriptionUseCase: PurchaseSubscriptionUseCase,
-    private val restorePurchasesUseCase: RestorePurchasesUseCase,
-    private val getSubscriptionStatusUseCase: GetSubscriptionStatusUseCase
+    private val revenueCatRepository: RevenueCatRepository,
+    private val checkEntitlementUseCase: CheckEntitlementUseCase
 ) : ViewModel() {
     
     private val _uiState = MutableStateFlow(UiState())
@@ -40,65 +32,61 @@ class PremiumScreenViewModel(
     private var currentActivity: Activity? = null
     
     init {
-        // Log bypass status for debugging
-        com.fpstudio.stretchreminder.util.DebugBillingBypass.logBypassStatus()
-        
-        initializeBilling()
+        loadOfferings()
     }
     
     fun setActivity(activity: Activity) {
         currentActivity = activity
     }
     
-    private fun initializeBilling() {
+    private fun loadOfferings() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
             
-            // Initialize billing
-            billingRepository.initialize()
-            
-            // Observe billing connection state
-            billingRepository.billingConnectionState.collect { state ->
-                when (state) {
-                    BillingConnectionState.CONNECTED -> {
-                        _uiState.value = _uiState.value.copy(billingConnected = true)
-                        queryProducts()
-                    }
-                    BillingConnectionState.ERROR -> {
+            revenueCatRepository.getOfferings().fold(
+                onSuccess = { offerings ->
+                    val currentOffering = offerings.current
+                    
+                    if (currentOffering != null) {
+                        val annualPackage = currentOffering.availablePackages.find { 
+                            it.packageType == com.revenuecat.purchases.PackageType.ANNUAL ||
+                            it.identifier.contains("yearly", ignoreCase = true)
+                        }
+                        
+                        val monthlyPackage = currentOffering.availablePackages.find { 
+                            it.packageType == com.revenuecat.purchases.PackageType.MONTHLY ||
+                            it.identifier.contains("monthly", ignoreCase = true)
+                        }
+                        
+                        // Also try to find by product ID if package type fails
+                        val annualPkg = annualPackage ?: currentOffering.availablePackages.find {
+                            it.product.id.contains("annual", ignoreCase = true)
+                        }
+                        
+                        val monthlyPkg = monthlyPackage ?: currentOffering.availablePackages.find {
+                            it.product.id.contains("monthly", ignoreCase = true)
+                        }
+                        
+                        _uiState.value = _uiState.value.copy(
+                            annualPackage = annualPkg,
+                            monthlyPackage = monthlyPkg,
+                            isLoading = false
+                        )
+                    } else {
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
-                            billingConnected = false,
-                            errorMessage = "Failed to connect to billing service"
+                            errorMessage = "No offerings available"
                         )
                     }
-                    else -> {
-                        _uiState.value = _uiState.value.copy(billingConnected = false)
-                    }
+                },
+                onFailure = { error ->
+                    _uiState.value = _uiState.value.copy(
+                        isLoading = false,
+                        errorMessage = error.message ?: "Failed to load offerings"
+                    )
                 }
-            }
+            )
         }
-        
-        // Observe products
-        viewModelScope.launch {
-            billingRepository.subscriptionProducts.collect { products ->
-                val annualProduct = products.find { 
-                    it.productId == BillingRepositoryImpl.PRODUCT_ID_ANNUAL 
-                }
-                val monthlyProduct = products.find { 
-                    it.productId == BillingRepositoryImpl.PRODUCT_ID_MONTHLY 
-                }
-                
-                _uiState.value = _uiState.value.copy(
-                    annualProduct = annualProduct,
-                    monthlyProduct = monthlyProduct,
-                    isLoading = false
-                )
-            }
-        }
-    }
-    
-    private suspend fun queryProducts() {
-        billingRepository.querySubscriptionProducts()
     }
     
     fun handleIntent(intent: Intent) {
@@ -131,24 +119,6 @@ class PremiumScreenViewModel(
     }
     
     private fun launchPurchaseFlow() {
-        // Debug bypass: simulate successful purchase
-        if (com.fpstudio.stretchreminder.util.DebugBillingBypass.isEnabled()) {
-            viewModelScope.launch {
-                android.util.Log.d("PremiumViewModel", "Debug bypass: simulating successful purchase")
-                _uiState.value = _uiState.value.copy(
-                    purchaseState = PurchaseState.PURCHASING,
-                    isLoading = true
-                )
-                kotlinx.coroutines.delay(1000) // Simulate processing
-                _uiState.value = _uiState.value.copy(
-                    purchaseState = PurchaseState.SUCCESS,
-                    isLoading = false
-                )
-                _sideEffect.emit(SideEffect.ShowPurchaseSuccess)
-            }
-            return
-        }
-        
         val activity = currentActivity
         if (activity == null) {
             viewModelScope.launch {
@@ -157,14 +127,14 @@ class PremiumScreenViewModel(
             return
         }
         
-        val productDetails = when (_uiState.value.selectedPlan) {
-            SubscriptionPlan.ANNUAL -> _uiState.value.annualProduct
-            SubscriptionPlan.MONTHLY -> _uiState.value.monthlyProduct
+        val packageToPurchase = when (_uiState.value.selectedPlan) {
+            SubscriptionPlan.ANNUAL -> _uiState.value.annualPackage
+            SubscriptionPlan.MONTHLY -> _uiState.value.monthlyPackage
         }
         
-        if (productDetails == null) {
+        if (packageToPurchase == null) {
             viewModelScope.launch {
-                _sideEffect.emit(SideEffect.ShowPurchaseError("Product not available"))
+                _sideEffect.emit(SideEffect.ShowPurchaseError("Package not available"))
             }
             return
         }
@@ -175,70 +145,71 @@ class PremiumScreenViewModel(
                 isLoading = true
             )
             
-            when (val result = purchaseSubscriptionUseCase(activity, productDetails)) {
-                is BillingResult.Success -> {
-                    _uiState.value = _uiState.value.copy(
-                        purchaseState = PurchaseState.SUCCESS,
-                        isLoading = false
-                    )
-                    _sideEffect.emit(SideEffect.ShowPurchaseSuccess)
+            revenueCatRepository.purchasePackage(activity, packageToPurchase).fold(
+                onSuccess = { customerInfo ->
+                    // Verify entitlement
+                    if (checkEntitlementUseCase()) {
+                         _uiState.value = _uiState.value.copy(
+                            purchaseState = PurchaseState.SUCCESS,
+                            isLoading = false
+                        )
+                        _sideEffect.emit(SideEffect.ShowPurchaseSuccess)
+                    } else {
+                         _uiState.value = _uiState.value.copy(
+                            purchaseState = PurchaseState.ERROR,
+                            isLoading = false,
+                            errorMessage = "Purchase successful but premium not active"
+                        )
+                        _sideEffect.emit(SideEffect.ShowPurchaseError("Entitlement not active after purchase"))
+                    }
+                },
+                onFailure = { error ->
+                    // Check if cancelled
+                    if (error.message?.contains("cancelled", ignoreCase = true) == true) {
+                        _uiState.value = _uiState.value.copy(
+                            purchaseState = PurchaseState.IDLE,
+                            isLoading = false
+                        )
+                    } else {
+                        _uiState.value = _uiState.value.copy(
+                            purchaseState = PurchaseState.ERROR,
+                            isLoading = false,
+                            errorMessage = error.message
+                        )
+                        _sideEffect.emit(SideEffect.ShowPurchaseError(error.message ?: "Purchase failed"))
+                    }
                 }
-                is BillingResult.Error -> {
-                    _uiState.value = _uiState.value.copy(
-                        purchaseState = PurchaseState.ERROR,
-                        isLoading = false,
-                        errorMessage = result.message
-                    )
-                    _sideEffect.emit(SideEffect.ShowPurchaseError(result.message))
-                }
-                is BillingResult.Cancelled -> {
-                    _uiState.value = _uiState.value.copy(
-                        purchaseState = PurchaseState.IDLE,
-                        isLoading = false
-                    )
-                }
-            }
+            )
         }
     }
     
     private fun restorePurchases() {
-        // Debug bypass: simulate successful restore
-        if (com.fpstudio.stretchreminder.util.DebugBillingBypass.isEnabled()) {
-            viewModelScope.launch {
-                android.util.Log.d("PremiumViewModel", "Debug bypass: simulating successful restore")
-                _uiState.value = _uiState.value.copy(isLoading = true)
-                kotlinx.coroutines.delay(500) // Simulate processing
-                _uiState.value = _uiState.value.copy(isLoading = false)
-                _sideEffect.emit(SideEffect.ShowRestoreSuccess)
-            }
-            return
-        }
-        
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
             
-            when (val result = restorePurchasesUseCase()) {
-                is BillingResult.Success -> {
+            revenueCatRepository.restorePurchases().fold(
+                onSuccess = { customerInfo ->
                     _uiState.value = _uiState.value.copy(isLoading = false)
-                    _sideEffect.emit(SideEffect.ShowRestoreSuccess)
-                }
-                is BillingResult.Error -> {
-                    _uiState.value = _uiState.value.copy(
+                    
+                    if (checkEntitlementUseCase()) {
+                        _sideEffect.emit(SideEffect.ShowRestoreSuccess)
+                    } else {
+                        _sideEffect.emit(SideEffect.ShowRestoreError("No active subscriptions found"))
+                    }
+                },
+                onFailure = { error ->
+                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
-                        errorMessage = result.message
+                        errorMessage = error.message
                     )
-                    _sideEffect.emit(SideEffect.ShowRestoreError(result.message))
+                    _sideEffect.emit(SideEffect.ShowRestoreError(error.message ?: "Restore failed"))
                 }
-                is BillingResult.Cancelled -> {
-                    _uiState.value = _uiState.value.copy(isLoading = false)
-                }
-            }
+            )
         }
     }
     
     override fun onCleared() {
         super.onCleared()
-        billingRepository.endConnection()
         currentActivity = null
     }
 }

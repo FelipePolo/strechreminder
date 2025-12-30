@@ -17,21 +17,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.android.billingclient.api.ProductDetails
+import com.revenuecat.purchases.Package
 import com.fpstudio.stretchreminder.ui.screen.premium.contract.PremiumScreenContract.SubscriptionPlan
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 
 @Composable
 fun SubscriptionPlanCardWithBilling(
     plan: SubscriptionPlan,
-    productDetails: ProductDetails?,
+    packageInfo: Package?,
     isSelected: Boolean,
     onPlanSelected: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Extract pricing information from ProductDetails
-    val pricingInfo = productDetails?.subscriptionOfferDetails?.firstOrNull()?.pricingPhases?.pricingPhaseList?.firstOrNull()
-    val formattedPrice = pricingInfo?.formattedPrice ?: if (plan == SubscriptionPlan.ANNUAL) "$39.99" else "$7.99"
+    // Extract pricing information from Package
+    val formattedPrice = packageInfo?.product?.price?.formatted ?: if (plan == SubscriptionPlan.ANNUAL) "$39.99" else "$7.99"
     val billingPeriod = if (plan == SubscriptionPlan.ANNUAL) "/yr" else "/mo"
     
     Box(
