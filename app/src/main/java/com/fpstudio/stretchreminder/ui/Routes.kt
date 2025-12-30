@@ -31,3 +31,6 @@ object Settings
 
 @Serializable
 object Premium
+
+@Serializable
+object PremiumSuccess

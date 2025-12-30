@@ -54,13 +54,17 @@ fun App() {
 
         composable<Congratulation> {
             CongratulationScreen {
-                navController.navigate(Tutorial)
+                navController.navigate(Tutorial) {
+                    popUpTo(Intro) { inclusive = true }
+                }
             }
         }
 
         composable<Tutorial> {
             TutorialScreen {
-                navController.navigate(Home)
+                navController.navigate(Home) {
+                    popUpTo(Tutorial) { inclusive = true }
+                }
             }
         }
 
@@ -128,6 +132,29 @@ fun App() {
             com.fpstudio.stretchreminder.ui.screen.premium.PremiumScreen(
                 onNavigateBack = {
                     navController.navigateUp()
+                },
+                onNavigateToSuccess = {
+                    navController.navigate(PremiumSuccess) {
+                        popUpTo(Home) { saveState = true } // Or popUpTo(Premium)?
+                        // Ideally checking user flow. If they came from Settings -> Premium -> Success -> Home (Start Stretching)
+                        // If they came from Home -> Routine -> Premium -> Success -> Home.
+                        // The user said: "button start streching lo redirige a la homescreen".
+                    }
+                }
+            )
+        }
+        
+        composable<PremiumSuccess> {
+            com.fpstudio.stretchreminder.ui.screen.premium.PremiumSuccessScreen(
+                onCloseClick = {
+                    navController.navigate(Home) {
+                        popUpTo(Home) { inclusive = true }
+                    }
+                },
+                onStartStretchingClick = {
+                    navController.navigate(Home) {
+                        popUpTo(Home) { inclusive = true }
+                    }
                 }
             )
         }

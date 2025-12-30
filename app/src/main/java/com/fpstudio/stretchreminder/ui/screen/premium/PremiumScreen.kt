@@ -35,7 +35,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun PremiumScreen(
     viewModel: PremiumScreenViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
+    onNavigateToSuccess: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -57,11 +58,7 @@ fun PremiumScreen(
                 SideEffect.NavigateBack -> onNavigateBack()
                 
                 SideEffect.ShowPurchaseSuccess -> {
-                    snackbarHostState.showSnackbar(
-                        message = "Purchase successful! Welcome to Premium!",
-                        duration = SnackbarDuration.Short
-                    )
-                    onNavigateBack()
+                    onNavigateToSuccess()
                 }
                 
                 is SideEffect.ShowPurchaseError -> {
@@ -70,6 +67,8 @@ fun PremiumScreen(
                         duration = SnackbarDuration.Long
                     )
                 }
+                
+
                 
                 SideEffect.ShowRestoreSuccess -> {
                     snackbarHostState.showSnackbar(
