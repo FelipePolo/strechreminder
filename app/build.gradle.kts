@@ -20,13 +20,38 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions += "subscription"
+    
+    productFlavors {
+        create("premium") {
+            dimension = "subscription"
+            buildConfigField("boolean", "BYPASS_SUBSCRIPTION", "true")
+            buildConfigField("boolean", "IS_PREMIUM_FLAVOR", "true")
+            applicationIdSuffix = ".premium"
+            versionNameSuffix = "-premium"
+        }
+        
+        create("free") {
+            dimension = "subscription"
+            buildConfigField("boolean", "BYPASS_SUBSCRIPTION", "false")
+            buildConfigField("boolean", "IS_PREMIUM_FLAVOR", "false")
+            applicationIdSuffix = ".free"
+            versionNameSuffix = "-free"
+        }
+        
+        create("production") {
+            dimension = "subscription"
+            buildConfigField("boolean", "BYPASS_SUBSCRIPTION", "false")
+            buildConfigField("boolean", "IS_PREMIUM_FLAVOR", "false")
+            // No suffix for production
+        }
+    }
+
     buildTypes {
         debug {
-            buildConfigField("boolean", "BYPASS_SUBSCRIPTION", "true")
             isDebuggable = true
         }
         release {
-            buildConfigField("boolean", "BYPASS_SUBSCRIPTION", "false")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
