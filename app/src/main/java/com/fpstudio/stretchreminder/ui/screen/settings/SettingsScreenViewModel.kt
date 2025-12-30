@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -103,13 +104,22 @@ class SettingsScreenViewModel(
     private fun mapWorkDaysToWorkdays(workDays: List<String>): Set<Workday> {
         return workDays.mapNotNull { day ->
             when (day.uppercase()) {
-                "MON", "M" -> Workday.MONDAY
-                "TUE", "T" -> Workday.TUESDAY
-                "WED", "W" -> Workday.WEDNESDAY
-                "THU", "TH" -> Workday.THURSDAY
-                "FRI", "F" -> Workday.FRIDAY
-                "SAT", "S", "SA" -> Workday.SATURDAY
-                "SUN", "SU" -> Workday.SUNDAY
+                // Handle short format (3 letters)
+                "MON" -> Workday.MONDAY
+                "TUE" -> Workday.TUESDAY
+                "WED" -> Workday.WEDNESDAY
+                "THU" -> Workday.THURSDAY
+                "FRI" -> Workday.FRIDAY
+                "SAT" -> Workday.SATURDAY
+                "SUN" -> Workday.SUNDAY
+                // Handle full names for backward compatibility
+                "MONDAY" -> Workday.MONDAY
+                "TUESDAY" -> Workday.TUESDAY
+                "WEDNESDAY" -> Workday.WEDNESDAY
+                "THURSDAY" -> Workday.THURSDAY
+                "FRIDAY" -> Workday.FRIDAY
+                "SATURDAY" -> Workday.SATURDAY
+                "SUNDAY" -> Workday.SUNDAY
                 else -> null
             }
         }.toSet()
@@ -118,14 +128,37 @@ class SettingsScreenViewModel(
     private fun formatTimestampToTime(timestamp: Long): String {
         if (timestamp == 0L) return "09:00 AM"
         val date = Date(timestamp)
-        val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        // Use Locale.US to ensure consistent AM/PM formatting
+        val format = SimpleDateFormat("hh:mm a", Locale.US)
         return format.format(date)
     }
     
     private fun parseTimeToTimestamp(timeString: String): Long {
         return try {
-            val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            format.parse(timeString)?.time ?: 0L
+            // Use Locale.US to ensure consistent AM/PM parsing
+            val format = SimpleDateFormat("hh:mm a", Locale.US)
+            format.isLenient = false
+            val parsedDate = format.parse(timeString)
+            
+            if (parsedDate != null) {
+                // Create a calendar with today's date and the parsed time
+                val calendar = Calendar.getInstance().apply {
+                    time = parsedDate
+                    // Keep the hour and minute from parsed time
+                    val hour = get(Calendar.HOUR_OF_DAY)
+                    val minute = get(Calendar.MINUTE)
+                    
+                    // Set to today's date with the parsed time
+                    timeInMillis = System.currentTimeMillis()
+                    set(Calendar.HOUR_OF_DAY, hour)
+                    set(Calendar.MINUTE, minute)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }
+                calendar.timeInMillis
+            } else {
+                0L
+            }
         } catch (e: Exception) {
             0L
         }
@@ -155,7 +188,18 @@ class SettingsScreenViewModel(
     }
     
     private fun mapWorkdaysToWorkDays(workdays: Set<Workday>): List<String> {
-        return workdays.map { it.displayName }
+        // Use short 3-letter format to match the format used in the form
+        return workdays.map { workday ->
+            when (workday) {
+                Workday.MONDAY -> "Mon"
+                Workday.TUESDAY -> "Tue"
+                Workday.WEDNESDAY -> "Wed"
+                Workday.THURSDAY -> "Thu"
+                Workday.FRIDAY -> "Fri"
+                Workday.SATURDAY -> "Sat"
+                Workday.SUNDAY -> "Sun"
+            }
+        }
     }
     
     private suspend fun saveCurrentState() {
@@ -173,6 +217,8 @@ class SettingsScreenViewModel(
         )
         
         saveUserUseCase(updatedUser)
+        // Update initialState after successful save to prevent change detection issues
+        initialState = currentState
     }
     
     fun handleIntent(intent: Intent) {
@@ -266,7 +312,7 @@ class SettingsScreenViewModel(
             Intent.SaveChanges -> {
                 viewModelScope.launch {
                     saveCurrentState()
-                    _sideEffect.emit(SideEffect.ShowSaveSuccess)
+                    _sideEffect.emit(SideEffect.NavigateBack)
                 }
             }
             

@@ -179,13 +179,20 @@ class FormViewModel(
                     }
                 }
             } else {
-                val uiState = shouldShowPromiseScreen(nextPage)
-                updateUiState {
-                    uiState.copy(
-                        page = nextPage,
-                        form = getFormListState(questionIndex, selection),
-                        nextButton = getNextButtonState(nextPage)
-                    )
+                if (nextPage >= uiState.value.form.size) {
+                    viewModelScope.launch {
+                        saveUserUseCase.invoke(uiState.value.toUser())
+                    }
+                    viewModelScope.emitSideEffect(SideEffect.NavigateNext)
+                }else {
+                    val uiState = shouldShowPromiseScreen(nextPage)
+                    updateUiState {
+                        uiState.copy(
+                            page = nextPage,
+                            form = getFormListState(questionIndex, selection),
+                            nextButton = getNextButtonState(nextPage)
+                        )
+                    }
                 }
             }
         }

@@ -66,7 +66,10 @@ class FormComponentHelper {
                     question.copy(selected = selected.selection)
                 }
 
-                is QuestionUiModel.NotificationPermission -> question
+                is QuestionUiModel.NotificationPermission -> {
+                    val selected = (selection as QuestionSelectionUiModel.BooleanSelectionUiModel)
+                    question.copy(answered = selected.selection)
+                }
 
                 is QuestionUiModel.CustomBodyQuestion -> {
                     val selected = (selection as QuestionSelectionUiModel.CustomBodySelectionUiModel)

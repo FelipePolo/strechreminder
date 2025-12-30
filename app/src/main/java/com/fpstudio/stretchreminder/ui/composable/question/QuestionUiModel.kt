@@ -96,6 +96,7 @@ sealed class QuestionUiModel(
         override val id: QuestionID,
         override val subtitle2: String = EMPTY,
         override val question: String,
+        override val answered: Boolean = false
     ) : QuestionUiModel()
 }
 
