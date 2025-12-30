@@ -212,6 +212,51 @@ class BillingRepositoryImpl(
         }
     }
     
+    override suspend fun getSubscriptionInfo(): com.fpstudio.stretchreminder.domain.model.SubscriptionInfo? {
+        // Debug bypass: return mock subscription info
+        if (com.fpstudio.stretchreminder.util.DebugBillingBypass.hasActiveSubscription()) {
+            android.util.Log.d("BillingRepository", "Debug bypass: returning mock subscription info")
+            val mockRenewalDate = System.currentTimeMillis() + (365L * 24 * 60 * 60 * 1000) // 1 year from now
+            return com.fpstudio.stretchreminder.domain.model.SubscriptionInfo(
+                isActive = true,
+                planType = com.fpstudio.stretchreminder.domain.model.PlanType.ANNUAL,
+                renewalDate = mockRenewalDate
+            )
+        }
+        
+        // Production: get real subscription info
+        val activePurchase = _purchases.value.firstOrNull { purchase ->
+            purchase.purchaseState == Purchase.PurchaseState.PURCHASED &&
+            (purchase.products.contains(PRODUCT_ID_ANNUAL) || 
+             purchase.products.contains(PRODUCT_ID_MONTHLY))
+        }
+        
+        return activePurchase?.let { purchase ->
+            val planType = when {
+                purchase.products.contains(PRODUCT_ID_ANNUAL) -> com.fpstudio.stretchreminder.domain.model.PlanType.ANNUAL
+                purchase.products.contains(PRODUCT_ID_MONTHLY) -> com.fpstudio.stretchreminder.domain.model.PlanType.MONTHLY
+                else -> com.fpstudio.stretchreminder.domain.model.PlanType.NONE
+            }
+            
+            // Get renewal date from purchase (purchaseTime + subscription period)
+            // Note: For accurate renewal date, you'd need to query subscription status from Google Play
+            // For now, we'll estimate based on purchase time
+            val renewalDate = when (planType) {
+                com.fpstudio.stretchreminder.domain.model.PlanType.ANNUAL -> 
+                    purchase.purchaseTime + (365L * 24 * 60 * 60 * 1000)
+                com.fpstudio.stretchreminder.domain.model.PlanType.MONTHLY -> 
+                    purchase.purchaseTime + (30L * 24 * 60 * 60 * 1000)
+                else -> purchase.purchaseTime
+            }
+            
+            com.fpstudio.stretchreminder.domain.model.SubscriptionInfo(
+                isActive = true,
+                planType = planType,
+                renewalDate = renewalDate
+            )
+        }
+    }
+    
     override fun endConnection() {
         billingClient?.endConnection()
         billingClient = null

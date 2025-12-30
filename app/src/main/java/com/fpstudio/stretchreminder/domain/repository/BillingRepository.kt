@@ -52,6 +52,11 @@ interface BillingRepository {
     suspend fun hasActiveSubscription(): Boolean
     
     /**
+     * Get detailed subscription information
+     */
+    suspend fun getSubscriptionInfo(): com.fpstudio.stretchreminder.domain.model.SubscriptionInfo?
+    
+    /**
      * Acknowledge a purchase
      */
     suspend fun acknowledgePurchase(purchase: Purchase): BillingResult

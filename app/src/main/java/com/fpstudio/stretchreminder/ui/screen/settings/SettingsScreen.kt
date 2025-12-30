@@ -174,12 +174,19 @@ fun SettingsContent(
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Plan Card
-                PlanCard(
-                    planType = uiState.plan.planType,
-                    adsEnabled = uiState.plan.adsEnabled,
-                    onUpgradeClick = { onIntent(Intent.UpgradeToPremium) }
-                )
+                // Plan Card - Show Premium Member Card if subscribed, otherwise show regular Plan Card
+                if (uiState.subscriptionInfo?.isActive == true) {
+                    PremiumMemberCard(
+                        subscriptionInfo = uiState.subscriptionInfo,
+                        onManageClick = { onIntent(Intent.ManageSubscription) }
+                    )
+                } else {
+                    PlanCard(
+                        planType = uiState.plan.planType,
+                        adsEnabled = uiState.plan.adsEnabled,
+                        onUpgradeClick = { onIntent(Intent.UpgradeToPremium) }
+                    )
+                }
 
                 // Profile Section
                 ProfileSection(

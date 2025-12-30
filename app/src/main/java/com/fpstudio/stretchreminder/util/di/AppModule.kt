@@ -3,6 +3,7 @@ package com.fpstudio.stretchreminder.util.di
 import com.fpstudio.stretchreminder.data.repository.BillingRepositoryImpl
 import com.fpstudio.stretchreminder.domain.repository.BillingRepository
 import com.fpstudio.stretchreminder.domain.usecase.GetSubscriptionStatusUseCase
+import com.fpstudio.stretchreminder.domain.usecase.GetSubscriptionInfoUseCase
 import com.fpstudio.stretchreminder.domain.usecase.PurchaseSubscriptionUseCase
 import com.fpstudio.stretchreminder.domain.usecase.RestorePurchasesUseCase
 import com.fpstudio.stretchreminder.ui.screen.exercise.ExerciseScreenViewModel
@@ -25,6 +26,7 @@ val appModule = module {
     single { PurchaseSubscriptionUseCase(get()) }
     single { RestorePurchasesUseCase(get()) }
     single { GetSubscriptionStatusUseCase(get()) }
+    single { GetSubscriptionInfoUseCase(get()) }
     
     // ViewModels
     viewModel { FormViewModel(saveUserUseCase = get(), getUserUseCase = get()) }
@@ -36,7 +38,7 @@ val appModule = module {
     viewModelOf(::HomeViewModel)
     viewModel { RoutineSelectionViewModel(get()) }
     viewModel { IntroViewModel(get()) }
-    viewModel { SettingsScreenViewModel(getUserUseCase = get(), saveUserUseCase = get()) }
+    viewModel { SettingsScreenViewModel(getUserUseCase = get(), saveUserUseCase = get(), getSubscriptionInfoUseCase = get()) }
     viewModel { 
         PremiumScreenViewModel(
             billingRepository = get(),

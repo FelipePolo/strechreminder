@@ -6,7 +6,8 @@ object SettingsScreenContract {
         val profile: ProfileState = ProfileState(),
         val plan: PlanState = PlanState(),
         val routinePreferences: RoutinePreferencesState = RoutinePreferencesState(),
-        val appSettings: AppSettingsState = AppSettingsState()
+        val appSettings: AppSettingsState = AppSettingsState(),
+        val subscriptionInfo: com.fpstudio.stretchreminder.domain.model.SubscriptionInfo? = null
     )
     
     data class ProfileState(
@@ -66,6 +67,7 @@ object SettingsScreenContract {
         data class ToggleNotifications(val enabled: Boolean) : Intent()
         data class UpdateDisplayName(val name: String) : Intent()
         object UpgradeToPremium : Intent()
+        object ManageSubscription : Intent()
         object RateApp : Intent()
         object SendFeedback : Intent()
         object SaveChanges : Intent()

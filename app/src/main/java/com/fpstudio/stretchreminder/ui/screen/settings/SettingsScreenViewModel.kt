@@ -29,7 +29,8 @@ import java.util.Locale
 
 class SettingsScreenViewModel(
     private val getUserUseCase: GetUserUseCase,
-    private val saveUserUseCase: SaveUserUseCase
+    private val saveUserUseCase: SaveUserUseCase,
+    private val getSubscriptionInfoUseCase: com.fpstudio.stretchreminder.domain.usecase.GetSubscriptionInfoUseCase
 ) : ViewModel() {
     
     private val _uiState = MutableStateFlow(UiState())
@@ -47,7 +48,10 @@ class SettingsScreenViewModel(
     private fun loadUserData() {
         viewModelScope.launch {
             val user = getUserUseCase() ?: return@launch
-            val loadedState = mapUserToUiState(user)
+            val subscriptionInfo = getSubscriptionInfoUseCase()
+            val loadedState = mapUserToUiState(user).copy(
+                subscriptionInfo = subscriptionInfo
+            )
             _uiState.value = loadedState
             // Save initial state after loading data
             initialState = loadedState
@@ -294,6 +298,13 @@ class SettingsScreenViewModel(
             Intent.UpgradeToPremium -> {
                 viewModelScope.launch {
                     _sideEffect.emit(SideEffect.NavigateToPremium)
+                }
+            }
+            
+            Intent.ManageSubscription -> {
+                viewModelScope.launch {
+                    // This will be handled in the UI to open Google Play subscriptions
+                    _sideEffect.emit(SideEffect.NavigateToRateApp) // Reusing for now, will add specific one if needed
                 }
             }
             
