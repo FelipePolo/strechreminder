@@ -28,8 +28,8 @@ class BillingRepositoryImpl(
     private var billingClient: BillingClient? = null
     
     companion object {
-        const val PRODUCT_ID_ANNUAL = "premium_annual"
-        const val PRODUCT_ID_MONTHLY = "premium_monthly"
+        const val PRODUCT_ID_ANNUAL = "strech-reminder-premium-annual-plan"
+        const val PRODUCT_ID_MONTHLY = "strech-reminder-premium-monthly"
     }
     
     override suspend fun initialize() {
@@ -199,6 +199,12 @@ class BillingRepositoryImpl(
     }
     
     override suspend fun hasActiveSubscription(): Boolean {
+        // Debug bypass: always return true in debug builds
+        if (com.fpstudio.stretchreminder.util.DebugBillingBypass.hasActiveSubscription()) {
+            android.util.Log.d("BillingRepository", "Debug bypass: returning true for active subscription")
+            return true
+        }
+        
         return _purchases.value.any { purchase ->
             purchase.purchaseState == Purchase.PurchaseState.PURCHASED &&
             (purchase.products.contains(PRODUCT_ID_ANNUAL) || 

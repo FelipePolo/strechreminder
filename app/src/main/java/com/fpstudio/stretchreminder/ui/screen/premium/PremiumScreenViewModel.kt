@@ -40,6 +40,9 @@ class PremiumScreenViewModel(
     private var currentActivity: Activity? = null
     
     init {
+        // Log bypass status for debugging
+        com.fpstudio.stretchreminder.util.DebugBillingBypass.logBypassStatus()
+        
         initializeBilling()
     }
     
@@ -128,6 +131,24 @@ class PremiumScreenViewModel(
     }
     
     private fun launchPurchaseFlow() {
+        // Debug bypass: simulate successful purchase
+        if (com.fpstudio.stretchreminder.util.DebugBillingBypass.isEnabled()) {
+            viewModelScope.launch {
+                android.util.Log.d("PremiumViewModel", "Debug bypass: simulating successful purchase")
+                _uiState.value = _uiState.value.copy(
+                    purchaseState = PurchaseState.PURCHASING,
+                    isLoading = true
+                )
+                kotlinx.coroutines.delay(1000) // Simulate processing
+                _uiState.value = _uiState.value.copy(
+                    purchaseState = PurchaseState.SUCCESS,
+                    isLoading = false
+                )
+                _sideEffect.emit(SideEffect.ShowPurchaseSuccess)
+            }
+            return
+        }
+        
         val activity = currentActivity
         if (activity == null) {
             viewModelScope.launch {
@@ -181,6 +202,18 @@ class PremiumScreenViewModel(
     }
     
     private fun restorePurchases() {
+        // Debug bypass: simulate successful restore
+        if (com.fpstudio.stretchreminder.util.DebugBillingBypass.isEnabled()) {
+            viewModelScope.launch {
+                android.util.Log.d("PremiumViewModel", "Debug bypass: simulating successful restore")
+                _uiState.value = _uiState.value.copy(isLoading = true)
+                kotlinx.coroutines.delay(500) // Simulate processing
+                _uiState.value = _uiState.value.copy(isLoading = false)
+                _sideEffect.emit(SideEffect.ShowRestoreSuccess)
+            }
+            return
+        }
+        
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
             
