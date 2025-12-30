@@ -15,7 +15,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.1.0-internal"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -95,5 +95,8 @@ dependencies {
 
     // Image Loading
     implementation(libs.coil.compose)
+
+    // Billing
+    implementation(libs.billing.ktx)
 
 }

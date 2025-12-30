@@ -17,16 +17,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.android.billingclient.api.ProductDetails
 import com.fpstudio.stretchreminder.ui.screen.premium.contract.PremiumScreenContract.SubscriptionPlan
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 
 @Composable
-fun SubscriptionPlanCard(
+fun SubscriptionPlanCardWithBilling(
     plan: SubscriptionPlan,
+    productDetails: ProductDetails?,
     isSelected: Boolean,
     onPlanSelected: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // Extract pricing information from ProductDetails
+    val pricingInfo = productDetails?.subscriptionOfferDetails?.firstOrNull()?.pricingPhases?.pricingPhaseList?.firstOrNull()
+    val formattedPrice = pricingInfo?.formattedPrice ?: if (plan == SubscriptionPlan.ANNUAL) "$39.99" else "$7.99"
+    val billingPeriod = if (plan == SubscriptionPlan.ANNUAL) "/yr" else "/mo"
+    
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -40,7 +47,7 @@ fun SubscriptionPlanCard(
             .clickable { onPlanSelected() }
     ) {
         // Best Value Badge
-        if (plan.isBestValue) {
+        if (plan == SubscriptionPlan.ANNUAL) {
             Box(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -49,7 +56,7 @@ fun SubscriptionPlanCard(
             ) {
                 Text(
                     modifier = Modifier
-                        .padding(horizontal = 8.dp, vertical = 0.dp),
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
                     text = "BEST VALUE",
                     fontSize = 8.sp,
                     fontWeight = FontWeight.Bold,
@@ -82,16 +89,16 @@ fun SubscriptionPlanCard(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = plan.displayName,
+                        text = if (plan == SubscriptionPlan.ANNUAL) "Annual" else "Monthly",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                         color = Color.Black
                     )
 
-                    plan.discount?.let { discount ->
+                    if (plan == SubscriptionPlan.ANNUAL) {
                         Text(
-                            text = discount,
+                            text = "Save 50%",
                             style = MaterialTheme.typography.bodySmall,
                             fontSize = 12.sp,
                             color = TurquoiseAccent,
@@ -108,14 +115,14 @@ fun SubscriptionPlanCard(
                     verticalAlignment = Alignment.Bottom
                 ) {
                     Text(
-                        text = plan.price,
+                        text = formattedPrice,
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         color = Color.Black
                     )
                     Text(
-                        text = plan.billingPeriod,
+                        text = billingPeriod,
                         style = MaterialTheme.typography.bodyMedium,
                         fontSize = 14.sp,
                         color = Color.Gray,
@@ -123,7 +130,7 @@ fun SubscriptionPlanCard(
                     )
                 }
 
-                if (plan.isBestValue) {
+                if (plan == SubscriptionPlan.ANNUAL) {
                     Text(
                         text = "$3.33 / month",
                         style = MaterialTheme.typography.bodySmall,

@@ -1,5 +1,6 @@
 package com.fpstudio.stretchreminder.ui.screen.premium
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -9,20 +10,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fpstudio.stretchreminder.ui.screen.intro.Terms
 import com.fpstudio.stretchreminder.ui.screen.premium.components.BenefitsList
 import com.fpstudio.stretchreminder.ui.screen.premium.components.PremiumHeader
-import com.fpstudio.stretchreminder.ui.screen.premium.components.SubscriptionPlanCard
+import com.fpstudio.stretchreminder.ui.screen.premium.components.SubscriptionPlanCardWithBilling
 import com.fpstudio.stretchreminder.ui.screen.premium.contract.PremiumScreenContract.Intent
 import com.fpstudio.stretchreminder.ui.screen.premium.contract.PremiumScreenContract.SideEffect
 import com.fpstudio.stretchreminder.ui.screen.premium.contract.PremiumScreenContract.SubscriptionPlan
@@ -36,19 +38,51 @@ fun PremiumScreen(
     onNavigateBack: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    
+    // Set activity reference
+    DisposableEffect(context) {
+        if (context is Activity) {
+            viewModel.setActivity(context)
+        }
+        onDispose {
+            // Cleanup handled in ViewModel
+        }
+    }
     
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
                 SideEffect.NavigateBack -> onNavigateBack()
-                SideEffect.ShowTrialStarted -> {
-                    // TODO: Show success message
+                
+                SideEffect.ShowPurchaseSuccess -> {
+                    snackbarHostState.showSnackbar(
+                        message = "Purchase successful! Welcome to Premium!",
+                        duration = SnackbarDuration.Short
+                    )
+                    onNavigateBack()
                 }
+                
+                is SideEffect.ShowPurchaseError -> {
+                    snackbarHostState.showSnackbar(
+                        message = "Purchase failed: ${effect.message}",
+                        duration = SnackbarDuration.Long
+                    )
+                }
+                
                 SideEffect.ShowRestoreSuccess -> {
-                    // TODO: Show restore success
+                    snackbarHostState.showSnackbar(
+                        message = "Purchases restored successfully!",
+                        duration = SnackbarDuration.Short
+                    )
                 }
-                SideEffect.ShowRestoreError -> {
-                    // TODO: Show restore error
+                
+                is SideEffect.ShowRestoreError -> {
+                    snackbarHostState.showSnackbar(
+                        message = "Restore failed: ${effect.message}",
+                        duration = SnackbarDuration.Long
+                    )
                 }
             }
         }
@@ -56,6 +90,7 @@ fun PremiumScreen(
     
     Scaffold(
         containerColor = Color(0xFFF5F5F5),
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { 
@@ -75,10 +110,13 @@ fun PremiumScreen(
                     }
                 },
                 actions = {
-                    TextButton(onClick = { viewModel.handleIntent(Intent.RestorePurchases) }) {
+                    TextButton(
+                        onClick = { viewModel.handleIntent(Intent.RestorePurchases) },
+                        enabled = !uiState.isLoading
+                    ) {
                         Text(
                             text = "Restore",
-                            color = TurquoiseAccent,
+                            color = if (uiState.isLoading) Color.Gray else TurquoiseAccent,
                             fontWeight = FontWeight.Medium
                         )
                     }
@@ -105,7 +143,7 @@ fun PremiumScreen(
                         containerColor = TurquoiseAccent
                     ),
                     shape = RoundedCornerShape(16.dp),
-                    enabled = !uiState.isLoading
+                    enabled = !uiState.isLoading && uiState.billingConnected
                 ) {
                     if (uiState.isLoading) {
                         CircularProgressIndicator(
@@ -153,21 +191,40 @@ fun PremiumScreen(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                SubscriptionPlanCard(
+                SubscriptionPlanCardWithBilling(
                     plan = SubscriptionPlan.ANNUAL,
+                    productDetails = uiState.annualProduct,
                     isSelected = uiState.selectedPlan == SubscriptionPlan.ANNUAL,
                     onPlanSelected = { 
                         viewModel.handleIntent(Intent.SelectPlan(SubscriptionPlan.ANNUAL))
                     }
                 )
                 
-                SubscriptionPlanCard(
+                SubscriptionPlanCardWithBilling(
                     plan = SubscriptionPlan.MONTHLY,
+                    productDetails = uiState.monthlyProduct,
                     isSelected = uiState.selectedPlan == SubscriptionPlan.MONTHLY,
                     onPlanSelected = { 
                         viewModel.handleIntent(Intent.SelectPlan(SubscriptionPlan.MONTHLY))
                     }
                 )
+            }
+            
+            // Show error if billing not connected
+            if (!uiState.billingConnected && !uiState.isLoading) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFFFFEBEE)
+                    )
+                ) {
+                    Text(
+                        text = "Unable to connect to billing service. Please check your internet connection.",
+                        modifier = Modifier.padding(16.dp),
+                        color = Color(0xFFC62828),
+                        fontSize = 14.sp
+                    )
+                }
             }
             
             Spacer(modifier = Modifier.height(16.dp))

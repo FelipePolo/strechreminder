@@ -1,31 +1,29 @@
 package com.fpstudio.stretchreminder.ui.screen.premium.contract
 
+import com.android.billingclient.api.ProductDetails
+
 object PremiumScreenContract {
     
     data class UiState(
         val selectedPlan: SubscriptionPlan = SubscriptionPlan.ANNUAL,
-        val isLoading: Boolean = false
+        val isLoading: Boolean = false,
+        val billingConnected: Boolean = false,
+        val annualProduct: ProductDetails? = null,
+        val monthlyProduct: ProductDetails? = null,
+        val errorMessage: String? = null,
+        val purchaseState: PurchaseState = PurchaseState.IDLE
     )
     
-    enum class SubscriptionPlan(
-        val displayName: String,
-        val price: String,
-        val billingPeriod: String,
-        val discount: String? = null,
-        val isBestValue: Boolean = false
-    ) {
-        ANNUAL(
-            displayName = "Annual",
-            price = "$39.99",
-            billingPeriod = "/yr",
-            discount = "Save 50%",
-            isBestValue = true
-        ),
-        MONTHLY(
-            displayName = "Monthly",
-            price = "$7.99",
-            billingPeriod = "/mo"
-        )
+    enum class SubscriptionPlan {
+        ANNUAL,
+        MONTHLY
+    }
+    
+    enum class PurchaseState {
+        IDLE,
+        PURCHASING,
+        SUCCESS,
+        ERROR
     }
     
     sealed class Intent {
@@ -33,12 +31,14 @@ object PremiumScreenContract {
         object StartTrial : Intent()
         object RestorePurchases : Intent()
         object Close : Intent()
+        object DismissError : Intent()
     }
     
     sealed class SideEffect {
         object NavigateBack : SideEffect()
-        object ShowTrialStarted : SideEffect()
+        object ShowPurchaseSuccess : SideEffect()
+        data class ShowPurchaseError(val message: String) : SideEffect()
         object ShowRestoreSuccess : SideEffect()
-        object ShowRestoreError : SideEffect()
+        data class ShowRestoreError(val message: String) : SideEffect()
     }
 }
