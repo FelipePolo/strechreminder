@@ -28,3 +28,6 @@ data class Exercise(val videoUrls: List<String>)
 
 @Serializable
 object Settings
+
+@Serializable
+object Premium

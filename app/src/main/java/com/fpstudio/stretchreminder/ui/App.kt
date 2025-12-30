@@ -117,6 +117,17 @@ fun App() {
             SettingsScreen(
                 onNavigateBack = {
                     navController.navigateUp()
+                },
+                onNavigateToPremium = {
+                    navController.navigate(Premium)
+                }
+            )
+        }
+        
+        composable<Premium> {
+            com.fpstudio.stretchreminder.ui.screen.premium.PremiumScreen(
+                onNavigateBack = {
+                    navController.navigateUp()
                 }
             )
         }

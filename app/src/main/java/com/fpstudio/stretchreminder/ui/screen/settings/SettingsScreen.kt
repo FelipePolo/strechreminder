@@ -38,7 +38,8 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SettingsScreen(
     viewModel: SettingsScreenViewModel = koinViewModel(),
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
+    onNavigateToPremium: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -48,7 +49,7 @@ fun SettingsScreen(
                 SideEffect.NavigateBack -> onNavigateBack()
 
                 SideEffect.NavigateToPremium -> {
-                    // TODO: Navigate to premium
+                    onNavigateToPremium()
                 }
 
                 SideEffect.NavigateToRateApp -> {
