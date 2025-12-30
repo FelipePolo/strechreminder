@@ -14,8 +14,7 @@ class TutorialScreenViewModel : ViewModel(), Mvi<UiState, Intent, SideEffect> by
     override fun handleIntent(intent: Intent) {
         when (intent) {
             is Intent.StartExerciseRoutine -> startExerciseRoutine()
-            is Intent.FinishExerciseRoutine -> showCongratulations()
-            is Intent.CongratulationsComplete -> exerciseRoutineComplete()
+            is Intent.FinishExerciseRoutine -> exerciseRoutineComplete()
         }
     }
 
@@ -27,13 +26,7 @@ class TutorialScreenViewModel : ViewModel(), Mvi<UiState, Intent, SideEffect> by
         }
     }
 
-    private fun showCongratulations() {
-        updateUiState {
-            uiState.value.copy(
-                page = 2
-            )
-        }
-    }
+
 
     private fun exerciseRoutineComplete() {
         viewModelScope.launch {

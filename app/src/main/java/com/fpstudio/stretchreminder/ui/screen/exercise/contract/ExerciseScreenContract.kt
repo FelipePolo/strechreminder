@@ -14,6 +14,7 @@ interface ExerciseScreenContract {
     sealed class Intent {
         object UserPrepared: Intent()
         object SeeNextVideo: Intent()
+        object CongratulationsComplete: Intent()
         data class ReadyToExercise(val videoDuration: Long): Intent()
         data class UpdateRemainingTime(val remainingTime: Long): Intent()
     }

@@ -117,12 +117,10 @@ private fun ExerciseScreenContent(
             if (state.showCongratulations) {
                 CongratulationScreen(
                     modifier = Modifier
+                        .fillMaxSize()
                         .background(Color.White),
-                    uiModel = CongratulationUiModel(
-                        title = "Congratulations!",
-                        subtitle = "You have completed your exercise routine"
-                    ),
-                    navigateNext = {} // Navigation is handled by ViewModel
+                    uiModel = CongratulationUiModel(),
+                    navigateNext = { onIntent(Intent.CongratulationsComplete) }
                 )
             }
         }

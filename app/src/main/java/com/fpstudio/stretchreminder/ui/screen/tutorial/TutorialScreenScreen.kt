@@ -29,7 +29,6 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.fpstudio.stretchreminder.util.foundation.LaunchedSideEffect
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
-import com.fpstudio.stretchreminder.ui.screen.congratulation.CongratulationScreen
 import com.fpstudio.stretchreminder.ui.screen.exercise.ExerciseScreen
 import org.koin.androidx.compose.koinViewModel
 import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.Intent
@@ -91,15 +90,6 @@ fun TutorialScreenContent(
                     state = screen,
                     onIntent = onIntent
                 )
-            }
-
-            is TutorialScreenUiModel.Complete -> {
-                if (pagerState.settledPage == 2) {
-                    CompleteScreen(
-                        state = screen,
-                        onIntent = onIntent
-                    )
-                }
             }
         }
     }
@@ -166,15 +156,7 @@ private fun TutorialScreenPlayer(state: TutorialScreenUiModel.TutorialScreen, on
     ExerciseScreen(
         state = state.exerciseScreenState
     ) {
+        // ExerciseScreen handles congratulations and navigation
         onIntent(Intent.FinishExerciseRoutine)
-    }
-}
-
-@Composable
-private fun CompleteScreen(state: TutorialScreenUiModel.Complete, onIntent: (Intent) -> Unit) {
-    CongratulationScreen(
-        uiModel = state.congrats,
-    ) {
-        onIntent(Intent.CongratulationsComplete)
     }
 }

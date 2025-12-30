@@ -42,7 +42,7 @@ fun CongratulationScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        delay(3000)
+        delay(2500)
         navigateNext()
     }
 
@@ -65,14 +65,14 @@ fun CongratulationScreen(
             modifier = Modifier.fillMaxSize().align(Alignment.TopCenter)
         )
         Column(
-            modifier = modifier.align(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_figure),
                 contentDescription = "Congratulation",
-                modifier = modifier.size(
+                modifier = Modifier.size(
                     200.dp,
                     200.dp
                 ),

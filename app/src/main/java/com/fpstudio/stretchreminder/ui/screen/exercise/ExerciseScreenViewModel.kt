@@ -47,6 +47,12 @@ class ExerciseScreenViewModel(var initialState: UiState) : ViewModel(),
                 }
             }
 
+            is Intent.CongratulationsComplete -> {
+                viewModelScope.launch {
+                    emitSideEffect(SideEffect.NavigateNext)
+                }
+            }
+
             is Intent.SeeNextVideo -> {
                 val hasMoreVideos = uiState.value.playlist.playIndex + 1 < uiState.value.playlist.videos.size
                 
@@ -57,11 +63,7 @@ class ExerciseScreenViewModel(var initialState: UiState) : ViewModel(),
                             showCongratulations = true
                         )
                     }
-                    // Navigate after 3 seconds
-                    viewModelScope.launch {
-                        kotlinx.coroutines.delay(3000)
-                        emitSideEffect(SideEffect.NavigateNext)
-                    }
+                    // Navigation will be triggered by CongratulationScreen callback
                 } else {
                     // More videos to play
                     val shouldShowPreText = uiState.value.playlist.videos.size > 1 && 

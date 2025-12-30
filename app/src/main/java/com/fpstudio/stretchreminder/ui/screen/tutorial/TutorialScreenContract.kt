@@ -4,7 +4,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
-import com.fpstudio.stretchreminder.ui.screen.congratulation.CongratulationUiModel
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenContract.UiState
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.Playlist
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.PreText
@@ -18,7 +17,6 @@ interface TutorialScreenContract {
     sealed interface Intent {
         object StartExerciseRoutine : Intent
         object FinishExerciseRoutine : Intent
-        object CongratulationsComplete : Intent
     }
 
     sealed interface SideEffect {
@@ -49,9 +47,6 @@ private fun getBaseExerciseRoutineList(): List<TutorialScreenUiModel> {
                 ),
                 disclaimer = "If your experience pain or discomfort while exercising, please stop immediately and consult your doctor or qualified healthcare professional before continuing."
             )
-        ),
-        TutorialScreenUiModel.Complete(
-            congrats = CongratulationUiModel()
         )
     )
 }
