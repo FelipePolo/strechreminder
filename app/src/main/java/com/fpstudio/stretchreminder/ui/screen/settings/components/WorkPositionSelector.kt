@@ -50,7 +50,7 @@ fun WorkPositionSelector(
                             WorkPosition.SITTING ->
                                 Icon(
                                     modifier = Modifier.size(24.dp),
-                                    painter = painterResource(R.drawable.chair),
+                                    painter = painterResource(R.drawable.ic_chair),
                                     tint = Color.Gray,
                                     contentDescription = "controll icon"
                                 )

@@ -1,7 +1,6 @@
 package com.fpstudio.stretchreminder.ui.screen.home.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,16 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.R
-import com.fpstudio.stretchreminder.ui.theme.Green_gradient_1
-import com.fpstudio.stretchreminder.ui.theme.Green_gradient_2
 import com.fpstudio.stretchreminder.ui.theme.StretchReminderTheme
 
 @Composable
@@ -77,7 +72,7 @@ private fun InfoCardPreview() {
         InfoCard(
             title = "Streak",
             value = "1 Day",
-            icon = R.drawable.fire
+            icon = R.drawable.ic_fire
         )
     }
 }

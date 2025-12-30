@@ -70,7 +70,7 @@ fun CongratulationScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.figure),
+                painter = painterResource(id = R.drawable.ic_figure),
                 contentDescription = "Congratulation",
                 modifier = modifier.size(
                     200.dp,

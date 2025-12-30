@@ -99,7 +99,7 @@ fun PlanCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.premium_icon),
+                    painter = painterResource(R.drawable.ic_premium),
                     contentDescription = "Premium",
                     modifier = Modifier
                         .size(24.dp)

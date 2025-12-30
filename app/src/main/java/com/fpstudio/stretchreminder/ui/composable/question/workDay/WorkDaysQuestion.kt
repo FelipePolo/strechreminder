@@ -65,7 +65,7 @@ fun WorkDaysQuestion(model: QuestionUiModel.WorkDays, onAnswer: (QuestionSelecti
                             modifier = Modifier
                                 .size(24.dp)
                                 .align(Alignment.Center),
-                            painter = painterResource(id = R.drawable.baseline_check_24),
+                            painter = painterResource(id = R.drawable.ic_check),
                             contentDescription = "Check",
                             tint = Color.White
                         )

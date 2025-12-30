@@ -198,7 +198,7 @@ fun SettingsContent(
                     Divider(color = Color(0xFFF5F5F5), thickness = 1.dp)
 
                     SettingsItem(
-                        iconRes = R.drawable.premium_icon,
+                        iconRes = R.drawable.ic_premium,
                         iconBackgroundColor = Color(0xFFFFF9C4),
                         iconTint = Color(0xFFFFA000),
                         title = "Rate on Google Play",
@@ -209,7 +209,7 @@ fun SettingsContent(
                     Divider(color = Color(0xFFF5F5F5), thickness = 1.dp)
 
                     SettingsItem(
-                        iconRes = R.drawable.ic_bell,
+                        iconRes = R.drawable.ic_comment,
                         iconBackgroundColor = Color(0xFFF3E5F5),
                         iconTint = Color(0xFF9C27B0),
                         title = "Send Feedback",

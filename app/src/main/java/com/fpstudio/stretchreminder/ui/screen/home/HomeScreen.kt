@@ -24,12 +24,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.res.stringResource
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
@@ -37,8 +32,6 @@ import com.fpstudio.stretchreminder.ui.screen.home.components.DailyGoalCard
 import com.fpstudio.stretchreminder.ui.screen.home.components.Header
 import com.fpstudio.stretchreminder.ui.screen.home.components.InfoCard
 import com.fpstudio.stretchreminder.ui.screen.home.model.DailyGoalUiState
-import com.fpstudio.stretchreminder.ui.theme.Green_gradient_1
-import com.fpstudio.stretchreminder.ui.theme.Green_gradient_2
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 import java.time.LocalDate
 
@@ -116,13 +109,13 @@ fun HomeContent(
                     modifier = Modifier.weight(1f),
                     title = "Streak",
                     value = "${uiState.dailyStatsState.stretchDays} Day",
-                    icon = R.drawable.fire
+                    icon = R.drawable.ic_fire
                 )
                 InfoCard(
                     modifier = Modifier.weight(1f),
                     title = "Duration",
                     value = "${uiState.dailyStatsState.stretchingTime} min",
-                    icon = R.drawable.clock
+                    icon = R.drawable.ic_clock
                 )
             }
 

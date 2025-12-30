@@ -3,7 +3,7 @@
 
     <style name="Theme.StretchReminderSplashScreen" parent="Theme.SplashScreen" >
         <item name="windowSplashScreenBackground">@color/green</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/stretch_icon</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_stretch</item>
         <item name="postSplashScreenTheme">@style/Theme.StretchReminder</item>
     </style>
 
