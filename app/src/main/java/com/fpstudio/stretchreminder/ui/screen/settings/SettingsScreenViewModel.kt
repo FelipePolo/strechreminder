@@ -72,7 +72,8 @@ class SettingsScreenViewModel(
                 focusAreas = mapBodyPartsToFocusAreas(user.bodyParts),
                 workdays = mapWorkDaysToWorkdays(user.workDays),
                 startTime = formatTimestampToTime(user.startTime),
-                endTime = formatTimestampToTime(user.endTime)
+                endTime = formatTimestampToTime(user.endTime),
+                achievements = user.achievement
             ),
             appSettings = AppSettingsState(
                 notificationsEnabled = user.notificationPermission
@@ -217,7 +218,8 @@ class SettingsScreenViewModel(
             workDays = mapWorkdaysToWorkDays(currentState.routinePreferences.workdays),
             startTime = parseTimeToTimestamp(currentState.routinePreferences.startTime),
             endTime = parseTimeToTimestamp(currentState.routinePreferences.endTime),
-            notificationPermission = currentState.appSettings.notificationsEnabled
+            notificationPermission = currentState.appSettings.notificationsEnabled,
+            achievement = currentState.routinePreferences.achievements
         )
         
         saveUserUseCase(updatedUser)
@@ -291,6 +293,21 @@ class SettingsScreenViewModel(
                 _uiState.value = _uiState.value.copy(
                     profile = _uiState.value.profile.copy(
                         displayName = intent.name
+                    )
+                )
+            }
+            
+            is Intent.ToggleAchievement -> {
+                val currentAchievements = _uiState.value.routinePreferences.achievements.toMutableList()
+                val existing = currentAchievements.find { it.title == intent.achievement.title }
+                if (existing != null) {
+                    currentAchievements.remove(existing)
+                } else {
+                    currentAchievements.add(intent.achievement)
+                }
+                _uiState.value = _uiState.value.copy(
+                    routinePreferences = _uiState.value.routinePreferences.copy(
+                        achievements = currentAchievements
                     )
                 )
             }

@@ -24,7 +24,8 @@ object SettingsScreenContract {
         val focusAreas: Set<FocusArea> = emptySet(),
         val workdays: Set<Workday> = emptySet(),
         val startTime: String = "09:00 AM",
-        val endTime: String = "05:00 PM"
+        val endTime: String = "05:00 PM",
+        val achievements: List<com.fpstudio.stretchreminder.data.model.UserAchievement> = emptyList()
     )
     
     data class AppSettingsState(
@@ -66,6 +67,7 @@ object SettingsScreenContract {
         data class UpdateEndTime(val time: String) : Intent()
         data class ToggleNotifications(val enabled: Boolean) : Intent()
         data class UpdateDisplayName(val name: String) : Intent()
+        data class ToggleAchievement(val achievement: com.fpstudio.stretchreminder.data.model.UserAchievement) : Intent()
         object UpgradeToPremium : Intent()
         object ManageSubscription : Intent()
         object RateApp : Intent()

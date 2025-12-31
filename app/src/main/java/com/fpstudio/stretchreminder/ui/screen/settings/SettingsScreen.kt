@@ -109,6 +109,53 @@ fun SettingsContent(
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
     var showUnsavedChangesDialog by remember { mutableStateOf(false) }
+    var showObjectivesBottomSheet by remember { mutableStateOf(false) }
+    
+    // Available objectives from FormData (excluding "All" option)
+    val availableObjectives = remember {
+        listOf(
+            com.fpstudio.stretchreminder.data.model.UserAchievement(
+                iconStr = "💪",
+                title = "Reduce Muscle Tension",
+                description = "Reduce Muscle Tension"
+            ),
+            com.fpstudio.stretchreminder.data.model.UserAchievement(
+                iconStr = "🧘‍♂️",
+                title = "Improve Posture",
+                description = "Improve Posture"
+            ),
+            com.fpstudio.stretchreminder.data.model.UserAchievement(
+                iconStr = "⚡",
+                title = "Increase Energy",
+                description = "Increase Energy"
+            ),
+            com.fpstudio.stretchreminder.data.model.UserAchievement(
+                iconStr = "😌",
+                title = "Reduce Stress And Anxiety",
+                description = "Reduce Stress And Anxiety"
+            ),
+            com.fpstudio.stretchreminder.data.model.UserAchievement(
+                iconStr = "😴",
+                title = "Improve Sleep quality",
+                description = "Improve Sleep quality"
+            ),
+            com.fpstudio.stretchreminder.data.model.UserAchievement(
+                iconStr = "⏱️",
+                title = "Build Healthy Work Breaks",
+                description = "Build Healthy Work Breaks"
+            ),
+            com.fpstudio.stretchreminder.data.model.UserAchievement(
+                iconStr = "🤸‍♂️",
+                title = "Enhanced Flexibility and Mobility",
+                description = "Enhanced Flexibility and Mobility"
+            ),
+            com.fpstudio.stretchreminder.data.model.UserAchievement(
+                iconStr = "❤️",
+                title = "Prevent Long-Term Health Issues",
+                description = "Prevent Long-Term Health Issues"
+            )
+        )
+    }
     Scaffold(
         containerColor = Color(0xFFF5F5F5),
         topBar = {
@@ -199,7 +246,8 @@ fun SettingsContent(
                     preferences = uiState.routinePreferences,
                     onIntent = onIntent,
                     onStartTimeClick = { showStartTimePicker = true },
-                    onEndTimeClick = { showEndTimePicker = true }
+                    onEndTimeClick = { showEndTimePicker = true },
+                    onObjectivesClick = { showObjectivesBottomSheet = true }
                 )
 
                 // App Settings
@@ -300,6 +348,29 @@ fun SettingsContent(
             }
         )
     }
+    
+    // Objectives bottom sheet
+    if (showObjectivesBottomSheet) {
+        ObjectivesBottomSheet(
+            availableObjectives = availableObjectives,
+            selectedObjectives = uiState.routinePreferences.achievements,
+            onDismiss = { showObjectivesBottomSheet = false },
+            onSave = { selectedObjectives ->
+                // Update each achievement
+                selectedObjectives.forEach { achievement ->
+                    if (!uiState.routinePreferences.achievements.any { it.title == achievement.title }) {
+                        onIntent(Intent.ToggleAchievement(achievement))
+                    }
+                }
+                // Remove unselected achievements
+                uiState.routinePreferences.achievements.forEach { achievement ->
+                    if (!selectedObjectives.any { it.title == achievement.title }) {
+                        onIntent(Intent.ToggleAchievement(achievement))
+                    }
+                }
+            }
+        )
+    }
 }
 
 @Composable
@@ -307,7 +378,8 @@ private fun RoutinePreferencesSection(
     preferences: RoutinePreferencesState,
     onIntent: (Intent) -> Unit,
     onStartTimeClick: () -> Unit,
-    onEndTimeClick: () -> Unit
+    onEndTimeClick: () -> Unit,
+    onObjectivesClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -342,6 +414,11 @@ private fun RoutinePreferencesSection(
         FocusAreaSelector(
             selectedAreas = preferences.focusAreas,
             onAreaToggled = { onIntent(Intent.ToggleFocusArea(it)) }
+        )
+
+        ImprovementObjectivesSelector(
+            achievements = preferences.achievements,
+            onClick = onObjectivesClick
         )
 
         WorkdaySelector(
