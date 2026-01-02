@@ -35,8 +35,16 @@ class FormViewModel(
             }
 
             is Intent.OnContinueClick -> onContinue()
-            is Intent.OnNotificationAllow -> onContinue()
-            is Intent.OnNotificationDeny -> onContinue()
+            is Intent.OnNotificationAllow -> {
+                // Mark notification permission question as answered
+                updateNotificationPermissionState(granted = true)
+                onContinue()
+            }
+            is Intent.OnNotificationDeny -> {
+                // Mark notification permission question as answered (but denied)
+                updateNotificationPermissionState(granted = false)
+                onContinue()
+            }
             is Intent.OnBackClick -> onBack()
             Intent.OnMadeForYouCloseClick -> onMadeForYouCloseClick()
             Intent.OnPlanSuccessCloseClick -> onPlanSuccessCloseClick()
@@ -234,6 +242,31 @@ class FormViewModel(
             newButton.copy(
                 isVisible = false
             )
+        }
+    }
+
+    private fun updateNotificationPermissionState(granted: Boolean) {
+        val page = uiState.value.page
+        val form = uiState.value.form.toMutableList()
+        val currentPageForm = form[page]
+        
+        // Find the notification permission question
+        val questionIndex = currentPageForm.questions.indexOfFirst { 
+            it is QuestionUiModel.NotificationPermission 
+        }
+        
+        if (questionIndex != -1) {
+            val updatedQuestions = currentPageForm.questions.toMutableList()
+            val notificationQuestion = updatedQuestions[questionIndex] as QuestionUiModel.NotificationPermission
+            
+            // Update the question with the answered state
+            updatedQuestions[questionIndex] = notificationQuestion.copy(answered = granted)
+            
+            form[page] = currentPageForm.copy(questions = updatedQuestions)
+            
+            updateUiState {
+                copy(form = form)
+            }
         }
     }
 
