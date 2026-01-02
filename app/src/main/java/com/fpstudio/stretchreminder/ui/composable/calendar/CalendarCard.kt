@@ -227,8 +227,8 @@ private fun DayCell(
             .size(40.dp),
         contentAlignment = Alignment.Center
     ) {
-        // Background circle for today
-        if (isToday) {
+        // Filled circle for marked/completed days
+        if (isMarked) {
             Box(
                 modifier = Modifier
                     .size(36.dp)
@@ -237,12 +237,25 @@ private fun DayCell(
             )
         }
         
+        // Bordered circle for today (only border, no fill)
+        if (isToday) {
+            Box(
+                modifier = Modifier
+                    .size(36.dp)
+                    .border(
+                        width = 2.dp,
+                        color = TurquoiseAccent,
+                        shape = CircleShape
+                    )
+            )
+        }
+        
         // Day number
         Text(
             text = day.toString(),
             style = MaterialTheme.typography.bodyMedium,
             color = when {
-                isToday -> Color.White
+                isMarked -> Color.White  // White text on green background
                 !isCurrentMonth -> Color.LightGray
                 else -> Color.Black
             },
@@ -308,8 +321,8 @@ private fun CalendarLegend() {
 fun CalendarCardPreview() {
     CalendarCard(
         model = Calendar(
-            today = LocalDate.of(2025, 12, 27),
-            markedDays = listOf(1, 2, 8, 9, 10, 15, 16, 22, 23, 27)
+            today = LocalDate.of(2026, 1, 2),
+            markedDays = listOf(1, 8, 9, 15, 16, 22, 23, 27)
         )
     )
 }

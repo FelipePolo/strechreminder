@@ -12,4 +12,5 @@ data class CalendarItemUiModel(
     val borderColor: Color,
     val backgroundColor: Color,
     val checked: Boolean = false,
+    val isCurrentDay: Boolean = false,
 )

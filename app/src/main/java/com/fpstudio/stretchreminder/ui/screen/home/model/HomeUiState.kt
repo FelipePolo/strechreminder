@@ -8,8 +8,7 @@ data class HomeUiState(
     val dailyGoalState: DailyGoalUiState = DailyGoalUiState(),
     val dailyStatsState: DailyStatsUiState = DailyStatsUiState(),
     val calendarState: Calendar = Calendar(
-        today = LocalDate.now(),
-        markedDays = listOf(10, 24)
+        today = LocalDate.now()
     )
 )
 

@@ -34,8 +34,7 @@ class HomeViewModel : ViewModel() {
                         stretchDays = 0
                     ),
                     calendarState = Calendar(
-                        today = today,
-                        markedDays = listOf(10, 2)
+                        today = today
                     )
                 )
             }

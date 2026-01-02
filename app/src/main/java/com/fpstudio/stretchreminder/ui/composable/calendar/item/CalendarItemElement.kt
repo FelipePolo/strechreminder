@@ -41,10 +41,9 @@ fun CalendarItemElement(
     if (model.dayNumber.isNotEmpty()) {
         Box(modifier = modifier) {
             Column(
-                modifier = Modifier
-                    .border(1.dp, model.borderColor, RoundedCornerShape(8.dp))
-                    .background(model.backgroundColor)
+                modifier = Modifier.fillMaxSize()
             ) {
+                // Day of week header (only shown in first week)
                 if (model.dayOfTheMonth.isNotEmpty()) {
                     val gradient = Brush.horizontalGradient(
                         startX = 1F,
@@ -74,6 +73,8 @@ fun CalendarItemElement(
                         )
                     }
                 }
+                
+                // Day number with circle indicators
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -81,32 +82,50 @@ fun CalendarItemElement(
                             if (isWeekend(model.dayNumber.toInt(), model.currentMonth)) {
                                 Modifier.background(
                                     color = Gray2,
-                                    shape = RoundedCornerShape(0.dp, 0.dp, 8.dp, 8.dp)
+                                    shape = if (model.dayOfTheMonth.isEmpty()) 
+                                        RoundedCornerShape(8.dp) 
+                                    else 
+                                        RoundedCornerShape(0.dp, 0.dp, 8.dp, 8.dp)
                                 )
                             } else {
                                 Modifier
                             }
-                        )
+                        ),
+                    contentAlignment = Alignment.Center
                 ) {
+                    // Background circle for completed days (filled green circle)
+                    if (model.checked) {
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .background(
+                                    Green_gradient_1,
+                                    shape = androidx.compose.foundation.shape.CircleShape
+                                )
+                        )
+                    }
+                    
+                    // Border circle for current day (empty circle with border)
+                    if (model.isCurrentDay) {
+                        Box(
+                            modifier = Modifier
+                                .size(40.dp)
+                                .border(
+                                    2.dp,
+                                    Green_gradient_1,
+                                    shape = androidx.compose.foundation.shape.CircleShape
+                                )
+                        )
+                    }
+                    
+                    // Day number text
                     Text(
-                        modifier = Modifier.align(Alignment.Center),
                         text = model.dayNumber,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
-                        color = model.dayTextColor
+                        color = if (model.checked) Color.White else model.dayTextColor
                     )
                 }
-            }
-
-            if (model.checked) {
-                Image(
-                    modifier = Modifier
-                        .size(16.dp)
-                        .align(Alignment.TopEnd)
-                        .offset(y = (-4).dp, x = (+4).dp),
-                    painter = painterResource(id = R.drawable.check),
-                    contentDescription = "Checked"
-                )
             }
         }
     }
