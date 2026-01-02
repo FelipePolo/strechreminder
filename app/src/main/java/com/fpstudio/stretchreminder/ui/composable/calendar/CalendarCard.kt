@@ -144,7 +144,7 @@ private fun DaysOfWeekHeader() {
 private fun CalendarGrid(
     currentDate: LocalDate,
     actualToday: LocalDate,
-    markedDays: List<Int>
+    markedDays: List<LocalDate>
 ) {
     val yearMonth = YearMonth.of(currentDate.year, currentDate.month)
     val daysInMonth = yearMonth.lengthOfMonth()
@@ -185,11 +185,11 @@ private fun CalendarGrid(
                         }
                         // Current month days
                         dayCounter <= daysInMonth -> {
+                            val dayDate = LocalDate.of(currentDate.year, currentDate.month, dayCounter)
                             // Check if this day is actually today
-                            val isToday = dayCounter == actualToday.dayOfMonth && 
-                                         currentDate.month == actualToday.month && 
-                                         currentDate.year == actualToday.year
-                            val isMarked = markedDays.contains(dayCounter)
+                            val isToday = dayDate == actualToday
+                            // Check if this specific date is marked
+                            val isMarked = markedDays.contains(dayDate)
                             DayCell(
                                 day = dayCounter,
                                 isCurrentMonth = true,
@@ -322,7 +322,12 @@ fun CalendarCardPreview() {
     CalendarCard(
         model = Calendar(
             today = LocalDate.of(2026, 1, 2),
-            markedDays = listOf(1, 8, 9, 15, 16, 22, 23, 27)
+            markedDays = listOf(
+                LocalDate.of(2026, 1, 1),
+                LocalDate.of(2026, 1, 8),
+                LocalDate.of(2026, 1, 15),
+                LocalDate.of(2026, 1, 22)
+            )
         )
     )
 }

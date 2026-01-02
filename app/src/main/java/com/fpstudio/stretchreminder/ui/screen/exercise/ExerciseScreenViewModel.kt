@@ -7,9 +7,13 @@ import com.fpstudio.stretchreminder.util.foundation.MviDelegate
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenContract.UiState
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenContract.Intent
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenContract.SideEffect
+import com.fpstudio.stretchreminder.domain.usecase.SaveRoutineSessionUseCase
 import kotlinx.coroutines.launch
 
-class ExerciseScreenViewModel(var initialState: UiState) : ViewModel(),
+class ExerciseScreenViewModel(
+    var initialState: UiState,
+    private val saveRoutineSessionUseCase: SaveRoutineSessionUseCase
+) : ViewModel(),
     Mvi<UiState, Intent, SideEffect> by MviDelegate(initialState) {
 
     override fun handleIntent(intent: Intent) {
@@ -28,10 +32,19 @@ class ExerciseScreenViewModel(var initialState: UiState) : ViewModel(),
             }
 
             is Intent.ReadyToExercise -> {
+                val currentIndex = uiState.value.playlist.playIndex
+                val alreadyCounted = uiState.value.playlist.countedVideoIndices.contains(currentIndex)
+                
                 updateUiState {
                     uiState.value.copy(
                         playlist = uiState.value.playlist.copy(
-                            videoDuration = intent.videoDuration
+                            videoDuration = intent.videoDuration,
+                            totalRoutineDuration = if (!alreadyCounted) {
+                                uiState.value.playlist.totalRoutineDuration + (intent.videoDuration / 1000) // Convert ms to seconds
+                            } else {
+                                uiState.value.playlist.totalRoutineDuration
+                            },
+                            countedVideoIndices = uiState.value.playlist.countedVideoIndices + currentIndex
                         )
                     )
                 }
@@ -49,6 +62,11 @@ class ExerciseScreenViewModel(var initialState: UiState) : ViewModel(),
 
             is Intent.CongratulationsComplete -> {
                 viewModelScope.launch {
+                    // Save the completed routine session
+                    val totalDuration = uiState.value.playlist.totalRoutineDuration
+                    if (totalDuration > 0) {
+                        saveRoutineSessionUseCase(totalDuration)
+                    }
                     emitSideEffect(SideEffect.NavigateNext)
                 }
             }

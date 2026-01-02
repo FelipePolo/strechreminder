@@ -38,4 +38,6 @@ data class Playlist(
     val remainingTime: Long = 0,
     val playIndex: Int = 0,
     val videos: List<String> = emptyList(),
+    val totalRoutineDuration: Long = 0, // Total duration of all videos in seconds
+    val countedVideoIndices: Set<Int> = emptySet() // Track which videos have been counted
 )

@@ -114,7 +114,11 @@ fun HomeContent(
                 InfoCard(
                     modifier = Modifier.weight(1f),
                     title = "Duration",
-                    value = "${uiState.dailyStatsState.stretchingTime} min",
+                    value = if (uiState.dailyStatsState.stretchingTime < 60) {
+                        "${uiState.dailyStatsState.stretchingTime} sec"
+                    } else {
+                        "${uiState.dailyStatsState.stretchingTime / 60} min"
+                    },
                     icon = R.drawable.ic_clock
                 )
             }
@@ -156,7 +160,14 @@ fun HomeScreenPreview() {
             ),
             calendarState = Calendar(
                 today = LocalDate.of(2025, 12, 27),
-                markedDays = listOf(1, 2, 8, 9, 10, 15, 16, 22, 23, 27)
+                markedDays = listOf(
+                    LocalDate.of(2025, 12, 1),
+                    LocalDate.of(2025, 12, 2),
+                    LocalDate.of(2025, 12, 8),
+                    LocalDate.of(2025, 12, 15),
+                    LocalDate.of(2025, 12, 22),
+                    LocalDate.of(2025, 12, 27)
+                )
             )
         )
 
