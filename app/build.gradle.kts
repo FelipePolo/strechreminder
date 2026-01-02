@@ -49,6 +49,15 @@ android {
             )
         }
     }
+    
+    // Exclude productionDebug variant
+    androidComponents {
+        beforeVariants { variantBuilder ->
+            if (variantBuilder.buildType == "debug" && variantBuilder.productFlavors[0].second == "production") {
+                variantBuilder.enable = false
+            }
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
