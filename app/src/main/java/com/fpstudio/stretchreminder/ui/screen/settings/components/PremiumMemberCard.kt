@@ -156,22 +156,22 @@ fun PremiumMemberCard(
                     )
                 }
                 
-                Button(
-                    onClick = onManageClick,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF3A4A5A),
-                        contentColor = Color.White
-                    ),
-                    shape = RoundedCornerShape(24.dp),
-                    modifier = Modifier.height(48.dp)
-                ) {
-                    Text(
-                        text = "Manage",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                }
+//                Button(
+//                    onClick = onManageClick,
+//                    colors = ButtonDefaults.buttonColors(
+//                        containerColor = Color(0xFF3A4A5A),
+//                        contentColor = Color.White
+//                    ),
+//                    shape = RoundedCornerShape(24.dp),
+//                    modifier = Modifier.height(48.dp)
+//                ) {
+//                    Text(
+//                        text = "Manage",
+//                        fontSize = 16.sp,
+//                        fontWeight = FontWeight.SemiBold,
+//                        modifier = Modifier.padding(horizontal = 16.dp)
+//                    )
+//                }
             }
         }
     }

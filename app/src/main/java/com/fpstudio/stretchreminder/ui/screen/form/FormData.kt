@@ -31,18 +31,17 @@ fun getForms(): List<FormUiModel> {
                     question = "What do you want to achieve?",
                     selected = listOf(
                         UserAchievement(
-                            iconStr = "🧍‍♂️",
-                            title = "All",
-                            description = "All"
+                            iconStr = "💪",
+                            title = "Reduce Muscle Tension",
+                            description = "Reduce Muscle Tension"
+                        ),
+                        UserAchievement(
+                            iconStr = "😌",
+                            title = "Reduce Stress And Anxiety",
+                            description = "Reduce Stress And Anxiety"
                         )
                     ),
-                    nothingOption = true,
                     options = listOf(
-                        UserAchievement(
-                            iconStr = "🧍‍♂️",
-                            title = "All",
-                            description = "All"
-                        ),
                         UserAchievement(
                             iconStr = "💪",
                             title = "Reduce Muscle Tension",
@@ -93,14 +92,8 @@ fun getForms(): List<FormUiModel> {
                 QuestionUiModel.CustomBodyQuestion(
                     id = QuestionID.BODY_PARTS,
                     subtitle1 = "Now...,",
-                    nothingOption = true,
                     question = "¿Which parts of your body do you want to exercise?",
                     options = listOf(
-                        Pair(
-                            R.drawable.selected_all, BodyPart(
-                                id = BodyPartID.All, "All My Body"
-                            )
-                        ),
                         Pair(
                             R.drawable.selected_neck,
                             BodyPart(

@@ -82,6 +82,11 @@ class VideoState(
         currentPlaying = false
     }
 
+    fun pauseForLifecycle() {
+        exo.pause()
+        // Don't change currentPlaying - preserve user intent
+    }
+
     fun prepare() {
         exo.prepare()
     }

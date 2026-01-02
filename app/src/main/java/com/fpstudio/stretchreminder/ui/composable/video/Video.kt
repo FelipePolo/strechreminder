@@ -55,7 +55,7 @@ fun Video(
     OnAppLifecycle(
         onBackground = {
             if (state.isPlaying()) {
-                state.pause()
+                state.pauseForLifecycle()
             }
         },
         onForeground = {
