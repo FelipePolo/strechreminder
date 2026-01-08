@@ -7,7 +7,7 @@ data class Video(
     val duration: Int,
     val videoUrl: String,
     val title: String,
-    val bodyPart: BodyPartID,
+    val bodyParts: List<BodyPartID>,
     val badge: Badge?,
     val isSelected: Boolean = false
 )

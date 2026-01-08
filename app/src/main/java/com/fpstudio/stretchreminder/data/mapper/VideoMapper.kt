@@ -18,7 +18,7 @@ object VideoMapper {
             duration = duration,
             videoUrl = "$BASE_URL$url",
             title = title,
-            bodyPart = bodypart.toBodyPartID(),
+            bodyParts = bodyparts.map { it.name.toBodyPartID() },
             badge = badge?.let {
                 Badge(
                     name = it.name,

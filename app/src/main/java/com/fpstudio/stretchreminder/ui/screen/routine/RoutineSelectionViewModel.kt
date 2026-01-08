@@ -2,6 +2,7 @@ package com.fpstudio.stretchreminder.ui.screen.routine
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fpstudio.stretchreminder.data.model.BodyPartID
 import com.fpstudio.stretchreminder.data.model.Video
 import com.fpstudio.stretchreminder.domain.usecase.GetVideosUseCase
 import com.fpstudio.stretchreminder.ui.screen.routine.components.VideoFilter
@@ -41,7 +42,7 @@ class RoutineSelectionViewModel(
                             isLoading = false,
                             allVideos = videos,
                             filteredVideos = videos,
-                            groupedByBodyPart = videos.groupBy { it.bodyPart }
+                            groupedByBodyPart = groupVideosByBodyParts(videos)
                         )
                     }
                 },
@@ -66,14 +67,14 @@ class RoutineSelectionViewModel(
                    true
                 }
                 is VideoFilter.ByBodyPart -> state.allVideos.filter { 
-                    it.bodyPart == filter.bodyPart 
+                    filter.bodyPart in it.bodyParts
                 }
             }
             
             state.copy(
                 selectedFilter = filter,
                 filteredVideos = filtered,
-                groupedByBodyPart = filtered.groupBy { it.bodyPart }
+                groupedByBodyPart = groupVideosByBodyParts(filtered)
             )
         }
     }
@@ -93,16 +94,32 @@ class RoutineSelectionViewModel(
                     true
                 }
                 is VideoFilter.ByBodyPart -> updatedAllVideos.filter { 
-                    it.bodyPart == (state.selectedFilter as VideoFilter.ByBodyPart).bodyPart 
+                    (state.selectedFilter as VideoFilter.ByBodyPart).bodyPart in it.bodyParts
                 }
             }
             
             state.copy(
                 allVideos = updatedAllVideos,
                 filteredVideos = filtered,
-                groupedByBodyPart = filtered.groupBy { it.bodyPart },
+                groupedByBodyPart = groupVideosByBodyParts(filtered),
                 selectedVideos = updatedAllVideos.filter { it.isSelected }
             )
         }
+    }
+    
+    /**
+     * Groups videos by body parts. Since videos can have multiple body parts,
+     * a single video can appear in multiple groups.
+     */
+    private fun groupVideosByBodyParts(videos: List<Video>): Map<BodyPartID, List<Video>> {
+        val grouped = mutableMapOf<BodyPartID, MutableList<Video>>()
+        
+        videos.forEach { video ->
+            video.bodyParts.forEach { bodyPart ->
+                grouped.getOrPut(bodyPart) { mutableListOf() }.add(video)
+            }
+        }
+        
+        return grouped
     }
 }

@@ -75,7 +75,7 @@ fun VideosGrid(
             // Videos in 2-column grid
             items(
                 items = bodyPartVideos.chunked(2),
-                key = { it.firstOrNull()?.id ?: "" }
+                key = { "${bodyPart.name}_${it.firstOrNull()?.id ?: ""}" }
             ) { rowVideos ->
                 AnimatedVisibility(
                     visible = true,
