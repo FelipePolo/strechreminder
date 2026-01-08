@@ -129,4 +129,7 @@ dependencies {
     // RevenueCat
     implementation(libs.revenuecat.purchases)
 
+    // Reorderable
+    implementation(libs.reorderable)
+
 }

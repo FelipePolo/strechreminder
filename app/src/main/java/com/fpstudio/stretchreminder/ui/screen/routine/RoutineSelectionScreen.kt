@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +27,8 @@ import org.koin.androidx.compose.koinViewModel
 fun RoutineSelectionScreen(
     viewModel: RoutineSelectionViewModel = koinViewModel(),
     onBackClick: () -> Unit,
-    onContinue: (List<Video>) -> Unit
+    onContinue: (List<Video>) -> Unit,
+    onNavigateToMyRoutines: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -34,7 +36,8 @@ fun RoutineSelectionScreen(
         uiState = uiState,
         onIntent = viewModel::handleIntent,
         onBackClick = onBackClick,
-        onContinue = onContinue
+        onContinue = onContinue,
+        onNavigateToMyRoutines = onNavigateToMyRoutines
     )
 }
 
@@ -44,7 +47,8 @@ private fun RoutineSelectionContent(
     uiState: RoutineSelectionUiState,
     onIntent: (RoutineSelectionIntent) -> Unit,
     onBackClick: () -> Unit,
-    onContinue: (List<Video>) -> Unit
+    onContinue: (List<Video>) -> Unit,
+    onNavigateToMyRoutines: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -73,11 +77,17 @@ private fun RoutineSelectionContent(
         },
         bottomBar = {
             val totalDuration = uiState.selectedVideos.sumOf { it.duration }
-            ContinueButton(
-                enabled = uiState.selectedVideos.isNotEmpty(),
+            ActionButtonsRow(
                 selectedCount = uiState.selectedVideos.size,
                 totalDurationSeconds = totalDuration,
-                onClick = {
+                hasSavedRoutines = uiState.hasSavedRoutines,
+                onSaveRoutine = {
+                    onIntent(RoutineSelectionIntent.SaveRoutine)
+                },
+                onMyRoutines = {
+                    onIntent(RoutineSelectionIntent.ShowMyRoutinesSheet)
+                },
+                onStart = {
                     onContinue(uiState.selectedVideos)
                 }
             )
@@ -123,6 +133,40 @@ private fun RoutineSelectionContent(
                         }
                     )
                 }
+            }
+        }
+        
+        // Save Routine Bottom Sheet
+        if (uiState.showSaveRoutineSheet) {
+            SaveRoutineBottomSheet(
+                state = uiState.saveRoutineState,
+                onDismiss = { onIntent(RoutineSelectionIntent.HideSaveRoutineSheet) },
+                onNameChange = { onIntent(RoutineSelectionIntent.UpdateRoutineName(it)) },
+                onIconSelect = { onIntent(RoutineSelectionIntent.SelectRoutineIcon(it)) },
+                onColorSelect = { onIntent(RoutineSelectionIntent.SelectRoutineColor(it)) },
+                onReorderVideos = { from, to -> onIntent(RoutineSelectionIntent.ReorderVideos(from, to)) },
+                onRemoveVideo = { video -> onIntent(RoutineSelectionIntent.RemoveVideoFromRoutine(video)) },
+                onSave = { onIntent(RoutineSelectionIntent.ConfirmSaveRoutine) }
+            )
+        }
+        
+        // My Routines Bottom Sheet
+        if (uiState.showMyRoutinesSheet) {
+            MyRoutinesBottomSheet(
+                routines = uiState.savedRoutines,
+                selectedRoutineId = uiState.selectedRoutineId,
+                onDismiss = { onIntent(RoutineSelectionIntent.HideMyRoutinesSheet) },
+                onRoutineSelect = { routineId -> onIntent(RoutineSelectionIntent.SelectRoutine(routineId)) },
+                onStartRoutine = { onIntent(RoutineSelectionIntent.StartSelectedRoutine) }
+            )
+        }
+        
+        // Auto-navigate when starting a routine
+        LaunchedEffect(uiState.shouldNavigateToExercise) {
+            if (uiState.shouldNavigateToExercise && uiState.selectedVideos.isNotEmpty()) {
+                onContinue(uiState.selectedVideos)
+                // Reset flag
+                onIntent(RoutineSelectionIntent.ClearSelection)
             }
         }
     }

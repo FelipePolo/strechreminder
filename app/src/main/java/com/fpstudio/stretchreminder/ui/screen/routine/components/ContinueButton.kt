@@ -25,27 +25,28 @@ fun ContinueButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Button(
+        onClick = onClick,
+        enabled = enabled,
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .height(56.dp),
+        shape = RoundedCornerShape(28.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = TurquoiseAccent,
+            disabledContainerColor = Color(0xFFE0E0E0),
+            contentColor = Color.White,
+            disabledContentColor = Color.Gray
+        ),
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = if (enabled) 4.dp else 0.dp
+        ),
+        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 16.dp)
     ) {
-        Button(
-            onClick = onClick,
-            enabled = enabled,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            shape = RoundedCornerShape(28.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = TurquoiseAccent, // Turquoise green
-                disabledContainerColor = Color(0xFFE0E0E0),
-                contentColor = Color.White,
-                disabledContentColor = Color.Gray
-            ),
-            elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = if (enabled) 4.dp else 0.dp
-            )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = if (selectedCount > 0) {
@@ -58,27 +59,25 @@ fun ContinueButton(
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
-        }
-        
-        // Badge with selection count - only show when enabled and has selections
-        if (enabled && selectedCount > 0) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .offset(x = (-8).dp, y = (-4).dp)
-                    .size(40.dp)
-                    .background(
+            
+            // Badge with selection count - only show when enabled and has selections
+            if (enabled && selectedCount > 0) {
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .background(
+                            color = Color.White.copy(alpha = 0.2f),
+                            shape = CircleShape
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = selectedCount.toString(),
                         color = Color.White,
-                        shape = CircleShape
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = selectedCount.toString(),
-                    color = TurquoiseAccent, // Match button color
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }

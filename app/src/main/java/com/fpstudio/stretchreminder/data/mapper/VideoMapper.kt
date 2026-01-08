@@ -7,9 +7,9 @@ import com.fpstudio.stretchreminder.data.model.Video
 import com.fpstudio.stretchreminder.data.remote.dto.VideoDto
 
 object VideoMapper {
-    
+
     private const val BASE_URL = "https://stretchreminder.net"
-    
+
     fun VideoDto.toDomain(): Video {
         return Video(
             id = id,
@@ -18,7 +18,7 @@ object VideoMapper {
             duration = duration,
             videoUrl = "$BASE_URL$url",
             title = title,
-            bodyParts = bodyparts.map { it.name.toBodyPartID() },
+            bodyParts = bodyParts.map { it.name.toBodyPartID() },
             badge = badge?.let {
                 Badge(
                     name = it.name,
@@ -28,11 +28,11 @@ object VideoMapper {
             isSelected = false
         )
     }
-    
+
     fun List<VideoDto>.toDomain(): List<Video> {
         return map { it.toDomain() }
     }
-    
+
     private fun String.toBodyPartID(): BodyPartID {
         return when (this.lowercase().trim()) {
             "neck" -> BodyPartID.NECK
@@ -46,7 +46,7 @@ object VideoMapper {
             else -> BodyPartID.All
         }
     }
-    
+
     private fun parseColor(colorString: String): Color {
         return try {
             val color = android.graphics.Color.parseColor(colorString)

@@ -1,11 +1,12 @@
 package com.fpstudio.stretchreminder.util.di
 
 import com.fpstudio.stretchreminder.data.datasource.RoutineSessionsLocalDataSource
+import com.fpstudio.stretchreminder.data.datasource.RoutinesLocalDataSource
+import com.fpstudio.stretchreminder.data.repository.RoutineRepositoryImpl
 import com.fpstudio.stretchreminder.data.repository.RoutineSessionRepositoryImpl
+import com.fpstudio.stretchreminder.domain.repository.RoutineRepository
 import com.fpstudio.stretchreminder.domain.repository.RoutineSessionRepository
-import com.fpstudio.stretchreminder.domain.usecase.GetRoutineStatsUseCase
-import com.fpstudio.stretchreminder.domain.usecase.SaveRoutineSessionUseCase
-import com.fpstudio.stretchreminder.domain.usecase.GetSubscriptionInfoUseCase
+import com.fpstudio.stretchreminder.domain.usecase.*
 import com.fpstudio.stretchreminder.ui.screen.exercise.ExerciseScreenViewModel
 import com.fpstudio.stretchreminder.ui.screen.form.FormViewModel
 import com.fpstudio.stretchreminder.ui.screen.home.HomeViewModel
@@ -27,6 +28,14 @@ val appModule = module {
     single { SaveRoutineSessionUseCase(get()) }
     single { GetRoutineStatsUseCase(get()) }
     
+    // Saved Routines
+    single { RoutinesLocalDataSource(androidContext()) }
+    single<RoutineRepository> { RoutineRepositoryImpl(get()) }
+    single { com.fpstudio.stretchreminder.domain.usecase.SaveRoutineUseCase(get()) }
+    single { GetSavedRoutinesUseCase(get()) }
+    single { HasSavedRoutinesUseCase(get()) }
+    single { DeleteRoutineUseCase(get()) }
+    
     // RevenueCat
     single<com.fpstudio.stretchreminder.domain.repository.RevenueCatRepository> { com.fpstudio.stretchreminder.data.repository.RevenueCatRepositoryImpl() }
     single { com.fpstudio.stretchreminder.domain.usecase.CheckEntitlementUseCase(get()) }
@@ -43,7 +52,7 @@ val appModule = module {
     }
     viewModelOf(::ThreeYesViewModel)
     viewModel { HomeViewModel(getRoutineStatsUseCase = get(), getUserUseCase = get()) }
-    viewModel { RoutineSelectionViewModel(get()) }
+    viewModel { RoutineSelectionViewModel(get(), get(), get(), get()) }
     viewModel { IntroViewModel(get()) }
     viewModel { SettingsScreenViewModel(getUserUseCase = get(), saveUserUseCase = get(), getSubscriptionInfoUseCase = get()) }
     
