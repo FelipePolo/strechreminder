@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -16,10 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.compose.AsyncImage
+import com.fpstudio.stretchreminder.data.model.UserType
 import com.fpstudio.stretchreminder.data.model.Video
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 import org.koin.compose.koinInject
@@ -27,14 +30,20 @@ import org.koin.compose.koinInject
 @Composable
 fun VideoCard(
     video: Video,
+    userIsPremium: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     imageLoader: ImageLoader = koinInject()
 ) {
+    val isLocked = video.userType == UserType.PREMIUM && !userIsPremium
+    // Colors
+    val premiumYellow = Color(0xFFFDB022)
+    val premiumOrange = Color(0xFFFF9500)
+    
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick),
+            .clickable(enabled = !isLocked, onClick = onClick),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -42,7 +51,9 @@ fun VideoCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = if (video.isSelected) 4.dp else 2.dp
         ),
-        border = if (video.isSelected) {
+        border = if (isLocked) {
+            BorderStroke(2.dp, premiumYellow)
+        } else if (video.isSelected) {
             BorderStroke(2.dp, TurquoiseAccent)
         } else null
     ) {
@@ -62,37 +73,87 @@ fun VideoCard(
                     contentScale = ContentScale.Crop
                 )
                 
-                // Play Button Overlay
-                Box(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .align(Alignment.Center)
-                        .background(Color.White.copy(alpha = 0.9f), CircleShape),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = "Play",
-                        tint = TurquoiseAccent,
-                        modifier = Modifier.size(32.dp)
+                if (isLocked) {
+                    // Locked Overlay
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Black.copy(alpha = 0.4f))
                     )
-                }
-                
-                // Badge (Top Right) - only show if badge exists
-                video.badge?.let { badge ->
-                    if (badge.name.isNotEmpty()) {
-                        Badge(
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .padding(8.dp),
-                            containerColor = badge.backgroundColor
-                        ) {
+                    
+                    // Lock Icon in Center
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .align(Alignment.Center)
+                            .background(premiumYellow.copy(alpha = 0.9f), CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Lock,
+                            contentDescription = "Locked",
+                            tint = Color.White,
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                    
+                    // Premium Badge (Top Right)
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(8.dp)
+                            .background(premiumYellow, RoundedCornerShape(12.dp))
+                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = Icons.Default.Lock,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier.size(12.dp)
+                            )
+                            Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                text = badge.name,
+                                text = "PREMIUM",
                                 color = Color.White,
                                 style = MaterialTheme.typography.labelSmall,
-                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                fontWeight = FontWeight.Bold
                             )
+                        }
+                    }
+                } else {
+                    // Play Button Overlay (only if not locked)
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .align(Alignment.Center)
+                            .background(Color.White.copy(alpha = 0.9f), CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = "Play",
+                            tint = TurquoiseAccent,
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                    
+                    // Badge (Top Right) - only show if badge exists
+                    video.badge?.let { badge ->
+                        if (badge.name.isNotEmpty()) {
+                            Badge(
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(8.dp),
+                                containerColor = badge.backgroundColor
+                            ) {
+                                Text(
+                                    text = badge.name,
+                                    color = Color.White,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                )
+                            }
                         }
                     }
                 }
@@ -120,11 +181,20 @@ fun VideoCard(
                 ) {
 
                     // Duration
-                    Text(
-                        text = "${video.duration.toTimeString()}" ,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray
-                    )
+                    if (isLocked) {
+                        Text(
+                            text = "Pro Only • ${video.duration.toTimeString()}",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = premiumOrange,
+                            fontWeight = FontWeight.Bold
+                        )
+                    } else {
+                        Text(
+                            text = "${video.duration.toTimeString()}" ,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.Gray
+                        )
+                    }
                 }
             }
         }

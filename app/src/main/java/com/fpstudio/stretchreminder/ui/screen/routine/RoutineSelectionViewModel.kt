@@ -32,6 +32,14 @@ class RoutineSelectionViewModel(
     init {
         loadVideos()
         loadSavedRoutines()
+        checkUserPremiumStatus()
+    }
+
+    private fun checkUserPremiumStatus() {
+        // TODO: Replace with actual UserPreferenceRepository call
+        // For now, setting to TRUE to verify the fix as requested by user
+        // showing that premium users see normal cards
+        _uiState.update { it.copy(userIsPremium = true) }
     }
     
     fun handleIntent(intent: RoutineSelectionIntent) {

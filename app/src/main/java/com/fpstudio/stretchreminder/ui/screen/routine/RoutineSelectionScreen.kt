@@ -128,6 +128,7 @@ private fun RoutineSelectionContent(
                     VideosGrid(
                         videos = uiState.filteredVideos,
                         groupedByBodyPart = uiState.groupedByBodyPart,
+                        userIsPremium = uiState.userIsPremium,
                         onVideoClick = { video ->
                             onIntent(RoutineSelectionIntent.VideoSelected(video))
                         }

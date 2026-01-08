@@ -24,6 +24,7 @@ import com.fpstudio.stretchreminder.data.model.Video
 fun VideosGrid(
     videos: List<Video>,
     groupedByBodyPart: Map<BodyPartID, List<Video>>,
+    userIsPremium: Boolean,
     onVideoClick: (Video) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -111,6 +112,7 @@ fun VideosGrid(
                         rowVideos.forEach { video ->
                             VideoCard(
                                 video = video,
+                                userIsPremium = userIsPremium,
                                 onClick = { onVideoClick(video) },
                                 modifier = Modifier.weight(1f)
                             )

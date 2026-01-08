@@ -21,7 +21,8 @@ data class RoutineSelectionUiState(
     val showMyRoutinesSheet: Boolean = false,
     val savedRoutines: List<Routine> = emptyList(),
     val selectedRoutineId: Long? = null,
-    val shouldNavigateToExercise: Boolean = false
+    val shouldNavigateToExercise: Boolean = false,
+    val userIsPremium: Boolean = false // Default to false (Free user)
 )
 
 data class SaveRoutineState(
