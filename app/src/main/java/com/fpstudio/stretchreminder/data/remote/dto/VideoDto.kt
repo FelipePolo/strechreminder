@@ -25,5 +25,11 @@ data class VideoDto(
     val bodyParts: List<BodyPartDto>,
 
     @SerializedName("badge")
-    val badge: BadgeDto?
+    val badge: BadgeDto?,
+    
+    @SerializedName("visibility")
+    val visibility: String,
+    
+    @SerializedName("user_type")
+    val userType: String
 )

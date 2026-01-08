@@ -3,7 +3,9 @@ package com.fpstudio.stretchreminder.data.mapper
 import androidx.compose.ui.graphics.Color
 import com.fpstudio.stretchreminder.data.model.Badge
 import com.fpstudio.stretchreminder.data.model.BodyPartID
+import com.fpstudio.stretchreminder.data.model.UserType
 import com.fpstudio.stretchreminder.data.model.Video
+import com.fpstudio.stretchreminder.data.model.VideoVisibility
 import com.fpstudio.stretchreminder.data.remote.dto.VideoDto
 
 object VideoMapper {
@@ -25,6 +27,8 @@ object VideoMapper {
                     backgroundColor = parseColor(it.backgroundColor)
                 )
             },
+            visibility = VideoVisibility.fromString(visibility),
+            userType = UserType.fromString(userType),
             isSelected = false
         )
     }

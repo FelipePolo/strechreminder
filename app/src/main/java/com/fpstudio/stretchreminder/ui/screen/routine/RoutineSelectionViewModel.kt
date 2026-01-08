@@ -7,6 +7,7 @@ import com.fpstudio.stretchreminder.data.model.Routine
 import com.fpstudio.stretchreminder.data.model.RoutineColor
 import com.fpstudio.stretchreminder.data.model.RoutineIcon
 import com.fpstudio.stretchreminder.data.model.Video
+import com.fpstudio.stretchreminder.data.model.VideoVisibility
 import com.fpstudio.stretchreminder.domain.usecase.GetSavedRoutinesUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetVideosUseCase
 import com.fpstudio.stretchreminder.domain.usecase.SaveRoutineUseCase
@@ -62,12 +63,15 @@ class RoutineSelectionViewModel(
             
             getVideosUseCase("en").fold(
                 onSuccess = { videos ->
+                    // Filter to show only public videos
+                    val publicVideos = videos.filter { it.visibility == VideoVisibility.PUBLIC }
+                    
                     _uiState.update { state ->
                         state.copy(
                             isLoading = false,
-                            allVideos = videos,
-                            filteredVideos = videos,
-                            groupedByBodyPart = groupVideosByBodyParts(videos)
+                            allVideos = publicVideos,
+                            filteredVideos = publicVideos,
+                            groupedByBodyPart = groupVideosByBodyParts(publicVideos)
                         )
                     }
                 },
