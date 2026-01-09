@@ -55,9 +55,9 @@ fun SubscriptionPlanCardWithBilling(
             ) {
                 Text(
                     modifier = Modifier
-                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                        .padding(horizontal = 8.dp),
                     text = "BEST VALUE",
-                    fontSize = 8.sp,
+                    fontSize = 6.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )

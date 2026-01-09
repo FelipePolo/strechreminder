@@ -82,13 +82,15 @@ fun App() {
         
         composable<RoutineSelection> {
             RoutineSelectionScreen(
-                onBackClick = {
-                    navController.navigateUp()
+                onNavigateUp = { navController.navigateUp() },
+                onContinue = { videos ->
+                    navController.navigate(Exercise(videos.map { it.videoUrl }))
                 },
-                onContinue = { selectedVideos ->
-                    navController.navigate(Exercise(selectedVideos.map {
-                        it.videoUrl
-                    }))
+                onNavigateToMyRoutines = {
+                    // Navigate to My Routines (currently handled within sheet, but if full screen needed)
+                },
+                onNavigateToPremium = {
+                    navController.navigate(Premium(fromOnboarding = false))
                 }
             )
         }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -21,23 +22,26 @@ import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 import com.fpstudio.stretchreminder.ui.composable.lupe.LupeScreen
 import com.fpstudio.stretchreminder.ui.composable.lupe.LupeUiModel
 import com.fpstudio.stretchreminder.ui.screen.routine.components.*
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RoutineSelectionScreen(
-    viewModel: RoutineSelectionViewModel = koinViewModel(),
-    onBackClick: () -> Unit,
+    onNavigateUp: () -> Unit,
     onContinue: (List<Video>) -> Unit,
-    onNavigateToMyRoutines: () -> Unit = {}
+    onNavigateToMyRoutines: () -> Unit,
+    onNavigateToPremium: () -> Unit,
+    viewModel: RoutineSelectionViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     RoutineSelectionContent(
         uiState = uiState,
         onIntent = viewModel::handleIntent,
-        onBackClick = onBackClick,
+        onNavigateUp = onNavigateUp,
         onContinue = onContinue,
-        onNavigateToMyRoutines = onNavigateToMyRoutines
+        onNavigateToMyRoutines = onNavigateToMyRoutines,
+        onNavigateToPremium = onNavigateToPremium
     )
 }
 
@@ -46,9 +50,10 @@ fun RoutineSelectionScreen(
 private fun RoutineSelectionContent(
     uiState: RoutineSelectionUiState,
     onIntent: (RoutineSelectionIntent) -> Unit,
-    onBackClick: () -> Unit,
+    onNavigateUp: () -> Unit,
     onContinue: (List<Video>) -> Unit,
-    onNavigateToMyRoutines: () -> Unit
+    onNavigateToMyRoutines: () -> Unit,
+    onNavigateToPremium: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -62,7 +67,7 @@ private fun RoutineSelectionContent(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBackClick) {
+                    IconButton(onClick = onNavigateUp) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back",
@@ -148,6 +153,22 @@ private fun RoutineSelectionContent(
                 onReorderVideos = { from, to -> onIntent(RoutineSelectionIntent.ReorderVideos(from, to)) },
                 onRemoveVideo = { video -> onIntent(RoutineSelectionIntent.RemoveVideoFromRoutine(video)) },
                 onSave = { onIntent(RoutineSelectionIntent.ConfirmSaveRoutine) }
+            )
+        }
+        
+        // Premium Lock Dialog
+        if (uiState.showPremiumLockDialog) {
+            // Auto-redirect effect
+            LaunchedEffect(Unit) {
+                delay(3000) // 3 seconds delay
+                onIntent(RoutineSelectionIntent.HidePremiumLockDialog)
+                onNavigateToPremium()
+            }
+            
+            PremiumLockDialog(
+                onDismiss = {
+                    onIntent(RoutineSelectionIntent.HidePremiumLockDialog)
+                }
             )
         }
         

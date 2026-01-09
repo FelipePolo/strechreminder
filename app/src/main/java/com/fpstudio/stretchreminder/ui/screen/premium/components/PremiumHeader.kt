@@ -77,7 +77,7 @@ fun PremiumHeader(
         
         // Description
         Text(
-            text = "Get unlimited access to all routines,\nadvanced tracking, and an ad-free\nexperience.",
+            text = "Get unlimited access to all premium benefits",
             style = MaterialTheme.typography.bodyMedium,
             fontSize = 14.sp,
             color = Color.Gray,

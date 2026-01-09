@@ -43,7 +43,7 @@ fun VideoCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(enabled = !isLocked, onClick = onClick),
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White

@@ -22,7 +22,8 @@ data class RoutineSelectionUiState(
     val savedRoutines: List<Routine> = emptyList(),
     val selectedRoutineId: Long? = null,
     val shouldNavigateToExercise: Boolean = false,
-    val userIsPremium: Boolean = false // Default to false (Free user)
+    val userIsPremium: Boolean = false,
+    val showPremiumLockDialog: Boolean = false
 )
 
 data class SaveRoutineState(
@@ -54,4 +55,5 @@ sealed class RoutineSelectionIntent {
     object HideMyRoutinesSheet : RoutineSelectionIntent()
     data class SelectRoutine(val routineId: Long) : RoutineSelectionIntent()
     object StartSelectedRoutine : RoutineSelectionIntent()
+    object HidePremiumLockDialog : RoutineSelectionIntent()
 }

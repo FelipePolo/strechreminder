@@ -52,7 +52,7 @@ val appModule = module {
     }
     viewModelOf(::ThreeYesViewModel)
     viewModel { HomeViewModel(getRoutineStatsUseCase = get(), getUserUseCase = get()) }
-    viewModel { RoutineSelectionViewModel(get(), get(), get(), get()) }
+    viewModel { RoutineSelectionViewModel(get(), get(), get(), get(), get()) }
     viewModel { IntroViewModel(get()) }
     viewModel { SettingsScreenViewModel(getUserUseCase = get(), saveUserUseCase = get(), getSubscriptionInfoUseCase = get()) }
     

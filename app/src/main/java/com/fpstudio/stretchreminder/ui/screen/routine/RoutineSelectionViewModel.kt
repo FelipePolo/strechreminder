@@ -8,6 +8,7 @@ import com.fpstudio.stretchreminder.data.model.RoutineColor
 import com.fpstudio.stretchreminder.data.model.RoutineIcon
 import com.fpstudio.stretchreminder.data.model.Video
 import com.fpstudio.stretchreminder.data.model.VideoVisibility
+import com.fpstudio.stretchreminder.domain.usecase.CheckEntitlementUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetSavedRoutinesUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetVideosUseCase
 import com.fpstudio.stretchreminder.domain.usecase.SaveRoutineUseCase
@@ -23,7 +24,8 @@ class RoutineSelectionViewModel(
     private val getVideosUseCase: GetVideosUseCase,
     private val saveRoutineUseCase: SaveRoutineUseCase,
     private val getSavedRoutinesUseCase: GetSavedRoutinesUseCase,
-    private val routineRepository: RoutineRepository
+    private val routineRepository: RoutineRepository,
+    private val checkEntitlementUseCase: CheckEntitlementUseCase
 ) : ViewModel() {
     
     private val _uiState = MutableStateFlow(RoutineSelectionUiState())
@@ -34,12 +36,11 @@ class RoutineSelectionViewModel(
         loadSavedRoutines()
         checkUserPremiumStatus()
     }
-
+    
     private fun checkUserPremiumStatus() {
-        // TODO: Replace with actual UserPreferenceRepository call
-        // For now, setting to TRUE to verify the fix as requested by user
-        // showing that premium users see normal cards
-        _uiState.update { it.copy(userIsPremium = true) }
+        // Check actual entitlement status
+        val isPremium = checkEntitlementUseCase()
+        _uiState.update { it.copy(userIsPremium = isPremium) }
     }
     
     fun handleIntent(intent: RoutineSelectionIntent) {
@@ -62,7 +63,12 @@ class RoutineSelectionViewModel(
             is RoutineSelectionIntent.HideMyRoutinesSheet -> onHideMyRoutinesSheet()
             is RoutineSelectionIntent.SelectRoutine -> onSelectRoutine(intent.routineId)
             is RoutineSelectionIntent.StartSelectedRoutine -> onStartSelectedRoutine()
+            is RoutineSelectionIntent.HidePremiumLockDialog -> onHidePremiumLockDialog()
         }
+    }
+    
+    private fun onHidePremiumLockDialog() {
+        _uiState.update { it.copy(showPremiumLockDialog = false) }
     }
     
     private fun loadVideos() {
@@ -118,6 +124,11 @@ class RoutineSelectionViewModel(
     
     private fun onVideoSelected(video: Video) {
         _uiState.update { state ->
+            // Check if video is premium and user is free
+            if (video.userType == com.fpstudio.stretchreminder.data.model.UserType.PREMIUM && !state.userIsPremium) {
+                return@update state.copy(showPremiumLockDialog = true)
+            }
+
             // Toggle selection
             val updatedAllVideos = state.allVideos.map {
                 if (it.id == video.id) it.copy(isSelected = !it.isSelected) else it
