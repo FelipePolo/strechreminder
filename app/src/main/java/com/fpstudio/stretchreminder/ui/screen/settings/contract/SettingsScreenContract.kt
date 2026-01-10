@@ -41,8 +41,7 @@ object SettingsScreenContract {
     enum class FocusArea(val displayName: String) {
         NECK("Neck"),
         SHOULDERS("Shoulders"),
-        ARMS("Arms"),
-        TRAPEZOIDS("Trapezoids"),
+        UPPER_BACK("Upper Back"),
         LOWER_BACK("Lower Back"),
         HANDS("Hands"),
         HIP("Hips"),

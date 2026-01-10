@@ -9,6 +9,7 @@ import com.fpstudio.stretchreminder.data.model.RoutineIcon
 import com.fpstudio.stretchreminder.data.model.Video
 import com.fpstudio.stretchreminder.data.model.VideoVisibility
 import com.fpstudio.stretchreminder.domain.usecase.CheckEntitlementUseCase
+import com.fpstudio.stretchreminder.domain.usecase.GetBodyPartsUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetSavedRoutinesUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetVideosUseCase
 import com.fpstudio.stretchreminder.domain.usecase.SaveRoutineUseCase
@@ -25,13 +26,15 @@ class RoutineSelectionViewModel(
     private val saveRoutineUseCase: SaveRoutineUseCase,
     private val getSavedRoutinesUseCase: GetSavedRoutinesUseCase,
     private val routineRepository: RoutineRepository,
-    private val checkEntitlementUseCase: CheckEntitlementUseCase
+    private val checkEntitlementUseCase: CheckEntitlementUseCase,
+    private val getBodyPartsUseCase: GetBodyPartsUseCase
 ) : ViewModel() {
     
     private val _uiState = MutableStateFlow(RoutineSelectionUiState())
     val uiState: StateFlow<RoutineSelectionUiState> = _uiState.asStateFlow()
     
     init {
+        loadBodyParts()
         loadVideos()
         loadSavedRoutines()
         checkUserPremiumStatus()
@@ -70,6 +73,14 @@ class RoutineSelectionViewModel(
     private fun onHidePremiumLockDialog() {
         _uiState.update { it.copy(showPremiumLockDialog = false) }
     }
+    
+    private fun loadBodyParts() {
+        viewModelScope.launch {
+            val bodyParts = getBodyPartsUseCase("en")
+            _uiState.update { it.copy(availableBodyParts = bodyParts) }
+        }
+    }
+
     
     private fun loadVideos() {
         viewModelScope.launch {
@@ -114,10 +125,17 @@ class RoutineSelectionViewModel(
                 }
             }
             
+            // When filtering by specific body part, only group by that body part
+            // to avoid showing videos multiple times
+            val grouped = when (filter) {
+                is VideoFilter.ByBodyPart -> mapOf(filter.bodyPart to filtered)
+                else -> groupVideosByBodyParts(filtered)
+            }
+            
             state.copy(
                 selectedFilter = filter,
                 filteredVideos = filtered,
-                groupedByBodyPart = groupVideosByBodyParts(filtered)
+                groupedByBodyPart = grouped
             )
         }
     }

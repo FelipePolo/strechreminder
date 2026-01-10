@@ -25,6 +25,7 @@ fun VideosGrid(
     videos: List<Video>,
     groupedByBodyPart: Map<BodyPartID, List<Video>>,
     userIsPremium: Boolean,
+    selectedFilter: VideoFilter,
     onVideoClick: (Video) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -34,8 +35,18 @@ fun VideosGrid(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         groupedByBodyPart.forEach { (bodyPart, bodyPartVideos) ->
-            // Section Header
-            item(key = "header_${bodyPart.name}") {
+            // Skip the "All" body part group - we don't want to show it as a section
+            if (bodyPart == BodyPartID.All) {
+                return@forEach
+            }
+            
+            // Section Header - show headers when filtering by ALL or Recommended to group by body part
+            // Hide header when filtering by specific body part (already filtered)
+            val shouldShowHeader = selectedFilter == VideoFilter.All || 
+                                   selectedFilter == VideoFilter.Recommended
+            
+            if (shouldShowHeader) {
+                item(key = "header_${bodyPart.name}") {
                 AnimatedVisibility(
                     visible = true,
                     enter = fadeIn(
@@ -71,6 +82,7 @@ fun VideosGrid(
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                 }
+            }
             }
             
             // Videos in 2-column grid

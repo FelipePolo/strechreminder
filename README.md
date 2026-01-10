@@ -465,7 +465,7 @@ enum class BodyPartID {
     NECK,        // Cuello
     SHOULDERS,   // Hombros
     ARMS,        // Brazos
-    TRAPEZOIDS,  // Trapecio
+    UPPER_BACK,  // Espalda alta
     LOWER_BACK,  // Espalda baja
     HANDS,       // Manos
     HIP,         // Caderas

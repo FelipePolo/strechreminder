@@ -95,8 +95,7 @@ class SettingsScreenViewModel(
             when (bodyPart) {
                 BodyPartID.NECK -> FocusArea.NECK
                 BodyPartID.SHOULDERS -> FocusArea.SHOULDERS
-                BodyPartID.ARMS -> FocusArea.ARMS
-                BodyPartID.TRAPEZOIDS -> FocusArea.TRAPEZOIDS
+                BodyPartID.UPPER_BACK -> FocusArea.UPPER_BACK
                 BodyPartID.LOWER_BACK -> FocusArea.LOWER_BACK
                 BodyPartID.HANDS -> FocusArea.HANDS
                 BodyPartID.HIP -> FocusArea.HIP
@@ -182,8 +181,7 @@ class SettingsScreenViewModel(
             when (area) {
                 FocusArea.NECK -> BodyPartID.NECK
                 FocusArea.SHOULDERS -> BodyPartID.SHOULDERS
-                FocusArea.ARMS -> BodyPartID.ARMS
-                FocusArea.TRAPEZOIDS -> BodyPartID.TRAPEZOIDS
+                FocusArea.UPPER_BACK -> BodyPartID.UPPER_BACK
                 FocusArea.LOWER_BACK -> BodyPartID.LOWER_BACK
                 FocusArea.HANDS -> BodyPartID.HANDS
                 FocusArea.HIP -> BodyPartID.HIP

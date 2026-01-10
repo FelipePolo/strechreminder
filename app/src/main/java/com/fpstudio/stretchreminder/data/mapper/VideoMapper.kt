@@ -41,8 +41,7 @@ object VideoMapper {
         return when (this.lowercase().trim()) {
             "neck" -> BodyPartID.NECK
             "shoulders", "shoulder" -> BodyPartID.SHOULDERS
-            "arms", "arm" -> BodyPartID.ARMS
-            "trapezoids", "trapezoid", "traps" -> BodyPartID.TRAPEZOIDS
+            "upperback", "upper_back", "upper back" -> BodyPartID.UPPER_BACK
             "lower_back", "lowerback", "lower back" -> BodyPartID.LOWER_BACK
             "hands", "hand" -> BodyPartID.HANDS
             "hip", "hips" -> BodyPartID.HIP

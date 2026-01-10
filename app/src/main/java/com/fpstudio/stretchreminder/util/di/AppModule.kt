@@ -2,6 +2,7 @@ package com.fpstudio.stretchreminder.util.di
 
 import com.fpstudio.stretchreminder.data.datasource.RoutineSessionsLocalDataSource
 import com.fpstudio.stretchreminder.data.datasource.RoutinesLocalDataSource
+import com.fpstudio.stretchreminder.data.repository.BodyPartRepository
 import com.fpstudio.stretchreminder.data.repository.RoutineRepositoryImpl
 import com.fpstudio.stretchreminder.data.repository.RoutineSessionRepositoryImpl
 import com.fpstudio.stretchreminder.domain.repository.RoutineRepository
@@ -36,6 +37,10 @@ val appModule = module {
     single { HasSavedRoutinesUseCase(get()) }
     single { DeleteRoutineUseCase(get()) }
     
+    // Body Parts
+    single { BodyPartRepository(get()) }
+    single { GetBodyPartsUseCase(get()) }
+    
     // RevenueCat
     single<com.fpstudio.stretchreminder.domain.repository.RevenueCatRepository> { com.fpstudio.stretchreminder.data.repository.RevenueCatRepositoryImpl() }
     single { com.fpstudio.stretchreminder.domain.usecase.CheckEntitlementUseCase(get()) }
@@ -52,7 +57,7 @@ val appModule = module {
     }
     viewModelOf(::ThreeYesViewModel)
     viewModel { HomeViewModel(getRoutineStatsUseCase = get(), getUserUseCase = get()) }
-    viewModel { RoutineSelectionViewModel(get(), get(), get(), get(), get()) }
+    viewModel { RoutineSelectionViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { IntroViewModel(get()) }
     viewModel { SettingsScreenViewModel(getUserUseCase = get(), saveUserUseCase = get(), getSubscriptionInfoUseCase = get()) }
     

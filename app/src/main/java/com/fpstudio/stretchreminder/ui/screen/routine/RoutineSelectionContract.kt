@@ -15,6 +15,7 @@ data class RoutineSelectionUiState(
     val selectedVideos: List<Video> = emptyList(),
     val groupedByBodyPart: Map<BodyPartID, List<Video>> = emptyMap(),
     val selectedFilter: VideoFilter = VideoFilter.All,
+    val availableBodyParts: List<BodyPartID> = BodyPartID.values().filter { it != BodyPartID.All }.toList(),
     val hasSavedRoutines: Boolean = true, // TODO: Replace with actual saved routines check
     val showSaveRoutineSheet: Boolean = false,
     val saveRoutineState: SaveRoutineState = SaveRoutineState(),

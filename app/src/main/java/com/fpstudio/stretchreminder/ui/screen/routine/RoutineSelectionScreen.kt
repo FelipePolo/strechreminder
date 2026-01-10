@@ -107,6 +107,7 @@ private fun RoutineSelectionContent(
             // Filter Chips
             FilterChipsRow(
                 selectedFilter = uiState.selectedFilter,
+                availableBodyParts = uiState.availableBodyParts,
                 onFilterSelected = { filter ->
                     onIntent(RoutineSelectionIntent.FilterSelected(filter))
                 }
@@ -134,6 +135,7 @@ private fun RoutineSelectionContent(
                         videos = uiState.filteredVideos,
                         groupedByBodyPart = uiState.groupedByBodyPart,
                         userIsPremium = uiState.userIsPremium,
+                        selectedFilter = uiState.selectedFilter,
                         onVideoClick = { video ->
                             onIntent(RoutineSelectionIntent.VideoSelected(video))
                         }

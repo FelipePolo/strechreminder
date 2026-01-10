@@ -28,6 +28,7 @@ sealed class VideoFilter {
 fun FilterChipsRow(
     selectedFilter: VideoFilter,
     onFilterSelected: (VideoFilter) -> Unit,
+    availableBodyParts: List<BodyPartID> = BodyPartID.values().filter { it != BodyPartID.All }.toList(),
     modifier: Modifier = Modifier
 ) {
     LazyRow(
@@ -80,7 +81,7 @@ fun FilterChipsRow(
         }
         
         // Body Part Chips
-        items(BodyPartID.values().filter { it != BodyPartID.All }) { bodyPart ->
+        items(availableBodyParts) { bodyPart ->
             FilterChip(
                 selected = selectedFilter is VideoFilter.ByBodyPart && 
                           selectedFilter.bodyPart == bodyPart,

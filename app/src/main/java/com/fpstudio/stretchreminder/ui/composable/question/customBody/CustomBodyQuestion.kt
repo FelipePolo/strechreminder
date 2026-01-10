@@ -178,15 +178,9 @@ fun CustomBodyQuestionPreview() {
             )
         ),
         Pair(
-            R.drawable.selected_arms,
+            R.drawable.selected_upper_back,
             BodyPart(
-                id = BodyPartID.ARMS, "Arms"
-            )
-        ),
-        Pair(
-            R.drawable.selected_trapezoids,
-            BodyPart(
-                id = BodyPartID.TRAPEZOIDS, "Trapezoids"
+                id = BodyPartID.UPPER_BACK, "Upper Back"
             )
         ),
         Pair(

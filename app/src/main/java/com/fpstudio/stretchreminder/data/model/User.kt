@@ -30,8 +30,7 @@ data class BodyPart(
 enum class BodyPartID {
     NECK,
     SHOULDERS,
-    ARMS,
-    TRAPEZOIDS,
+    UPPER_BACK,
     LOWER_BACK,
     HANDS,
     HIP,
@@ -42,8 +41,7 @@ enum class BodyPartID {
         get() = when (this) {
             NECK -> "Neck"
             SHOULDERS -> "Shoulders"
-            ARMS -> "Arms"
-            TRAPEZOIDS -> "Trapezoids"
+            UPPER_BACK -> "Upper back"
             LOWER_BACK -> "Lower Back"
             HANDS -> "Hands"
             HIP -> "Hips"
