@@ -24,7 +24,9 @@ data class RoutineSelectionUiState(
     val selectedRoutineId: Long? = null,
     val shouldNavigateToExercise: Boolean = false,
     val userIsPremium: Boolean = false,
-    val showPremiumLockDialog: Boolean = false
+    val showPremiumLockDialog: Boolean = false,
+    val recommendedRoutines: List<com.fpstudio.stretchreminder.data.model.RecommendedRoutine> = emptyList(),
+    val selectedRecommendedRoutineId: Int? = null
 )
 
 data class SaveRoutineState(
@@ -40,6 +42,7 @@ data class SaveRoutineState(
 sealed class RoutineSelectionIntent {
     data class FilterSelected(val filter: VideoFilter) : RoutineSelectionIntent()
     data class VideoSelected(val video: Video) : RoutineSelectionIntent()
+    data class RecommendedRoutineSelected(val routine: com.fpstudio.stretchreminder.data.model.RecommendedRoutine) : RoutineSelectionIntent()
     object Retry : RoutineSelectionIntent()
     object SaveRoutine : RoutineSelectionIntent()
     object NavigateToMyRoutines : RoutineSelectionIntent()

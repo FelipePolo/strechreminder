@@ -13,5 +13,8 @@ data class VideoResponse(
     val count: Int,
     
     @SerializedName("videos")
-    val videos: List<VideoDto>
+    val videos: List<VideoDto>,
+    
+    @SerializedName("recommended")
+    val recommended: List<RecommendedRoutineDto> = emptyList()
 )

@@ -19,12 +19,15 @@ import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 
 @Composable
 fun SaveRoutineButton(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     text: String = "Save Routine",
-    modifier: Modifier = Modifier
+    enabled: Boolean = true,
+    icon: @Composable () -> Unit
 ) {
     Button(
         onClick = onClick,
+        enabled = enabled,
         modifier = modifier.height(56.dp),
         shape = RoundedCornerShape(28.dp),
         colors = ButtonDefaults.buttonColors(
@@ -33,14 +36,10 @@ fun SaveRoutineButton(
         ),
         border = BorderStroke(1.dp, Color(0xFFE0E0E0)),
         elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = 2.dp
+            defaultElevation = if (enabled) 4.dp else 0.dp
         )
     ) {
-        Icon(
-            imageVector = Icons.Default.Check,
-            contentDescription = null,
-            modifier = Modifier.size(20.dp)
-        )
+        icon()
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = text,

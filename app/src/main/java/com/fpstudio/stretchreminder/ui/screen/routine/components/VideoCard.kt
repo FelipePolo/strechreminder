@@ -49,7 +49,7 @@ fun VideoCard(
             containerColor = Color.White
         ),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = if (video.isSelected) 4.dp else 2.dp
+            defaultElevation = if (video.isSelected) 4.dp else 1.dp
         ),
         border = if (isLocked) {
             BorderStroke(2.dp, premiumYellow)

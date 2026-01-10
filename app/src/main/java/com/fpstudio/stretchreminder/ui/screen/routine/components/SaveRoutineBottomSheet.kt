@@ -33,6 +33,7 @@ import com.fpstudio.stretchreminder.ui.screen.routine.SaveRoutineState
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
+import androidx.core.graphics.toColorInt
 
 @Composable
 fun SaveRoutineBottomSheet(
@@ -69,157 +70,171 @@ fun SaveRoutineBottomSheet(
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 24.dp)
-                        .padding(bottom = 24.dp)
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    // Header
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
+                    // Scrollable Content
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .padding(horizontal = 24.dp)
+                            .padding(top = 16.dp)
                     ) {
-                        Column {
-                            Text(
-                                text = "Name Your Routine",
-                                style = MaterialTheme.typography.headlineSmall,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black
-                            )
-                            Text(
-                                text = "Saving ${state.videos.size} videos • ${formatDuration(state.videos.sumOf { it.duration })} total",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = Color.Gray
-                            )
+                        // Header
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column {
+                                Text(
+                                    text = "Name Your Routine",
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black
+                                )
+                                Text(
+                                    text = "Saving ${state.videos.size} videos • ${
+                                        formatDuration(
+                                            state.videos.sumOf { it.duration })
+                                    } total",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = Color.Gray
+                                )
+                            }
+                            IconButton(onClick = onDismiss) {
+                                Icon(
+                                    imageVector = Icons.Default.Close,
+                                    contentDescription = "Close",
+                                    tint = Color.Gray
+                                )
+                            }
                         }
-                        IconButton(onClick = onDismiss) {
-                            Icon(
-                                imageVector = Icons.Default.Close,
-                                contentDescription = "Close",
-                                tint = Color.Gray
-                            )
-                        }
-                    }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(24.dp))
 
-                    // Routine Name
-                    Text(
-                        text = "ROUTINE NAME",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = Color.Gray,
-                        fontSize = 12.sp
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = state.name,
-                        onValueChange = onNameChange,
-                        modifier = Modifier.fillMaxWidth(),
-                        placeholder = { Text("e.g. Morning Stretch") },
-                        isError = state.isDuplicateName,
-                        shape = RoundedCornerShape(16.dp),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = if (state.isDuplicateName) Color.Red else TurquoiseAccent,
-                            unfocusedBorderColor = if (state.isDuplicateName) Color.Red else Color(
-                                0xFFE0E0E0
-                            ),
-                            errorBorderColor = Color.Red
-                        ),
-                        singleLine = true
-                    )
-                    if (state.isDuplicateName) {
+                        // Routine Name
                         Text(
-                            text = "This routine name already exists",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color.Red,
-                            modifier = Modifier.padding(start = 16.dp, top = 4.dp)
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    // Icon Selector
-                    Text(
-                        text = "SELECT ICON",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = Color.Gray,
-                        fontSize = 12.sp
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        RoutineIcon.values().forEach { icon ->
-                            IconOption(
-                                icon = icon,
-                                isSelected = state.selectedIcon == icon,
-                                onClick = { onIconSelect(icon) }
-                            )
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    // Color Selector
-                    Text(
-                        text = "SELECT COLOR",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = Color.Gray,
-                        fontSize = 12.sp
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        RoutineColor.values().forEach { color ->
-                            ColorOption(
-                                color = color,
-                                isSelected = state.selectedColor == color,
-                                onClick = { onColorSelect(color) }
-                            )
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    // Reorder Videos
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "REORDER VIDEOS",
+                            text = "ROUTINE NAME",
                             style = MaterialTheme.typography.labelMedium,
                             color = Color.Gray,
                             fontSize = 12.sp
                         )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedTextField(
+                            value = state.name,
+                            onValueChange = onNameChange,
+                            modifier = Modifier.fillMaxWidth(),
+                            placeholder = { Text("e.g. Morning Stretch", color = Color.LightGray) },
+                            isError = state.isDuplicateName,
+                            shape = RoundedCornerShape(16.dp),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                unfocusedContainerColor = Color(0xFFF5F5F5),
+                                focusedBorderColor = if (state.isDuplicateName) Color.Red else TurquoiseAccent,
+                                unfocusedBorderColor = if (state.isDuplicateName) Color.Red else Color(
+                                    0xFFE0E0E0
+                                ),
+                                errorBorderColor = Color.Red
+                            ),
+                            singleLine = true
+                        )
+                        if (state.isDuplicateName) {
+                            Text(
+                                text = "This routine name already exists",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = Color.Red,
+                                modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        // Icon Selector
                         Text(
-                            text = "Hold to move",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color.Gray
+                            text = "SELECT ICON",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = Color.Gray,
+                            fontSize = 12.sp
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            RoutineIcon.values().forEach { icon ->
+                                IconOption(
+                                    icon = icon,
+                                    isSelected = state.selectedIcon == icon,
+                                    onClick = { onIconSelect(icon) }
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        // Color Selector
+                        Text(
+                            text = "SELECT COLOR",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = Color.Gray,
+                            fontSize = 12.sp
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            RoutineColor.values().forEach { color ->
+                                ColorOption(
+                                    modifier = Modifier
+                                        .weight(1F)
+                                        .aspectRatio(1F),
+                                    color = color,
+                                    isSelected = state.selectedColor == color,
+                                    onClick = { onColorSelect(color) }
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        // Reorder Videos
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "REORDER VIDEOS",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = Color.Gray,
+                                fontSize = 12.sp
+                            )
+                            Text(
+                                text = "Hold to move",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = Color.Gray
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        // Video List with drag-and-drop
+                        ReorderableVideoList(
+                            videos = state.videos,
+                            onReorder = onReorderVideos,
+                            onRemoveVideo = onRemoveVideo,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(max = 300.dp)
                         )
                     }
-                    Spacer(modifier = Modifier.height(12.dp))
 
-                    // Video List with drag-and-drop
-                    ReorderableVideoList(
-                        videos = state.videos,
-                        onReorder = onReorderVideos,
-                        onRemoveVideo = onRemoveVideo,
+                    // Fixed Action Buttons at Bottom
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(max = 300.dp)
-                    )
-
-                    Spacer(modifier = Modifier.height(24.dp))
-
-                    // Action Buttons
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
+                            .padding(horizontal = 24.dp)
+                            .padding(bottom = 24.dp, top = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         // Cancel Button
@@ -287,12 +302,11 @@ private fun IconOption(
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
-        // Icon placeholder - you'll need to add actual icons
-        Text(
-            text = icon.displayName.first().toString(),
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = if (isSelected) TurquoiseAccent else Color.Gray
+        Icon(
+            painter = androidx.compose.ui.res.painterResource(id = icon.iconRes),
+            contentDescription = icon.displayName,
+            tint = if (isSelected) TurquoiseAccent else Color.Gray,
+            modifier = Modifier.size(32.dp)
         )
         if (isSelected) {
             Icon(
@@ -317,9 +331,8 @@ private fun ColorOption(
 ) {
     Box(
         modifier = modifier
-            .size(48.dp)
             .clip(CircleShape)
-            .background(Color(android.graphics.Color.parseColor(color.hex)))
+            .background(Color(color.hex.toColorInt()))
             .border(
                 width = if (isSelected) 3.dp else 0.dp,
                 color = if (isSelected) Color.White else Color.Transparent,
@@ -425,7 +438,7 @@ private fun VideoReorderItem(
                 color = Color.Gray
             )
         }
-        
+
         // Delete Button
         Box(
             modifier = Modifier

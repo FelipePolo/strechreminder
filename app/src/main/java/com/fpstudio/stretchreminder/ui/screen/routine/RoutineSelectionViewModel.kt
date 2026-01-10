@@ -50,6 +50,7 @@ class RoutineSelectionViewModel(
         when (intent) {
             is RoutineSelectionIntent.FilterSelected -> onFilterSelected(intent.filter)
             is RoutineSelectionIntent.VideoSelected -> onVideoSelected(intent.video)
+            is RoutineSelectionIntent.RecommendedRoutineSelected -> onRecommendedRoutineSelected(intent.routine)
             is RoutineSelectionIntent.Retry -> loadVideos()
             is RoutineSelectionIntent.SaveRoutine -> onSaveRoutine()
             is RoutineSelectionIntent.NavigateToMyRoutines -> onNavigateToMyRoutines()
@@ -87,16 +88,17 @@ class RoutineSelectionViewModel(
             _uiState.update { it.copy(isLoading = true, error = null) }
             
             getVideosUseCase("en").fold(
-                onSuccess = { videos ->
+                onSuccess = { result ->
                     // Filter to show only public videos
-                    val publicVideos = videos.filter { it.visibility == VideoVisibility.PUBLIC }
+                    val publicVideos = result.videos.filter { it.visibility == VideoVisibility.PUBLIC }
                     
                     _uiState.update { state ->
                         state.copy(
                             isLoading = false,
                             allVideos = publicVideos,
                             filteredVideos = publicVideos,
-                            groupedByBodyPart = groupVideosByBodyParts(publicVideos)
+                            groupedByBodyPart = groupVideosByBodyParts(publicVideos),
+                            recommendedRoutines = result.recommendedRoutines
                         )
                     }
                 },
@@ -114,12 +116,15 @@ class RoutineSelectionViewModel(
     
     private fun onFilterSelected(filter: VideoFilter) {
         _uiState.update { state ->
+            // For Recommended filter, we don't need to filter videos
+            // The UI will show recommendedRoutines instead
+            if (filter == VideoFilter.Recommended) {
+                return@update state.copy(selectedFilter = filter)
+            }
+            
             val filtered = when (filter) {
                 VideoFilter.All -> state.allVideos
-                VideoFilter.Recommended -> state.allVideos.filter {
-                    // por hacer, filtrar recomendados por partes del cuerpo del usuario
-                   true
-                }
+                VideoFilter.Recommended -> state.allVideos // Won't be used
                 is VideoFilter.ByBodyPart -> state.allVideos.filter { 
                     filter.bodyPart in it.bodyParts
                 }
@@ -168,7 +173,48 @@ class RoutineSelectionViewModel(
                 allVideos = updatedAllVideos,
                 filteredVideos = filtered,
                 groupedByBodyPart = groupVideosByBodyParts(filtered),
-                selectedVideos = updatedAllVideos.filter { it.isSelected }
+                selectedVideos = updatedAllVideos.filter { it.isSelected },
+                selectedRecommendedRoutineId = null // Clear recommended routine selection
+            )
+        }
+    }
+    
+    private fun onRecommendedRoutineSelected(routine: com.fpstudio.stretchreminder.data.model.RecommendedRoutine) {
+        _uiState.update { state ->
+            // Check if routine is premium and user is free
+            if (routine.userType == com.fpstudio.stretchreminder.data.model.UserType.PREMIUM && !state.userIsPremium) {
+                return@update state.copy(showPremiumLockDialog = true)
+            }
+
+            // Toggle selection: if already selected, deselect; otherwise select this one
+            val newSelectedId = if (state.selectedRecommendedRoutineId == routine.id) {
+                null
+            } else {
+                routine.id
+            }
+            
+            // Clear all individual video selections when selecting a recommended routine
+            val clearedVideos = state.allVideos.map { it.copy(isSelected = false) }
+            
+            // Update selected videos based on routine selection
+            val selectedVideos = if (newSelectedId != null) {
+                routine.videos
+            } else {
+                emptyList()
+            }
+
+            state.copy(
+                selectedRecommendedRoutineId = newSelectedId,
+                selectedVideos = selectedVideos,
+                allVideos = clearedVideos,
+                filteredVideos = when (state.selectedFilter) {
+                    VideoFilter.All -> clearedVideos
+                    VideoFilter.Recommended -> clearedVideos
+                    is VideoFilter.ByBodyPart -> clearedVideos.filter { 
+                        (state.selectedFilter as VideoFilter.ByBodyPart).bodyPart in it.bodyParts
+                    }
+                },
+                shouldNavigateToExercise = false
             )
         }
     }

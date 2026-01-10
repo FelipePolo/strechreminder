@@ -1,6 +1,12 @@
 package com.fpstudio.stretchreminder.ui.screen.routine.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,57 +27,58 @@ fun ActionButtonsRow(
             .padding(16.dp)
     ) {
         when {
-            // Case 1: No videos selected + has saved routines → Show "My Routines" + disabled "Start"
-            selectedCount == 0 && hasSavedRoutines -> {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    SaveRoutineButton(
-                        onClick = onMyRoutines, // This will show MyRoutinesBottomSheet
-                        text = "My Routines",
-                        modifier = Modifier.weight(1f)
-                    )
-                    ContinueButton(
-                        enabled = false,
-                        selectedCount = selectedCount,
-                        totalDurationSeconds = totalDurationSeconds,
-                        onClick = onStart,
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-            }
-            
             // Case 2: 2+ videos selected → Show "Save Routine" + enabled "Start"
             selectedCount >= 2 -> {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     SaveRoutineButton(
                         onClick = onSaveRoutine,
-                        text = "Save Routine",
-                        modifier = Modifier.weight(1f)
-                    )
+                        text = "Save",
+                        modifier = Modifier.weight(0.3f)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
                     ContinueButton(
                         enabled = true,
                         selectedCount = selectedCount,
                         totalDurationSeconds = totalDurationSeconds,
                         onClick = onStart,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(0.6f)
                     )
                 }
             }
             
-            // Case 3: 1 video selected OR (no videos + no saved routines) → Show only "Start" button
             else -> {
-                ContinueButton(
-                    enabled = selectedCount > 0,
-                    selectedCount = selectedCount,
-                    totalDurationSeconds = totalDurationSeconds,
-                    onClick = onStart,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    SaveRoutineButton(
+                        enabled = hasSavedRoutines,
+                        onClick = onMyRoutines, // This will show MyRoutinesBottomSheet
+                        text = "ME",
+                        modifier = Modifier.weight(0.3f)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.List,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                    ContinueButton(
+                        enabled = selectedCount > 0,
+                        selectedCount = selectedCount,
+                        totalDurationSeconds = totalDurationSeconds,
+                        onClick = onStart,
+                        modifier = Modifier.weight(0.6f)
+                    )
+                }
             }
         }
     }

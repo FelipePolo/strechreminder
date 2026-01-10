@@ -80,23 +80,6 @@ private fun RoutineSelectionContent(
                 )
             )
         },
-        bottomBar = {
-            val totalDuration = uiState.selectedVideos.sumOf { it.duration }
-            ActionButtonsRow(
-                selectedCount = uiState.selectedVideos.size,
-                totalDurationSeconds = totalDuration,
-                hasSavedRoutines = uiState.hasSavedRoutines,
-                onSaveRoutine = {
-                    onIntent(RoutineSelectionIntent.SaveRoutine)
-                },
-                onMyRoutines = {
-                    onIntent(RoutineSelectionIntent.ShowMyRoutinesSheet)
-                },
-                onStart = {
-                    onContinue(uiState.selectedVideos)
-                }
-            )
-        },
         containerColor = Color(0xFFF5F5F5)
     ) { paddingValues ->
         Column(
@@ -126,6 +109,21 @@ private fun RoutineSelectionContent(
                     )
                 }
 
+                uiState.selectedFilter == VideoFilter.Recommended -> {
+                    // Show recommended routines in vertical layout
+                    if (uiState.recommendedRoutines.isEmpty()) {
+                        EmptyState()
+                    } else {
+                        RecommendedRoutinesColumn(
+                            routines = uiState.recommendedRoutines,
+                            selectedRoutineId = uiState.selectedRecommendedRoutineId,
+                            onRoutineClick = { routine ->
+                                onIntent(RoutineSelectionIntent.RecommendedRoutineSelected(routine))
+                            }
+                        )
+                    }
+                }
+
                 uiState.filteredVideos.isEmpty() -> {
                     EmptyState()
                 }
@@ -142,6 +140,30 @@ private fun RoutineSelectionContent(
                     )
                 }
             }
+        }
+        
+        // Floating Action Buttons
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            val totalDuration = uiState.selectedVideos.sumOf { it.duration }
+            ActionButtonsRow(
+                selectedCount = uiState.selectedVideos.size,
+                totalDurationSeconds = totalDuration,
+                hasSavedRoutines = uiState.hasSavedRoutines,
+                onSaveRoutine = {
+                    onIntent(RoutineSelectionIntent.SaveRoutine)
+                },
+                onMyRoutines = {
+                    onIntent(RoutineSelectionIntent.ShowMyRoutinesSheet)
+                },
+                onStart = {
+                    onContinue(uiState.selectedVideos)
+                }
+            )
         }
         
         // Save Routine Bottom Sheet
@@ -198,7 +220,6 @@ private fun RoutineSelectionContent(
 
 @Composable
 private fun EmptyState(modifier: Modifier = Modifier) {
-
     LupeScreen(
         state = LupeUiModel(
             icon = R.raw.search,
@@ -206,14 +227,4 @@ private fun EmptyState(modifier: Modifier = Modifier) {
             description = "please try again later"
         )
     )
-//    Box(
-//        modifier = modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        Text(
-//            text = "No exercises found",
-//            style = MaterialTheme.typography.bodyLarge,
-//            color = Color.Gray
-//        )
-//    }
 }

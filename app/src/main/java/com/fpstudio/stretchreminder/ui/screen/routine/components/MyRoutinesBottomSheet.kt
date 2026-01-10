@@ -25,6 +25,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.fpstudio.stretchreminder.data.model.Routine
 import com.fpstudio.stretchreminder.data.model.RoutineColor
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import androidx.core.graphics.toColorInt
 
 @Composable
 fun MyRoutinesBottomSheet(
@@ -44,7 +45,7 @@ fun MyRoutinesBottomSheet(
         )
     ) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.32f)),
             contentAlignment = Alignment.BottomCenter
@@ -113,6 +114,9 @@ fun MyRoutinesBottomSheet(
                         colors = ButtonDefaults.buttonColors(
                             containerColor = TurquoiseAccent,
                             disabledContainerColor = Color(0xFFE0E0E0)
+                        ),
+                        elevation = ButtonDefaults.buttonElevation(
+                            defaultElevation = if (selectedRoutineId != null) 4.dp else 0.dp
                         )
                     ) {
                         Icon(
@@ -163,14 +167,14 @@ private fun RoutineCard(
             modifier = Modifier
                 .size(64.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .background(Color(android.graphics.Color.parseColor(routine.color.hex)).copy(alpha = 0.2f)),
+                .background(Color(routine.color.hex.toColorInt()).copy(alpha = 0.2f)),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = routine.icon.displayName.first().toString(),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(android.graphics.Color.parseColor(routine.color.hex))
+            Icon(
+                painter = androidx.compose.ui.res.painterResource(id = routine.icon.iconRes),
+                contentDescription = routine.icon.displayName,
+                tint = Color(routine.color.hex.toColorInt()),
+                modifier = Modifier.size(36.dp)
             )
         }
 
