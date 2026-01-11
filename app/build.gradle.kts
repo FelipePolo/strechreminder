@@ -102,6 +102,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // ADMOD
+    implementation(libs.play.services.ads)
+
     // Firebase
     implementation("com.google.firebase:firebase-analytics")
 

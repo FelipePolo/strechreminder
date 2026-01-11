@@ -24,6 +24,10 @@ import com.fpstudio.stretchreminder.ui.composable.lupe.LupeUiModel
 import com.fpstudio.stretchreminder.ui.screen.routine.components.*
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalContext
+import com.fpstudio.stretchreminder.domain.repository.AdMobRepository
 
 @Composable
 fun RoutineSelectionScreen(
@@ -31,13 +35,23 @@ fun RoutineSelectionScreen(
     onContinue: (List<Video>) -> Unit,
     onNavigateToMyRoutines: () -> Unit,
     onNavigateToPremium: () -> Unit,
-    viewModel: RoutineSelectionViewModel = koinViewModel()
+    viewModel: RoutineSelectionViewModel = koinViewModel(),
+    adMobRepository: AdMobRepository = koinInject()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    
+    // Load Ad on entry
+    LaunchedEffect(Unit) {
+        val TEST_AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
+        adMobRepository.initialize(context)
+        adMobRepository.loadRewardedAd(context, TEST_AD_UNIT_ID)
+    }
 
     RoutineSelectionContent(
         uiState = uiState,
         onIntent = viewModel::handleIntent,
+        adMobRepository = adMobRepository,
         onNavigateUp = onNavigateUp,
         onContinue = onContinue,
         onNavigateToMyRoutines = onNavigateToMyRoutines,
@@ -50,11 +64,13 @@ fun RoutineSelectionScreen(
 private fun RoutineSelectionContent(
     uiState: RoutineSelectionUiState,
     onIntent: (RoutineSelectionIntent) -> Unit,
+    adMobRepository: AdMobRepository,
     onNavigateUp: () -> Unit,
     onContinue: (List<Video>) -> Unit,
     onNavigateToMyRoutines: () -> Unit,
     onNavigateToPremium: () -> Unit
 ) {
+    val context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -118,6 +134,7 @@ private fun RoutineSelectionContent(
                             routines = uiState.recommendedRoutines,
                             selectedRoutineId = uiState.selectedRecommendedRoutineId,
                             userIsPremium = uiState.userIsPremium,
+                            temporarilyUnlockedRoutineIds = uiState.temporarilyUnlockedRoutineIds,
                             onRoutineClick = { routine ->
                                 onIntent(RoutineSelectionIntent.RecommendedRoutineSelected(routine))
                             }
@@ -193,12 +210,28 @@ private fun RoutineSelectionContent(
                     onNavigateToPremium()
                 },
                 onWatchAd = {
-                    // Simulate watching ad - unlock the pending content
-                    uiState.pendingUnlockVideoId?.let { videoId ->
-                        onIntent(RoutineSelectionIntent.UnlockVideoTemporarily(videoId))
-                    }
-                    uiState.pendingUnlockRoutineId?.let { routineId ->
-                        onIntent(RoutineSelectionIntent.UnlockRoutineTemporarily(routineId))
+                    val activity = context as? android.app.Activity
+                    if (activity != null) {
+                        adMobRepository.showRewardedAd(
+                            activity = activity,
+                            onRewardEarned = {
+                                // Unlock the pending content
+                                uiState.pendingUnlockVideoId?.let { videoId ->
+                                    onIntent(RoutineSelectionIntent.UnlockVideoTemporarily(videoId))
+                                }
+                                uiState.pendingUnlockRoutineId?.let { routineId ->
+                                    onIntent(RoutineSelectionIntent.UnlockRoutineTemporarily(routineId))
+                                }
+                            },
+                            onAdClosed = {
+                                // Reload ad for next time
+                                val TEST_AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
+                                adMobRepository.loadRewardedAd(context, TEST_AD_UNIT_ID)
+                            },
+                            onAdFailedToLoad = {
+                                // Handle failure (optional)
+                            }
+                        )
                     }
                 }
             )

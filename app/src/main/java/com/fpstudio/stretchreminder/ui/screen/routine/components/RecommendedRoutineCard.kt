@@ -11,6 +11,8 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,11 +32,33 @@ fun RecommendedRoutineCard(
     routine: RecommendedRoutine,
     isSelected: Boolean = false,
     userIsPremium: Boolean = false,
+    isTemporarilyUnlocked: Boolean = false,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isPremium = routine.userType == UserType.PREMIUM
-    val showPremiumLock = isPremium && !userIsPremium
+    val showPremiumLock = isPremium && !userIsPremium && !isTemporarilyUnlocked
+    
+    // Shine animation when unlocked
+    val shineOffset = remember { androidx.compose.animation.core.Animatable(-1f) }
+    
+    LaunchedEffect(isTemporarilyUnlocked) {
+        if (isTemporarilyUnlocked) {
+            // Animate shine from left to right over 2 seconds
+            shineOffset.snapTo(-1f)
+            shineOffset.animateTo(
+                targetValue = 2f,
+                animationSpec = androidx.compose.animation.core.tween(
+                    durationMillis = 2000,
+                    easing = androidx.compose.animation.core.FastOutSlowInEasing
+                )
+            )
+            // After animation completes, select the video
+            if (!isSelected) {
+                onClick()
+            }
+        }
+    }
     
     val borderModifier = when {
         isSelected -> Modifier.border(
@@ -85,6 +109,34 @@ fun RecommendedRoutineCard(
                         .clip(RoundedCornerShape(12.dp)),
                     contentScale = ContentScale.Crop
                 )
+                
+                // Shine effect overlay when unlocking
+                if (shineOffset.value > -1f && shineOffset.value < 2f) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(
+                                brush = Brush.linearGradient(
+                                    colors = listOf(
+                                        Color.Transparent,
+                                        Color.White.copy(alpha = 0.6f),
+                                        Color.White.copy(alpha = 0.8f),
+                                        Color.White.copy(alpha = 0.6f),
+                                        Color.Transparent
+                                    ),
+                                    start = androidx.compose.ui.geometry.Offset(
+                                        x = (shineOffset.value - 0.5f) * 1000f,
+                                        y = 0f
+                                    ),
+                                    end = androidx.compose.ui.geometry.Offset(
+                                        x = (shineOffset.value + 0.5f) * 1000f,
+                                        y = 1000f
+                                    )
+                                )
+                            )
+                    )
+                }
                 
                 // Duration badge
                 Surface(

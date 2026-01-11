@@ -26,6 +26,8 @@ import org.koin.dsl.module
 
 import com.fpstudio.stretchreminder.data.repository.TemporaryAccessRepositoryImpl
 import com.fpstudio.stretchreminder.domain.repository.TemporaryAccessRepository
+import com.fpstudio.stretchreminder.domain.repository.AdMobRepository
+import com.fpstudio.stretchreminder.data.repository.AdMobRepositoryImpl
 
 val appModule = module {
     // Routine Session Tracking
@@ -57,6 +59,9 @@ val appModule = module {
     
     // Temporary Access
     single<TemporaryAccessRepository> { TemporaryAccessRepositoryImpl() }
+    
+    // AdMob
+    single<AdMobRepository> { AdMobRepositoryImpl() }
     
     // Feedback
     single<com.fpstudio.stretchreminder.domain.repository.FeedbackRepository> { 

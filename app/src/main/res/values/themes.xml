@@ -8,4 +8,10 @@
     </style>
 
     <style name="Theme.StretchReminder" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.AdMobOverlayFix" parent="android:Theme.Translucent.NoTitleBar.Fullscreen">
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
 </resources>

@@ -17,6 +17,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StretchReminderSplashScreen"
         android:name=".MainApplication">
+
+        <!-- AdMob -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+
+        <!-- Override AdActivity to force Edge-to-Edge support -->
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:theme="@style/Theme.AdMobOverlayFix"
+            tools:replace="android:theme" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
