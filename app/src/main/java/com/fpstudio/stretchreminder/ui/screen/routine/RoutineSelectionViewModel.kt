@@ -72,6 +72,9 @@ class RoutineSelectionViewModel(
             is RoutineSelectionIntent.StartSelectedRoutine -> onStartSelectedRoutine()
             is RoutineSelectionIntent.HidePremiumUnlockSheet -> onHidePremiumUnlockSheet()
             is RoutineSelectionIntent.NavigateToPremium -> onNavigateToPremium()
+            is RoutineSelectionIntent.UnlockVideoTemporarily -> onUnlockVideoTemporarily(intent.videoId)
+            is RoutineSelectionIntent.UnlockRoutineTemporarily -> onUnlockRoutineTemporarily(intent.routineId)
+            is RoutineSelectionIntent.ClearTemporaryUnlocks -> onClearTemporaryUnlocks()
             is RoutineSelectionIntent.CheckInternetConnection -> checkInternetConnectionForFreeUsers()
             is RoutineSelectionIntent.HideNoInternetDialog -> onHideNoInternetDialog()
         }
@@ -85,6 +88,37 @@ class RoutineSelectionViewModel(
         // This will be handled by the screen layer
         // Just hide the sheet
         _uiState.update { it.copy(showPremiumUnlockSheet = false) }
+    }
+    
+    private fun onUnlockVideoTemporarily(videoId: String) {
+        _uiState.update { state ->
+            state.copy(
+                temporarilyUnlockedVideoIds = state.temporarilyUnlockedVideoIds + videoId,
+                showPremiumUnlockSheet = false,
+                pendingUnlockVideoId = null
+            )
+        }
+    }
+    
+    private fun onUnlockRoutineTemporarily(routineId: Int) {
+        _uiState.update { state ->
+            state.copy(
+                temporarilyUnlockedRoutineIds = state.temporarilyUnlockedRoutineIds + routineId,
+                showPremiumUnlockSheet = false,
+                pendingUnlockRoutineId = null
+            )
+        }
+    }
+    
+    private fun onClearTemporaryUnlocks() {
+        _uiState.update { state ->
+            state.copy(
+                temporarilyUnlockedVideoIds = emptySet(),
+                temporarilyUnlockedRoutineIds = emptySet(),
+                pendingUnlockVideoId = null,
+                pendingUnlockRoutineId = null
+            )
+        }
     }
     
     private fun onHideNoInternetDialog() {
@@ -171,9 +205,15 @@ class RoutineSelectionViewModel(
     
     private fun onVideoSelected(video: Video) {
         _uiState.update { state ->
-            // Check if video is premium and user is free
-            if (video.userType == com.fpstudio.stretchreminder.data.model.UserType.PREMIUM && !state.userIsPremium) {
-                return@update state.copy(showPremiumUnlockSheet = true)
+            // Check if video is premium and user is free AND not temporarily unlocked
+            if (video.userType == com.fpstudio.stretchreminder.data.model.UserType.PREMIUM && 
+                !state.userIsPremium && 
+                video.id !in state.temporarilyUnlockedVideoIds) {
+                return@update state.copy(
+                    showPremiumUnlockSheet = true,
+                    pendingUnlockVideoId = video.id,
+                    pendingUnlockRoutineId = null
+                )
             }
 
             // Toggle selection
@@ -205,9 +245,15 @@ class RoutineSelectionViewModel(
     
     private fun onRecommendedRoutineSelected(routine: com.fpstudio.stretchreminder.data.model.RecommendedRoutine) {
         _uiState.update { state ->
-            // Check if routine is premium and user is free
-            if (routine.userType == com.fpstudio.stretchreminder.data.model.UserType.PREMIUM && !state.userIsPremium) {
-                return@update state.copy(showPremiumUnlockSheet = true)
+            // Check if routine is premium and user is free AND not temporarily unlocked
+            if (routine.userType == com.fpstudio.stretchreminder.data.model.UserType.PREMIUM && 
+                !state.userIsPremium && 
+                routine.id !in state.temporarilyUnlockedRoutineIds) {
+                return@update state.copy(
+                    showPremiumUnlockSheet = true,
+                    pendingUnlockRoutineId = routine.id,
+                    pendingUnlockVideoId = null
+                )
             }
 
             // Toggle selection: if already selected, deselect; otherwise select this one

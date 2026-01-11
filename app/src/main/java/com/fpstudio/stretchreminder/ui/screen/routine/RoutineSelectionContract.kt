@@ -27,7 +27,11 @@ data class RoutineSelectionUiState(
     val showPremiumUnlockSheet: Boolean = false,
     val showNoInternetDialog: Boolean = false,
     val recommendedRoutines: List<com.fpstudio.stretchreminder.data.model.RecommendedRoutine> = emptyList(),
-    val selectedRecommendedRoutineId: Int? = null
+    val selectedRecommendedRoutineId: Int? = null,
+    val temporarilyUnlockedVideoIds: Set<String> = emptySet(),
+    val temporarilyUnlockedRoutineIds: Set<Int> = emptySet(),
+    val pendingUnlockVideoId: String? = null,
+    val pendingUnlockRoutineId: Int? = null
 )
 
 data class SaveRoutineState(
@@ -62,6 +66,9 @@ sealed class RoutineSelectionIntent {
     object StartSelectedRoutine : RoutineSelectionIntent()
     object HidePremiumUnlockSheet : RoutineSelectionIntent()
     object NavigateToPremium : RoutineSelectionIntent()
+    data class UnlockVideoTemporarily(val videoId: String) : RoutineSelectionIntent()
+    data class UnlockRoutineTemporarily(val routineId: Int) : RoutineSelectionIntent()
+    object ClearTemporaryUnlocks : RoutineSelectionIntent()
     object CheckInternetConnection : RoutineSelectionIntent()
     object HideNoInternetDialog : RoutineSelectionIntent()
 }

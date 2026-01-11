@@ -26,6 +26,7 @@ fun VideosGrid(
     videos: List<Video>,
     groupedByBodyPart: Map<BodyPartID, List<Video>>,
     userIsPremium: Boolean,
+    temporarilyUnlockedVideoIds: Set<String> = emptySet(),
     selectedFilter: VideoFilter,
     onVideoClick: (Video) -> Unit,
     modifier: Modifier = Modifier
@@ -126,6 +127,7 @@ fun VideosGrid(
                             VideoCard(
                                 video = video,
                                 userIsPremium = userIsPremium,
+                                isTemporarilyUnlocked = video.id in temporarilyUnlockedVideoIds,
                                 onClick = { onVideoClick(video) },
                                 modifier = Modifier.weight(1f)
                             )

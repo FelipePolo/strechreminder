@@ -134,6 +134,7 @@ private fun RoutineSelectionContent(
                         videos = uiState.filteredVideos,
                         groupedByBodyPart = uiState.groupedByBodyPart,
                         userIsPremium = uiState.userIsPremium,
+                        temporarilyUnlockedVideoIds = uiState.temporarilyUnlockedVideoIds,
                         selectedFilter = uiState.selectedFilter,
                         onVideoClick = { video ->
                             onIntent(RoutineSelectionIntent.VideoSelected(video))
@@ -192,7 +193,13 @@ private fun RoutineSelectionContent(
                     onNavigateToPremium()
                 },
                 onWatchAd = {
-                    // TODO: Implement ad watching functionality
+                    // Simulate watching ad - unlock the pending content
+                    uiState.pendingUnlockVideoId?.let { videoId ->
+                        onIntent(RoutineSelectionIntent.UnlockVideoTemporarily(videoId))
+                    }
+                    uiState.pendingUnlockRoutineId?.let { routineId ->
+                        onIntent(RoutineSelectionIntent.UnlockRoutineTemporarily(routineId))
+                    }
                 }
             )
         }
@@ -220,6 +227,8 @@ private fun RoutineSelectionContent(
         // Auto-navigate when starting a routine
         LaunchedEffect(uiState.shouldNavigateToExercise) {
             if (uiState.shouldNavigateToExercise && uiState.selectedVideos.isNotEmpty()) {
+                // Clear temporary unlocks before navigating
+                onIntent(RoutineSelectionIntent.ClearTemporaryUnlocks)
                 onContinue(uiState.selectedVideos)
                 // Reset flag
                 onIntent(RoutineSelectionIntent.ClearSelection)
