@@ -24,7 +24,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
@@ -87,9 +94,9 @@ fun HomeContent(
                 uiState = uiState.headerState,
                 onMenuClick = onMenuClick
             )
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             // Daily Goal Card
             DailyGoalCard(
                 uiState = uiState.dailyGoalState,
@@ -105,12 +112,85 @@ fun HomeContent(
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                InfoCard(
-                    modifier = Modifier.weight(1f),
-                    title = "Streak",
-                    value = "${uiState.dailyStatsState.stretchDays} Day",
-                    icon = R.drawable.ic_fire
-                )
+                when (uiState.dailyStatsState.stretchDays) {
+                    0, 1 -> {
+                        InfoCard(
+                            modifier = Modifier.weight(1f),
+                            title = "Streak",
+                            value = "${uiState.dailyStatsState.stretchDays} Day"
+                        ) {
+                            val composition by rememberLottieComposition(
+                                LottieCompositionSpec.RawRes(
+                                    R.raw.fire1
+                                )
+                            )
+                            LottieAnimation(
+                                composition = composition,
+                                iterations = LottieConstants.IterateForever,
+                                modifier = Modifier.size(36.dp).offset(y = (5).dp)
+                            )
+                        }
+                    }
+
+                    2 -> {
+                        InfoCard(
+                            modifier = Modifier.weight(1f),
+                            title = "Streak",
+                            value = "${uiState.dailyStatsState.stretchDays} Day",
+                        ) {
+                            val composition by rememberLottieComposition(
+                                LottieCompositionSpec.RawRes(
+                                    R.raw.fire2
+                                )
+                            )
+                            LottieAnimation(
+                                composition = composition,
+                                iterations = LottieConstants.IterateForever,
+                                modifier = Modifier.size(36.dp)
+                            )
+                        }
+                    }
+
+                    3 -> {
+                        InfoCard(
+                            modifier = Modifier.weight(1f),
+                            title = "Streak",
+                            value = "${uiState.dailyStatsState.stretchDays} Day"
+                        ) {
+                            val composition by rememberLottieComposition(
+                                LottieCompositionSpec.RawRes(
+                                    R.raw.fire3
+                                )
+                            )
+                            LottieAnimation(
+                                composition = composition,
+                                iterations = LottieConstants.IterateForever,
+                                modifier = Modifier.size(36.dp)
+                            )
+                        }
+                    }
+
+                    else -> {
+                        InfoCard(
+                            modifier = Modifier.weight(1f),
+                            title = "Streak",
+                            value = "${uiState.dailyStatsState.stretchDays} Day"
+                        ) {
+                            val composition by rememberLottieComposition(
+                                LottieCompositionSpec.RawRes(
+                                    R.raw.fire4
+                                )
+                            )
+                            LottieAnimation(
+                                composition = composition,
+                                iterations = LottieConstants.IterateForever,
+                                modifier = Modifier.size(36.dp)
+                            )
+                        }
+                    }
+                }
+
+
                 InfoCard(
                     modifier = Modifier.weight(1f),
                     title = "Duration",
@@ -136,41 +216,95 @@ fun HomeContent(
     }
 }
 
-@Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
-)
+@Preview(group = "Streak", name = "Streak 0 - 0 min")
 @Composable
-fun HomeScreenPreview() {
+fun HomeScreenPreviewStreak0() {
     StretchReminderTheme {
-        val previewUiState = HomeUiState(
-            headerState = HeaderUiState(
-                userName = "Juan",
-                formattedDate = "29 Nov, 2025"
-            ),
-            dailyGoalState = DailyGoalUiState(
-                progress = 100,
-                sessionsCompleted = 2,
-                totalSessions = 2,
-                motivationalMessage = "You're doing great, keep it up!"
-            ),
-            dailyStatsState = DailyStatsUiState(
-                stretchingTime = 1,
-                stretchDays = 1
-            ),
-            calendarState = Calendar(
-                today = LocalDate.of(2025, 12, 27),
-                markedDays = listOf(
-                    LocalDate.of(2025, 12, 1),
-                    LocalDate.of(2025, 12, 2),
-                    LocalDate.of(2025, 12, 8),
-                    LocalDate.of(2025, 12, 15),
-                    LocalDate.of(2025, 12, 22),
-                    LocalDate.of(2025, 12, 27)
+        HomeContent(
+            uiState = HomeUiState(
+                headerState = HeaderUiState("Juan", "29 Nov, 2025"),
+                dailyGoalState = DailyGoalUiState(0, 0, 2, "Let's start!"),
+                dailyStatsState = DailyStatsUiState(0, 0),
+                calendarState = Calendar(LocalDate.now(), emptyList())
+            )
+        )
+    }
+}
+
+@Preview(group = "Streak", name = "Streak 1 - 15 min")
+@Composable
+fun HomeScreenPreviewStreak1() {
+    StretchReminderTheme {
+        HomeContent(
+            uiState = HomeUiState(
+                headerState = HeaderUiState("Juan", "29 Nov, 2025"),
+                dailyGoalState = DailyGoalUiState(50, 1, 2, "Good start!"),
+                dailyStatsState = DailyStatsUiState(900, 1),
+                calendarState = Calendar(LocalDate.now(), listOf(LocalDate.now()))
+            )
+        )
+    }
+}
+
+@Preview(group = "Streak", name = "Streak 2 - 30 min")
+@Composable
+fun HomeScreenPreviewStreak2() {
+    StretchReminderTheme {
+        HomeContent(
+            uiState = HomeUiState(
+                headerState = HeaderUiState("Juan", "29 Nov, 2025"),
+                dailyGoalState = DailyGoalUiState(100, 2, 2, "On fire!"),
+                dailyStatsState = DailyStatsUiState(1800, 2),
+                calendarState = Calendar(
+                    LocalDate.now(),
+                    listOf(LocalDate.now(), LocalDate.now().minusDays(1))
                 )
             )
         )
+    }
+}
 
-        HomeContent(uiState = previewUiState)
+@Preview(group = "Streak", name = "Streak 3 - 45 min")
+@Composable
+fun HomeScreenPreviewStreak3() {
+    StretchReminderTheme {
+        HomeContent(
+            uiState = HomeUiState(
+                headerState = HeaderUiState("Juan", "29 Nov, 2025"),
+                dailyGoalState = DailyGoalUiState(100, 2, 2, "Unstoppable!"),
+                dailyStatsState = DailyStatsUiState(2700, 3),
+                calendarState = Calendar(
+                    LocalDate.now(),
+                    listOf(
+                        LocalDate.now(),
+                        LocalDate.now().minusDays(1),
+                        LocalDate.now().minusDays(2)
+                    )
+                )
+            )
+        )
+    }
+}
+
+@Preview(group = "Streak", name = "Streak 4+ - 60 min")
+@Composable
+fun HomeScreenPreviewStreak4() {
+    StretchReminderTheme {
+        HomeContent(
+            uiState = HomeUiState(
+                headerState = HeaderUiState("Juan", "29 Nov, 2025"),
+                dailyGoalState = DailyGoalUiState(100, 2, 2, "Legendary!"),
+                dailyStatsState = DailyStatsUiState(3600, 10),
+                calendarState = Calendar(
+                    LocalDate.now(),
+                    listOf(
+                        LocalDate.now(),
+                        LocalDate.now().minusDays(1),
+                        LocalDate.now().minusDays(2),
+                        LocalDate.now().minusDays(3)
+                    )
+                )
+            )
+        )
     }
 }

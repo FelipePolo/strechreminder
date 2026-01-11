@@ -14,13 +14,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import com.fpstudio.stretchreminder.domain.usecase.GetRoutineStatsUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetUserUseCase
+import com.fpstudio.stretchreminder.domain.usecase.CalculateStreakUseCase
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class HomeViewModel(
     private val getRoutineStatsUseCase: GetRoutineStatsUseCase,
-    private val getUserUseCase: GetUserUseCase
+    private val getUserUseCase: GetUserUseCase,
+    private val calculateStreakUseCase: CalculateStreakUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -44,6 +46,9 @@ class HomeViewModel(
             
             // Load routine stats for current month
             val stats = getRoutineStatsUseCase(today.year, today.monthValue)
+            
+            // Calculate streak
+            val streakStats = calculateStreakUseCase()
 
             _uiState.update { currentState ->
                 currentState.copy(
@@ -57,8 +62,8 @@ class HomeViewModel(
                         progress = ((stats.routineCountToday.toFloat() / 2f) * 100).toInt().coerceAtMost(100)
                     ),
                     dailyStatsState = DailyStatsUiState(
-                        stretchingTime = stats.totalDurationToday.toInt(), // Keep in seconds
-                        stretchDays = stats.completedDates.size
+                        stretchingTime = streakStats.totalDurationSeconds.toInt(), // Keep in seconds
+                        stretchDays = streakStats.days
                     ),
                     calendarState = Calendar(
                         today = today,

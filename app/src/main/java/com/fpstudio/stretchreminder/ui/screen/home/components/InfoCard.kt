@@ -12,7 +12,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -22,13 +22,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.theme.StretchReminderTheme
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.Alignment
 
 @Composable
 fun InfoCard(
     modifier: Modifier = Modifier,
     title: String,
     value: String,
-    icon: Int
+    icon: Int? = null,
+    lottieIcon: (@Composable () -> Unit)? = null
 ) {
     Column(
         modifier = modifier
@@ -37,18 +44,22 @@ fun InfoCard(
             .padding(16.dp)
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            verticalAlignment = Alignment.Bottom,
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            Icon(
-                painter = painterResource(id = icon),
-                contentDescription = null,
-                tint = if (title.contains("Streak", ignoreCase = true)) {
-                    Color(0xFFFF6B35) // Orange for Streak
-                } else {
-                    Color(0xFFE63946) // Red/Pink for Duration
-                }
-            )
+            if (lottieIcon != null) {
+                lottieIcon()
+            } else if (icon != null) {
+                Icon(
+                    painter = painterResource(id = icon),
+                    contentDescription = null,
+                    tint = if (title.contains("Streak", ignoreCase = true)) {
+                        Color(0xFFFF6B35) // Orange for Streak
+                    } else {
+                        Color(0xFFE63946) // Red/Pink for Duration
+                    }
+                )
+            }
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodyMedium,

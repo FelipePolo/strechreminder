@@ -167,6 +167,7 @@ fun PurchaseSuccessScreen(
                     SuccessFeatureItem("Ad-free experience")
                     SuccessFeatureItem("Unlimited Custom Routines")
                     SuccessFeatureItem("Access all content")
+                    SuccessFeatureItem("Offline mode")
                 }
             }
         }

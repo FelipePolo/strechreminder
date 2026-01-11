@@ -47,6 +47,7 @@ fun SettingsScreen(
     onNavigateToFeedback: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
@@ -58,7 +59,26 @@ fun SettingsScreen(
                 }
 
                 SideEffect.NavigateToRateApp -> {
-                    // TODO: Open Play Store
+                    val appId = context.packageName
+                    val intent = android.content.Intent(
+                        android.content.Intent.ACTION_VIEW,
+                        android.net.Uri.parse("market://details?id=$appId")
+                    )
+                    intent.addFlags(
+                        android.content.Intent.FLAG_ACTIVITY_NO_HISTORY or
+                        android.content.Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                        android.content.Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                    )
+                    try {
+                        context.startActivity(intent)
+                    } catch (e: android.content.ActivityNotFoundException) {
+                        context.startActivity(
+                            android.content.Intent(
+                                android.content.Intent.ACTION_VIEW,
+                                android.net.Uri.parse("https://play.google.com/store/apps/details?id=$appId")
+                            )
+                        )
+                    }
                 }
 
                 SideEffect.NavigateToFeedback -> {
@@ -308,6 +328,13 @@ fun SettingsContent(
                         onClick = { onIntent(Intent.SendFeedback) }
                     )
                 }
+                
+                TermsText(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp)
+                )
+
                 Spacer(modifier = Modifier.height(80.dp))
             }
         }

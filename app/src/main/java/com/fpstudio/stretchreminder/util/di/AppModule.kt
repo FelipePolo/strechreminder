@@ -35,6 +35,7 @@ val appModule = module {
     single<RoutineSessionRepository> { RoutineSessionRepositoryImpl(get()) }
     single { SaveRoutineSessionUseCase(get()) }
     single { GetRoutineStatsUseCase(get()) }
+    single { CalculateStreakUseCase(get()) }
     
     // Saved Routines
     single { RoutinesLocalDataSource(androidContext()) }
@@ -84,7 +85,7 @@ val appModule = module {
         )
     }
     viewModelOf(::ThreeYesViewModel)
-    viewModel { HomeViewModel(getRoutineStatsUseCase = get(), getUserUseCase = get()) }
+    viewModel { HomeViewModel(getRoutineStatsUseCase = get(), getUserUseCase = get(), calculateStreakUseCase = get()) }
     viewModel { RoutineSelectionViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { IntroViewModel(get()) }
     viewModel { SettingsScreenViewModel(getUserUseCase = get(), saveUserUseCase = get(), getSubscriptionInfoUseCase = get()) }
