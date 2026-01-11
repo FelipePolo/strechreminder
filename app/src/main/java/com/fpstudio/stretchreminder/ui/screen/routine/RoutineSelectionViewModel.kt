@@ -157,13 +157,33 @@ class RoutineSelectionViewModel(
                     // Filter to show only public videos
                     val publicVideos = result.videos.filter { it.visibility == VideoVisibility.PUBLIC }
                     
+                    // Reorder recommended routines for Free users
+                    var recommendedRoutines = result.recommendedRoutines
+                    val isPremium = checkEntitlementUseCase()
+                    
+                    if (!isPremium && recommendedRoutines.size >= 2) {
+                        val firstFreeIndex = recommendedRoutines.indexOfFirst { 
+                            it.userType == com.fpstudio.stretchreminder.data.model.UserType.FREE 
+                        }
+                        
+                        if (firstFreeIndex != -1 && firstFreeIndex != 1) {
+                            val mutableList = recommendedRoutines.toMutableList()
+                            val item = mutableList.removeAt(firstFreeIndex)
+                            // Safe check again just in case, though size >= 2 covers most
+                            if (mutableList.size >= 1) {
+                                mutableList.add(1, item)
+                                recommendedRoutines = mutableList
+                            }
+                        }
+                    }
+                    
                     _uiState.update { state ->
                         state.copy(
                             isLoading = false,
                             allVideos = publicVideos,
                             filteredVideos = publicVideos,
                             groupedByBodyPart = groupVideosByBodyParts(publicVideos),
-                            recommendedRoutines = result.recommendedRoutines
+                            recommendedRoutines = recommendedRoutines
                         )
                     }
                 },
