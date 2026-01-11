@@ -123,6 +123,14 @@ private fun ExerciseScreenContent(
                     navigateNext = { onIntent(Intent.CongratulationsComplete) }
                 )
             }
+            
+            // No Internet Connection Dialog
+            if (state.showNoInternetDialog) {
+                com.fpstudio.stretchreminder.ui.composable.NoInternetConnectionDialog(
+                    onRetry = { onIntent(Intent.CheckInternetConnection) },
+                    onDismiss = { onIntent(Intent.HideNoInternetDialog) }
+                )
+            }
         }
     }
 

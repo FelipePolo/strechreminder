@@ -8,13 +8,21 @@ import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenCo
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenContract.Intent
 import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenContract.SideEffect
 import com.fpstudio.stretchreminder.domain.usecase.SaveRoutineSessionUseCase
+import com.fpstudio.stretchreminder.domain.usecase.CheckNetworkConnectivityUseCase
+import com.fpstudio.stretchreminder.domain.usecase.CheckEntitlementUseCase
 import kotlinx.coroutines.launch
 
 class ExerciseScreenViewModel(
     var initialState: UiState,
-    private val saveRoutineSessionUseCase: SaveRoutineSessionUseCase
+    private val saveRoutineSessionUseCase: SaveRoutineSessionUseCase,
+    private val checkNetworkConnectivityUseCase: CheckNetworkConnectivityUseCase,
+    private val checkEntitlementUseCase: CheckEntitlementUseCase
 ) : ViewModel(),
     Mvi<UiState, Intent, SideEffect> by MviDelegate(initialState) {
+
+    init {
+        checkInternetConnectionForFreeUsers()
+    }
 
     override fun handleIntent(intent: Intent) {
         when (intent) {
@@ -107,6 +115,25 @@ class ExerciseScreenViewModel(
                         }
                     }
                 }
+            }
+
+            is Intent.CheckInternetConnection -> checkInternetConnectionForFreeUsers()
+
+            is Intent.HideNoInternetDialog -> {
+                updateUiState {
+                    uiState.value.copy(showNoInternetDialog = false)
+                }
+            }
+        }
+    }
+
+    private fun checkInternetConnectionForFreeUsers() {
+        // Only check internet for free users
+        val isPremium = checkEntitlementUseCase()
+        if (!isPremium) {
+            val hasInternet = checkNetworkConnectivityUseCase()
+            updateUiState {
+                uiState.value.copy(showNoInternetDialog = !hasInternet)
             }
         }
     }

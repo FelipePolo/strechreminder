@@ -8,7 +8,8 @@ interface ExerciseScreenContract {
         val playlist: Playlist = Playlist(),
         val disclaimer: String = Constants.EMPTY,
         val preText: PreText = PreText(),
-        val showCongratulations: Boolean = false
+        val showCongratulations: Boolean = false,
+        val showNoInternetDialog: Boolean = false
     )
 
     sealed class Intent {
@@ -17,6 +18,8 @@ interface ExerciseScreenContract {
         object CongratulationsComplete: Intent()
         data class ReadyToExercise(val videoDuration: Long): Intent()
         data class UpdateRemainingTime(val remainingTime: Long): Intent()
+        object CheckInternetConnection: Intent()
+        object HideNoInternetDialog: Intent()
     }
 
     sealed class SideEffect {

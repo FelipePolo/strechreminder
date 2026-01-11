@@ -24,7 +24,8 @@ data class RoutineSelectionUiState(
     val selectedRoutineId: Long? = null,
     val shouldNavigateToExercise: Boolean = false,
     val userIsPremium: Boolean = false,
-    val showPremiumLockDialog: Boolean = false,
+    val showPremiumUnlockSheet: Boolean = false,
+    val showNoInternetDialog: Boolean = false,
     val recommendedRoutines: List<com.fpstudio.stretchreminder.data.model.RecommendedRoutine> = emptyList(),
     val selectedRecommendedRoutineId: Int? = null
 )
@@ -59,5 +60,8 @@ sealed class RoutineSelectionIntent {
     object HideMyRoutinesSheet : RoutineSelectionIntent()
     data class SelectRoutine(val routineId: Long) : RoutineSelectionIntent()
     object StartSelectedRoutine : RoutineSelectionIntent()
-    object HidePremiumLockDialog : RoutineSelectionIntent()
+    object HidePremiumUnlockSheet : RoutineSelectionIntent()
+    object NavigateToPremium : RoutineSelectionIntent()
+    object CheckInternetConnection : RoutineSelectionIntent()
+    object HideNoInternetDialog : RoutineSelectionIntent()
 }

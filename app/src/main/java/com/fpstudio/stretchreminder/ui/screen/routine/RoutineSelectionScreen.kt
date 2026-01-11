@@ -181,18 +181,18 @@ private fun RoutineSelectionContent(
             )
         }
         
-        // Premium Lock Dialog
-        if (uiState.showPremiumLockDialog) {
-            // Auto-redirect effect
-            LaunchedEffect(Unit) {
-                delay(3000) // 3 seconds delay
-                onIntent(RoutineSelectionIntent.HidePremiumLockDialog)
-                onNavigateToPremium()
-            }
-            
-            PremiumLockDialog(
+        // Premium Unlock Bottom Sheet
+        if (uiState.showPremiumUnlockSheet) {
+            PremiumUnlockBottomSheet(
                 onDismiss = {
-                    onIntent(RoutineSelectionIntent.HidePremiumLockDialog)
+                    onIntent(RoutineSelectionIntent.HidePremiumUnlockSheet)
+                },
+                onGoPremium = {
+                    onIntent(RoutineSelectionIntent.NavigateToPremium)
+                    onNavigateToPremium()
+                },
+                onWatchAd = {
+                    // TODO: Implement ad watching functionality
                 }
             )
         }
@@ -207,6 +207,15 @@ private fun RoutineSelectionContent(
                 onStartRoutine = { onIntent(RoutineSelectionIntent.StartSelectedRoutine) }
             )
         }
+        
+        // No Internet Connection Dialog
+        if (uiState.showNoInternetDialog) {
+            com.fpstudio.stretchreminder.ui.composable.NoInternetConnectionDialog(
+                onRetry = { onIntent(RoutineSelectionIntent.CheckInternetConnection) },
+                onDismiss = { onIntent(RoutineSelectionIntent.HideNoInternetDialog) }
+            )
+        }
+
         
         // Auto-navigate when starting a routine
         LaunchedEffect(uiState.shouldNavigateToExercise) {

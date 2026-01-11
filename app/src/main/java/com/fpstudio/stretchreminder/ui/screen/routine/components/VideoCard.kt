@@ -78,7 +78,7 @@ fun VideoCard(
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color.Black.copy(alpha = 0.4f))
+                            .background(Color.Black.copy(alpha = 0.2f))
                     )
                     
                     // Lock Icon in Center
@@ -97,24 +97,24 @@ fun VideoCard(
                         )
                     }
                     
-                    // Premium Badge (Top Right)
+                    // Watch add badge
                     Box(
                         modifier = Modifier
-                            .align(Alignment.TopEnd)
+                            .align(Alignment.TopStart)
                             .padding(8.dp)
-                            .background(premiumYellow, RoundedCornerShape(12.dp))
+                            .background(Color.Black.copy(alpha = 0.4f), RoundedCornerShape(12.dp))
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
-                                imageVector = Icons.Default.Lock,
+                                imageVector = Icons.Default.PlayArrow,
                                 contentDescription = null,
                                 tint = Color.White,
                                 modifier = Modifier.size(12.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                text = "PREMIUM",
+                                text = "Watch an ADD",
                                 color = Color.White,
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Bold
@@ -183,14 +183,14 @@ fun VideoCard(
                     // Duration
                     if (isLocked) {
                         Text(
-                            text = "Pro Only • ${video.duration.toTimeString()}",
+                            text = video.duration.toTimeString(),
                             style = MaterialTheme.typography.bodySmall,
                             color = premiumOrange,
                             fontWeight = FontWeight.Bold
                         )
                     } else {
                         Text(
-                            text = "${video.duration.toTimeString()}" ,
+                            text = video.duration.toTimeString(),
                             style = MaterialTheme.typography.bodySmall,
                             color = Color.Gray
                         )

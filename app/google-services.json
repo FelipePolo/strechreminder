@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "806280551304",
+    "project_id": "stretch-reminder-42022",
+    "storage_bucket": "stretch-reminder-42022.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806280551304:android:fba22916c1946dd680383d",
+        "android_client_info": {
+          "package_name": "com.fpstudio.stretchreminder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPcZQUBuHSP_ubJSp96zl9r-k7VwlJjIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

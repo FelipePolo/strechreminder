@@ -17,6 +17,8 @@ import com.fpstudio.stretchreminder.ui.screen.routine.RoutineSelectionViewModel
 import com.fpstudio.stretchreminder.ui.screen.intro.IntroViewModel
 import com.fpstudio.stretchreminder.ui.screen.settings.SettingsScreenViewModel
 import com.fpstudio.stretchreminder.ui.screen.premium.PremiumScreenViewModel
+import com.fpstudio.stretchreminder.util.NetworkConnectivityHelper
+import com.fpstudio.stretchreminder.domain.usecase.CheckNetworkConnectivityUseCase
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
@@ -46,6 +48,10 @@ val appModule = module {
     single { com.fpstudio.stretchreminder.domain.usecase.CheckEntitlementUseCase(get()) }
     single { GetSubscriptionInfoUseCase(get()) }
     
+    // Network Connectivity
+    single { com.fpstudio.stretchreminder.util.NetworkConnectivityHelper(androidContext()) }
+    single { CheckNetworkConnectivityUseCase(get()) }
+    
     // Feedback
     single<com.fpstudio.stretchreminder.domain.repository.FeedbackRepository> { 
         com.fpstudio.stretchreminder.data.repository.FeedbackRepositoryImpl(
@@ -60,12 +66,14 @@ val appModule = module {
     viewModel { parametersHolder ->
         ExerciseScreenViewModel(
             initialState = parametersHolder.get(),
-            saveRoutineSessionUseCase = get()
+            saveRoutineSessionUseCase = get(),
+            checkNetworkConnectivityUseCase = get(),
+            checkEntitlementUseCase = get()
         )
     }
     viewModelOf(::ThreeYesViewModel)
     viewModel { HomeViewModel(getRoutineStatsUseCase = get(), getUserUseCase = get()) }
-    viewModel { RoutineSelectionViewModel(get(), get(), get(), get(), get(), get()) }
+    viewModel { RoutineSelectionViewModel(get(), get(), get(), get(), get(), get(), get()) }
     viewModel { IntroViewModel(get()) }
     viewModel { SettingsScreenViewModel(getUserUseCase = get(), saveUserUseCase = get(), getSubscriptionInfoUseCase = get()) }
     

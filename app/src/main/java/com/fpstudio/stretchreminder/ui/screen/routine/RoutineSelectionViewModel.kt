@@ -9,6 +9,7 @@ import com.fpstudio.stretchreminder.data.model.RoutineIcon
 import com.fpstudio.stretchreminder.data.model.Video
 import com.fpstudio.stretchreminder.data.model.VideoVisibility
 import com.fpstudio.stretchreminder.domain.usecase.CheckEntitlementUseCase
+import com.fpstudio.stretchreminder.domain.usecase.CheckNetworkConnectivityUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetBodyPartsUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetSavedRoutinesUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetVideosUseCase
@@ -27,7 +28,8 @@ class RoutineSelectionViewModel(
     private val getSavedRoutinesUseCase: GetSavedRoutinesUseCase,
     private val routineRepository: RoutineRepository,
     private val checkEntitlementUseCase: CheckEntitlementUseCase,
-    private val getBodyPartsUseCase: GetBodyPartsUseCase
+    private val getBodyPartsUseCase: GetBodyPartsUseCase,
+    private val checkNetworkConnectivityUseCase: CheckNetworkConnectivityUseCase
 ) : ViewModel() {
     
     private val _uiState = MutableStateFlow(RoutineSelectionUiState())
@@ -38,6 +40,7 @@ class RoutineSelectionViewModel(
         loadVideos()
         loadSavedRoutines()
         checkUserPremiumStatus()
+        checkInternetConnectionForFreeUsers()
     }
     
     private fun checkUserPremiumStatus() {
@@ -67,12 +70,33 @@ class RoutineSelectionViewModel(
             is RoutineSelectionIntent.HideMyRoutinesSheet -> onHideMyRoutinesSheet()
             is RoutineSelectionIntent.SelectRoutine -> onSelectRoutine(intent.routineId)
             is RoutineSelectionIntent.StartSelectedRoutine -> onStartSelectedRoutine()
-            is RoutineSelectionIntent.HidePremiumLockDialog -> onHidePremiumLockDialog()
+            is RoutineSelectionIntent.HidePremiumUnlockSheet -> onHidePremiumUnlockSheet()
+            is RoutineSelectionIntent.NavigateToPremium -> onNavigateToPremium()
+            is RoutineSelectionIntent.CheckInternetConnection -> checkInternetConnectionForFreeUsers()
+            is RoutineSelectionIntent.HideNoInternetDialog -> onHideNoInternetDialog()
         }
     }
     
-    private fun onHidePremiumLockDialog() {
-        _uiState.update { it.copy(showPremiumLockDialog = false) }
+    private fun onHidePremiumUnlockSheet() {
+        _uiState.update { it.copy(showPremiumUnlockSheet = false) }
+    }
+    
+    private fun onNavigateToPremium() {
+        // This will be handled by the screen layer
+        // Just hide the sheet
+        _uiState.update { it.copy(showPremiumUnlockSheet = false) }
+    }
+    
+    private fun onHideNoInternetDialog() {
+        _uiState.update { it.copy(showNoInternetDialog = false) }
+    }
+    
+    private fun checkInternetConnectionForFreeUsers() {
+        // Only check internet for free users
+        if (!_uiState.value.userIsPremium) {
+            val hasInternet = checkNetworkConnectivityUseCase()
+            _uiState.update { it.copy(showNoInternetDialog = !hasInternet) }
+        }
     }
     
     private fun loadBodyParts() {
@@ -149,7 +173,7 @@ class RoutineSelectionViewModel(
         _uiState.update { state ->
             // Check if video is premium and user is free
             if (video.userType == com.fpstudio.stretchreminder.data.model.UserType.PREMIUM && !state.userIsPremium) {
-                return@update state.copy(showPremiumLockDialog = true)
+                return@update state.copy(showPremiumUnlockSheet = true)
             }
 
             // Toggle selection
@@ -183,7 +207,7 @@ class RoutineSelectionViewModel(
         _uiState.update { state ->
             // Check if routine is premium and user is free
             if (routine.userType == com.fpstudio.stretchreminder.data.model.UserType.PREMIUM && !state.userIsPremium) {
-                return@update state.copy(showPremiumLockDialog = true)
+                return@update state.copy(showPremiumUnlockSheet = true)
             }
 
             // Toggle selection: if already selected, deselect; otherwise select this one
