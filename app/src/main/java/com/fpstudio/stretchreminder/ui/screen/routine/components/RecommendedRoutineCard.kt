@@ -29,17 +29,20 @@ import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 fun RecommendedRoutineCard(
     routine: RecommendedRoutine,
     isSelected: Boolean = false,
+    userIsPremium: Boolean = false,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isPremium = routine.userType == UserType.PREMIUM
+    val showPremiumLock = isPremium && !userIsPremium
+    
     val borderModifier = when {
         isSelected -> Modifier.border(
             width = 3.dp,
             color = TurquoiseAccent,
             shape = RoundedCornerShape(16.dp)
         )
-        isPremium -> Modifier.border(
+        showPremiumLock -> Modifier.border(
             width = 2.dp,
             brush = Brush.linearGradient(
                 colors = listOf(
@@ -113,8 +116,8 @@ fun RecommendedRoutineCard(
                     }
                 }
                 
-                // Premium lock icon
-                if (isPremium) {
+                // Premium lock icon - only show for free users
+                if (showPremiumLock) {
                     Surface(
                         modifier = Modifier
                             .align(Alignment.Center)
@@ -125,7 +128,7 @@ fun RecommendedRoutineCard(
                         Icon(
                             imageVector = Icons.Default.Lock,
                             contentDescription = "Premium",
-                            tint = Color(0xFFFFD700), // Gold
+                            tint = Color(0xFFfcbf24), // Gold
                             modifier = Modifier
                                 .padding(14.dp)
                                 .size(28.dp)
@@ -133,14 +136,14 @@ fun RecommendedRoutineCard(
                     }
                 }
                 
-                // Premium badge
-                if (isPremium) {
+                // Premium badge - only show for free users
+                if (showPremiumLock) {
                     Surface(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                             .padding(8.dp),
                         shape = RoundedCornerShape(12.dp),
-                        color = Color(0xFFFFD700) // Gold
+                        color = Color(0xFFfcbf24) // Gold
                     ) {
                         Row(
                             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),

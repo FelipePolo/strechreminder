@@ -30,7 +30,11 @@ data class Exercise(val videoUrls: List<String>)
 object Settings
 
 @Serializable
+object Feedback
+
+@Serializable
 data class Premium(val fromOnboarding: Boolean = false)
 
 @Serializable
 object PremiumSuccess
+

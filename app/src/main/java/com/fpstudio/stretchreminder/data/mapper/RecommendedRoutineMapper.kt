@@ -9,6 +9,8 @@ import com.fpstudio.stretchreminder.data.remote.dto.RecommendedRoutineDto
 import com.fpstudio.stretchreminder.data.mapper.VideoMapper.toDomain
 
 object RecommendedRoutineMapper {
+
+    private const val BASE_URL = "https://stretchreminder.net"
     
     fun List<RecommendedRoutineDto>.toDomain(): List<RecommendedRoutine> {
         return map { it.toDomain() }
@@ -20,7 +22,7 @@ object RecommendedRoutineMapper {
             name = name,
             userType = UserType.fromString(userType),
             visibility = VideoVisibility.fromString(visibility),
-            thumbnail = thumbnail,
+            thumbnail = "$BASE_URL$thumbnail",
             quantity = quantity,
             duration = duration,
             tags = tags.map { RoutineTag(id = it.id, name = it.name) },

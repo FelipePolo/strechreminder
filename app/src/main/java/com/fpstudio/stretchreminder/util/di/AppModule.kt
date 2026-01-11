@@ -46,6 +46,14 @@ val appModule = module {
     single { com.fpstudio.stretchreminder.domain.usecase.CheckEntitlementUseCase(get()) }
     single { GetSubscriptionInfoUseCase(get()) }
     
+    // Feedback
+    single<com.fpstudio.stretchreminder.domain.repository.FeedbackRepository> { 
+        com.fpstudio.stretchreminder.data.repository.FeedbackRepositoryImpl(
+            com.fpstudio.stretchreminder.data.remote.ApiClient.videoApiService
+        ) 
+    }
+    single { com.fpstudio.stretchreminder.domain.usecase.SubmitFeedbackUseCase(get()) }
+    
     // ViewModels
     viewModel { FormViewModel(saveUserUseCase = get(), getUserUseCase = get()) }
     viewModelOf(::TutorialScreenViewModel)
@@ -66,6 +74,14 @@ val appModule = module {
         com.fpstudio.stretchreminder.ui.screen.premium.PremiumScreenViewModel(
             revenueCatRepository = get(),
             checkEntitlementUseCase = get()
+        )
+    }
+    
+    // Feedback Screen
+    viewModel {
+        com.fpstudio.stretchreminder.ui.screen.feedback.FeedbackScreenViewModel(
+            submitFeedbackUseCase = get(),
+            getSubscriptionInfoUseCase = get()
         )
     }
 }

@@ -127,6 +127,17 @@ fun App() {
                 },
                 onNavigateToPremium = {
                     navController.navigate(Premium(fromOnboarding = false))
+                },
+                onNavigateToFeedback = {
+                    navController.navigate(Feedback)
+                }
+            )
+        }
+        
+        composable<Feedback> {
+            com.fpstudio.stretchreminder.ui.screen.feedback.FeedbackScreen(
+                onNavigateBack = {
+                    navController.navigateUp()
                 }
             )
         }

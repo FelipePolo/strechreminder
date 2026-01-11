@@ -34,7 +34,7 @@ fun ContinueButton(
         shape = RoundedCornerShape(28.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = TurquoiseAccent,
-            disabledContainerColor = Color(0xFFE0E0E0),
+            disabledContainerColor = Color(0xFFf7f9fa),
             contentColor = Color.White,
             disabledContentColor = Color.Gray
         ),

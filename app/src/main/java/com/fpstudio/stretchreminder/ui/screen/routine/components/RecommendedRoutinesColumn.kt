@@ -12,18 +12,20 @@ import com.fpstudio.stretchreminder.data.model.RecommendedRoutine
 fun RecommendedRoutinesColumn(
     routines: List<RecommendedRoutine>,
     selectedRoutineId: Int?,
+    userIsPremium: Boolean,
     onRoutineClick: (RecommendedRoutine) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 90.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(routines) { routine ->
             RecommendedRoutineCard(
                 routine = routine,
                 isSelected = routine.id == selectedRoutineId,
+                userIsPremium = userIsPremium,
                 onClick = { onRoutineClick(routine) }
             )
         }

@@ -43,7 +43,8 @@ import org.koin.androidx.compose.koinViewModel
 fun SettingsScreen(
     viewModel: SettingsScreenViewModel = koinViewModel(),
     onNavigateBack: () -> Unit = {},
-    onNavigateToPremium: () -> Unit = {}
+    onNavigateToPremium: () -> Unit = {},
+    onNavigateToFeedback: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -61,7 +62,7 @@ fun SettingsScreen(
                 }
 
                 SideEffect.NavigateToFeedback -> {
-                    // TODO: Open feedback form
+                    onNavigateToFeedback()
                 }
 
                 SideEffect.ShowSaveSuccess -> {
