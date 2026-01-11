@@ -227,8 +227,6 @@ private fun RoutineSelectionContent(
         // Auto-navigate when starting a routine
         LaunchedEffect(uiState.shouldNavigateToExercise) {
             if (uiState.shouldNavigateToExercise && uiState.selectedVideos.isNotEmpty()) {
-                // Clear temporary unlocks before navigating
-                onIntent(RoutineSelectionIntent.ClearTemporaryUnlocks)
                 onContinue(uiState.selectedVideos)
                 // Reset flag
                 onIntent(RoutineSelectionIntent.ClearSelection)

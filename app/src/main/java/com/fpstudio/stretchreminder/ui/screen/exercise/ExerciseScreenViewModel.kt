@@ -10,18 +10,22 @@ import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenCo
 import com.fpstudio.stretchreminder.domain.usecase.SaveRoutineSessionUseCase
 import com.fpstudio.stretchreminder.domain.usecase.CheckNetworkConnectivityUseCase
 import com.fpstudio.stretchreminder.domain.usecase.CheckEntitlementUseCase
+import com.fpstudio.stretchreminder.domain.repository.TemporaryAccessRepository
 import kotlinx.coroutines.launch
 
 class ExerciseScreenViewModel(
     var initialState: UiState,
     private val saveRoutineSessionUseCase: SaveRoutineSessionUseCase,
     private val checkNetworkConnectivityUseCase: CheckNetworkConnectivityUseCase,
-    private val checkEntitlementUseCase: CheckEntitlementUseCase
+    private val checkEntitlementUseCase: CheckEntitlementUseCase,
+    private val temporaryAccessRepository: TemporaryAccessRepository
 ) : ViewModel(),
     Mvi<UiState, Intent, SideEffect> by MviDelegate(initialState) {
 
     init {
         checkInternetConnectionForFreeUsers()
+        // Ensure any temporary unlocks are cleared when starting exercises
+        temporaryAccessRepository.clearAll()
     }
 
     override fun handleIntent(intent: Intent) {

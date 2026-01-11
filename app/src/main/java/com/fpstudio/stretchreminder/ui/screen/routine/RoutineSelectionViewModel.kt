@@ -15,6 +15,7 @@ import com.fpstudio.stretchreminder.domain.usecase.GetSavedRoutinesUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetVideosUseCase
 import com.fpstudio.stretchreminder.domain.usecase.SaveRoutineUseCase
 import com.fpstudio.stretchreminder.domain.repository.RoutineRepository
+import com.fpstudio.stretchreminder.domain.repository.TemporaryAccessRepository
 import com.fpstudio.stretchreminder.ui.screen.routine.components.VideoFilter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,7 +30,8 @@ class RoutineSelectionViewModel(
     private val routineRepository: RoutineRepository,
     private val checkEntitlementUseCase: CheckEntitlementUseCase,
     private val getBodyPartsUseCase: GetBodyPartsUseCase,
-    private val checkNetworkConnectivityUseCase: CheckNetworkConnectivityUseCase
+    private val checkNetworkConnectivityUseCase: CheckNetworkConnectivityUseCase,
+    private val temporaryAccessRepository: TemporaryAccessRepository
 ) : ViewModel() {
     
     private val _uiState = MutableStateFlow(RoutineSelectionUiState())
@@ -40,7 +42,22 @@ class RoutineSelectionViewModel(
         loadVideos()
         loadSavedRoutines()
         checkUserPremiumStatus()
+        checkUserPremiumStatus()
         checkInternetConnectionForFreeUsers()
+        observeTemporaryUnlocks()
+    }
+
+    private fun observeTemporaryUnlocks() {
+        viewModelScope.launch {
+            temporaryAccessRepository.temporarilyUnlockedVideoIds.collect { ids ->
+                _uiState.update { it.copy(temporarilyUnlockedVideoIds = ids) }
+            }
+        }
+        viewModelScope.launch {
+            temporaryAccessRepository.temporarilyUnlockedRoutineIds.collect { ids ->
+                _uiState.update { it.copy(temporarilyUnlockedRoutineIds = ids) }
+            }
+        }
     }
     
     private fun checkUserPremiumStatus() {
@@ -91,33 +108,23 @@ class RoutineSelectionViewModel(
     }
     
     private fun onUnlockVideoTemporarily(videoId: String) {
+        temporaryAccessRepository.unlockVideo(videoId)
         _uiState.update { state ->
-            state.copy(
-                temporarilyUnlockedVideoIds = state.temporarilyUnlockedVideoIds + videoId,
-                showPremiumUnlockSheet = false,
-                pendingUnlockVideoId = null
-            )
+            state.copy(showPremiumUnlockSheet = false, pendingUnlockVideoId = null)
         }
     }
     
     private fun onUnlockRoutineTemporarily(routineId: Int) {
+        temporaryAccessRepository.unlockRoutine(routineId)
         _uiState.update { state ->
-            state.copy(
-                temporarilyUnlockedRoutineIds = state.temporarilyUnlockedRoutineIds + routineId,
-                showPremiumUnlockSheet = false,
-                pendingUnlockRoutineId = null
-            )
+            state.copy(showPremiumUnlockSheet = false, pendingUnlockRoutineId = null)
         }
     }
     
     private fun onClearTemporaryUnlocks() {
+        temporaryAccessRepository.clearAll()
         _uiState.update { state ->
-            state.copy(
-                temporarilyUnlockedVideoIds = emptySet(),
-                temporarilyUnlockedRoutineIds = emptySet(),
-                pendingUnlockVideoId = null,
-                pendingUnlockRoutineId = null
-            )
+            state.copy(pendingUnlockVideoId = null, pendingUnlockRoutineId = null)
         }
     }
     
@@ -242,6 +249,9 @@ class RoutineSelectionViewModel(
             )
         }
     }
+    
+    
+
     
     private fun onRecommendedRoutineSelected(routine: com.fpstudio.stretchreminder.data.model.RecommendedRoutine) {
         _uiState.update { state ->
@@ -490,25 +500,41 @@ class RoutineSelectionViewModel(
     }
     
     private fun onStartSelectedRoutine() {
-        val selectedRoutineId = _uiState.value.selectedRoutineId ?: return
-        val routine = _uiState.value.savedRoutines.find { it.id == selectedRoutineId } ?: return
+        val state = _uiState.value
         
-        // Get all videos from state
-        val allVideos = _uiState.value.allVideos
-        
-        // Filter videos that match the routine's videoIds
-        val routineVideos = routine.videoIds.mapNotNull { videoId ->
-            allVideos.find { it.id == videoId }
+        // Case 1: Saved Routine selected (via My Routines sheet)
+        if (state.selectedRoutineId != null) {
+            val routine = state.savedRoutines.find { it.id == state.selectedRoutineId } ?: return
+            
+            // Get all videos from state
+            val allVideos = state.allVideos
+            
+            // Filter videos that match the routine's videoIds
+            val routineVideos = routine.videoIds.mapNotNull { videoId ->
+                allVideos.find { it.id == videoId }
+            }
+            
+            // Clear temporary unlocks immediately before navigation
+            temporaryAccessRepository.clearAll()
+            
+            _uiState.update { 
+                it.copy(
+                    selectedVideos = routineVideos,
+                    shouldNavigateToExercise = true,
+                    showMyRoutinesSheet = false,
+                    selectedRoutineId = null
+                )
+            }
+            return
         }
         
-        // Select these videos in the state (this will trigger navigation via onContinue)
-        _uiState.update { state ->
-            state.copy(
-                selectedVideos = routineVideos,
-                showMyRoutinesSheet = false,
-                selectedRoutineId = null,
-                shouldNavigateToExercise = true
-            )
+        // Case 2: Manual Video Selection
+        if (state.selectedVideos.isNotEmpty()) {
+            // Clear temporary unlocks immediately before navigation
+            temporaryAccessRepository.clearAll()
+            
+            _uiState.update { it.copy(shouldNavigateToExercise = true) }
+            return
         }
     }
 }

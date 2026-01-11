@@ -24,6 +24,9 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
+import com.fpstudio.stretchreminder.data.repository.TemporaryAccessRepositoryImpl
+import com.fpstudio.stretchreminder.domain.repository.TemporaryAccessRepository
+
 val appModule = module {
     // Routine Session Tracking
     single { RoutineSessionsLocalDataSource(androidContext()) }
@@ -52,6 +55,9 @@ val appModule = module {
     single { com.fpstudio.stretchreminder.util.NetworkConnectivityHelper(androidContext()) }
     single { CheckNetworkConnectivityUseCase(get()) }
     
+    // Temporary Access
+    single<TemporaryAccessRepository> { TemporaryAccessRepositoryImpl() }
+    
     // Feedback
     single<com.fpstudio.stretchreminder.domain.repository.FeedbackRepository> { 
         com.fpstudio.stretchreminder.data.repository.FeedbackRepositoryImpl(
@@ -68,12 +74,13 @@ val appModule = module {
             initialState = parametersHolder.get(),
             saveRoutineSessionUseCase = get(),
             checkNetworkConnectivityUseCase = get(),
-            checkEntitlementUseCase = get()
+            checkEntitlementUseCase = get(),
+            temporaryAccessRepository = get()
         )
     }
     viewModelOf(::ThreeYesViewModel)
     viewModel { HomeViewModel(getRoutineStatsUseCase = get(), getUserUseCase = get()) }
-    viewModel { RoutineSelectionViewModel(get(), get(), get(), get(), get(), get(), get()) }
+    viewModel { RoutineSelectionViewModel(get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { IntroViewModel(get()) }
     viewModel { SettingsScreenViewModel(getUserUseCase = get(), saveUserUseCase = get(), getSubscriptionInfoUseCase = get()) }
     
