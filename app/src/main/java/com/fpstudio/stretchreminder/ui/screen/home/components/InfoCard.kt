@@ -28,6 +28,10 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Alignment
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
 
 @Composable
 fun InfoCard(
@@ -35,44 +39,61 @@ fun InfoCard(
     title: String,
     value: String,
     icon: Int? = null,
+    onInfoClick: (() -> Unit)? = null,
     lottieIcon: (@Composable () -> Unit)? = null
 ) {
-    Column(
+    Box(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .background(Color.White)
-            .padding(16.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.spacedBy(2.dp)
+        Column(
+            modifier = Modifier.padding(16.dp)
         ) {
-            if (lottieIcon != null) {
-                lottieIcon()
-            } else if (icon != null) {
-                Icon(
-                    painter = painterResource(id = icon),
-                    contentDescription = null,
-                    tint = if (title.contains("Streak", ignoreCase = true)) {
-                        Color(0xFFFF6B35) // Orange for Streak
-                    } else {
-                        Color(0xFFE63946) // Red/Pink for Duration
-                    }
+            Row(
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                if (lottieIcon != null) {
+                    lottieIcon()
+                } else if (icon != null) {
+                    Icon(
+                        painter = painterResource(id = icon),
+                        contentDescription = null,
+                        tint = if (title.contains("Streak", ignoreCase = true)) {
+                            Color(0xFFFF6B35) // Orange for Streak
+                        } else {
+                            Color(0xFFE63946) // Red/Pink for Duration
+                        }
+                    )
+                }
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Gray
                 )
             }
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = title,
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray
+                text = value,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
             )
         }
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = value,
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
-        )
+
+        if (onInfoClick != null) {
+            Icon(
+                imageVector = Icons.Outlined.Info,
+                contentDescription = "Info",
+                tint = Color.Gray,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp)
+                    .size(20.dp)
+                    .clickable { onInfoClick() }
+            )
+        }
     }
 }
 

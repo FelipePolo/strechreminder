@@ -40,6 +40,10 @@ import com.fpstudio.stretchreminder.ui.screen.home.components.Header
 import com.fpstudio.stretchreminder.ui.screen.home.components.InfoCard
 import com.fpstudio.stretchreminder.ui.screen.home.model.DailyGoalUiState
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import com.fpstudio.stretchreminder.ui.screen.home.components.StreakInfoDialog
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import java.time.LocalDate
 
 @Composable
@@ -63,6 +67,12 @@ fun HomeContent(
     onStretchButtonClick: () -> Unit = {},
     onMenuClick: () -> Unit = {}
 ) {
+    var showStreakInfo by remember { mutableStateOf(false) }
+
+    if (showStreakInfo) {
+        StreakInfoDialog(onDismiss = { showStreakInfo = false })
+    }
+
     Scaffold(
         containerColor = Color(0xFFF5F5F5),
         bottomBar = {
@@ -117,7 +127,8 @@ fun HomeContent(
                         InfoCard(
                             modifier = Modifier.weight(1f),
                             title = "Streak",
-                            value = "${uiState.dailyStatsState.stretchDays} Day"
+                            value = "${uiState.dailyStatsState.stretchDays} Day",
+                            onInfoClick = { showStreakInfo = true }
                         ) {
                             val composition by rememberLottieComposition(
                                 LottieCompositionSpec.RawRes(
@@ -137,6 +148,7 @@ fun HomeContent(
                             modifier = Modifier.weight(1f),
                             title = "Streak",
                             value = "${uiState.dailyStatsState.stretchDays} Day",
+                            onInfoClick = { showStreakInfo = true }
                         ) {
                             val composition by rememberLottieComposition(
                                 LottieCompositionSpec.RawRes(
@@ -155,7 +167,8 @@ fun HomeContent(
                         InfoCard(
                             modifier = Modifier.weight(1f),
                             title = "Streak",
-                            value = "${uiState.dailyStatsState.stretchDays} Day"
+                            value = "${uiState.dailyStatsState.stretchDays} Day",
+                            onInfoClick = { showStreakInfo = true }
                         ) {
                             val composition by rememberLottieComposition(
                                 LottieCompositionSpec.RawRes(
@@ -174,7 +187,8 @@ fun HomeContent(
                         InfoCard(
                             modifier = Modifier.weight(1f),
                             title = "Streak",
-                            value = "${uiState.dailyStatsState.stretchDays} Day"
+                            value = "${uiState.dailyStatsState.stretchDays} Day",
+                            onInfoClick = { showStreakInfo = true }
                         ) {
                             val composition by rememberLottieComposition(
                                 LottieCompositionSpec.RawRes(
