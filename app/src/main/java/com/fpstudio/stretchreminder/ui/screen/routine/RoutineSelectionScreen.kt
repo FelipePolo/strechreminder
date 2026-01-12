@@ -135,6 +135,7 @@ private fun RoutineSelectionContent(
                             selectedRoutineId = uiState.selectedRecommendedRoutineId,
                             userIsPremium = uiState.userIsPremium,
                             temporarilyUnlockedRoutineIds = uiState.temporarilyUnlockedRoutineIds,
+                            bestMatchRoutineId = uiState.bestMatchRoutineId,
                             onRoutineClick = { routine ->
                                 onIntent(RoutineSelectionIntent.RecommendedRoutineSelected(routine))
                             }

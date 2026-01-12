@@ -14,6 +14,7 @@ fun RecommendedRoutinesColumn(
     selectedRoutineId: Int?,
     userIsPremium: Boolean,
     temporarilyUnlockedRoutineIds: Set<Int> = emptySet(),
+    bestMatchRoutineId: Int? = null,
     onRoutineClick: (RecommendedRoutine) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -28,6 +29,7 @@ fun RecommendedRoutinesColumn(
                 isSelected = routine.id == selectedRoutineId,
                 userIsPremium = userIsPremium,
                 isTemporarilyUnlocked = routine.id in temporarilyUnlockedRoutineIds,
+                isBestMatch = routine.id == bestMatchRoutineId,
                 onClick = { onRoutineClick(routine) }
             )
         }

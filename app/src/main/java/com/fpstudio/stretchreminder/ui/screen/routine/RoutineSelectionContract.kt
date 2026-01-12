@@ -31,7 +31,8 @@ data class RoutineSelectionUiState(
     val temporarilyUnlockedVideoIds: Set<String> = emptySet(),
     val temporarilyUnlockedRoutineIds: Set<Int> = emptySet(),
     val pendingUnlockVideoId: String? = null,
-    val pendingUnlockRoutineId: Int? = null
+    val pendingUnlockRoutineId: Int? = null,
+    val bestMatchRoutineId: Int? = null
 )
 
 data class SaveRoutineState(

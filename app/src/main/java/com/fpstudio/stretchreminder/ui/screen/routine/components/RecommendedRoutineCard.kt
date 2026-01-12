@@ -33,11 +33,26 @@ fun RecommendedRoutineCard(
     isSelected: Boolean = false,
     userIsPremium: Boolean = false,
     isTemporarilyUnlocked: Boolean = false,
+    isBestMatch: Boolean = false,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isPremium = routine.userType == UserType.PREMIUM
+    // Show normal premium lock only if it is premium AND user is NOT premium AND NOT temporarily unlocked AND NOT best match
+    // If it IS best match, we show the special badge instead (but it's still locked in behavior unless we want to unlock it?)
+    // Re-reading request: "change the text of the lock icon and PREMIUM... for a star icon and 'based on your preferences'"
+    // This implies visually it changes, but functionally it might still be premium?
+    // Usually "Based on your preferences" implies a recommendation.
+    // If the user is NOT premium, they still can't play it unless unlocked. 
+    // The visual request is to REPLACE the lock icon. 
+    // So we hide the standard lock UI if isBestMatch is true.
+    
     val showPremiumLock = isPremium && !userIsPremium && !isTemporarilyUnlocked
+    // We want to show the Best Match badge regardless of premium status to highlight the recommendation
+    // unless the user specifically requested it to be a "replacement for lock" ONLY. 
+    // But since they complained about not seeing it as premium user, they likely want to see it.
+    // However, for Free users it acts as a lock replacement (visually). Functionally logic handles the lock.
+    val showBestMatchBadge = isBestMatch
     
     // Shine animation when unlocked
     val shineOffset = remember { androidx.compose.animation.core.Animatable(-1f) }
@@ -168,7 +183,7 @@ fun RecommendedRoutineCard(
                     }
                 }
                 
-                // Premium lock icon - only show for free users
+                // Premium lock icon - only show for free users (regular)
                 if (showPremiumLock) {
                     Surface(
                         modifier = Modifier
@@ -189,7 +204,7 @@ fun RecommendedRoutineCard(
                 }
                 
                 // Premium badge - only show for free users
-                if (showPremiumLock) {
+                if (showPremiumLock && !showBestMatchBadge) {
                     Surface(
                         modifier = Modifier
                             .align(Alignment.TopEnd)
@@ -210,6 +225,34 @@ fun RecommendedRoutineCard(
                             )
                             Text(
                                 text = "PREMIUM",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 10.sp
+                            )
+                        }
+                    }
+                } else if (showBestMatchBadge) {
+                     Surface(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(8.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        color = TurquoiseAccent
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier.size(12.dp)
+                            )
+                            Text(
+                                text = "Based on your preferences",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold,

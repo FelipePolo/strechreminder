@@ -214,7 +214,7 @@ fun PremiumUnlockBottomSheet(
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = "Watch an ad to unlock for 24h",
+                            text = "Watch an AD to unlock for this session",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium,
                             color = Color(0xFF1E293B)

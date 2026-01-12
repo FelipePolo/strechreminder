@@ -14,6 +14,7 @@ import com.fpstudio.stretchreminder.domain.usecase.GetBodyPartsUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetSavedRoutinesUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetVideosUseCase
 import com.fpstudio.stretchreminder.domain.usecase.SaveRoutineUseCase
+import com.fpstudio.stretchreminder.domain.usecase.GetUserUseCase
 import com.fpstudio.stretchreminder.domain.repository.RoutineRepository
 import com.fpstudio.stretchreminder.domain.repository.TemporaryAccessRepository
 import com.fpstudio.stretchreminder.ui.screen.routine.components.VideoFilter
@@ -31,7 +32,8 @@ class RoutineSelectionViewModel(
     private val checkEntitlementUseCase: CheckEntitlementUseCase,
     private val getBodyPartsUseCase: GetBodyPartsUseCase,
     private val checkNetworkConnectivityUseCase: CheckNetworkConnectivityUseCase,
-    private val temporaryAccessRepository: TemporaryAccessRepository
+    private val temporaryAccessRepository: TemporaryAccessRepository,
+    private val getUserUseCase: GetUserUseCase
 ) : ViewModel() {
     
     private val _uiState = MutableStateFlow(RoutineSelectionUiState())
@@ -157,22 +159,53 @@ class RoutineSelectionViewModel(
                     // Filter to show only public videos
                     val publicVideos = result.videos.filter { it.visibility == VideoVisibility.PUBLIC }
                     
-                    // Reorder recommended routines for Free users
-                    var recommendedRoutines = result.recommendedRoutines
+                    // Reorder recommended routines
+                    var recommendedRoutines = result.recommendedRoutines.toMutableList()
                     val isPremium = checkEntitlementUseCase()
+                    val user = getUserUseCase()
                     
+                    // Priority 1: Best matching PREMIUM routine at index 0
+                    var bestMatchId: Int? = null
+                    if (user != null && user.bodyParts.isNotEmpty()) {
+                        val userBodyPartsSet = user.bodyParts.toSet()
+                        
+                        val bestPremiumMatch = recommendedRoutines
+                            .filter { it.userType == com.fpstudio.stretchreminder.data.model.UserType.PREMIUM }
+                            .maxWithOrNull(
+                                compareBy<com.fpstudio.stretchreminder.data.model.RecommendedRoutine> { routine ->
+                                    // 1. Maximize intersection with user preferences
+                                    routine.bodyparts.intersect(userBodyPartsSet).size
+                                }.thenByDescending { routine ->
+                                    // 2. Minimize extra parts (negative of count of parts NOT in user preferences)
+                                    // We use thenByDescending because we want the "smallest number of extras" to be "better".
+                                    // compareByDescending means compare(a, b) = b.compareTo(a).
+                                    // With positive extraParts: compare(6, 3) = 3.compareTo(6) = -1.
+                                    // So 6 comes "before" 3. 6 < 3.
+                                    // maxWith picks the "Largest" element. 3 is larger than 6.
+                                    // So the one with FEWER extras (3) is selected as MAX.
+                                    val extraParts = routine.bodyparts.size - routine.bodyparts.intersect(userBodyPartsSet).size
+                                    extraParts
+                                }
+                            )
+                        
+                        if (bestPremiumMatch != null) {
+                            recommendedRoutines.remove(bestPremiumMatch)
+                            recommendedRoutines.add(0, bestPremiumMatch)
+                            bestMatchId = bestPremiumMatch.id
+                        }
+                    }
+                    
+                    // Priority 2: For Free users, ensure a Free routine is at index 1 (if available)
                     if (!isPremium && recommendedRoutines.size >= 2) {
                         val firstFreeIndex = recommendedRoutines.indexOfFirst { 
                             it.userType == com.fpstudio.stretchreminder.data.model.UserType.FREE 
                         }
                         
                         if (firstFreeIndex != -1 && firstFreeIndex != 1) {
-                            val mutableList = recommendedRoutines.toMutableList()
-                            val item = mutableList.removeAt(firstFreeIndex)
-                            // Safe check again just in case, though size >= 2 covers most
-                            if (mutableList.size >= 1) {
-                                mutableList.add(1, item)
-                                recommendedRoutines = mutableList
+                            val item = recommendedRoutines.removeAt(firstFreeIndex)
+                            // Safe check again just in case
+                            if (recommendedRoutines.size >= 1) {
+                                recommendedRoutines.add(1, item)
                             }
                         }
                     }
@@ -183,7 +216,8 @@ class RoutineSelectionViewModel(
                             allVideos = publicVideos,
                             filteredVideos = publicVideos,
                             groupedByBodyPart = groupVideosByBodyParts(publicVideos),
-                            recommendedRoutines = recommendedRoutines
+                            recommendedRoutines = recommendedRoutines,
+                            bestMatchRoutineId = bestMatchId
                         )
                     }
                 },
