@@ -132,12 +132,22 @@ private fun RoutineSelectionContent(
                     } else {
                         RecommendedRoutinesColumn(
                             routines = uiState.recommendedRoutines,
+                            savedRoutines = uiState.savedRoutines,
                             selectedRoutineId = uiState.selectedRecommendedRoutineId,
                             userIsPremium = uiState.userIsPremium,
                             temporarilyUnlockedRoutineIds = uiState.temporarilyUnlockedRoutineIds,
                             bestMatchRoutineId = uiState.bestMatchRoutineId,
                             onRoutineClick = { routine ->
                                 onIntent(RoutineSelectionIntent.RecommendedRoutineSelected(routine))
+                            },
+                            onNavigateToCreate = { 
+                                // Initiates creation flow - usually by saving current selection
+                                onIntent(RoutineSelectionIntent.SaveRoutine) 
+                            },
+                            onNavigateToPremium = onNavigateToPremium,
+                            onSavedRoutineClick = { routineId ->
+                                onIntent(RoutineSelectionIntent.SelectRoutine(routineId))
+                                onIntent(RoutineSelectionIntent.StartSelectedRoutine)
                             }
                         )
                     }
@@ -174,8 +184,13 @@ private fun RoutineSelectionContent(
                 selectedCount = uiState.selectedVideos.size,
                 totalDurationSeconds = totalDuration,
                 hasSavedRoutines = uiState.hasSavedRoutines,
+                userIsPremium = uiState.userIsPremium,
                 onSaveRoutine = {
-                    onIntent(RoutineSelectionIntent.SaveRoutine)
+                    if (uiState.userIsPremium) {
+                        onIntent(RoutineSelectionIntent.SaveRoutine)
+                    } else {
+                        onNavigateToPremium()
+                    }
                 },
                 onMyRoutines = {
                     onIntent(RoutineSelectionIntent.ShowMyRoutinesSheet)

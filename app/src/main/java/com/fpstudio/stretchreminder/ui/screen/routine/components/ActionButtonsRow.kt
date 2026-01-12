@@ -6,6 +6,7 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,6 +17,7 @@ fun ActionButtonsRow(
     selectedCount: Int,
     totalDurationSeconds: Int,
     hasSavedRoutines: Boolean,
+    userIsPremium: Boolean,
     onSaveRoutine: () -> Unit,
     onMyRoutines: () -> Unit,
     onStart: () -> Unit,
@@ -36,14 +38,26 @@ fun ActionButtonsRow(
                     SaveRoutineButton(
                         onClick = onSaveRoutine,
                         text = "Save",
-                        modifier = Modifier.weight(0.3f)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
+                        modifier = Modifier.weight(0.3f),
+                        leadingIcon = if (userIsPremium) {
+                            {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                        } else null,
+                        trailingIcon = if (!userIsPremium) {
+                            {
+                                Icon(
+                                    imageVector = Icons.Default.Lock,
+                                    contentDescription = "Locked",
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            }
+                        } else null
+                    )
                     ContinueButton(
                         enabled = true,
                         selectedCount = selectedCount,
@@ -59,24 +73,12 @@ fun ActionButtonsRow(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    SaveRoutineButton(
-                        enabled = hasSavedRoutines,
-                        onClick = onMyRoutines, // This will show MyRoutinesBottomSheet
-                        text = "ME",
-                        modifier = Modifier.weight(0.3f)
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.List,
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp)
-                        )
-                    }
                     ContinueButton(
                         enabled = selectedCount > 0,
                         selectedCount = selectedCount,
                         totalDurationSeconds = totalDurationSeconds,
                         onClick = onStart,
-                        modifier = Modifier.weight(0.6f)
+                        modifier = Modifier.weight(0.8f)
                     )
                 }
             }

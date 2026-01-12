@@ -23,7 +23,8 @@ fun SaveRoutineButton(
     onClick: () -> Unit,
     text: String = "Save Routine",
     enabled: Boolean = true,
-    icon: @Composable () -> Unit
+    leadingIcon: (@Composable () -> Unit)? = null,
+    trailingIcon: (@Composable () -> Unit)? = null
 ) {
     Button(
         onClick = onClick,
@@ -39,12 +40,18 @@ fun SaveRoutineButton(
             defaultElevation = if (enabled) 4.dp else 0.dp
         )
     ) {
-        icon()
-        Spacer(modifier = Modifier.width(8.dp))
+        if (leadingIcon != null) {
+            leadingIcon()
+            Spacer(modifier = Modifier.width(8.dp))
+        }
         Text(
             text = text,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
+        if (trailingIcon != null) {
+            Spacer(modifier = Modifier.width(8.dp))
+            trailingIcon()
+        }
     }
 }
