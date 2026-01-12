@@ -8,5 +8,5 @@ interface RoutineRepository {
     suspend fun saveRoutine(routine: Routine): Result<Long>
     suspend fun deleteRoutine(routineId: Long): Result<Unit>
     suspend fun hasRoutines(): Boolean
-    suspend fun routineNameExists(name: String): Boolean
+    suspend fun routineNameExists(name: String, excludeId: Long? = null): Boolean
 }

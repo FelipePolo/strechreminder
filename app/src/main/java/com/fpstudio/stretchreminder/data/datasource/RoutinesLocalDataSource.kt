@@ -22,7 +22,15 @@ class RoutinesLocalDataSource(private val context: Context) {
     suspend fun saveRoutine(routine: Routine): Long {
         context.routinesDataStore.edit { preferences ->
             val existingRoutines = getAllRoutines()
-            val updatedRoutines = existingRoutines + routine
+            // Check if routine with this ID already exists
+            val routineExists = existingRoutines.any { it.id == routine.id }
+            val updatedRoutines = if (routineExists) {
+                // Replace existing routine
+                existingRoutines.map { if (it.id == routine.id) routine else it }
+            } else {
+                // Add new routine
+                existingRoutines + routine
+            }
             val routinesJson = gson.toJson(updatedRoutines)
             preferences[ROUTINES_KEY] = routinesJson
         }
@@ -73,9 +81,11 @@ class RoutinesLocalDataSource(private val context: Context) {
         return getAllRoutines().isNotEmpty()
     }
 
-    suspend fun routineNameExists(name: String): Boolean {
+    suspend fun routineNameExists(name: String, excludeId: Long? = null): Boolean {
         val routines = getAllRoutines()
-        return routines.any { it.name.equals(name, ignoreCase = true) }
+        return routines.any { 
+            it.name.equals(name, ignoreCase = true) && it.id != excludeId 
+        }
     }
 
     companion object {

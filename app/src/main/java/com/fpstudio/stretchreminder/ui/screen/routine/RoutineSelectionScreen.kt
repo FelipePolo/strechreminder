@@ -134,6 +134,7 @@ private fun RoutineSelectionContent(
                             routines = uiState.recommendedRoutines,
                             savedRoutines = uiState.savedRoutines,
                             selectedRoutineId = uiState.selectedRecommendedRoutineId,
+                            selectedCustomRoutineId = uiState.selectedRoutineId,
                             userIsPremium = uiState.userIsPremium,
                             temporarilyUnlockedRoutineIds = uiState.temporarilyUnlockedRoutineIds,
                             bestMatchRoutineId = uiState.bestMatchRoutineId,
@@ -147,7 +148,10 @@ private fun RoutineSelectionContent(
                             onNavigateToPremium = onNavigateToPremium,
                             onSavedRoutineClick = { routineId ->
                                 onIntent(RoutineSelectionIntent.SelectRoutine(routineId))
-                                onIntent(RoutineSelectionIntent.StartSelectedRoutine)
+                            },
+                            onEditRoutine = { routineId ->
+                                val routine = uiState.savedRoutines.find { it.id == routineId }
+                                routine?.let { onIntent(RoutineSelectionIntent.EditRoutine(it)) }
                             }
                         )
                     }

@@ -19,6 +19,7 @@ fun RecommendedRoutinesColumn(
     routines: List<RecommendedRoutine>,
     savedRoutines: List<com.fpstudio.stretchreminder.data.model.Routine> = emptyList(),
     selectedRoutineId: Int?,
+    selectedCustomRoutineId: Long?,
     userIsPremium: Boolean,
     temporarilyUnlockedRoutineIds: Set<Int> = emptySet(),
     bestMatchRoutineId: Int? = null,
@@ -26,6 +27,7 @@ fun RecommendedRoutinesColumn(
     onNavigateToCreate: () -> Unit,
     onNavigateToPremium: () -> Unit,
     onSavedRoutineClick: (Long) -> Unit,
+    onEditRoutine: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -37,9 +39,11 @@ fun RecommendedRoutinesColumn(
             MyRoutinesSection(
                 savedRoutines = savedRoutines,
                 userIsPremium = userIsPremium,
+                selectedRoutineId = selectedCustomRoutineId,
                 onNavigateToCreate = onNavigateToCreate,
                 onNavigateToPremium = onNavigateToPremium,
-                onRoutineClick = onSavedRoutineClick
+                onRoutineClick = onSavedRoutineClick,
+                onEditRoutine = onEditRoutine
             )
         }
 
@@ -58,7 +62,7 @@ fun RecommendedRoutinesColumn(
                     color = Color(0xFF1F2937) // Dark Slate/Black
                 )
                 Text(
-                    text = "CURATED FOR YOU",
+                    text = "CREATED FOR YOU",
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF9CA3AF), // Gray-400

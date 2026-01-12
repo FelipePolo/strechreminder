@@ -35,7 +35,7 @@ class RoutineRepositoryImpl(
         return localDataSource.hasRoutines()
     }
 
-    override suspend fun routineNameExists(name: String): Boolean {
-        return localDataSource.routineNameExists(name)
+    override suspend fun routineNameExists(name: String, excludeId: Long?): Boolean {
+        return localDataSource.routineNameExists(name, excludeId)
     }
 }

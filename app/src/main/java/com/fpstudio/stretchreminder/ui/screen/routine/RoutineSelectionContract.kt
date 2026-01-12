@@ -36,6 +36,7 @@ data class RoutineSelectionUiState(
 )
 
 data class SaveRoutineState(
+    val id: Long? = null,
     val name: String = "",
     val selectedIcon: RoutineIcon = RoutineIcon.STRETCH,
     val selectedColor: RoutineColor = RoutineColor.TURQUOISE,
@@ -50,6 +51,7 @@ sealed class RoutineSelectionIntent {
     data class VideoSelected(val video: Video) : RoutineSelectionIntent()
     data class RecommendedRoutineSelected(val routine: com.fpstudio.stretchreminder.data.model.RecommendedRoutine) : RoutineSelectionIntent()
     object Retry : RoutineSelectionIntent()
+    data class EditRoutine(val routine: Routine) : RoutineSelectionIntent()
     object SaveRoutine : RoutineSelectionIntent()
     object NavigateToMyRoutines : RoutineSelectionIntent()
     object ShowSaveRoutineSheet : RoutineSelectionIntent()
