@@ -205,12 +205,14 @@ private fun RoutineSelectionContent(
         if (uiState.showSaveRoutineSheet) {
             SaveRoutineBottomSheet(
                 state = uiState.saveRoutineState,
+                allVideos = uiState.allVideos,
                 onDismiss = { onIntent(RoutineSelectionIntent.HideSaveRoutineSheet) },
                 onNameChange = { onIntent(RoutineSelectionIntent.UpdateRoutineName(it)) },
                 onIconSelect = { onIntent(RoutineSelectionIntent.SelectRoutineIcon(it)) },
                 onColorSelect = { onIntent(RoutineSelectionIntent.SelectRoutineColor(it)) },
                 onReorderVideos = { from, to -> onIntent(RoutineSelectionIntent.ReorderVideos(from, to)) },
                 onRemoveVideo = { video -> onIntent(RoutineSelectionIntent.RemoveVideoFromRoutine(video)) },
+                onVideoToggle = { video -> onIntent(RoutineSelectionIntent.ToggleVideoInRoutineCreation(video)) },
                 onSave = { onIntent(RoutineSelectionIntent.ConfirmSaveRoutine) }
             )
         }

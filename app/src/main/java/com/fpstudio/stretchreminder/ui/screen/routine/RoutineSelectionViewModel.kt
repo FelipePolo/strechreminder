@@ -96,6 +96,23 @@ class RoutineSelectionViewModel(
             is RoutineSelectionIntent.ClearTemporaryUnlocks -> onClearTemporaryUnlocks()
             is RoutineSelectionIntent.CheckInternetConnection -> checkInternetConnectionForFreeUsers()
             is RoutineSelectionIntent.HideNoInternetDialog -> onHideNoInternetDialog()
+            is RoutineSelectionIntent.ToggleVideoInRoutineCreation -> onToggleVideoInRoutineCreation(intent.video)
+        }
+    }
+    
+    // ... helper function definition ...
+    private fun onToggleVideoInRoutineCreation(video: Video) {
+        _uiState.update { state ->
+            val currentVideos = state.saveRoutineState.videos
+            val isSelected = currentVideos.any { it.id == video.id }
+            val newVideos = if (isSelected) {
+                currentVideos.filter { it.id != video.id }
+            } else {
+                currentVideos + video
+            }
+            state.copy(
+                saveRoutineState = state.saveRoutineState.copy(videos = newVideos)
+            )
         }
     }
     

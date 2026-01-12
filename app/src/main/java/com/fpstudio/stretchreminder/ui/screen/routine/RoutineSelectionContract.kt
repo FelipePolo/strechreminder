@@ -61,6 +61,7 @@ sealed class RoutineSelectionIntent {
     object ConfirmSaveRoutine : RoutineSelectionIntent()
     object ClearSelection : RoutineSelectionIntent()
     data class RemoveVideoFromRoutine(val video: Video) : RoutineSelectionIntent()
+    data class ToggleVideoInRoutineCreation(val video: Video) : RoutineSelectionIntent()
     object ShowMyRoutinesSheet : RoutineSelectionIntent()
     object HideMyRoutinesSheet : RoutineSelectionIntent()
     data class SelectRoutine(val routineId: Long) : RoutineSelectionIntent()

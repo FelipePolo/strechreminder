@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -38,15 +39,19 @@ import androidx.core.graphics.toColorInt
 @Composable
 fun SaveRoutineBottomSheet(
     state: SaveRoutineState,
+    allVideos: List<Video>,
     onDismiss: () -> Unit,
     onNameChange: (String) -> Unit,
     onIconSelect: (RoutineIcon) -> Unit,
     onColorSelect: (RoutineColor) -> Unit,
     onReorderVideos: (Int, Int) -> Unit,
     onRemoveVideo: (Video) -> Unit,
+    onVideoToggle: (Video) -> Unit,
     onSave: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var currentStep by remember { mutableIntStateOf(if (state.videos.isEmpty()) 0 else 1) }
+
     Dialog(
         onDismissRequest = { /* Prevent dismiss - only via buttons */ },
         properties = DialogProperties(
@@ -69,213 +74,450 @@ fun SaveRoutineBottomSheet(
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
             ) {
-                Column(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    // Scrollable Content
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                            .padding(horizontal = 24.dp)
-                            .padding(top = 16.dp)
+                // Using Crossfade or AnimatedContent for transition
+                // Since this is a simple slide/fade, we can use AnimatedContent if dependencies allow.
+                // For simplicity and robustness without extra dependencies, I'll use simple conditional for now unless AnimatedContent is available (Material3 supports it).
+                // I'll use simple Crossfade or conditional to avoid resolving transition imports/issues if not standard.
+                // User asked for "navegacion horizontal", so animation is implied.
+                // usage: AnimatedContent(targetState = currentStep) { step -> ... }
+                
+                if (currentStep == 0) {
+                    VideoSelectionStep(
+                        allVideos = allVideos,
+                        selectedVideos = state.videos,
+                        onVideoToggle = onVideoToggle,
+                        onDismiss = onDismiss,
+                        onNext = { currentStep = 1 }
+                    )
+                } else {
+                    RoutineDetailsStep(
+                        state = state,
+                        onDismiss = onDismiss,
+                        onNameChange = onNameChange,
+                        onIconSelect = onIconSelect,
+                        onColorSelect = onColorSelect,
+                        onReorderVideos = onReorderVideos,
+                        onRemoveVideo = onRemoveVideo,
+                        onSave = onSave
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun VideoSelectionStep(
+    allVideos: List<Video>,
+    selectedVideos: List<Video>,
+    onVideoToggle: (Video) -> Unit,
+    onDismiss: () -> Unit,
+    onNext: () -> Unit
+) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        // Header
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column {
+                Text(
+                    text = "Select Videos",
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+                Text(
+                    text = "${selectedVideos.size} Selected",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = TurquoiseAccent,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            IconButton(onClick = onDismiss) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "Close",
+                    tint = Color.Gray
+                )
+            }
+        }
+
+        // List
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+            contentPadding = PaddingValues(horizontal = 24.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(allVideos) { video ->
+                val isSelected = selectedVideos.any { it.id == video.id }
+                VideoSelectionItem(
+                    video = video,
+                    isSelected = isSelected,
+                    onToggle = { onVideoToggle(video) }
+                )
+            }
+        }
+
+        // Footer Button
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)
+        ) {
+            Button(
+                onClick = onNext,
+                enabled = selectedVideos.isNotEmpty(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(28.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = TurquoiseAccent,
+                    disabledContainerColor = Color(0xFFE0E0E0)
+                )
+            ) {
+                Text(
+                    text = "Name My Routine",
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun VideoSelectionItem(
+    video: Video,
+    isSelected: Boolean,
+    onToggle: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = if (isSelected) TurquoiseAccent else Color(0xFFeff0f3),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .clip(RoundedCornerShape(16.dp))
+            .background(if (isSelected) TurquoiseAccent.copy(alpha = 0.08f) else Color.White)
+            .clickable(onClick = onToggle)
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        // Thumbnail with Duration Overlay
+        Box(
+            modifier = Modifier
+                .size(width = 80.dp, height = 60.dp) // Approximate aspect ratio
+                .clip(RoundedCornerShape(8.dp))
+        ) {
+            AsyncImage(
+                model = video.thumbnailUrl,
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = androidx.compose.ui.layout.ContentScale.Crop
+            )
+            
+            // Duration Overlay
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(4.dp)
+                    .background(
+                        color = Color.Black.copy(alpha = 0.7f),
+                        shape = RoundedCornerShape(4.dp)
+                    )
+                    .padding(horizontal = 4.dp, vertical = 2.dp)
+            ) {
+                Text(
+                    text = formatDuration(video.duration),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 10.sp
+                )
+            }
+        }
+
+        // Info
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = video.title,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            // Tags (Body Parts)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                video.bodyParts.take(3).forEach { bodyPart ->
+                    Surface(
+                        color = Color(0xFFF5F7FA), // Light cool gray
+                        shape = RoundedCornerShape(16.dp),
                     ) {
-                        // Header
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Column {
-                                Text(
-                                    text = "Name Your Routine",
-                                    style = MaterialTheme.typography.headlineSmall,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color.Black
-                                )
-                                Text(
-                                    text = "Saving ${state.videos.size} videos • ${
-                                        formatDuration(
-                                            state.videos.sumOf { it.duration })
-                                    } total",
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = Color.Gray
-                                )
-                            }
-                            IconButton(onClick = onDismiss) {
-                                Icon(
-                                    imageVector = Icons.Default.Close,
-                                    contentDescription = "Close",
-                                    tint = Color.Gray
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        // Routine Name
                         Text(
-                            text = "ROUTINE NAME",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = Color.Gray,
-                            fontSize = 12.sp
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        OutlinedTextField(
-                            value = state.name,
-                            onValueChange = onNameChange,
-                            modifier = Modifier.fillMaxWidth(),
-                            placeholder = { Text("e.g. Morning Stretch", color = Color.LightGray) },
-                            isError = state.isDuplicateName,
-                            shape = RoundedCornerShape(16.dp),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                unfocusedContainerColor = Color(0xFFF5F5F5),
-                                focusedBorderColor = if (state.isDuplicateName) Color.Red else TurquoiseAccent,
-                                unfocusedBorderColor = if (state.isDuplicateName) Color.Red else Color(
-                                    0xFFE0E0E0
-                                ),
-                                errorBorderColor = Color.Red
-                            ),
-                            singleLine = true
-                        )
-                        if (state.isDuplicateName) {
-                            Text(
-                                text = "This routine name already exists",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = Color.Red,
-                                modifier = Modifier.padding(start = 16.dp, top = 4.dp)
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        // Icon Selector
-                        Text(
-                            text = "SELECT ICON",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = Color.Gray,
-                            fontSize = 12.sp
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            RoutineIcon.values().forEach { icon ->
-                                IconOption(
-                                    icon = icon,
-                                    isSelected = state.selectedIcon == icon,
-                                    onClick = { onIconSelect(icon) }
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        // Color Selector
-                        Text(
-                            text = "SELECT COLOR",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = Color.Gray,
-                            fontSize = 12.sp
-                        )
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            RoutineColor.values().forEach { color ->
-                                ColorOption(
-                                    modifier = Modifier
-                                        .weight(1F)
-                                        .aspectRatio(1F),
-                                    color = color,
-                                    isSelected = state.selectedColor == color,
-                                    onClick = { onColorSelect(color) }
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        // Reorder Videos
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "REORDER VIDEOS",
-                                style = MaterialTheme.typography.labelMedium,
-                                color = Color.Gray,
-                                fontSize = 12.sp
-                            )
-                            Text(
-                                text = "Hold to move",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = Color.Gray
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(12.dp))
-
-                        // Video List with drag-and-drop
-                        ReorderableVideoList(
-                            videos = state.videos,
-                            onReorder = onReorderVideos,
-                            onRemoveVideo = onRemoveVideo,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightIn(max = 300.dp)
+                            text = bodyPart.displayName,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color(0xFF5E6A81), // Slate 700ish
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
                         )
                     }
+                }
+            }
+        }
 
-                    // Fixed Action Buttons at Bottom
-                    Row(
+        // Selection Indicator (Circle)
+        Box(
+            modifier = Modifier
+                .size(24.dp)
+                .clip(CircleShape)
+                .background(if (isSelected) TurquoiseAccent else Color.Transparent)
+                .border(
+                    width = if (isSelected) 0.dp else 2.dp,
+                    color = if (isSelected) Color.Transparent else Color(0xFFE0E0E0),
+                    shape = CircleShape
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            if (isSelected) {
+                Icon(
+                    imageVector = Icons.Default.Check,
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier.size(16.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun RoutineDetailsStep(
+    state: SaveRoutineState,
+    onDismiss: () -> Unit,
+    onNameChange: (String) -> Unit,
+    onIconSelect: (RoutineIcon) -> Unit,
+    onColorSelect: (RoutineColor) -> Unit,
+    onReorderVideos: (Int, Int) -> Unit,
+    onRemoveVideo: (Video) -> Unit,
+    onSave: () -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        // Scrollable Content
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(top = 16.dp)
+        ) {
+            // Header
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Text(
+                        text = "Name Your Routine",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
+                    Text(
+                        text = "Saving ${state.videos.size} videos • ${
+                            formatDuration(
+                                state.videos.sumOf { it.duration })
+                        } total",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.Gray
+                    )
+                }
+                IconButton(onClick = onDismiss) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Close",
+                        tint = Color.Gray
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Routine Name
+            Text(
+                text = "ROUTINE NAME",
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.Gray,
+                fontSize = 12.sp
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedTextField(
+                value = state.name,
+                onValueChange = onNameChange,
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = { Text("e.g. Morning Stretch", color = Color.LightGray) },
+                isError = state.isDuplicateName,
+                shape = RoundedCornerShape(16.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedContainerColor = Color(0xFFF5F5F5),
+                    focusedBorderColor = if (state.isDuplicateName) Color.Red else TurquoiseAccent,
+                    unfocusedBorderColor = if (state.isDuplicateName) Color.Red else Color(
+                        0xFFE0E0E0
+                    ),
+                    errorBorderColor = Color.Red
+                ),
+                singleLine = true
+            )
+            if (state.isDuplicateName) {
+                Text(
+                    text = "This routine name already exists",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Red,
+                    modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Icon Selector
+            Text(
+                text = "SELECT ICON",
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.Gray,
+                fontSize = 12.sp
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                RoutineIcon.values().forEach { icon ->
+                    IconOption(
+                        icon = icon,
+                        isSelected = state.selectedIcon == icon,
+                        onClick = { onIconSelect(icon) }
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Color Selector
+            Text(
+                text = "SELECT COLOR",
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.Gray,
+                fontSize = 12.sp
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                RoutineColor.values().forEach { color ->
+                    ColorOption(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 24.dp)
-                            .padding(bottom = 24.dp, top = 16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        // Cancel Button
-                        OutlinedButton(
-                            onClick = onDismiss,
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(56.dp),
-                            shape = RoundedCornerShape(28.dp),
-                            colors = ButtonDefaults.outlinedButtonColors(
-                                containerColor = Color(0xFFF5F5F5),
-                                contentColor = Color.Black
-                            ),
-                            border = BorderStroke(0.dp, Color.Transparent)
-                        ) {
-                            Text("Cancel", fontWeight = FontWeight.Bold)
-                        }
+                            .weight(1F)
+                            .aspectRatio(1F),
+                        color = color,
+                        isSelected = state.selectedColor == color,
+                        onClick = { onColorSelect(color) }
+                    )
+                }
+            }
 
-                        // Save Button
-                        Button(
-                            onClick = onSave,
-                            enabled = state.name.isNotBlank() && !state.isDuplicateName && !state.isSaving,
-                            modifier = Modifier
-                                .weight(1f)
-                                .height(56.dp),
-                            shape = RoundedCornerShape(28.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = TurquoiseAccent,
-                                disabledContainerColor = Color(0xFFE0E0E0)
-                            )
-                        ) {
-                            if (state.isSaving) {
-                                CircularProgressIndicator(
-                                    color = Color.White,
-                                    modifier = Modifier.size(24.dp)
-                                )
-                            } else {
-                                Text("Save", fontWeight = FontWeight.Bold)
-                            }
-                        }
-                    }
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Reorder Videos
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "REORDER VIDEOS",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = Color.Gray,
+                    fontSize = 12.sp
+                )
+                Text(
+                    text = "Hold to move",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Video List with drag-and-drop
+            ReorderableVideoList(
+                videos = state.videos,
+                onReorder = onReorderVideos,
+                onRemoveVideo = onRemoveVideo,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 300.dp)
+            )
+        }
+
+        // Fixed Action Buttons at Bottom
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 24.dp, top = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            // Cancel Button
+            OutlinedButton(
+                onClick = onDismiss,
+                modifier = Modifier
+                    .weight(1f)
+                    .height(56.dp),
+                shape = RoundedCornerShape(28.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = Color(0xFFF5F5F5),
+                    contentColor = Color.Black
+                ),
+                border = BorderStroke(0.dp, Color.Transparent)
+            ) {
+                Text("Cancel", fontWeight = FontWeight.Bold)
+            }
+
+            // Save Button
+            Button(
+                onClick = onSave,
+                enabled = state.name.isNotBlank() && !state.isDuplicateName && !state.isSaving,
+                modifier = Modifier
+                    .weight(1f)
+                    .height(56.dp),
+                shape = RoundedCornerShape(28.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = TurquoiseAccent,
+                    disabledContainerColor = Color(0xFFE0E0E0)
+                )
+            ) {
+                if (state.isSaving) {
+                    CircularProgressIndicator(
+                        color = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                } else {
+                    Text("Save", fontWeight = FontWeight.Bold)
                 }
             }
         }
