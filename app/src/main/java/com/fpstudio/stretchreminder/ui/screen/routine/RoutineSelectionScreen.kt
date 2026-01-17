@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.data.model.Video
@@ -162,16 +163,35 @@ private fun RoutineSelectionContent(
                 }
 
                 else -> {
-                    VideosGrid(
-                        videos = uiState.filteredVideos,
-                        groupedByBodyPart = uiState.groupedByBodyPart,
-                        userIsPremium = uiState.userIsPremium,
-                        temporarilyUnlockedVideoIds = uiState.temporarilyUnlockedVideoIds,
-                        selectedFilter = uiState.selectedFilter,
-                        onVideoClick = { video ->
-                            onIntent(RoutineSelectionIntent.VideoSelected(video))
+                    Column(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        // Help text for individual exercises (not shown on Recommended)
+                        if (uiState.selectedFilter != VideoFilter.Recommended) {
+                            androidx.compose.material3.Text(
+                                text = "Browse individual stretches by body part. Select your favorites to create the perfect routine for you, and save it for later!",
+                                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
+                                color = androidx.compose.ui.graphics.Color(0xFF9CA3AF), // Pastel gray
+                                fontSize = 14.sp,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp)
+                                    .padding(bottom = 12.dp),
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Start
+                            )
                         }
-                    )
+                        
+                        VideosGrid(
+                            videos = uiState.filteredVideos,
+                            groupedByBodyPart = uiState.groupedByBodyPart,
+                            userIsPremium = uiState.userIsPremium,
+                            temporarilyUnlockedVideoIds = uiState.temporarilyUnlockedVideoIds,
+                            selectedFilter = uiState.selectedFilter,
+                            onVideoClick = { video ->
+                                onIntent(RoutineSelectionIntent.VideoSelected(video))
+                            }
+                        )
+                    }
                 }
             }
         }

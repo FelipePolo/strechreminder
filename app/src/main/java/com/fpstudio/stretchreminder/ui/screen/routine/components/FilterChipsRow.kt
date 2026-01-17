@@ -63,8 +63,16 @@ fun FilterChipsRow(
                     scrollOffset = -(screenWidthDp.value.toInt() / 2 - 80) // Approximate centering
                 )
             }
+        } else if (selectedIndex == 1) {
+            // For "All" filter, scroll with offset to show part of "Recommended"
+            coroutineScope.launch {
+                listState.animateScrollToItem(
+                    index = selectedIndex,
+                    scrollOffset = -60 // Negative offset to show previous item partially
+                )
+            }
         } else if (selectedIndex >= 0) {
-            // For first 2 or last 2 items, just ensure they're visible
+            // For first (Recommended) or last items, just ensure they're visible
             coroutineScope.launch {
                 listState.animateScrollToItem(index = selectedIndex)
             }
