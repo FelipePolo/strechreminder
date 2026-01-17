@@ -98,7 +98,7 @@ fun PlanSuccessScreen(
                         modifier = Modifier.padding(16.dp)
                     ) {
                         Text(
-                            text = model.title,
+                            text = androidx.compose.ui.res.stringResource(model.title),
                             color = Color.White,
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Bold
@@ -107,7 +107,7 @@ fun PlanSuccessScreen(
                         Spacer(modifier = Modifier.height(8.dp))
 
                         Text(
-                            text = model.description,
+                            text = androidx.compose.ui.res.stringResource(model.description),
                             color = text_primary,
                             fontSize = 16.sp
                         )
@@ -150,8 +150,6 @@ fun PlanSuccessScreenPreview() {
     StretchReminderTheme {
         PlanSuccessScreen(
             model = PlanSuccessUiModel(
-                title = "Great! Your plan adapts to your level!",
-                description = "Plus, we tailor the program to your body's changes to ensure you gain flexibility in an easy, enjoyable way.",
                 imageResId = R.drawable.male
             )
         )

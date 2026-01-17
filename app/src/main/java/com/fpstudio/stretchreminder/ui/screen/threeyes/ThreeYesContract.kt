@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 import com.fpstudio.stretchreminder.ui.screen.promises.agreement.AgreementUiModel
+import com.fpstudio.stretchreminder.ui.screen.promises.agreement.AgreementTextPart
 import com.fpstudio.stretchreminder.ui.theme.Green_quaternary
 import com.fpstudio.stretchreminder.util.Constants.SPACE
 
@@ -38,34 +39,23 @@ private fun getBaseThreeYesList(): List<AgreementUiModel> = listOf(
 
 
 private fun getScreen1(): AgreementUiModel {
-    val annotatedText = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = Color.White, fontWeight = FontWeight.Bold)) {
-            append("Do you want to feel more ")
-        }
-
-        withStyle(style = SpanStyle(color = Green_quaternary, fontWeight = FontWeight.Bold)) {
-            append("energized")
-        }
-
-        withStyle(style = SpanStyle(color = Color.White, fontWeight = FontWeight.Bold)) {
-            append(SPACE + "and ease")
-        }
-
-        withStyle(style = SpanStyle(color = Green_quaternary, fontWeight = FontWeight.Bold)) {
-            append(SPACE + "Pain?")
-        }
-    }
+    val titleParts = listOf(
+        AgreementTextPart(R.string.agreement_screen_1_part_1, isHighlight = false),
+        AgreementTextPart(R.string.agreement_screen_1_part_2, isHighlight = true),
+        AgreementTextPart(R.string.agreement_screen_1_part_3, isHighlight = false),
+        AgreementTextPart(R.string.agreement_screen_1_part_4, isHighlight = true)
+    )
     return AgreementUiModel(
-        title = annotatedText,
+        titleParts = titleParts,
         backgroundImg = R.drawable.male1,
         noButton = StretchButtonUiModel.Outline(
-            text = "No",
+            text = R.string.common_button_no,
             shape = RoundedCornerShape(12.dp),
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp
         ),
         yesButton = StretchButtonUiModel.Default(
-            text = "Yes",
+            text = R.string.common_button_yes,
             shape = RoundedCornerShape(12.dp),
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp
@@ -74,30 +64,22 @@ private fun getScreen1(): AgreementUiModel {
 }
 
 private fun getScreen2(): AgreementUiModel {
-    val annotatedText = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = Color.White, fontWeight = FontWeight.Bold)) {
-            append("Ready to")
-        }
-
-        withStyle(style = SpanStyle(color = Green_quaternary, fontWeight = FontWeight.Bold)) {
-            append(SPACE + "improve")
-        }
-
-        withStyle(style = SpanStyle(color = Color.White, fontWeight = FontWeight.Bold)) {
-            append(SPACE + "your posture at work?")
-        }
-    }
+    val titleParts = listOf(
+        AgreementTextPart(R.string.agreement_screen_2_part_1, isHighlight = false),
+        AgreementTextPart(R.string.agreement_screen_2_part_2, isHighlight = true),
+        AgreementTextPart(R.string.agreement_screen_2_part_3, isHighlight = false)
+    )
     return AgreementUiModel(
-        title = annotatedText,
+        titleParts = titleParts,
         backgroundImg = R.drawable.male2,
         noButton = StretchButtonUiModel.Outline(
-            text = "No",
+            text = R.string.common_button_no,
             shape = RoundedCornerShape(12.dp),
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp
         ),
         yesButton = StretchButtonUiModel.Default(
-            text = "Yes",
+            text = R.string.common_button_yes,
             shape = RoundedCornerShape(12.dp),
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp
@@ -106,34 +88,23 @@ private fun getScreen2(): AgreementUiModel {
 }
 
 private fun getScreen3(): AgreementUiModel {
-    val annotatedText = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = Color.White, fontWeight = FontWeight.Bold)) {
-            append("Do you want to enjoy a life free of ")
-        }
-
-        withStyle(style = SpanStyle(color = Green_quaternary, fontWeight = FontWeight.Bold)) {
-            append("tension")
-        }
-
-        withStyle(style = SpanStyle(color = Color.White, fontWeight = FontWeight.Bold)) {
-            append(SPACE + "and")
-        }
-
-        withStyle(style = SpanStyle(color = Green_quaternary, fontWeight = FontWeight.Bold)) {
-            append(SPACE + "stress?")
-        }
-    }
+    val titleParts = listOf(
+        AgreementTextPart(R.string.agreement_screen_3_part_1, isHighlight = false),
+        AgreementTextPart(R.string.agreement_screen_3_part_2, isHighlight = true),
+        AgreementTextPart(R.string.agreement_screen_3_part_3, isHighlight = false),
+        AgreementTextPart(R.string.agreement_screen_3_part_4, isHighlight = true)
+    )
     return AgreementUiModel(
-        title = annotatedText,
+        titleParts = titleParts,
         backgroundImg = R.drawable.male3,
         noButton = StretchButtonUiModel.Outline(
-            text = "No",
+            text = R.string.common_button_no,
             shape = RoundedCornerShape(12.dp),
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp
         ),
         yesButton = StretchButtonUiModel.Default(
-            text = "Yes",
+            text = R.string.common_button_yes,
             shape = RoundedCornerShape(12.dp),
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp

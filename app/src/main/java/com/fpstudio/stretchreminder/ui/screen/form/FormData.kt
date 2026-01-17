@@ -16,8 +16,8 @@ fun getForms(): List<FormUiModel> {
             questions = listOf(
                 QuestionUiModel.InputText(
                     id = QuestionID.NAME,
-                    subtitle1 = "First thing first",
-                    question = "What should we call you?",
+                    subtitle1 = R.string.form_question_name_subtitle,
+                    question = R.string.form_question_name,
                     required = true
                 )
             )
@@ -27,60 +27,60 @@ fun getForms(): List<FormUiModel> {
             questions = listOf(
                 QuestionUiModel.MultiChoice(
                     id = QuestionID.ACHIEVEMENT,
-                    subtitle1 = "So tell us, {USER_NAME}",
-                    question = "What do you want to achieve?",
+                    subtitle1 = R.string.form_question_achievement_subtitle,
+                    question = R.string.form_question_achievement,
                     selected = listOf(
                         UserAchievement(
                             iconStr = "💪",
-                            title = "Reduce Muscle Tension",
-                            description = "Reduce Muscle Tension"
+                            title = R.string.achievement_muscle_tension_title,
+                            description = R.string.achievement_muscle_tension_desc
                         ),
                         UserAchievement(
                             iconStr = "😌",
-                            title = "Reduce Stress And Anxiety",
-                            description = "Reduce Stress And Anxiety"
+                            title = R.string.achievement_stress_title,
+                            description = R.string.achievement_stress_desc
                         )
                     ),
                     options = listOf(
                         UserAchievement(
                             iconStr = "💪",
-                            title = "Reduce Muscle Tension",
-                            description = "Reduce Muscle Tension"
+                            title = R.string.achievement_muscle_tension_title,
+                            description = R.string.achievement_muscle_tension_desc
                         ),
                         UserAchievement(
                             iconStr = "🧘‍♂️",
-                            title = "Improve Posture",
-                            description = "Improve Posture"
+                            title = R.string.achievement_posture_title,
+                            description = R.string.achievement_posture_desc
                         ),
                         UserAchievement(
                             iconStr = "⚡",
-                            title = "Increase Energy",
-                            description = "Increase Energy"
+                            title = R.string.achievement_energy_title,
+                            description = R.string.achievement_energy_desc
                         ),
                         UserAchievement(
                             iconStr = "😌",
-                            title = "Reduce Stress And Anxiety",
-                            description = "Reduce Stress And Anxiety"
+                            title = R.string.achievement_stress_title,
+                            description = R.string.achievement_stress_desc
                         ),
                         UserAchievement(
                             iconStr = "😴",
-                            title = "Improve Sleep quality",
-                            description = "Improve Sleep quality"
+                            title = R.string.achievement_sleep_title,
+                            description = R.string.achievement_sleep_desc
                         ),
                         UserAchievement(
                             iconStr = "⏱️",
-                            title = "Build Healthy Work Breaks",
-                            description = "Build Healthy Work Breaks"
+                            title = R.string.achievement_breaks_title,
+                            description = R.string.achievement_breaks_desc
                         ),
                         UserAchievement(
                             iconStr = "🤸‍♂️",
-                            title = "Enhanced Flexibility and Mobility",
-                            description = "Enhanced Flexibility and Mobility"
+                            title = R.string.achievement_flexibility_title,
+                            description = R.string.achievement_flexibility_desc
                         ),
                         UserAchievement(
                             iconStr = "❤️",
-                            title = "Prevent Long-Term Health Issues",
-                            description = "Prevent Long-Term Health Issues"
+                            title = R.string.achievement_health_title,
+                            description = R.string.achievement_health_desc
                         )
                     )
                 )
@@ -91,49 +91,49 @@ fun getForms(): List<FormUiModel> {
             questions = listOf(
                 QuestionUiModel.CustomBodyQuestion(
                     id = QuestionID.BODY_PARTS,
-                    subtitle1 = "Now...,",
-                    question = "¿Which parts of your body do you want to exercise?",
+                    subtitle1 = R.string.form_question_body_subtitle,
+                    question = R.string.form_question_body,
                     options = listOf(
                         Pair(
                             R.drawable.selected_neck,
                             BodyPart(
-                                id = BodyPartID.NECK, "Neck"
+                                id = BodyPartID.NECK, name = R.string.body_part_neck
                             )
                         ),
                         Pair(
                             R.drawable.selected_shoulder,
                             BodyPart(
-                                id = BodyPartID.SHOULDERS, "Shoulders"
+                                id = BodyPartID.SHOULDERS, name = R.string.body_part_shoulders
                             )
                         ),
                         Pair(
                             R.drawable.selected_upper_back,
                             BodyPart(
-                                id = BodyPartID.UPPER_BACK, "Upper Back"
+                                id = BodyPartID.UPPER_BACK, name = R.string.body_part_upper_back
                             )
                         ),
                         Pair(
                             R.drawable.selected_lower_back,
                             BodyPart(
-                                id = BodyPartID.LOWER_BACK, "Lower Back"
+                                id = BodyPartID.LOWER_BACK, name = R.string.body_part_lower_back
                             )
                         ),
                         Pair(
                             R.drawable.selected_hands,
                             BodyPart(
-                                id = BodyPartID.HANDS, "Hands"
+                                id = BodyPartID.HANDS, name = R.string.body_part_hands
                             )
                         ),
                         Pair(
                             R.drawable.selected_hips,
                             BodyPart(
-                                id = BodyPartID.HIP, "Hips"
+                                id = BodyPartID.HIP, name = R.string.body_part_hips
                             )
                         ),
                         Pair(
                             R.drawable.selected_legs,
                             BodyPart(
-                                id = BodyPartID.LEGS, "Legs"
+                                id = BodyPartID.LEGS, name = R.string.body_part_legs
                             )
                         ),
                     ),
@@ -145,15 +145,15 @@ fun getForms(): List<FormUiModel> {
             questions = listOf(
                 QuestionUiModel.SingleChoice(
                     id = QuestionID.FREQUENCY,
-                    subtitle1 = "Building habits that work for you",
-                    question = "How often do you stretch during your workday?",
-                    subtitle2 = "Your answer heps us to create a personalized plan for you",
+                    subtitle1 = R.string.form_question_frequency_subtitle1,
+                    question = R.string.form_question_frequency,
+                    subtitle2 = R.string.form_question_frequency_subtitle2,
                     options = listOf(
-                        "Never",
-                        "Once a day",
-                        "Twice a day",
-                        "Three times a day",
-                        "Four or more times a day"
+                        R.string.frequency_never,
+                        R.string.frequency_once,
+                        R.string.frequency_twice,
+                        R.string.frequency_three,
+                        R.string.frequency_four
                     )
                 )
             )
@@ -163,12 +163,16 @@ fun getForms(): List<FormUiModel> {
             questions = listOf(
                 QuestionUiModel.CustomGenderSingleChoice(
                     id = QuestionID.GENDER,
-                    question = "What is your gender?",
-                    subtitle2 = "Just to personalize your experience a little more.",
-                    male = Pair(R.drawable.man, "Male"),
-                    female = Pair(R.drawable.woman, "Female"),
-                    preferNotToSay = "Prefer not to say",
-                    selected = "Prefer not to say"
+                    question = R.string.form_question_gender,
+                    subtitle2 = R.string.form_question_gender_subtitle,
+                    male = Pair(R.drawable.man, R.string.gender_male),
+                    female = Pair(R.drawable.woman, R.string.gender_female),
+                    preferNotToSay = R.string.gender_prefer_not_to_say,
+                    // selected = R.string.gender_prefer_not_to_say // Optional default selection
+                    // Or remove selected to have no selection by default?
+                    // Previous one had "Prefer not to say".
+                    // I'll keep it as selected.
+                    selected = R.string.gender_prefer_not_to_say
                 )
             )
         ),
@@ -176,10 +180,16 @@ fun getForms(): List<FormUiModel> {
             questions = listOf(
                 QuestionUiModel.SingleChoice(
                     id = QuestionID.AGE,
-                    subtitle1 = "Let's make this routine truly yours",
-                    subtitle2 = "Your age helps you get the right exercises",
-                    question = "What is your age?",
-                    options = listOf("18 - 35", "36 - 45", "46 - 55", "56 - 69", "Over 70")
+                    subtitle1 = R.string.form_question_age_subtitle1,
+                    subtitle2 = R.string.form_question_age_subtitle2,
+                    question = R.string.agre_question,
+                    options = listOf(
+                        R.string.age_range_18_35,
+                        R.string.age_range_36_45,
+                        R.string.age_range_46_55,
+                        R.string.age_range_56_69,
+                        R.string.age_range_over_70
+                    )
                 )
             )
         ),
@@ -188,14 +198,22 @@ fun getForms(): List<FormUiModel> {
             questions = listOf(
                 QuestionUiModel.WorkDays(
                     id = QuestionID.WORK_DAYS,
-                    question = "Select your work days",
-                    subtitle2 = "So we can know which days and when to remind you to stretch",
+                    question = R.string.form_question_work_days,
+                    subtitle2 = R.string.form_question_work_days_subtitle,
                     selected = listOf("Mon", "Tue", "Wed", "Thu", "Fri"),
-                    days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+                    days = listOf(
+                        Pair(R.string.weekday_mon, "Mon"),
+                        Pair(R.string.weekday_tue, "Tue"),
+                        Pair(R.string.weekday_wed, "Wed"),
+                        Pair(R.string.weekday_thu, "Thu"),
+                        Pair(R.string.weekday_fri, "Fri"),
+                        Pair(R.string.weekday_sat, "Sat"),
+                        Pair(R.string.weekday_sun, "Sun")
+                    )
                 ),
                 QuestionUiModel.TimeRange(
                     id = QuestionID.WORK_HOURS,
-                    question = "Working Hours"
+                    question = R.string.form_question_work_hours
                 )
             )
         ),
@@ -204,8 +222,8 @@ fun getForms(): List<FormUiModel> {
             questions = listOf(
                 QuestionUiModel.ImageSingleChoice(
                     id = QuestionID.MAIN_POSTURE,
-                    question = "Select the main posture during your workday",
-                    subtitle2 = "Sitting, standing or lying down -- so exercises adapt to your posture",
+                    question = R.string.form_question_posture,
+                    subtitle2 = R.string.form_question_posture_subtitle,
                     imagesResId = listOf(
                         R.drawable.standing,
                         R.drawable.sitting,
@@ -218,8 +236,8 @@ fun getForms(): List<FormUiModel> {
             questions = listOf(
                 QuestionUiModel.NotificationPermission(
                     id = QuestionID.NOTIFICATION_PERMISSION,
-                    question = "Stay on track with notifications",
-                    subtitle2 = "Get gentle reminders to keep up with your stretches and feel your best every day",
+                    question = R.string.form_question_notification,
+                    subtitle2 = R.string.form_question_notification_subtitle,
                 )
             )
         )

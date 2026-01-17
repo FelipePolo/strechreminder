@@ -91,7 +91,7 @@ fun HomeContent(
                         .height(56.dp)
                         .padding(horizontal = 16.dp),
                     state = StretchButtonUiModel.Default(
-                        text = "Build Your Routine",
+                        text = R.string.home_build_routine_button,
                         isVisible = true,
                         backgroundColor = TurquoiseAccent
                     ),

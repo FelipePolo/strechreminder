@@ -31,15 +31,22 @@ fun MultiChoiceQuestion(
 ) {
     // Question title
     Spacer(modifier = Modifier.height(12.dp))
-    QuestionTitle(model.copy(
-        subtitle1 = model.subtitle1.replace("{USER_NAME}", userName)
-    ))
+    val subtitle1 = model.subtitle1?.let { 
+        androidx.compose.ui.res.stringResource(it).replace("{USER_NAME}", userName) 
+    }
+        
+    QuestionTitle(
+        model = model,
+        subtitle1Override = subtitle1
+    )
     Spacer(modifier = Modifier.height(18.dp))
 
     // Content
     LazyColumn {
         items(items = model.options) { option ->
-            val backgroundColor by animateColorAsState(
+    val title = androidx.compose.ui.res.stringResource(option.title)
+    
+    val backgroundColor by animateColorAsState(
                 targetValue = if (model.selected.contains(option)) Green_tertiary else Color.White,
                 animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing),
                 label = "backgroundColor"
@@ -64,7 +71,7 @@ fun MultiChoiceQuestion(
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Text(
-                    "${option.iconStr}  ${option.title}",
+                    "${option.iconStr}  ${title}",
                     color = Color.Black,
                     textAlign = TextAlign.Start,
                     modifier = Modifier.fillMaxWidth()

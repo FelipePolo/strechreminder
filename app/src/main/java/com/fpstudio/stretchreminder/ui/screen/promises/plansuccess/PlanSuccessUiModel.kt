@@ -7,11 +7,11 @@ import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 
 data class PlanSuccessUiModel(
     val isVisible: Boolean = false,
-    val title: String = "Great! Your plan adapts to your level!",
-    val description: String = "Plus, we tailor the program to your body's changes to ensure you gain flexibility in an easy, enjoyable way.",
+    val title: Int = R.string.promises_plan_success_title,
+    val description: Int = R.string.promises_plan_success_description,
     val imageResId: Int = R.drawable.male,
     val nextButton: StretchButtonUiModel = StretchButtonUiModel.Default(
-        text = "Continue",
+        text = R.string.common_button_continue,
         backgroundColor = Color.White,
         fontSize = 16.sp,
         textColor = Color.Black,

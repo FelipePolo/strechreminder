@@ -35,7 +35,9 @@ fun WorkDaysQuestion(model: QuestionUiModel.WorkDays, onAnswer: (QuestionSelecti
     // Content
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
         model.days.forEach { day ->
-            val selected = model.selected.contains(day)
+            val label = androidx.compose.ui.res.stringResource(day.first)
+            val id = day.second
+            val selected = model.selected.contains(id)
             val backgroundColor by animateColorAsState(
                 targetValue = if (selected) Green_secondary else Green_primary,
                 animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
@@ -47,7 +49,7 @@ fun WorkDaysQuestion(model: QuestionUiModel.WorkDays, onAnswer: (QuestionSelecti
                         indication = null,
                         interactionSource = remember { MutableInteractionSource() }
                     ) {
-                        onAnswer(QuestionSelectionUiModel.StringSelectionUiModel(day))
+                        onAnswer(QuestionSelectionUiModel.StringSelectionUiModel(id))
                     },
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -72,7 +74,7 @@ fun WorkDaysQuestion(model: QuestionUiModel.WorkDays, onAnswer: (QuestionSelecti
                     }
                 }
                 Text(
-                    day,
+                    label,
                     color = if (selected) Green_primary else Gray
                 )
             }

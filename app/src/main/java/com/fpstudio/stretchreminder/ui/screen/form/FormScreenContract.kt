@@ -8,12 +8,13 @@ import com.fpstudio.stretchreminder.ui.composable.question.QuestionSelectionUiMo
 import com.fpstudio.stretchreminder.ui.screen.promises.madeforyou.MadeForYouUiModel
 import com.fpstudio.stretchreminder.ui.screen.promises.plansuccess.PlanSuccessUiModel
 import com.fpstudio.stretchreminder.util.Constants.EMPTY
+import com.fpstudio.stretchreminder.R
 
 interface FormScreenContract {
     data class UiState(
         val page: Int = 0,
         val userName: String = EMPTY,
-        val userGender: String = EMPTY,
+        val userGender: Int = 0,
         val achievements: List<UserAchievement> = emptyList(),
         val form: List<FormUiModel> = getForms(),
         val backButton: StretchButtonUiModel = StretchButtonUiModel.Lottie(
@@ -22,7 +23,7 @@ interface FormScreenContract {
         ),
         val nextButton: StretchButtonUiModel = StretchButtonUiModel.Animated(
             isVisible = true,
-            text = "Continue"
+            text = R.string.common_button_continue
         ),
         val shouldShowQuestionProgressBar: Boolean = true,
         val madeForYou: MadeForYouUiModel = MadeForYouUiModel(),

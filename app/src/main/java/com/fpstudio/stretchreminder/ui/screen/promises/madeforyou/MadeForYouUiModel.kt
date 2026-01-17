@@ -7,26 +7,26 @@ import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 
 data class MadeForYouUiModel(
     val isVisible: Boolean = false,
-    val title: String = "Stretch Reminder\nwas made for you.",
-    val subtitle: String = "We've helped others just like you feel more flexible, energized, and take back control of their health.",
+    val title: Int = R.string.promises_made_for_you_title,
+    val subtitle: Int = R.string.promises_made_for_you_subtitle,
     val showBackButton: Boolean = true,
     val card1: MadeForYouCard = MadeForYouCard(
-        icon = "⏱️",
-        title = "Build healthy work breaks",
-        description = "Smart reminders and 2-5 min breaks that won't interrupt your flow."
+        icon = R.string.promises_made_for_you_card1_icon,
+        title = R.string.promises_made_for_you_card1_title,
+        description = R.string.promises_made_for_you_card1_description
     ),
     val card2: MadeForYouCard = MadeForYouCard(
-        icon = "🤸",
-        title = "Improve posture",
-        description = "Short routines to correct slouching, tense neck and lower back strain."
+        icon = R.string.promises_made_for_you_card2_icon,
+        title = R.string.promises_made_for_you_card2_title,
+        description = R.string.promises_made_for_you_card2_description
     ),
     val card3: MadeForYouCard = MadeForYouCard(
-        icon = "🧘",
-        title = "Reduce muscle tension",
-        description = "Relieve stiffness with guided micro-stretches you can do in minutes."
+        icon = R.string.promises_made_for_you_card3_icon,
+        title = R.string.promises_made_for_you_card3_title,
+        description = R.string.promises_made_for_you_card3_description
     ),
     val nextButton: StretchButtonUiModel = StretchButtonUiModel.Outline(
-        text = "Continue",
+        text = R.string.common_button_continue,
         backgroundColor = Color.White,
         fontSize = 16.sp,
         textColor = Color.Black,
@@ -38,7 +38,8 @@ data class MadeForYouUiModel(
 )
 
 data class MadeForYouCard(
-    val icon: String,
-    val title: String,
-    val description: String,
+    val icon: Int,
+    val title: Int,
+    val description: Int,
+    val backgroundColor: Color = Color.White
 )

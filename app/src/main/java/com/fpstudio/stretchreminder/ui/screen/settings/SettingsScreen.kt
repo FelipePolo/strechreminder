@@ -137,43 +137,43 @@ fun SettingsContent(
         listOf(
             com.fpstudio.stretchreminder.data.model.UserAchievement(
                 iconStr = "💪",
-                title = "Reduce Muscle Tension",
-                description = "Reduce Muscle Tension"
+                title = R.string.achievement_muscle_tension_title,
+                description = R.string.achievement_muscle_tension_desc
             ),
             com.fpstudio.stretchreminder.data.model.UserAchievement(
                 iconStr = "🧘‍♂️",
-                title = "Improve Posture",
-                description = "Improve Posture"
+                title = R.string.achievement_posture_title,
+                description = R.string.achievement_posture_desc
             ),
             com.fpstudio.stretchreminder.data.model.UserAchievement(
                 iconStr = "⚡",
-                title = "Increase Energy",
-                description = "Increase Energy"
+                title = R.string.achievement_energy_title,
+                description = R.string.achievement_energy_desc
             ),
             com.fpstudio.stretchreminder.data.model.UserAchievement(
                 iconStr = "😌",
-                title = "Reduce Stress And Anxiety",
-                description = "Reduce Stress And Anxiety"
+                title = R.string.achievement_stress_title,
+                description = R.string.achievement_stress_desc
             ),
             com.fpstudio.stretchreminder.data.model.UserAchievement(
                 iconStr = "😴",
-                title = "Improve Sleep quality",
-                description = "Improve Sleep quality"
+                title = R.string.achievement_sleep_title,
+                description = R.string.achievement_sleep_desc
             ),
             com.fpstudio.stretchreminder.data.model.UserAchievement(
                 iconStr = "⏱️",
-                title = "Build Healthy Work Breaks",
-                description = "Build Healthy Work Breaks"
+                title = R.string.achievement_breaks_title,
+                description = R.string.achievement_breaks_desc
             ),
             com.fpstudio.stretchreminder.data.model.UserAchievement(
                 iconStr = "🤸‍♂️",
-                title = "Enhanced Flexibility and Mobility",
-                description = "Enhanced Flexibility and Mobility"
+                title = R.string.achievement_flexibility_title,
+                description = R.string.achievement_flexibility_desc
             ),
             com.fpstudio.stretchreminder.data.model.UserAchievement(
                 iconStr = "❤️",
-                title = "Prevent Long-Term Health Issues",
-                description = "Prevent Long-Term Health Issues"
+                title = R.string.achievement_health_title,
+                description = R.string.achievement_health_desc
             )
         )
     }

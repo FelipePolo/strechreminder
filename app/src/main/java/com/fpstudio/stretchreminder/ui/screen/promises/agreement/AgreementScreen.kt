@@ -69,8 +69,16 @@ fun AgreementScreen(
                 .padding(all = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            val annotatedString = buildAnnotatedString {
+                state.titleParts.forEach { part ->
+                    val color = if (part.isHighlight) Green_quaternary else Color.White
+                    withStyle(style = SpanStyle(color = color, fontWeight = FontWeight.Bold)) {
+                        append(androidx.compose.ui.res.stringResource(id = part.textRes))
+                    }
+                }
+            }
             Text(
-                text = state.title,
+                text = annotatedString,
                 style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
@@ -98,35 +106,23 @@ fun AgreementScreen(
 @Preview
 @Composable
 fun AgreementScreenPreview() {
-    val annotatedText = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = Color.White, fontWeight = FontWeight.Bold)) {
-            append("Do you want to feel more ")
-        }
-
-        withStyle(style = SpanStyle(color = Green_quaternary, fontWeight = FontWeight.Bold)) {
-            append("energized")
-        }
-
-        withStyle(style = SpanStyle(color = Color.White, fontWeight = FontWeight.Bold)) {
-            append(SPACE + "and ease")
-        }
-
-        withStyle(style = SpanStyle(color = Green_quaternary, fontWeight = FontWeight.Bold)) {
-            append(SPACE + "Pain?")
-        }
-    }
     AgreementScreen(
         state = AgreementUiModel(
-            title = annotatedText,
+            titleParts = listOf(
+                 AgreementTextPart(R.string.agreement_screen_1_part_1, false),
+                 AgreementTextPart(R.string.agreement_screen_1_part_2, true),
+                 AgreementTextPart(R.string.agreement_screen_1_part_3, false),
+                 AgreementTextPart(R.string.agreement_screen_1_part_4, true)
+            ),
             backgroundImg = R.drawable.male1,
             noButton = StretchButtonUiModel.Outline(
-                text = "No",
+                text = R.string.common_button_no,
                 shape = RoundedCornerShape(12.dp),
                 fontWeight = FontWeight.Normal,
                 fontSize = 16.sp
             ),
             yesButton = StretchButtonUiModel.Default(
-                text = "Yes",
+                text = R.string.common_button_yes,
                 shape = RoundedCornerShape(12.dp),
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 18.sp

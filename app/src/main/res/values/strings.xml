@@ -31,4 +31,189 @@
     <string name="sitting">Sitting</string>
     <string name="lying">Lying down</string>
     <string name="allow_notification">Allow notification to support your routine</string>
+    
+    <!-- Common Buttons -->
+    <string name="common_button_yes">Yes</string>
+    <string name="common_button_no">No</string>
+    <string name="common_button_continue">Continue</string>
+    
+    <!-- ThreeYes Screen -->
+    <string name="threeyes_question1_part1">Do you want to feel more</string>
+    <string name="threeyes_question1_highlight1">energized</string>
+    <string name="threeyes_question1_part2">and ease</string>
+    <string name="threeyes_question1_highlight2">Pain?</string>
+    
+    <string name="threeyes_question2_part1">Ready to</string>
+    <string name="threeyes_question2_highlight1">improve</string>
+    <string name="threeyes_question2_part2">your posture at work?</string>
+    
+    <string name="threeyes_question3_part1">Do you want to enjoy a life free of</string>
+    <string name="threeyes_question3_highlight1">tension</string>
+    <string name="threeyes_question3_part2">and</string>
+    <string name="threeyes_question3_highlight2">stress?</string>
+    
+    <!-- Promises - Plan Success -->
+    <string name="promises_plan_success_title">Great! Your plan adapts to your level!</string>
+    <string name="promises_plan_success_description">Plus, we tailor the program to your body\'s changes to ensure you gain flexibility in an easy, enjoyable way.</string>
+    
+    <!-- Promises - Made For You -->
+    <string name="promises_made_for_you_title">Stretch Reminder\nwas made for you.</string>
+    <string name="promises_made_for_you_subtitle">We\'ve helped others just like you feel more flexible, energized, and take back control of their health.</string>
+    <string name="promises_made_for_you_card1_icon">⏱️</string>
+    <string name="promises_made_for_you_card1_title">Build healthy work breaks</string>
+    <string name="promises_made_for_you_card1_description">Smart reminders and 2-5 min breaks that won\'t interrupt your flow.</string>
+    <string name="promises_made_for_you_card2_icon">🤸</string>
+    <string name="promises_made_for_you_card2_title">Improve posture</string>
+    <string name="promises_made_for_you_card2_description">Short routines to correct slouching, tense neck and lower back strain.</string>
+    <string name="promises_made_for_you_card3_icon">🧘</string>
+    <string name="promises_made_for_you_card3_title">Reduce muscle tension</string>
+    <string name="promises_made_for_you_card3_description">Relieve stiffness with guided micro-stretches you can do in minutes.</string>
+    
+    <!-- Tutorial Screen -->
+    <string name="tutorial_welcome_title">No Stretches logged yet.</string>
+    <string name="tutorial_welcome_description">This short exercise will help you understand how stretch sessions work--simple, guided, and easy to follow.</string>
+    <string name="tutorial_button_start_exercise">Start Exercise</string>
+    <string name="tutorial_get_ready">Get Ready</string>
+    <string name="tutorial_disclaimer">If your experience pain or discomfort while exercising, please stop immediately and consult your doctor or qualified healthcare professional before continuing.</string>
+
+    <!-- Form Questions -->
+    <string name="form_question_name_subtitle">First thing first</string>
+    <string name="form_question_name">What should we call you?</string>
+    
+    <string name="form_question_achievement_subtitle">So tell us, {USER_NAME}</string>
+    <string name="form_question_achievement">What do you want to achieve?</string>
+    
+    <string name="form_question_body_subtitle">Now...,</string>
+    <string name="form_question_body">Which parts of your body do you want to exercise?</string>
+    
+    <string name="form_question_frequency_subtitle1">Building habits that work for you</string>
+    <string name="form_question_frequency">How often do you stretch during your workday?</string>
+    <string name="form_question_frequency_subtitle2">Your answer heps us to create a personalized plan for you</string>
+    
+    <string name="form_question_gender">What is your gender?</string>
+    <string name="form_question_gender_subtitle">Just to personalize your experience a little more.</string>
+    
+    <string name="form_question_age_subtitle1">Let\'s make this routine truly yours</string>
+    <string name="form_question_age_subtitle2">Your age helps you get the right exercises</string>
+    
+    <string name="form_question_work_days">Select your work days</string>
+    <string name="form_question_work_days_subtitle">So we can know which days and when to remind you to stretch</string>
+    
+    <string name="form_question_work_hours">Working Hours</string>
+    
+    <string name="form_question_posture">Select the main posture during your workday</string>
+    <string name="form_question_posture_subtitle">Sitting, standing or lying down -- so exercises adapt to your posture</string>
+    
+    <string name="form_question_notification">Stay on track with notifications</string>
+    <string name="form_question_notification_subtitle">Get gentle reminders to keep up with your stretches and feel your best every day</string>
+    
+    <!-- Achievements -->
+    <string name="achievement_muscle_tension_title">Reduce Muscle Tension</string>
+    <string name="achievement_muscle_tension_desc">Reduce Muscle Tension</string>
+    <string name="achievement_stress_title">Reduce Stress And Anxiety</string>
+    <string name="achievement_stress_desc">Reduce Stress And Anxiety</string>
+    <string name="achievement_posture_title">Improve Posture</string>
+    <string name="achievement_posture_desc">Improve Posture</string>
+    <string name="achievement_energy_title">Increase Energy</string>
+    <string name="achievement_energy_desc">Increase Energy</string>
+    <string name="achievement_sleep_title">Improve Sleep quality</string>
+    <string name="achievement_sleep_desc">Improve Sleep quality</string>
+    <string name="achievement_breaks_title">Build Healthy Work Breaks</string>
+    <string name="achievement_breaks_desc">Build Healthy Work Breaks</string>
+    <string name="achievement_flexibility_title">Enhanced Flexibility and Mobility</string>
+    <string name="achievement_flexibility_desc">Enhanced Flexibility and Mobility</string>
+    <string name="achievement_health_title">Prevent Long-Term Health Issues</string>
+    <string name="achievement_health_desc">Prevent Long-Term Health Issues</string>
+
+    <!-- Body Parts -->
+    <string name="body_part_neck">Neck</string>
+    <string name="body_part_shoulders">Shoulders</string>
+    <string name="body_part_upper_back">Upper Back</string>
+    <string name="body_part_lower_back">Lower Back</string>
+    <string name="body_part_hands">Hands</string>
+    <string name="body_part_hips">Hips</string>
+    <string name="body_part_legs">Legs</string>
+
+    <!-- Frequencies -->
+    <string name="frequency_never">Never</string>
+    <string name="frequency_once">Once a day</string>
+    <string name="frequency_twice">Twice a day</string>
+    <string name="frequency_three">Three times a day</string>
+    <string name="frequency_four">Four or more times a day</string>
+    
+    <string name="time_range_start_time">Start Time</string>
+    <string name="time_range_end_time">End Time</string>
+    
+    <string name="weekday_mon">Mon</string>
+    <string name="weekday_tue">Tue</string>
+    <string name="weekday_wed">Wed</string>
+    <string name="weekday_thu">Thu</string>
+    <string name="weekday_fri">Fri</string>
+    <string name="weekday_sat">Sat</string>
+    <string name="weekday_sun">Sun</string>
+    
+    <string name="age_range_18_35">18 - 35</string>
+    <string name="age_range_36_45">36 - 45</string>
+    <string name="age_range_46_55">46 - 55</string>
+    <string name="age_range_56_69">56 - 69</string>
+    <string name="age_range_over_70">Over 70</string>
+
+    <!-- Gender/Age Options -->
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_prefer_not_to_say">Prefer not to say</string>
+    <!-- ThreeYes / Agreement Screens -->
+    <string name="agreement_screen_1_part_1">Do you want to feel more </string>
+    <string name="agreement_screen_1_part_2">energized</string>
+    <string name="agreement_screen_1_part_3"> and ease</string>
+    <string name="agreement_screen_1_part_4"> Pain?</string>
+    
+    <string name="agreement_screen_2_part_1">Ready to</string>
+    <string name="agreement_screen_2_part_2"> improve</string>
+    <string name="agreement_screen_2_part_3"> your posture at work?</string>
+    
+    <string name="agreement_screen_3_part_1">Do you want to enjoy a life free of </string>
+    <string name="agreement_screen_3_part_2">tension</string>
+    <string name="agreement_screen_3_part_3"> and</string>
+    <string name="agreement_screen_3_part_4"> stress?</string>
+    
+    <!-- Exercise Timer and Strings -->
+    <string name="exercise_timer_format">⏱️ %1$s (%2$d/%3$d)</string>
+    <string name="exercise_timer_format_simple">⏱️ %1$s</string>
+    <string name="exercise_next_up">Next: %1$s</string>
+    
+    <!-- Made For You Cards -->
+    <string name="mfy_card_reduce_tension_title">Reduce Muscle Tension</string>
+    <string name="mfy_card_reduce_tension_desc">Relieve stiffness with guided micro-stretches you can do in minutes.</string>
+    <string name="mfy_card_improve_posture_title">Improve Posture</string>
+    <string name="mfy_card_improve_posture_desc">Short routines to correct slouching, tense neck and lower back strain.</string>
+    <string name="mfy_card_increase_energy_title">Increase Energy</string>
+    <string name="mfy_card_increase_energy_desc">Boost your energy levels with quick, revitalizing stretch breaks.</string>
+    <string name="mfy_card_reduce_stress_title">Reduce Stress And Anxiety</string>
+    <string name="mfy_card_reduce_stress_desc">Calm your mind and body with gentle, stress-relieving movements.</string>
+    <string name="mfy_card_improve_sleep_title">Improve Sleep quality</string>
+    <string name="mfy_card_improve_sleep_desc">Wind down with relaxing stretches that prepare your body for better rest.</string>
+    <string name="mfy_card_build_breaks_title">Build Healthy Work Breaks</string>
+    <string name="mfy_card_build_breaks_desc">Smart reminders and 2-5 min breaks that won\'t interrupt your flow.</string>
+    <string name="mfy_card_flexibility_title">Enhanced Flexibility and Mobility</string>
+    <string name="mfy_card_flexibility_desc">Increase your range of motion with targeted flexibility exercises.</string>
+    <string name="mfy_card_prevent_issues_title">Prevent Long-Term Health Issues</string>
+    <string name="mfy_card_prevent_issues_desc">Protect your body from chronic pain and long-term strain with daily care.</string>
+    <string name="mfy_card_complete_wellness_title">Complete Wellness</string>
+    <string name="mfy_card_complete_wellness_desc">A holistic approach to improve your overall health and well-being.</string>
+    <string name="mfy_card_default_desc">Personalized stretches designed to help you reach your goals.</string>
+    <string name="mfy_card_default_title">Personalized Plan</string>
+    
+    <!-- Achievement Icons -->
+    <string name="achievement_icon_muscle">💪</string>
+    <string name="achievement_icon_posture">🧘‍♂️</string>
+    <string name="achievement_icon_energy">⚡</string>
+    <string name="achievement_icon_stress">😌</string>
+    <string name="achievement_icon_sleep">😴</string>
+    <string name="achievement_icon_breaks">⏱️</string>
+    <string name="achievement_icon_flexibility">🤸‍♂️</string>
+    <string name="achievement_icon_health">❤️</string>
+    <string name="achievement_icon_wellness">🌟</string>
+    <string name="achievement_icon_default">🎯</string>
+    <string name="home_build_routine_button">Build Your Routine</string>
 </resources>

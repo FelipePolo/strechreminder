@@ -6,8 +6,8 @@ import com.fpstudio.stretchreminder.ui.screen.exercise.contract.ExerciseScreenCo
 sealed class TutorialScreenUiModel {
     data class Welcome(
         val icon: Int,
-        val title: String,
-        val description: String,
+        val title: Int,
+        val description: Int,
         val button: StretchButtonUiModel
     ) : TutorialScreenUiModel()
 

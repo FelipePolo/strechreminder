@@ -126,7 +126,7 @@ fun WelcomeScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = state.title,
+            text = androidx.compose.ui.res.stringResource(id = state.title),
             color = Color.Black,
             textAlign = TextAlign.Center,
             fontSize = 18.sp,
@@ -136,7 +136,7 @@ fun WelcomeScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = state.description,
+            text = androidx.compose.ui.res.stringResource(id = state.description),
             color = Gray3,
             textAlign = TextAlign.Center,
             fontSize = 16.sp,

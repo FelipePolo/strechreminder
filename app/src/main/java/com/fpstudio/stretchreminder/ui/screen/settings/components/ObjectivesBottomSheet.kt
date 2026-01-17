@@ -184,7 +184,7 @@ private fun ObjectiveItem(
             
             // Title
             Text(
-                text = objective.title,
+                text = androidx.compose.ui.res.stringResource(objective.title),
                 style = MaterialTheme.typography.bodyLarge,
                 color = Color.Black,
                 fontWeight = FontWeight.Normal

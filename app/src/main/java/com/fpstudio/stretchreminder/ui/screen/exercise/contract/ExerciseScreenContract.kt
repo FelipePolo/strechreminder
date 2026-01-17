@@ -6,7 +6,7 @@ interface ExerciseScreenContract {
 
     data class UiState(
         val playlist: Playlist = Playlist(),
-        val disclaimer: String = Constants.EMPTY,
+        val disclaimer: Int? = null,
         val preText: PreText = PreText(),
         val showCongratulations: Boolean = false,
         val showNoInternetDialog: Boolean = false
@@ -31,7 +31,7 @@ interface ExerciseScreenContract {
 
 data class PreText(
     val isVisible: Boolean = true,
-    val text: String = Constants.EMPTY,
+    val text: Int? = null,
     val secondsToShowPreText: Long = 0,
     val showPreTextForEachVideo: Boolean = false
 )

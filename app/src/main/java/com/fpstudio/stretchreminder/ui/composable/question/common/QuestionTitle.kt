@@ -18,13 +18,15 @@ import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
 @Composable
 fun QuestionTitle(
     model: QuestionUiModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    subtitle1Override: String? = null
 ) {
     Column(modifier = modifier) {
         // Optional subtitle1
-        if (model.subtitle1.isNotEmpty()) {
+        val subtitle1 = subtitle1Override ?: model.subtitle1?.let { androidx.compose.ui.res.stringResource(it) } ?: ""
+        if (subtitle1.isNotEmpty()) {
             Text(
-                text = model.subtitle1,
+                text = subtitle1,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.Gray
@@ -33,16 +35,17 @@ fun QuestionTitle(
         }
 
         Text(
-            text = model.question,
+            text = model.question?.let { androidx.compose.ui.res.stringResource(it) } ?: "",
             fontWeight = FontWeight.ExtraBold,
             fontSize = 24.sp
         )
 
         // Optional subtitle2
-        if (model.subtitle2.isNotEmpty()) {
+        val subtitle2 = model.subtitle2?.let { androidx.compose.ui.res.stringResource(it) } ?: ""
+        if (subtitle2.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = model.subtitle2,
+                text = subtitle2,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.Gray
@@ -59,9 +62,9 @@ fun QuestionTitlePreview() {
         QuestionTitle(
             model = QuestionUiModel.InputText(
                 id = QuestionID.NAME,
-                question = "What should we call you?",
-                subtitle1 = "First thing first,",
-                subtitle2 = "",
+                question = com.fpstudio.stretchreminder.R.string.form_question_name,
+                subtitle1 = com.fpstudio.stretchreminder.R.string.form_question_name_subtitle,
+                subtitle2 = null,
                 selected = ""
             )
         )
@@ -72,35 +75,9 @@ fun QuestionTitlePreview() {
         QuestionTitle(
             model = QuestionUiModel.InputText(
                 id = QuestionID.NAME,
-                question = "What should we call you?",
-                subtitle1 = "",
-                subtitle2 = "This will be used throughout the app",
-                selected = ""
-            )
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // Preview con ambos subtítulos
-        QuestionTitle(
-            model = QuestionUiModel.InputText(
-                id = QuestionID.NAME,
-                question = "What should we call you?",
-                subtitle1 = "First thing first",
-                subtitle2 = "This will be used throughout the app",
-                selected = ""
-            )
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        // Preview sin subtítulos
-        QuestionTitle(
-            model = QuestionUiModel.InputText(
-                id = QuestionID.NAME,
-                question = "What should we call you?",
-                subtitle1 = "",
-                subtitle2 = "",
+                question = com.fpstudio.stretchreminder.R.string.form_question_name,
+                subtitle1 = null,
+                subtitle2 = com.fpstudio.stretchreminder.R.string.form_question_gender_subtitle,
                 selected = ""
             )
         )

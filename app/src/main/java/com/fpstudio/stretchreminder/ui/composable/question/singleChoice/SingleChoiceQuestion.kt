@@ -20,14 +20,16 @@ import com.fpstudio.stretchreminder.ui.theme.Gray
 import com.fpstudio.stretchreminder.ui.theme.Green_secondary
 
 @Composable
-fun SingleChoiceQuestion(model: QuestionUiModel.SingleChoice, onSelect: (QuestionSelectionUiModel.StringSelectionUiModel) -> Unit) {
+fun SingleChoiceQuestion(model: QuestionUiModel.SingleChoice, onSelect: (QuestionSelectionUiModel.IntSelectionUiModel) -> Unit) {
     // Question title
     Spacer(modifier = Modifier.height(12.dp))
     QuestionTitle(model)
     Spacer(modifier = Modifier.height(18.dp))
 
     // Content
-    model.options.forEach { option ->
+    // Content
+    model.options.forEachIndexed { index, option ->
+        val text = androidx.compose.ui.res.stringResource(option)
         val backgroundColor by animateColorAsState(
             targetValue = if (model.selected == option) Green_secondary else Color.White,
             animationSpec = tween(durationMillis = 1000, easing = FastOutSlowInEasing),
@@ -35,7 +37,7 @@ fun SingleChoiceQuestion(model: QuestionUiModel.SingleChoice, onSelect: (Questio
         )
         OutlinedButton(
             onClick = {
-                onSelect(QuestionSelectionUiModel.StringSelectionUiModel(option))
+                onSelect(QuestionSelectionUiModel.IntSelectionUiModel(option))
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -47,7 +49,7 @@ fun SingleChoiceQuestion(model: QuestionUiModel.SingleChoice, onSelect: (Questio
             border = BorderStroke(1.dp, Gray),
             shape = RoundedCornerShape(8.dp)
         ) {
-            Text(option, color = Color.Black, fontSize = 16.sp)
+            Text(text, color = Color.Black, fontSize = 16.sp)
         }
         Spacer(modifier = Modifier.height(8.dp))
     }

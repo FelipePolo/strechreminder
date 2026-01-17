@@ -2,60 +2,57 @@ package com.fpstudio.stretchreminder.ui.screen.promises.madeforyou
 
 import com.fpstudio.stretchreminder.data.model.UserAchievement
 
+import com.fpstudio.stretchreminder.R
+
 /**
  * Maps user achievements to MadeForYou cards with appropriate descriptions
  */
 fun UserAchievement.toMadeForYouCard(): MadeForYouCard {
     return when (title) {
-        "Reduce Muscle Tension" -> MadeForYouCard(
-            icon = iconStr,
-            title = title,
-            description = "Relieve stiffness with guided micro-stretches you can do in minutes."
+        R.string.achievement_muscle_tension_title -> MadeForYouCard(
+            icon = R.string.achievement_icon_muscle,
+            title = R.string.mfy_card_reduce_tension_title,
+            description = R.string.mfy_card_reduce_tension_desc
         )
-        "Improve Posture" -> MadeForYouCard(
-            icon = iconStr,
-            title = title,
-            description = "Short routines to correct slouching, tense neck and lower back strain."
+        R.string.achievement_posture_title -> MadeForYouCard(
+            icon = R.string.achievement_icon_posture,
+            title = R.string.mfy_card_improve_posture_title,
+            description = R.string.mfy_card_improve_posture_desc
         )
-        "Increase Energy" -> MadeForYouCard(
-            icon = iconStr,
-            title = title,
-            description = "Boost your energy levels with quick, revitalizing stretch breaks."
+        R.string.achievement_energy_title -> MadeForYouCard(
+            icon = R.string.achievement_icon_energy,
+            title = R.string.mfy_card_increase_energy_title,
+            description = R.string.mfy_card_increase_energy_desc
         )
-        "Reduce Stress And Anxiety" -> MadeForYouCard(
-            icon = iconStr,
-            title = title,
-            description = "Calm your mind and body with gentle, stress-relieving movements."
+        R.string.achievement_stress_title -> MadeForYouCard(
+            icon = R.string.achievement_icon_stress,
+            title = R.string.mfy_card_reduce_stress_title,
+            description = R.string.mfy_card_reduce_stress_desc
         )
-        "Improve Sleep quality" -> MadeForYouCard(
-            icon = iconStr,
-            title = title,
-            description = "Wind down with relaxing stretches that prepare your body for better rest."
+        R.string.achievement_sleep_title -> MadeForYouCard(
+            icon = R.string.achievement_icon_sleep,
+            title = R.string.mfy_card_improve_sleep_title,
+            description = R.string.mfy_card_improve_sleep_desc
         )
-        "Build Healthy Work Breaks" -> MadeForYouCard(
-            icon = iconStr,
-            title = title,
-            description = "Smart reminders and 2-5 min breaks that won't interrupt your flow."
+        R.string.achievement_breaks_title -> MadeForYouCard(
+            icon = R.string.achievement_icon_breaks,
+            title = R.string.mfy_card_build_breaks_title,
+            description = R.string.mfy_card_build_breaks_desc
         )
-        "Enhanced Flexibility and Mobility" -> MadeForYouCard(
-            icon = iconStr,
-            title = title,
-            description = "Increase your range of motion with targeted flexibility exercises."
+        R.string.achievement_flexibility_title -> MadeForYouCard(
+            icon = R.string.achievement_icon_flexibility,
+            title = R.string.mfy_card_flexibility_title,
+            description = R.string.mfy_card_flexibility_desc
         )
-        "Prevent Long-Term Health Issues" -> MadeForYouCard(
-            icon = iconStr,
-            title = title,
-            description = "Protect your body from chronic pain and long-term strain with daily care."
-        )
-        "All" -> MadeForYouCard(
-            icon = iconStr,
-            title = "Complete Wellness",
-            description = "A holistic approach to improve your overall health and well-being."
+        R.string.achievement_health_title -> MadeForYouCard(
+            icon = R.string.achievement_icon_health,
+            title = R.string.mfy_card_prevent_issues_title,
+            description = R.string.mfy_card_prevent_issues_desc
         )
         else -> MadeForYouCard(
-            icon = iconStr,
-            title = title,
-            description = "Personalized stretches designed to help you reach your goals."
+            icon = R.string.achievement_icon_default,
+            title = R.string.mfy_card_default_title,
+            description = R.string.mfy_card_default_desc
         )
     }
 }
@@ -67,25 +64,24 @@ fun UserAchievement.toMadeForYouCard(): MadeForYouCard {
 fun createMadeForYouCards(achievements: List<UserAchievement>): Triple<MadeForYouCard, MadeForYouCard, MadeForYouCard> {
     val defaultCards = listOf(
         MadeForYouCard(
-            icon = "⏱️",
-            title = "Build Healthy Work Breaks",
-            description = "Smart reminders and 2-5 min breaks that won't interrupt your flow."
+            icon = R.string.achievement_icon_breaks,
+            title = R.string.mfy_card_build_breaks_title,
+            description = R.string.mfy_card_build_breaks_desc
         ),
         MadeForYouCard(
-            icon = "🧘",
-            title = "Improve Posture",
-            description = "Short routines to correct slouching, tense neck and lower back strain."
+            icon = R.string.achievement_icon_posture,
+            title = R.string.mfy_card_improve_posture_title,
+            description = R.string.mfy_card_improve_posture_desc
         ),
         MadeForYouCard(
-            icon = "💪",
-            title = "Reduce Muscle Tension",
-            description = "Relieve stiffness with guided micro-stretches you can do in minutes."
+            icon = R.string.achievement_icon_muscle,
+            title = R.string.mfy_card_reduce_tension_title,
+            description = R.string.mfy_card_reduce_tension_desc
         )
     )
     
     // Filter out "All" option and take first 3
     val userCards = achievements
-        .filter { it.title != "All" }
         .take(3)
         .map { it.toMadeForYouCard() }
     

@@ -111,7 +111,7 @@ private fun IntroContent(onClick: () -> Unit) {
                     }
                     .padding(horizontal = 16.dp),
                 state = StretchButtonUiModel.Default(
-                    text = stringResource(R.string.intro_button_text),
+                    text = R.string.intro_button_text,
                     isVisible = true
                 ),
                 onClick = onClick

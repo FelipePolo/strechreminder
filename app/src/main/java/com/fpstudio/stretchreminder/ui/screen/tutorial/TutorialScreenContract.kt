@@ -28,10 +28,10 @@ private fun getBaseExerciseRoutineList(): List<TutorialScreenUiModel> {
     return listOf(
         TutorialScreenUiModel.Welcome(
             icon = R.raw.search,
-            title = "No Stretches logged yet.",
-            description = "This short exercise will help you understand how stretch sessions work--simple, guided, and easy to follow.",
+            title = R.string.tutorial_welcome_title,
+            description = R.string.tutorial_welcome_description,
             button = StretchButtonUiModel.Default(
-                text = "Start Exercise",
+                text = R.string.tutorial_button_start_exercise,
                 shape = RoundedCornerShape(20.dp)
             )
         ),
@@ -41,11 +41,11 @@ private fun getBaseExerciseRoutineList(): List<TutorialScreenUiModel> {
                     videos = listOf("tutorial"),
                 ),
                 preText = PreText(
-                    text = "Get Ready",
+                    text = R.string.tutorial_get_ready,
                     secondsToShowPreText = 3000,
                     showPreTextForEachVideo = false,
                 ),
-                disclaimer = "If your experience pain or discomfort while exercising, please stop immediately and consult your doctor or qualified healthcare professional before continuing."
+                disclaimer = R.string.tutorial_disclaimer
             )
         )
     )

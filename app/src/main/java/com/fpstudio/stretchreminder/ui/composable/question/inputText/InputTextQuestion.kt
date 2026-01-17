@@ -134,9 +134,9 @@ fun InputTextQuestionPreview() {
     InputTextQuestion(
         model = QuestionUiModel.InputText(
             id = QuestionID.NAME,
-            question = "What should we call you?",
-            subtitle1 = "First thing first",
-            subtitle2 = "This will be used throughout the app",
+            question = com.fpstudio.stretchreminder.R.string.form_question_name,
+            subtitle1 = com.fpstudio.stretchreminder.R.string.form_question_name_subtitle,
+            subtitle2 = null,
             selected = ""
         ),
         sideEffect = emptyFlow(),

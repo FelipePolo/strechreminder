@@ -78,12 +78,18 @@ fun ImprovementObjectivesSelector(
                 )
                 
                 if (achievements.isNotEmpty()) {
-                    val displayText = when {
-                        achievements.size == 1 -> achievements[0].title
-                        achievements.size == 2 -> "${achievements[0].title}, ${achievements[1].title}"
+                    val displayText = when (achievements.size) {
+                        1 -> androidx.compose.ui.res.stringResource(achievements[0].title)
+                        2 -> {
+                            val t1 = androidx.compose.ui.res.stringResource(achievements[0].title)
+                            val t2 = androidx.compose.ui.res.stringResource(achievements[1].title)
+                            "$t1, $t2"
+                        }
                         else -> {
+                            val t1 = androidx.compose.ui.res.stringResource(achievements[0].title)
+                            val t2 = androidx.compose.ui.res.stringResource(achievements[1].title)
                             val remaining = achievements.size - 2
-                            "${achievements[0].title}, ${achievements[1].title} +$remaining more"
+                            "$t1, $t2 +$remaining more"
                         }
                     }
                     

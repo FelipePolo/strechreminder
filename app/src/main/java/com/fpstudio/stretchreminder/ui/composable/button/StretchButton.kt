@@ -32,7 +32,7 @@ fun StretchButton(modifier: Modifier = Modifier, state: StretchButtonUiModel, on
                     onClick = onClick
                 ) {
                     Text(
-                        text = state.text,
+                        text = androidx.compose.ui.res.stringResource(id = state.text),
                         color = state.textColor,
                         fontSize = state.fontSize,
                         fontWeight = state.fontWeight
@@ -50,7 +50,7 @@ fun StretchButton(modifier: Modifier = Modifier, state: StretchButtonUiModel, on
                     onClick = onClick
                 ) {
                     Text(
-                        text = state.text,
+                        text = androidx.compose.ui.res.stringResource(id = state.text),
                         fontSize = state.fontSize
                     )
                 }
@@ -63,7 +63,7 @@ fun StretchButton(modifier: Modifier = Modifier, state: StretchButtonUiModel, on
                     onClick = onClick
                 ) {
                     Text(
-                        text = state.text,
+                        text = androidx.compose.ui.res.stringResource(id = state.text),
                         fontSize = state.fontSize
                     )
                 }
@@ -83,7 +83,7 @@ fun StretchButton(modifier: Modifier = Modifier, state: StretchButtonUiModel, on
                     shape = state.shape
                 ) {
                     Text(
-                        state.text,
+                        text = androidx.compose.ui.res.stringResource(id = state.text),
                         color = state.textColor,
                         fontSize = state.fontSize,
                         fontWeight = state.fontWeight,
@@ -119,6 +119,6 @@ fun StretchButton(modifier: Modifier = Modifier, state: StretchButtonUiModel, on
 @Preview
 @Composable
 fun StretchButtonPreview() {
-    val state = StretchButtonUiModel.Default("Continue", isVisible = true)
+    val state = StretchButtonUiModel.Default(com.fpstudio.stretchreminder.R.string.common_button_continue, isVisible = true)
     StretchButton(state = state) {}
 }

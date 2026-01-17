@@ -19,6 +19,7 @@ import com.fpstudio.stretchreminder.ui.screen.threeyes.ThreeYesScreen
 import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreen
 import com.fpstudio.stretchreminder.ui.screen.routine.RoutineSelectionScreen
 import com.fpstudio.stretchreminder.ui.screen.settings.SettingsScreen
+import com.fpstudio.stretchreminder.R
 
 @Composable
 fun App() {
@@ -106,12 +107,12 @@ fun App() {
                         videos = args.videoUrls
                     ),
                     preText = PreText(
-                        text = "Get Ready",
+                        text = R.string.tutorial_get_ready,
                         secondsToShowPreText = 3000,
                         isVisible = true,
                         showPreTextForEachVideo = true
                     ),
-                    disclaimer = "If your experience pain or discomfort while exercising, please stop immediately and consult your doctor or qualified healthcare professional before continuing."
+                    disclaimer = R.string.tutorial_disclaimer
                 )
             ) {
                 navController.navigate(Home) {

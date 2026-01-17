@@ -107,7 +107,7 @@ fun BodyPartButtons(
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Text(
-                    bodyPart.name,
+                    androidx.compose.ui.res.stringResource(bodyPart.name),
                     color = Color.Black,
                     textAlign = TextAlign.Start,
                     modifier = Modifier.fillMaxWidth()
@@ -162,57 +162,57 @@ fun CustomBodyQuestionPreview() {
     val bodyParts = listOf(
         Pair(
             R.drawable.selected_all, BodyPart(
-                id = BodyPartID.All, "All My Body"
+                id = BodyPartID.All, com.fpstudio.stretchreminder.R.string.app_name
             )
         ),
         Pair(
             R.drawable.selected_neck,
             BodyPart(
-                id = BodyPartID.NECK, "Neck"
+                id = BodyPartID.NECK, com.fpstudio.stretchreminder.R.string.body_part_neck
             )
         ),
         Pair(
             R.drawable.selected_shoulder,
             BodyPart(
-                id = BodyPartID.SHOULDERS, "Shoulders"
+                id = BodyPartID.SHOULDERS, com.fpstudio.stretchreminder.R.string.body_part_shoulders
             )
         ),
         Pair(
             R.drawable.selected_upper_back,
             BodyPart(
-                id = BodyPartID.UPPER_BACK, "Upper Back"
+                id = BodyPartID.UPPER_BACK, com.fpstudio.stretchreminder.R.string.body_part_upper_back
             )
         ),
         Pair(
             R.drawable.selected_lower_back,
             BodyPart(
-                id = BodyPartID.LOWER_BACK, "Lower Back"
+                id = BodyPartID.LOWER_BACK, R.string.body_part_lower_back
             )
         ),
         Pair(
             R.drawable.selected_hands,
             BodyPart(
-                id = BodyPartID.HANDS, "Hands"
+                id = BodyPartID.HANDS, com.fpstudio.stretchreminder.R.string.body_part_hands
             )
         ),
         Pair(
             R.drawable.selected_hips,
             BodyPart(
-                id = BodyPartID.HIP, "Hips"
+                id = BodyPartID.HIP, com.fpstudio.stretchreminder.R.string.body_part_hips
             )
         ),
         Pair(
             R.drawable.selected_legs,
             BodyPart(
-                id = BodyPartID.LEGS, "Legs"
+                id = BodyPartID.LEGS, com.fpstudio.stretchreminder.R.string.body_part_legs
             )
         ),
     )
 
     val question = QuestionUiModel.CustomBodyQuestion(
         id = QuestionID.ACHIEVEMENT,
-        subtitle1 = "Selecciona las áreas",
-        question = "¿Qué partes del cuerpo quieres ejercitar?",
+        subtitle1 = R.string.form_question_body_subtitle,
+        question = R.string.form_question_body,
         options = bodyParts,
         selected = listOf(BodyPartID.All)
     )

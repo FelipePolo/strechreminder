@@ -161,9 +161,10 @@ class FormViewModel(
                 val updatedForm = getFormListState(questionIndex, selection)
                 when (question) {
                     is QuestionUiModel.CustomGenderSingleChoice -> {
+                        val selectedValue = (selection as? QuestionSelectionUiModel.IntSelectionUiModel)?.selection ?: 0
                         updateUiState {
                             copy(
-                                userGender = question.selected,
+                                userGender = selectedValue,
                                 form = updatedForm,
                             )
                         }

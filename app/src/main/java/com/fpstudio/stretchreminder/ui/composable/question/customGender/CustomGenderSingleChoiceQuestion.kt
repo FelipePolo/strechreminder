@@ -40,7 +40,7 @@ import com.fpstudio.stretchreminder.ui.theme.text_primary
 @Composable
 fun CustomGenderSingleChoiceQuestion(
     model: QuestionUiModel.CustomGenderSingleChoice,
-    onSelect: (QuestionSelectionUiModel.StringSelectionUiModel) -> Unit
+    onSelect: (QuestionSelectionUiModel.IntSelectionUiModel) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -61,17 +61,17 @@ fun CustomGenderSingleChoiceQuestion(
             // Male option
             GenderOption(
                 imageResId = model.male.first,
-                label = model.male.second,
+                label = androidx.compose.ui.res.stringResource(model.male.second),
                 isSelected = model.selected == model.male.second,
-                onClick = { onSelect(QuestionSelectionUiModel.StringSelectionUiModel(model.male.second)) }
+                onClick = { onSelect(QuestionSelectionUiModel.IntSelectionUiModel(model.male.second)) }
             )
 
             // Female option
             GenderOption(
                 imageResId = model.female.first,
-                label = model.female.second,
+                label = androidx.compose.ui.res.stringResource(model.female.second),
                 isSelected = model.selected == model.female.second,
-                onClick = { onSelect(QuestionSelectionUiModel.StringSelectionUiModel(model.female.second)) }
+                onClick = { onSelect(QuestionSelectionUiModel.IntSelectionUiModel(model.female.second)) }
             )
         }
 
@@ -97,14 +97,14 @@ fun CustomGenderSingleChoiceQuestion(
                         Color.Transparent
                 )
                 .clickable {
-                    onSelect(QuestionSelectionUiModel.StringSelectionUiModel(model.preferNotToSay))
+                    onSelect(QuestionSelectionUiModel.IntSelectionUiModel(model.preferNotToSay))
                 }
                 .padding(vertical = 12.dp)
                 .align(Alignment.CenterHorizontally),
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = model.preferNotToSay,
+                text = androidx.compose.ui.res.stringResource(model.preferNotToSay),
                 style = MaterialTheme.typography.bodyLarge,
                 color = if (model.selected == model.preferNotToSay)
                     MaterialTheme.colorScheme.onPrimaryContainer
@@ -190,13 +190,13 @@ fun CustomGenderSingleChoiceQuestionPreview() {
         CustomGenderSingleChoiceQuestion(
             model = QuestionUiModel.CustomGenderSingleChoice(
                 id = QuestionID.GENDER,
-                question = "What is your gender?",
-                subtitle1 = "About you",
-                subtitle2 = "Just to personalize your experience a little more.",
-                male = Pair(R.drawable.man, "Male"),
-                female = Pair(R.drawable.woman, "Female"),
-                preferNotToSay = "Prefer not to say",
-                selected = "Male"
+                question = R.string.form_question_gender,
+                subtitle1 = null,
+                subtitle2 = R.string.form_question_gender_subtitle,
+                male = Pair(R.drawable.man, R.string.gender_male),
+                female = Pair(R.drawable.woman, R.string.gender_female),
+                preferNotToSay = R.string.gender_prefer_not_to_say,
+                selected = R.string.gender_male
             ),
             onSelect = {}
         )
@@ -210,13 +210,13 @@ fun CustomGenderSingleChoiceQuestionFemaleSelectedPreview() {
         CustomGenderSingleChoiceQuestion(
             model = QuestionUiModel.CustomGenderSingleChoice(
                 id = QuestionID.GENDER,
-                question = "What is your gender?",
-                subtitle1 = "About you",
-                subtitle2 = "Just to personalize your experience a little more.",
-                male = Pair(R.drawable.man, "Male"),
-                female = Pair(R.drawable.woman, "Female"),
-                preferNotToSay = "Prefer not to say",
-                selected = "Female"
+                question = R.string.form_question_gender,
+                subtitle1 = null,
+                subtitle2 = R.string.form_question_gender_subtitle,
+                male = Pair(R.drawable.man, R.string.gender_male),
+                female = Pair(R.drawable.woman, R.string.gender_female),
+                preferNotToSay = R.string.gender_prefer_not_to_say,
+                selected = R.string.gender_female
             ),
             onSelect = {}
         )
@@ -230,13 +230,13 @@ fun CustomGenderSingleChoiceQuestionPreferNotToSayPreview() {
         CustomGenderSingleChoiceQuestion(
             model = QuestionUiModel.CustomGenderSingleChoice(
                 id = QuestionID.GENDER,
-                question = "What is your gender?",
-                subtitle1 = "About you",
-                subtitle2 = "Just to personalize your experience a little more.",
-                male = Pair(R.drawable.man, "Male"),
-                female = Pair(R.drawable.woman, "Female"),
-                preferNotToSay = "Prefer not to say",
-                selected = "Prefer not to say"
+                question = R.string.form_question_gender,
+                subtitle1 = null,
+                subtitle2 = R.string.form_question_gender_subtitle,
+                male = Pair(R.drawable.man, R.string.gender_male),
+                female = Pair(R.drawable.woman, R.string.gender_female),
+                preferNotToSay = R.string.gender_prefer_not_to_say,
+                selected = R.string.gender_prefer_not_to_say
             ),
             onSelect = {}
         )
@@ -250,13 +250,13 @@ fun CustomGenderSingleChoiceQuestionPreferNotToSayPreview2() {
         CustomGenderSingleChoiceQuestion(
             model = QuestionUiModel.CustomGenderSingleChoice(
                 id = QuestionID.GENDER,
-                question = "What is your gender?",
-                subtitle1 = "About you",
-                subtitle2 = "Just to personalize your experience a little more.",
-                male = Pair(R.drawable.man, "Male"),
-                female = Pair(R.drawable.woman, "Female"),
-                preferNotToSay = "Prefer not to say",
-                selected = "Prefer not to say"
+                question = R.string.form_question_gender,
+                subtitle1 = null,
+                subtitle2 = R.string.form_question_gender_subtitle,
+                male = Pair(R.drawable.man, R.string.gender_male),
+                female = Pair(R.drawable.woman, R.string.gender_female),
+                preferNotToSay = R.string.gender_prefer_not_to_say,
+                selected = R.string.gender_prefer_not_to_say
             ),
             onSelect = {}
         )

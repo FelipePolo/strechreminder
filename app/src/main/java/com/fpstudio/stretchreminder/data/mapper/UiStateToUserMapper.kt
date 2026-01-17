@@ -57,8 +57,8 @@ private fun parseTimeToTimestamp(timeString: String): Long {
 fun FormScreenContract.UiState.toUser(): User {
     val answers = form.flatMap { it.questions }
     var name = EMPTY
-    var gender = EMPTY
-    var age = EMPTY
+    var gender = 0
+    var age = 0
     var mainPosture = 0
     var workDays: List<String> = emptyList()
     var achievement: List<UserAchievement> = emptyList()
@@ -75,9 +75,14 @@ fun FormScreenContract.UiState.toUser(): User {
             }
 
             is QuestionUiModel.SingleChoice -> {
-                if (question.id == QuestionID.FREQUENCY) frequency =
-                    question.options.indexOf(question.selected)
-                if (question.id == QuestionID.AGE) age = question.selected
+                if (question.id == QuestionID.FREQUENCY) {
+                    question.selected?.let {
+                        frequency = question.options.indexOf(it)
+                    }
+                }
+                if (question.id == QuestionID.AGE) {
+                    question.selected?.let { age = it }
+                }
             }
 
             is QuestionUiModel.MultiChoice -> {
@@ -102,7 +107,9 @@ fun FormScreenContract.UiState.toUser(): User {
             }
 
             is QuestionUiModel.CustomGenderSingleChoice -> {
-                if (question.id == QuestionID.GENDER) gender = question.selected
+                if (question.id == QuestionID.GENDER) {
+                    question.selected?.let { gender = it }
+                }
             }
 
             is QuestionUiModel.ImageSingleChoice -> {

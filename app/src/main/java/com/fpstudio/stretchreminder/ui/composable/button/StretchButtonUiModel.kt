@@ -17,7 +17,7 @@ sealed class StretchButtonUiModel(
     open var isVisible: Boolean,
 ) {
     data class Default(
-        val text: String,
+        val text: Int,
         override var isVisible: Boolean = true,
         val backgroundColor: Color = Green_secondary,
         val shape: RoundedCornerShape = RoundedCornerShape(8.dp),
@@ -27,7 +27,7 @@ sealed class StretchButtonUiModel(
     ) : StretchButtonUiModel(isVisible)
 
     data class Animated(
-        val text: String,
+        val text: Int,
         override var isVisible: Boolean = true,
         val backgroundColor: Color = Green_secondary,
         val shape: RoundedCornerShape = RoundedCornerShape(8.dp),
@@ -36,7 +36,7 @@ sealed class StretchButtonUiModel(
     ) : StretchButtonUiModel(isVisible)
 
     data class Fancy(
-        val text: String,
+        val text: Int,
         override var isVisible: Boolean = true,
         val backgroundColor: Color = Green_secondary,
         val shape: RoundedCornerShape = RoundedCornerShape(8.dp),
@@ -44,7 +44,7 @@ sealed class StretchButtonUiModel(
     ) : StretchButtonUiModel(isVisible)
 
     data class Outline(
-        val text: String,
+        val text: Int,
         override var isVisible: Boolean = true,
         val defaultElevation: Dp = 6.dp,
         val backgroundColor: Color = Color.Transparent,

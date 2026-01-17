@@ -46,7 +46,7 @@ fun TimeRangeQuestion(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(R.string.start),
+                    text = stringResource(R.string.time_range_start_time),
                     color = Green_primary,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
@@ -88,7 +88,7 @@ fun TimeRangeQuestion(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = stringResource(R.string.end),
+                    text = stringResource(R.string.time_range_end_time),
                     color = Green_primary,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,

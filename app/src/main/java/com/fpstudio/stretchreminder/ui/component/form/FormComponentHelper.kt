@@ -20,7 +20,7 @@ class FormComponentHelper {
                 }
 
                 is QuestionUiModel.SingleChoice -> {
-                    val selected = (selection as QuestionSelectionUiModel.StringSelectionUiModel)
+                    val selected = (selection as QuestionSelectionUiModel.IntSelectionUiModel)
                     question.copy(
                         selected = selected.selection
                     )
@@ -92,7 +92,7 @@ class FormComponentHelper {
                 }
 
                 is QuestionUiModel.CustomGenderSingleChoice -> {
-                    val selected = (selection as QuestionSelectionUiModel.StringSelectionUiModel)
+                    val selected = (selection as QuestionSelectionUiModel.IntSelectionUiModel)
                     question.copy(
                         selected = selected.selection
                     )

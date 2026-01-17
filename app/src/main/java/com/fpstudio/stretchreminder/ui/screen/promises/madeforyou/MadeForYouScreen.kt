@@ -75,9 +75,9 @@ fun MadeForYouScreen(
 
             // Feature Cards
             FeatureCard(
-                icon = uiState.card1.icon,
-                title = uiState.card1.title,
-                description = uiState.card1.description,
+                icon = androidx.compose.ui.res.stringResource(uiState.card1.icon),
+                title = androidx.compose.ui.res.stringResource(uiState.card1.title),
+                description = androidx.compose.ui.res.stringResource(uiState.card1.description),
                 gradient = gradient,
                 modifier = Modifier.rotate(-3f)
             )
@@ -85,9 +85,9 @@ fun MadeForYouScreen(
             Spacer(modifier = Modifier.height(30.dp))
 
             FeatureCard(
-                icon = uiState.card2.icon,
-                title = uiState.card2.title,
-                description = uiState.card2.description,
+                icon = androidx.compose.ui.res.stringResource(uiState.card2.icon),
+                title = androidx.compose.ui.res.stringResource(uiState.card2.title),
+                description = androidx.compose.ui.res.stringResource(uiState.card2.description),
                 gradient = gradient,
                 modifier = Modifier
                     .rotate(3f)
@@ -97,9 +97,9 @@ fun MadeForYouScreen(
             Spacer(modifier = Modifier.height(30.dp))
 
             FeatureCard(
-                icon = uiState.card3.icon,
-                title = uiState.card3.title,
-                description = uiState.card3.description,
+                icon = androidx.compose.ui.res.stringResource(uiState.card3.icon),
+                title = androidx.compose.ui.res.stringResource(uiState.card3.title),
+                description = androidx.compose.ui.res.stringResource(uiState.card3.description),
                 gradient = gradient,
                 modifier = Modifier.rotate(-3f)
             )
@@ -108,7 +108,7 @@ fun MadeForYouScreen(
 
             // Made For You Text
             Text(
-                text = uiState.title,
+                text = androidx.compose.ui.res.stringResource(uiState.title),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
@@ -117,7 +117,7 @@ fun MadeForYouScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = uiState.subtitle,
+                text = androidx.compose.ui.res.stringResource(uiState.subtitle),
                 fontSize = 16.sp,
                 color = Color.White
             )
