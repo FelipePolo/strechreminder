@@ -133,12 +133,12 @@ fun FilterChipsRow(
         // Body Part Chips
         items(availableBodyParts) { bodyPart ->
             FilterChip(
-                selected = selectedFilter is VideoFilter.ByBodyPart && 
+                selected = selectedFilter is VideoFilter.ByBodyPart &&
                           selectedFilter.bodyPart == bodyPart,
                 onClick = { onFilterSelected(VideoFilter.ByBodyPart(bodyPart)) },
                 label = {
                     Text(
-                        text = bodyPart.displayName,
+                        text = stringResource(bodyPart.displayNameRes),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 },

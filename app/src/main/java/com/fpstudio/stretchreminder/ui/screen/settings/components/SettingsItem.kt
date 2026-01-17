@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
 
 @Composable
 fun SettingsItem(
@@ -87,7 +89,7 @@ fun SettingsItem(
             hasArrow -> {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = "Navigate",
+                    contentDescription = stringResource(R.string.content_desc_navigate),
                     tint = Color.Gray,
                     modifier = Modifier.size(24.dp)
                 )

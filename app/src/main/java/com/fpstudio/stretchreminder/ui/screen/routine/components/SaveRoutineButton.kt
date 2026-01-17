@@ -13,12 +13,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun SaveRoutineButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    text: String = "Save Routine",
+    text: String = stringResource(R.string.action_save_routine),
     enabled: Boolean = true,
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null

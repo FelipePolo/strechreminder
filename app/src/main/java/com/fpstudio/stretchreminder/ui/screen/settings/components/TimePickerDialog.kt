@@ -1,5 +1,7 @@
 package com.fpstudio.stretchreminder.ui.screen.settings.components
 
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -53,7 +55,7 @@ fun TimePickerDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Select Time",
+                    text = stringResource(R.string.time_picker_title),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
@@ -128,7 +130,7 @@ fun TimePickerDialog(
                         shape = RoundedCornerShape(12.dp),
                         border = null
                     ) {
-                        Text("Cancel")
+                        Text(stringResource(R.string.action_cancel))
                     }
                     
                     Button(
@@ -148,7 +150,7 @@ fun TimePickerDialog(
                         ),
                         shape = RoundedCornerShape(12.dp)
                     ) {
-                        Text("OK", color = Color.White)
+                        Text(stringResource(R.string.action_ok), color = Color.White)
                     }
                 }
             }

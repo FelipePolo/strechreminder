@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.ui.screen.settings.contract.SettingsScreenContract.Workday
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
 
 @Composable
 fun WorkdaySelector(
@@ -28,7 +30,7 @@ fun WorkdaySelector(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = "Workdays",
+            text = stringResource(R.string.settings_workdays_title),
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray
         )
@@ -42,7 +44,7 @@ fun WorkdaySelector(
                     modifier = modifier
                         .weight(1f, fill = true)
                         .aspectRatio(1f),
-                    letter = day.shortName,
+                    letter = stringResource(day.shortNameRes),
                     isSelected = selectedDays.contains(day),
                     onClick = { onDayToggled(day) }
                 )

@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
 
 data class Benefit(
     val title: String,
@@ -29,16 +31,16 @@ fun BenefitsList(
 ) {
     val benefits = listOf(
         Benefit(
-            title = "Ad-free experience",
-            description = "Focus on your routine without distractions"
+            title = stringResource(R.string.premium_benefit_ads_title),
+            description = stringResource(R.string.premium_benefit_ads_desc)
         ),
         Benefit(
-            title = "Unlimited Custom Routines",
-            description = "Create and save as many routines as you need"
+            title = stringResource(R.string.premium_benefit_custom_title),
+            description = stringResource(R.string.premium_benefit_custom_desc)
         ),
         Benefit(
-            title = "Access to all content",
-            description = "select all the exercises planned for you"
+            title = stringResource(R.string.premium_benefit_all_title),
+            description = stringResource(R.string.premium_benefit_all_desc)
         )
     )
     
@@ -51,7 +53,7 @@ fun BenefitsList(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "Premium Benefits",
+            text = stringResource(R.string.premium_benefits_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,

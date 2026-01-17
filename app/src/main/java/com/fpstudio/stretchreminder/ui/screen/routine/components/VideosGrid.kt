@@ -1,5 +1,6 @@
 package com.fpstudio.stretchreminder.ui.screen.routine.components
 
+import androidx.compose.ui.res.stringResource
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -76,7 +77,7 @@ fun VideosGrid(
                         )
                     ) {
                         Text(
-                            text = bodyPart.displayName,
+                            text = stringResource(bodyPart.displayNameRes),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             color = Color.Black,

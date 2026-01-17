@@ -10,11 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun LoadingState(
     modifier: Modifier = Modifier,
-    message: String = "Loading exercises..."
+    message: String = stringResource(R.string.loading_exercises)
 ) {
     Box(
         modifier = modifier.fillMaxSize(),

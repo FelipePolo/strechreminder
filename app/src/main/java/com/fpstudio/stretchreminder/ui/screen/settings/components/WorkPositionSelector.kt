@@ -21,6 +21,7 @@ import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.screen.settings.contract.SettingsScreenContract.WorkPosition
 import com.fpstudio.stretchreminder.ui.theme.Bg_gray
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun WorkPositionSelector(
@@ -33,7 +34,7 @@ fun WorkPositionSelector(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = "Daily Work Position",
+            text = stringResource(R.string.settings_work_position_title),
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray
         )
@@ -44,7 +45,7 @@ fun WorkPositionSelector(
         ) {
             WorkPosition.values().forEach { position ->
                 PositionPill(
-                    text = position.displayName,
+                    text = stringResource(position.displayNameRes),
                     icon = {
                         when (position) {
                             WorkPosition.SITTING ->
@@ -52,7 +53,7 @@ fun WorkPositionSelector(
                                     modifier = Modifier.size(24.dp),
                                     painter = painterResource(R.drawable.ic_chair),
                                     tint = Color.Gray,
-                                    contentDescription = "controll icon"
+                                    contentDescription = null
                                 )
 
                             WorkPosition.STANDING ->
@@ -60,7 +61,7 @@ fun WorkPositionSelector(
                                     modifier = Modifier.size(24.dp),
                                     painter = painterResource(R.drawable.standing),
                                     tint = Color.Gray,
-                                    contentDescription = "controll icon"
+                                    contentDescription = null
                                 )
 
                             WorkPosition.LAYING_DOWN ->
@@ -68,7 +69,7 @@ fun WorkPositionSelector(
                                     modifier = Modifier.size(24.dp),
                                     painter = painterResource(R.drawable.laying_down),
                                     tint = Color.Gray,
-                                    contentDescription = "control icon"
+                                    contentDescription = null
                                 )
                         }
                     },

@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -183,7 +184,7 @@ fun SettingsContent(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Settings",
+                        text = stringResource(R.string.settings_title),
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -197,7 +198,7 @@ fun SettingsContent(
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.action_cancel)
                         )
                     }
                 },
@@ -221,7 +222,7 @@ fun SettingsContent(
                 )
             ) {
                 Text(
-                    text = "Save Changes",
+                    text = stringResource(R.string.settings_save_changes),
                     color = Color.White,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp,
@@ -284,7 +285,7 @@ fun SettingsContent(
                         iconRes = R.drawable.ic_bell,
                         iconBackgroundColor = Color(0xFFE3F2FD),
                         iconTint = Color(0xFF2196F3),
-                        title = "Notifications",
+                        title = stringResource(R.string.settings_notifications),
                         hasToggle = true,
                         toggleValue = uiState.appSettings.notificationsEnabled,
                         onToggleChanged = { enabled ->
@@ -312,7 +313,7 @@ fun SettingsContent(
                         iconRes = R.drawable.ic_premium,
                         iconBackgroundColor = Color(0xFFFFF9C4),
                         iconTint = Color(0xFFFFA000),
-                        title = "Rate on Google Play",
+                        title = stringResource(R.string.settings_rate_app),
                         hasArrow = true,
                         onClick = { onIntent(Intent.RateApp) }
                     )
@@ -323,7 +324,7 @@ fun SettingsContent(
                         iconRes = R.drawable.ic_comment,
                         iconBackgroundColor = Color(0xFFF3E5F5),
                         iconTint = Color(0xFF9C27B0),
-                        title = "Send Feedback",
+                        title = stringResource(R.string.settings_send_feedback),
                         hasArrow = true,
                         onClick = { onIntent(Intent.SendFeedback) }
                     )
@@ -424,10 +425,10 @@ private fun RoutinePreferencesSection(
                 modifier = Modifier.size(16.dp),
                 painter = painterResource(R.drawable.control),
                 tint = TurquoiseAccent,
-                contentDescription = "controll icon"
+                contentDescription = null
             )
             Text(
-                text = "Routine Preferences",
+                text = stringResource(R.string.settings_routine_preferences),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black

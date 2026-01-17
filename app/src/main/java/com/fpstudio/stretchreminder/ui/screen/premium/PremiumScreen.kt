@@ -30,6 +30,12 @@ import com.fpstudio.stretchreminder.ui.screen.premium.contract.PremiumScreenCont
 import com.fpstudio.stretchreminder.ui.screen.premium.contract.PremiumScreenContract.SubscriptionPlan
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 import org.koin.androidx.compose.koinViewModel
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
+// ...
+// I will not apply changes here as I need to update strings.xml first.
+// See next tool call.
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,7 +69,7 @@ fun PremiumScreen(
                 
                 is SideEffect.ShowPurchaseError -> {
                     snackbarHostState.showSnackbar(
-                        message = "Purchase failed: ${effect.message}",
+                        message = context.getString(R.string.premium_purchase_failed, effect.message),
                         duration = SnackbarDuration.Long
                     )
                 }
@@ -72,14 +78,14 @@ fun PremiumScreen(
                 
                 SideEffect.ShowRestoreSuccess -> {
                     snackbarHostState.showSnackbar(
-                        message = "Purchases restored successfully!",
+                        message = context.getString(R.string.premium_restore_success),
                         duration = SnackbarDuration.Short
                     )
                 }
                 
                 is SideEffect.ShowRestoreError -> {
                     snackbarHostState.showSnackbar(
-                        message = "Restore failed: ${effect.message}",
+                        message = context.getString(R.string.premium_restore_failed, effect.message),
                         duration = SnackbarDuration.Long
                     )
                 }
@@ -94,7 +100,7 @@ fun PremiumScreen(
             TopAppBar(
                 title = { 
                     Text(
-                        text = "Premium",
+                        text = stringResource(R.string.premium_screen_title),
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.fillMaxWidth(),
                         textAlign = TextAlign.Center
@@ -104,7 +110,7 @@ fun PremiumScreen(
                     IconButton(onClick = { viewModel.handleIntent(Intent.Close) }) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Close"
+                            contentDescription = stringResource(R.string.action_close)
                         )
                     }
                 },
@@ -114,7 +120,7 @@ fun PremiumScreen(
                         enabled = !uiState.isLoading
                     ) {
                         Text(
-                            text = "Restore",
+                            text = stringResource(R.string.action_restore),
                             color = if (uiState.isLoading) Color.Gray else TurquoiseAccent,
                             fontWeight = FontWeight.Medium
                         )
@@ -151,7 +157,7 @@ fun PremiumScreen(
                         )
                     } else {
                         Text(
-                            text = "Start 7-Day Free Trial →",
+                            text = stringResource(R.string.premium_start_trial_btn),
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
                             fontSize = 16.sp
@@ -160,7 +166,7 @@ fun PremiumScreen(
                 }
                 
                 Text(
-                    text = "Recurring billing. Cancel anytime in your device settings at least 24 hours before the end of the trial period.",
+                    text = stringResource(R.string.premium_billing_disclaimer),
                     style = MaterialTheme.typography.bodySmall,
                     fontSize = 10.sp,
                     color = Color.Gray,
@@ -218,7 +224,7 @@ fun PremiumScreen(
                     )
                 ) {
                     Text(
-                        text = "Unable to connect to billing service. Please check your internet connection.",
+                        text = stringResource(R.string.premium_error_billing),
                         modifier = Modifier.padding(16.dp),
                         color = Color(0xFFC62828),
                         fontSize = 14.sp

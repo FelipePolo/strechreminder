@@ -45,7 +45,7 @@ fun FormComponent(
                     onSelect(questionIndex, selection)
                 }
 
-                is QuestionUiModel.SingleChoice -> SingleChoiceQuestion(question) { selection ->
+                is QuestionUiModel.SingleChoice -> SingleChoiceQuestion(model = question) { selection ->
                     onSelect(questionIndex, selection)
                 }
 
@@ -53,15 +53,15 @@ fun FormComponent(
                     onSelect(questionIndex, selection)
                 }
 
-                is QuestionUiModel.WorkDays -> WorkDaysQuestion(question) { selection ->
+                is QuestionUiModel.WorkDays -> WorkDaysQuestion(model = question) { selection ->
                     onSelect(questionIndex, selection)
                 }
 
-                is QuestionUiModel.TimeRange -> TimeRangeQuestion(question) { selection ->
+                is QuestionUiModel.TimeRange -> TimeRangeQuestion(model = question) { selection ->
                     onSelect(questionIndex, selection)
                 }
 
-                is QuestionUiModel.ImageSingleChoice -> ImageSingleChoiceQuestion(question) { selection ->
+                is QuestionUiModel.ImageSingleChoice -> ImageSingleChoiceQuestion(model = question) { selection ->
                     onSelect(questionIndex, selection)
                 }
 
@@ -74,7 +74,7 @@ fun FormComponent(
                 }
 
                 is QuestionUiModel.CustomGenderSingleChoice -> CustomGenderSingleChoiceQuestion(
-                    question
+                    model = question
                 ) { selection ->
                     onSelect(questionIndex, selection)
                 }

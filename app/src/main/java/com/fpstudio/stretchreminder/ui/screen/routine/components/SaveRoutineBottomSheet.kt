@@ -35,6 +35,8 @@ import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 import androidx.core.graphics.toColorInt
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun SaveRoutineBottomSheet(
@@ -127,13 +129,13 @@ private fun VideoSelectionStep(
         ) {
             Column {
                 Text(
-                    text = "Select Videos",
+                    text = stringResource(R.string.save_routine_select_videos),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
                 Text(
-                    text = "${selectedVideos.size} Selected",
+                    text = stringResource(R.string.save_routine_selected_count, selectedVideos.size),
                     style = MaterialTheme.typography.bodyMedium,
                     color = TurquoiseAccent,
                     fontWeight = FontWeight.Bold
@@ -185,7 +187,7 @@ private fun VideoSelectionStep(
                 )
             ) {
                 Text(
-                    text = "Name My Routine",
+                    text = stringResource(R.string.save_routine_name_my_routine),
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -269,7 +271,7 @@ private fun VideoSelectionItem(
                         shape = RoundedCornerShape(16.dp),
                     ) {
                         Text(
-                            text = bodyPart.displayName,
+                            text = stringResource(bodyPart.displayNameRes),
                             style = MaterialTheme.typography.labelSmall,
                             color = Color(0xFF5E6A81), // Slate 700ish
                             fontWeight = FontWeight.Medium,
@@ -336,16 +338,17 @@ private fun RoutineDetailsStep(
             ) {
                 Column {
                     Text(
-                        text = "Name Your Routine",
+                        text = stringResource(R.string.save_routine_name_header),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                     Text(
-                        text = "Saving ${state.videos.size} videos • ${
-                            formatDuration(
-                                state.videos.sumOf { it.duration })
-                        } total",
+                        text = stringResource(
+                            R.string.save_routine_saving_details,
+                            state.videos.size,
+                            formatDuration(state.videos.sumOf { it.duration })
+                        ),
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Gray
                     )
@@ -363,7 +366,7 @@ private fun RoutineDetailsStep(
 
             // Routine Name
             Text(
-                text = "ROUTINE NAME",
+                text = stringResource(R.string.save_routine_label_name),
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.Gray,
                 fontSize = 12.sp
@@ -373,7 +376,7 @@ private fun RoutineDetailsStep(
                 value = state.name,
                 onValueChange = onNameChange,
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("e.g. Morning Stretch", color = Color.LightGray) },
+                placeholder = { Text(stringResource(R.string.save_routine_placeholder_name), color = Color.LightGray) },
                 isError = state.isDuplicateName,
                 shape = RoundedCornerShape(16.dp),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -388,7 +391,7 @@ private fun RoutineDetailsStep(
             )
             if (state.isDuplicateName) {
                 Text(
-                    text = "This routine name already exists",
+                    text = stringResource(R.string.save_routine_error_duplicate),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Red,
                     modifier = Modifier.padding(start = 16.dp, top = 4.dp)
@@ -399,7 +402,7 @@ private fun RoutineDetailsStep(
 
             // Icon Selector
             Text(
-                text = "SELECT ICON",
+                text = stringResource(R.string.save_routine_label_icon),
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.Gray,
                 fontSize = 12.sp
@@ -422,7 +425,7 @@ private fun RoutineDetailsStep(
 
             // Color Selector
             Text(
-                text = "SELECT COLOR",
+                text = stringResource(R.string.save_routine_label_color),
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.Gray,
                 fontSize = 12.sp
@@ -453,13 +456,13 @@ private fun RoutineDetailsStep(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "REORDER VIDEOS",
+                    text = stringResource(R.string.save_routine_label_reorder),
                     style = MaterialTheme.typography.labelMedium,
                     color = Color.Gray,
                     fontSize = 12.sp
                 )
                 Text(
-                    text = "Hold to move",
+                    text = stringResource(R.string.save_routine_hold_to_move),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray
                 )
@@ -512,7 +515,7 @@ private fun RoutineDetailsStep(
                     Spacer(modifier = Modifier.width(8.dp))
                 }
                 Text(
-                    text = if (isEditing) "Delete" else "Cancel",
+                    text = if (isEditing) stringResource(R.string.action_delete) else stringResource(R.string.action_cancel),
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -536,7 +539,7 @@ private fun RoutineDetailsStep(
                         modifier = Modifier.size(24.dp)
                     )
                 } else {
-                    Text("Save", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.action_save), fontWeight = FontWeight.Bold)
                 }
             }
         }

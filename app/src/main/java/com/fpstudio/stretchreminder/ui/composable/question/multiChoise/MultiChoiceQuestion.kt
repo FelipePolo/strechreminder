@@ -34,10 +34,10 @@ fun MultiChoiceQuestion(
     val subtitle1 = model.subtitle1?.let { 
         androidx.compose.ui.res.stringResource(it).replace("{USER_NAME}", userName) 
     }
-        
+
     QuestionTitle(
         model = model,
-        subtitle1Override = subtitle1
+        userName = userName
     )
     Spacer(modifier = Modifier.height(18.dp))
 

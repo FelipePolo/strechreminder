@@ -58,6 +58,6 @@ enum class BodyPartID {
             HANDS -> com.fpstudio.stretchreminder.R.string.body_part_hands
             HIP -> com.fpstudio.stretchreminder.R.string.body_part_hips
             LEGS -> com.fpstudio.stretchreminder.R.string.body_part_legs
-            All -> com.fpstudio.stretchreminder.R.string.app_name // Fallback or need "All" string if used in form. But FormData uses enum instances. "All" not used in FormData options.
+            All -> com.fpstudio.stretchreminder.R.string.filter_all
         }
 }

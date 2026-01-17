@@ -18,6 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -100,7 +102,7 @@ fun PremiumUnlockBottomSheet(
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = "PREMIUM BENEFITS FOR LONG-TERM GAIN",
+                        text = stringResource(R.string.unlock_benefits_title),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF1E293B),
@@ -114,9 +116,9 @@ fun PremiumUnlockBottomSheet(
                         modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        BenefitItem("Ad-free experience")
-                        BenefitItem("Create custom routines")
-                        BenefitItem("Access all routines")
+                        BenefitItem(stringResource(R.string.unlock_benefit_1))
+                        BenefitItem(stringResource(R.string.unlock_benefit_2))
+                        BenefitItem(stringResource(R.string.unlock_benefit_3))
                     }
                 }
             }
@@ -198,7 +200,7 @@ fun PremiumUnlockBottomSheet(
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = "Watch an AD to unlock for this session",
+                            text = stringResource(R.string.unlock_action_watch_ad),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Medium,
                             color = Color(0xFF1E293B)
@@ -215,7 +217,7 @@ fun PremiumUnlockBottomSheet(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = "Maybe later",
+                    text = stringResource(R.string.unlock_action_maybe_later),
                     style = MaterialTheme.typography.titleMedium,
                     color = Color(0xFF64748B)
                 )

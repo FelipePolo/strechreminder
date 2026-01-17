@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.data.model.UserAchievement
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -120,7 +122,7 @@ fun ObjectivesBottomSheet(
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Text(
-                        text = "Cancel",
+                        text = stringResource(R.string.action_cancel),
                         color = Color.Black,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 16.sp
@@ -142,7 +144,7 @@ fun ObjectivesBottomSheet(
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Text(
-                        text = "Save Selection",
+                        text = stringResource(R.string.action_save_selection),
                         color = Color.White,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 16.sp
@@ -216,7 +218,7 @@ private fun ObjectiveItem(
             if (isSelected) {
                 Icon(
                     painter = androidx.compose.ui.res.painterResource(com.fpstudio.stretchreminder.R.drawable.ic_check),
-                    contentDescription = "Selected",
+                    contentDescription = null,
                     tint = Color.White,
                     modifier = Modifier.size(16.dp)
                 )

@@ -15,6 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.ui.screen.settings.contract.SettingsScreenContract.FocusArea
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
 
 @Composable
 fun FocusAreaSelector(
@@ -27,7 +29,7 @@ fun FocusAreaSelector(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = "Focus Areas",
+            text = stringResource(R.string.settings_focus_areas_title),
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray
         )
@@ -40,7 +42,7 @@ fun FocusAreaSelector(
         ) {
             FocusArea.values().forEach { area ->
                 FocusAreaPill(
-                    text = area.displayName,
+                    text = stringResource(area.displayNameRes),
                     isSelected = selectedAreas.contains(area),
                     onClick = { onAreaToggled(area) }
                 )

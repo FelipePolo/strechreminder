@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun ContinueButton(
@@ -52,9 +54,9 @@ fun ContinueButton(
                 text = if (selectedCount > 0) {
                     val minutes = totalDurationSeconds / 60
                     val seconds = totalDurationSeconds % 60
-                    "Start ${minutes}:${String.format("%02d", seconds)}"
+                    stringResource(R.string.action_start_time_format, "${minutes}:${String.format("%02d", seconds)}")
                 } else {
-                    "Select at least 1 exercise"
+                    stringResource(R.string.action_select_exercise_hint)
                 },
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold

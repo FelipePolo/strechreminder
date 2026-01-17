@@ -6,27 +6,33 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionID
 import com.fpstudio.stretchreminder.ui.composable.question.QuestionUiModel
+import com.fpstudio.stretchreminder.util.Constants
 
 @Composable
 fun QuestionTitle(
     model: QuestionUiModel,
-    modifier: Modifier = Modifier,
-    subtitle1Override: String? = null
+    userName: String = Constants.EMPTY,
+    modifier: Modifier = Modifier
 ) {
+    val subtitle1: String = model.subtitle1?.let { stringResource(it) } ?: Constants.EMPTY
+
     Column(modifier = modifier) {
         // Optional subtitle1
-        val subtitle1 = subtitle1Override ?: model.subtitle1?.let { androidx.compose.ui.res.stringResource(it) } ?: ""
         if (subtitle1.isNotEmpty()) {
             Text(
-                text = subtitle1,
+                text = "$subtitle1 $userName",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color.Gray
@@ -35,13 +41,13 @@ fun QuestionTitle(
         }
 
         Text(
-            text = model.question?.let { androidx.compose.ui.res.stringResource(it) } ?: "",
+            text = model.question?.let { stringResource(it) } ?: Constants.EMPTY,
             fontWeight = FontWeight.ExtraBold,
             fontSize = 24.sp
         )
 
         // Optional subtitle2
-        val subtitle2 = model.subtitle2?.let { androidx.compose.ui.res.stringResource(it) } ?: ""
+        val subtitle2 = model.subtitle2?.let { stringResource(it) } ?: Constants.EMPTY
         if (subtitle2.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -60,6 +66,7 @@ fun QuestionTitlePreview() {
     Column(modifier = Modifier.padding(16.dp)) {
         // Preview con subtitle1
         QuestionTitle(
+            userName = "Felipe",
             model = QuestionUiModel.InputText(
                 id = QuestionID.NAME,
                 question = com.fpstudio.stretchreminder.R.string.form_question_name,

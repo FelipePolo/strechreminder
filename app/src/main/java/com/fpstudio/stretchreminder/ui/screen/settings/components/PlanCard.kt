@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun PlanCard(
@@ -45,7 +46,7 @@ fun PlanCard(
         ) {
             Column {
                 Text(
-                    text = "Current Plan",
+                    text = stringResource(R.string.plan_card_title),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray,
                     fontSize = 14.sp
@@ -60,7 +61,7 @@ fun PlanCard(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = if (adsEnabled) "Ads enabled" else "Ad-free",
+                    text = if (adsEnabled) stringResource(R.string.plan_ads_enabled) else stringResource(R.string.plan_ad_free),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray,
                     fontSize = 12.sp
@@ -75,7 +76,7 @@ fun PlanCard(
             ) {
                 Icon(
                     imageVector = Icons.Default.Star,
-                    contentDescription = "Premium",
+                    contentDescription = null,
                     tint = TurquoiseAccent,
                     modifier = Modifier
                         .size(22.dp)
@@ -100,13 +101,13 @@ fun PlanCard(
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_premium),
-                    contentDescription = "Premium",
+                    contentDescription = null,
                     modifier = Modifier
                         .size(24.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Upgrade to Premium",
+                    text = stringResource(R.string.plan_upgrade_button),
                     color = Color.White,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp

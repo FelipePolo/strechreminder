@@ -6,10 +6,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 
 @Composable
@@ -31,14 +33,14 @@ fun UnsavedChangesDialog(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "Unsaved Changes",
+                    text = stringResource(R.string.dialog_unsaved_title),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
                 
                 Text(
-                    text = "You have unsaved changes. Do you want to save them before leaving?",
+                    text = stringResource(R.string.dialog_unsaved_message),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray,
                     textAlign = TextAlign.Start
@@ -60,7 +62,7 @@ fun UnsavedChangesDialog(
                         shape = RoundedCornerShape(12.dp)
                     ) {
                         Text(
-                            text = "Save Changes",
+                            text = stringResource(R.string.action_save_changes),
                             color = Color.White,
                             fontWeight = FontWeight.SemiBold,
                             modifier = Modifier.padding(vertical = 8.dp)
@@ -73,7 +75,7 @@ fun UnsavedChangesDialog(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = "Exit Without Saving",
+                            text = stringResource(R.string.action_exit_without_saving),
                             color = Color.Gray,
                             fontWeight = FontWeight.Medium,
                             modifier = Modifier.padding(vertical = 8.dp)

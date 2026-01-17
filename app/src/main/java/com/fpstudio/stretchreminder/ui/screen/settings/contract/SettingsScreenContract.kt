@@ -32,30 +32,30 @@ object SettingsScreenContract {
         val notificationsEnabled: Boolean = false
     )
     
-    enum class WorkPosition(val displayName: String) {
-        SITTING("Sitting"),
-        STANDING("Standing"),
-        LAYING_DOWN("Laying down")
+    enum class WorkPosition(val displayNameRes: Int) {
+        SITTING(com.fpstudio.stretchreminder.R.string.position_sitting),
+        STANDING(com.fpstudio.stretchreminder.R.string.position_standing),
+        LAYING_DOWN(com.fpstudio.stretchreminder.R.string.position_laying_down)
     }
     
-    enum class FocusArea(val displayName: String) {
-        NECK("Neck"),
-        SHOULDERS("Shoulders"),
-        UPPER_BACK("Upper Back"),
-        LOWER_BACK("Lower Back"),
-        HANDS("Hands"),
-        HIP("Hips"),
-        LEGS("Legs")
+    enum class FocusArea(val displayNameRes: Int) {
+        NECK(com.fpstudio.stretchreminder.R.string.body_part_neck),
+        SHOULDERS(com.fpstudio.stretchreminder.R.string.body_part_shoulders),
+        UPPER_BACK(com.fpstudio.stretchreminder.R.string.body_part_upper_back),
+        LOWER_BACK(com.fpstudio.stretchreminder.R.string.body_part_lower_back),
+        HANDS(com.fpstudio.stretchreminder.R.string.body_part_hands),
+        HIP(com.fpstudio.stretchreminder.R.string.body_part_hips),
+        LEGS(com.fpstudio.stretchreminder.R.string.body_part_legs)
     }
     
-    enum class Workday(val displayName: String, val shortName: String) {
-        MONDAY("Monday", "M"),
-        TUESDAY("Tuesday", "T"),
-        WEDNESDAY("Wednesday", "W"),
-        THURSDAY("Thursday", "T"),
-        FRIDAY("Friday", "F"),
-        SATURDAY("Saturday", "S"),
-        SUNDAY("Sunday", "S")
+    enum class Workday(val displayNameRes: Int, val shortNameRes: Int) {
+        MONDAY(com.fpstudio.stretchreminder.R.string.day_monday, com.fpstudio.stretchreminder.R.string.day_short_monday),
+        TUESDAY(com.fpstudio.stretchreminder.R.string.day_tuesday, com.fpstudio.stretchreminder.R.string.day_short_tuesday),
+        WEDNESDAY(com.fpstudio.stretchreminder.R.string.day_wednesday, com.fpstudio.stretchreminder.R.string.day_short_wednesday),
+        THURSDAY(com.fpstudio.stretchreminder.R.string.day_thursday, com.fpstudio.stretchreminder.R.string.day_short_thursday),
+        FRIDAY(com.fpstudio.stretchreminder.R.string.day_friday, com.fpstudio.stretchreminder.R.string.day_short_friday),
+        SATURDAY(com.fpstudio.stretchreminder.R.string.day_saturday, com.fpstudio.stretchreminder.R.string.day_short_saturday),
+        SUNDAY(com.fpstudio.stretchreminder.R.string.day_sunday, com.fpstudio.stretchreminder.R.string.day_short_sunday)
     }
     
     sealed class Intent {

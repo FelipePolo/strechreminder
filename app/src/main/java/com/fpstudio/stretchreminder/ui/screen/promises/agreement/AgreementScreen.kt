@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -73,7 +74,7 @@ fun AgreementScreen(
                 state.titleParts.forEach { part ->
                     val color = if (part.isHighlight) Green_quaternary else Color.White
                     withStyle(style = SpanStyle(color = color, fontWeight = FontWeight.Bold)) {
-                        append(androidx.compose.ui.res.stringResource(id = part.textRes))
+                        append("${stringResource(id = part.textRes)} ")
                     }
                 }
             }

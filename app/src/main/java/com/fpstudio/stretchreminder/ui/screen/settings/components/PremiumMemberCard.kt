@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.domain.model.SubscriptionInfo
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun PremiumMemberCard(
@@ -66,7 +67,7 @@ fun PremiumMemberCard(
         ) {
             Icon(
                 painter = androidx.compose.ui.res.painterResource(id = com.fpstudio.stretchreminder.R.drawable.ic_premium),
-                contentDescription = "Premium",
+                contentDescription = stringResource(com.fpstudio.stretchreminder.R.string.premium_member_title),
                 tint = Color(0xFF00D9A3),
                 modifier = Modifier.size(40.dp)
             )
@@ -81,7 +82,7 @@ fun PremiumMemberCard(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = "CURRENT PLAN",
+                    text = stringResource(com.fpstudio.stretchreminder.R.string.premium_card_title),
                     color = Color(0xFFB0B0B0),
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium,
@@ -94,7 +95,7 @@ fun PremiumMemberCard(
                     modifier = Modifier.padding(start = 4.dp)
                 ) {
                     Text(
-                        text = "PRO",
+                        text = stringResource(com.fpstudio.stretchreminder.R.string.premium_plan_pro),
                         color = Color(0xFF00D9A3),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
@@ -107,7 +108,7 @@ fun PremiumMemberCard(
             
             // Title
             Text(
-                text = "Premium\nMember",
+                text = stringResource(com.fpstudio.stretchreminder.R.string.premium_member_title),
                 color = Color.White,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
@@ -117,11 +118,11 @@ fun PremiumMemberCard(
             Spacer(modifier = Modifier.height(24.dp))
             
             // Features
-            PremiumFeature("Ads - Free experience")
+            PremiumFeature(stringResource(com.fpstudio.stretchreminder.R.string.premium_feature_ads))
             Spacer(modifier = Modifier.height(12.dp))
-            PremiumFeature("Unlimited Routines")
+            PremiumFeature(stringResource(com.fpstudio.stretchreminder.R.string.premium_feature_routines))
             Spacer(modifier = Modifier.height(12.dp))
-            PremiumFeature("Access all content")
+            PremiumFeature(stringResource(com.fpstudio.stretchreminder.R.string.premium_feature_content))
             
             Spacer(modifier = Modifier.height(24.dp))
             
@@ -141,7 +142,7 @@ fun PremiumMemberCard(
             ) {
                 Column {
                     Text(
-                        text = "Renews on",
+                        text = stringResource(com.fpstudio.stretchreminder.R.string.premium_renews_on),
                         color = Color(0xFFB0B0B0),
                         fontSize = 14.sp
                     )

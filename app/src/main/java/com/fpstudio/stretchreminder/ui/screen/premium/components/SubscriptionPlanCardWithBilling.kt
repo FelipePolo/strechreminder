@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.sp
 import com.revenuecat.purchases.Package
 import com.fpstudio.stretchreminder.ui.screen.premium.contract.PremiumScreenContract.SubscriptionPlan
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
 
 @Composable
 fun SubscriptionPlanCardWithBilling(
@@ -56,7 +58,7 @@ fun SubscriptionPlanCardWithBilling(
                 Text(
                     modifier = Modifier
                         .padding(horizontal = 8.dp),
-                    text = "BEST VALUE",
+                    text = stringResource(R.string.premium_save_badge),
                     fontSize = 6.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
@@ -88,7 +90,7 @@ fun SubscriptionPlanCardWithBilling(
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     Text(
-                        text = if (plan == SubscriptionPlan.ANNUAL) "Annual" else "Monthly",
+                        text = if (plan == SubscriptionPlan.ANNUAL) stringResource(R.string.premium_plan_annual) else stringResource(R.string.premium_plan_monthly),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
@@ -97,7 +99,7 @@ fun SubscriptionPlanCardWithBilling(
 
                     if (plan == SubscriptionPlan.ANNUAL) {
                         Text(
-                            text = "Save 50%",
+                            text = stringResource(R.string.premium_save_text),
                             style = MaterialTheme.typography.bodySmall,
                             fontSize = 12.sp,
                             color = TurquoiseAccent,
@@ -131,7 +133,7 @@ fun SubscriptionPlanCardWithBilling(
 
                 if (plan == SubscriptionPlan.ANNUAL) {
                     Text(
-                        text = "$3.33 / month",
+                        text = stringResource(R.string.premium_monthly_calculation),
                         style = MaterialTheme.typography.bodySmall,
                         fontSize = 12.sp,
                         color = Color.Gray

@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun PremiumHeader(
@@ -48,7 +49,7 @@ fun PremiumHeader(
         ) {
             Icon(
                 imageVector = Icons.Default.Star,
-                contentDescription = "Premium",
+                contentDescription = stringResource(R.string.premium_screen_title),
                 tint = Color(0xFFFFD700),
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -58,7 +59,7 @@ fun PremiumHeader(
 
             Icon(
                 painter = painterResource(R.drawable.ic_premium),
-                contentDescription = "Premium",
+                contentDescription = stringResource(R.string.premium_screen_title),
                 tint = Color(0xFFFFD700),
                 modifier = Modifier
                     .size(80.dp)
@@ -67,7 +68,7 @@ fun PremiumHeader(
         
         // Title
         Text(
-            text = "Unlock Full Potential",
+            text = stringResource(R.string.premium_header_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
@@ -77,7 +78,7 @@ fun PremiumHeader(
         
         // Description
         Text(
-            text = "Get unlimited access to all premium benefits",
+            text = stringResource(R.string.premium_header_desc),
             style = MaterialTheme.typography.bodyMedium,
             fontSize = 14.sp,
             color = Color.Gray,

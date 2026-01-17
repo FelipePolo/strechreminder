@@ -23,6 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun ErrorState(
@@ -41,13 +43,13 @@ fun ErrorState(
         ) {
             Icon(
                 imageVector = Icons.Default.Warning,
-                contentDescription = "Error",
+                contentDescription = null, // decorative
                 modifier = Modifier.size(64.dp),
                 tint = Color(0xFFE57373)
             )
             
             Text(
-                text = "Oops! Something went wrong",
+                text = stringResource(R.string.error_title_oops),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -55,7 +57,7 @@ fun ErrorState(
             )
             
             Text(
-                text = errorMessage ?: "Unable to load exercises. Please check your connection.",
+                text = errorMessage ?: stringResource(R.string.error_default_message),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray,
                 textAlign = TextAlign.Center
@@ -70,7 +72,7 @@ fun ErrorState(
                 )
             ) {
                 Text(
-                    text = "Try Again",
+                    text = stringResource(R.string.action_try_again),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )

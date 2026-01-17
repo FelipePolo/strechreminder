@@ -1,5 +1,6 @@
 package com.fpstudio.stretchreminder.ui.screen.settings.components
-
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -60,14 +61,14 @@ fun ProfileSection(
             .padding(16.dp)
     ) {
         Text(
-            text = "Profile",
+            text = stringResource(R.string.profile_title),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             color = Color.Black
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = "Display Name",
+            text = stringResource(R.string.profile_display_name),
             style = MaterialTheme.typography.bodySmall,
             color = Color.Gray
         )
@@ -105,7 +106,7 @@ fun ProfileSection(
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Person,
-                        contentDescription = "User",
+                        contentDescription = null,
                         tint = Color.Gray,
                         modifier = Modifier.size(20.dp)
                     )
@@ -131,7 +132,7 @@ fun ProfileSection(
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
                 ) {
                     Text(
-                        text = "Edit",
+                        text = stringResource(R.string.action_edit),
                         color = TurquoiseAccent,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -151,7 +152,7 @@ fun ProfileSection(
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
                 ) {
                     Text(
-                        text = "Done",
+                        text = stringResource(R.string.action_done),
                         fontWeight = FontWeight.SemiBold
                     )
                 }
