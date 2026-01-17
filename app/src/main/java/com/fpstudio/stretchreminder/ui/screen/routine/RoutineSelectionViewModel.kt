@@ -75,6 +75,7 @@ class RoutineSelectionViewModel(
             is RoutineSelectionIntent.RecommendedRoutineSelected -> onRecommendedRoutineSelected(intent.routine)
             is RoutineSelectionIntent.Retry -> loadVideos()
             is RoutineSelectionIntent.SaveRoutine -> onSaveRoutine()
+            is RoutineSelectionIntent.CreateNewRoutine -> onCreateNewRoutine()
             is RoutineSelectionIntent.NavigateToMyRoutines -> onNavigateToMyRoutines()
             is RoutineSelectionIntent.ShowSaveRoutineSheet -> onShowSaveRoutineSheet()
             is RoutineSelectionIntent.HideSaveRoutineSheet -> onHideSaveRoutineSheet()
@@ -85,8 +86,6 @@ class RoutineSelectionViewModel(
             is RoutineSelectionIntent.ConfirmSaveRoutine -> onConfirmSaveRoutine()
             is RoutineSelectionIntent.ClearSelection -> onClearSelection()
             is RoutineSelectionIntent.RemoveVideoFromRoutine -> onRemoveVideoFromRoutine(intent.video)
-            is RoutineSelectionIntent.ShowMyRoutinesSheet -> onShowMyRoutinesSheet()
-            is RoutineSelectionIntent.HideMyRoutinesSheet -> onHideMyRoutinesSheet()
             is RoutineSelectionIntent.SelectRoutine -> onSelectRoutine(intent.routineId)
             is RoutineSelectionIntent.StartSelectedRoutine -> onStartSelectedRoutine()
             is RoutineSelectionIntent.HidePremiumUnlockSheet -> onHidePremiumUnlockSheet()
@@ -97,6 +96,7 @@ class RoutineSelectionViewModel(
             is RoutineSelectionIntent.CheckInternetConnection -> checkInternetConnectionForFreeUsers()
             is RoutineSelectionIntent.HideNoInternetDialog -> onHideNoInternetDialog()
             is RoutineSelectionIntent.ToggleVideoInRoutineCreation -> onToggleVideoInRoutineCreation(intent.video)
+            is RoutineSelectionIntent.DeleteRoutine -> onDeleteRoutine(intent.routineId)
             is RoutineSelectionIntent.EditRoutine -> onEditRoutine(intent.routine)
         }
     }
@@ -317,7 +317,8 @@ class RoutineSelectionViewModel(
                 filteredVideos = filtered,
                 groupedByBodyPart = groupVideosByBodyParts(filtered),
                 selectedVideos = updatedAllVideos.filter { it.isSelected },
-                selectedRecommendedRoutineId = null // Clear recommended routine selection
+                selectedRecommendedRoutineId = null, // Clear recommended routine selection
+                selectedRoutineId = null // Clear custom routine selection
             )
         }
     }
@@ -357,6 +358,7 @@ class RoutineSelectionViewModel(
 
             state.copy(
                 selectedRecommendedRoutineId = newSelectedId,
+                selectedRoutineId = null, // Clear custom routine selection
                 selectedVideos = selectedVideos,
                 allVideos = clearedVideos,
                 filteredVideos = when (state.selectedFilter) {
@@ -395,6 +397,30 @@ class RoutineSelectionViewModel(
     private fun onNavigateToMyRoutines() {
         // TODO: Implement navigation to My Routines screen
         // This will be handled via a callback to the screen
+    }
+    
+    private fun onCreateNewRoutine() {
+        // Clear all selections and open sheet from scratch (step 0)
+        _uiState.update { state ->
+            // Clear all video selections
+            val clearedVideos = state.allVideos.map { it.copy(isSelected = false) }
+            
+            state.copy(
+                showSaveRoutineSheet = true,
+                saveRoutineState = SaveRoutineState(videos = emptyList()), // Start with no videos
+                selectedRoutineId = null, // Clear custom routine selection
+                selectedRecommendedRoutineId = null, // Clear recommended routine selection
+                selectedVideos = emptyList(), // Clear selected videos
+                allVideos = clearedVideos,
+                filteredVideos = when (state.selectedFilter) {
+                    VideoFilter.All -> clearedVideos
+                    VideoFilter.Recommended -> clearedVideos
+                    is VideoFilter.ByBodyPart -> clearedVideos.filter { 
+                        (state.selectedFilter as VideoFilter.ByBodyPart).bodyPart in it.bodyParts
+                    }
+                }
+            )
+        }
     }
     
     private fun onShowSaveRoutineSheet() {
@@ -492,6 +518,36 @@ class RoutineSelectionViewModel(
         }
     }
     
+    private fun onDeleteRoutine(routineId: Long) {
+        viewModelScope.launch {
+            routineRepository.deleteRoutine(routineId).fold(
+                onSuccess = {
+                    // Close the bottom sheet
+                    _uiState.update { state ->
+                        state.copy(
+                            showSaveRoutineSheet = false,
+                            saveRoutineState = SaveRoutineState(),
+                            // Clear selections if deleted routine was selected
+                            selectedRoutineId = if (state.selectedRoutineId == routineId) null else state.selectedRoutineId,
+                            selectedVideos = if (state.selectedRoutineId == routineId) emptyList() else state.selectedVideos
+                        )
+                    }
+                },
+                onFailure = { error ->
+                    // Handle error - could show a toast or error message
+                    // For now, just log or keep the sheet open
+                    _uiState.update { state ->
+                        state.copy(
+                            saveRoutineState = state.saveRoutineState.copy(
+                                error = error.message
+                            )
+                        )
+                    }
+                }
+            )
+        }
+    }
+    
     private fun onConfirmSaveRoutine() {
         val state = _uiState.value.saveRoutineState
         
@@ -526,6 +582,9 @@ class RoutineSelectionViewModel(
             return
         }
         
+        // Track if this is a new routine (not editing)
+        val isNewRoutine = state.id == null
+        
         _uiState.update { it.copy(saveRoutineState = it.saveRoutineState.copy(isSaving = true)) }
         
         viewModelScope.launch {
@@ -540,16 +599,41 @@ class RoutineSelectionViewModel(
             )
             
             saveRoutineUseCase(routine).fold(
-                onSuccess = {
-                    // Success - close bottom sheet
-                    _uiState.update { 
-                        it.copy(
-                            showSaveRoutineSheet = false,
-                            saveRoutineState = SaveRoutineState()
-                        )
+                onSuccess = { savedRoutineId ->
+                    if (isNewRoutine) {
+                        // For new routines: clear selections, switch to Recommended, and select the new routine
+                        val clearedVideos = _uiState.value.allVideos.map { it.copy(isSelected = false) }
+                        
+                        // Map the routine's video IDs to Video objects for selectedVideos
+                        val routineVideos = state.videos.mapNotNull { video ->
+                            clearedVideos.find { it.id == video.id }
+                        }
+                        
+                        _uiState.update { 
+                            it.copy(
+                                showSaveRoutineSheet = false,
+                                saveRoutineState = SaveRoutineState(),
+                                // Clear all selections
+                                selectedVideos = routineVideos, // Load the new routine's videos
+                                selectedRecommendedRoutineId = null,
+                                selectedRoutineId = savedRoutineId, // Select the newly saved routine
+                                allVideos = clearedVideos,
+                                filteredVideos = clearedVideos, // Will be updated when filter changes
+                                selectedFilter = VideoFilter.Recommended, // Switch to Recommended filter
+                                shouldNavigateToExercise = false
+                            )
+                        }
+                    } else {
+                        // For editing existing routines: just close and clear like before
+                        _uiState.update { 
+                            it.copy(
+                                showSaveRoutineSheet = false,
+                                saveRoutineState = SaveRoutineState()
+                            )
+                        }
+                        // Clear all selected videos
+                        onClearSelection()
                     }
-                    // Clear all selected videos
-                    onClearSelection()
                 },
                 onFailure = { error ->
                     _uiState.update { state ->
@@ -576,11 +660,21 @@ class RoutineSelectionViewModel(
     
     private fun onRemoveVideoFromRoutine(video: Video) {
         _uiState.update { state ->
-            state.copy(
-                saveRoutineState = state.saveRoutineState.copy(
-                    videos = state.saveRoutineState.videos.filter { it.id != video.id }
+            val updatedVideos = state.saveRoutineState.videos.filter { it.id != video.id }
+            
+            // If 1 or fewer videos remain, close the bottom sheet automatically
+            if (updatedVideos.size <= 1) {
+                state.copy(
+                    showSaveRoutineSheet = false,
+                    saveRoutineState = SaveRoutineState() // Reset state
                 )
-            )
+            } else {
+                state.copy(
+                    saveRoutineState = state.saveRoutineState.copy(
+                        videos = updatedVideos
+                    )
+                )
+            }
         }
     }
     
@@ -597,27 +691,46 @@ class RoutineSelectionViewModel(
         }
     }
     
-    private fun onShowMyRoutinesSheet() {
-        _uiState.update { state ->
-            state.copy(
-                showMyRoutinesSheet = true,
-                selectedRoutineId = null
-            )
-        }
-    }
-    
-    private fun onHideMyRoutinesSheet() {
-        _uiState.update { state ->
-            state.copy(
-                showMyRoutinesSheet = false,
-                selectedRoutineId = null
-            )
-        }
-    }
-    
     private fun onSelectRoutine(routineId: Long) {
         _uiState.update { state ->
-            state.copy(selectedRoutineId = routineId)
+            // Toggle selection: if already selected, deselect; otherwise select this one
+            if (state.selectedRoutineId == routineId) {
+                // Deselect - clear everything
+                state.copy(
+                    selectedRoutineId = null,
+                    selectedVideos = emptyList()
+                )
+            } else {
+                // Find the selected routine
+                val routine = state.savedRoutines.find { it.id == routineId }
+                
+                if (routine != null) {
+                    // Map video IDs to Video objects
+                    val routineVideos = routine.videoIds.mapNotNull { videoId ->
+                        state.allVideos.find { it.id == videoId }
+                    }
+                    
+                    // Clear any recommended routine selection and individual video selections
+                    val clearedVideos = state.allVideos.map { it.copy(isSelected = false) }
+                    
+                    state.copy(
+                        selectedRoutineId = routineId,
+                        selectedVideos = routineVideos,
+                        selectedRecommendedRoutineId = null, // Clear recommended routine selection
+                        allVideos = clearedVideos,
+                        filteredVideos = when (state.selectedFilter) {
+                            VideoFilter.All -> clearedVideos
+                            VideoFilter.Recommended -> clearedVideos
+                            is VideoFilter.ByBodyPart -> clearedVideos.filter { 
+                                (state.selectedFilter as VideoFilter.ByBodyPart).bodyPart in it.bodyParts
+                            }
+                        }
+                    )
+                } else {
+                    // If routine not found, just update the ID
+                    state.copy(selectedRoutineId = routineId)
+                }
+            }
         }
     }
     
@@ -643,7 +756,6 @@ class RoutineSelectionViewModel(
                 it.copy(
                     selectedVideos = routineVideos,
                     shouldNavigateToExercise = true,
-                    showMyRoutinesSheet = false,
                     selectedRoutineId = null
                 )
             }

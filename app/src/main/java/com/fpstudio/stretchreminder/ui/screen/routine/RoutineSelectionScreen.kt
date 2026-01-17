@@ -142,8 +142,8 @@ private fun RoutineSelectionContent(
                                 onIntent(RoutineSelectionIntent.RecommendedRoutineSelected(routine))
                             },
                             onNavigateToCreate = { 
-                                // Initiates creation flow - usually by saving current selection
-                                onIntent(RoutineSelectionIntent.SaveRoutine) 
+                                // Initiates creation flow from scratch
+                                onIntent(RoutineSelectionIntent.CreateNewRoutine) 
                             },
                             onNavigateToPremium = onNavigateToPremium,
                             onSavedRoutineClick = { routineId ->
@@ -187,17 +187,14 @@ private fun RoutineSelectionContent(
             ActionButtonsRow(
                 selectedCount = uiState.selectedVideos.size,
                 totalDurationSeconds = totalDuration,
-                hasSavedRoutines = uiState.hasSavedRoutines,
                 userIsPremium = uiState.userIsPremium,
+                hasCustomRoutineSelected = uiState.selectedRoutineId != null,
                 onSaveRoutine = {
                     if (uiState.userIsPremium) {
                         onIntent(RoutineSelectionIntent.SaveRoutine)
                     } else {
                         onNavigateToPremium()
                     }
-                },
-                onMyRoutines = {
-                    onIntent(RoutineSelectionIntent.ShowMyRoutinesSheet)
                 },
                 onStart = {
                     onContinue(uiState.selectedVideos)
@@ -217,7 +214,12 @@ private fun RoutineSelectionContent(
                 onReorderVideos = { from, to -> onIntent(RoutineSelectionIntent.ReorderVideos(from, to)) },
                 onRemoveVideo = { video -> onIntent(RoutineSelectionIntent.RemoveVideoFromRoutine(video)) },
                 onVideoToggle = { video -> onIntent(RoutineSelectionIntent.ToggleVideoInRoutineCreation(video)) },
-                onSave = { onIntent(RoutineSelectionIntent.ConfirmSaveRoutine) }
+                onSave = { onIntent(RoutineSelectionIntent.ConfirmSaveRoutine) },
+                onDelete = {
+                    uiState.saveRoutineState.id?.let { routineId ->
+                        onIntent(RoutineSelectionIntent.DeleteRoutine(routineId))
+                    }
+                }
             )
         }
         
@@ -256,17 +258,6 @@ private fun RoutineSelectionContent(
                         )
                     }
                 }
-            )
-        }
-        
-        // My Routines Bottom Sheet
-        if (uiState.showMyRoutinesSheet) {
-            MyRoutinesBottomSheet(
-                routines = uiState.savedRoutines,
-                selectedRoutineId = uiState.selectedRoutineId,
-                onDismiss = { onIntent(RoutineSelectionIntent.HideMyRoutinesSheet) },
-                onRoutineSelect = { routineId -> onIntent(RoutineSelectionIntent.SelectRoutine(routineId)) },
-                onStartRoutine = { onIntent(RoutineSelectionIntent.StartSelectedRoutine) }
             )
         }
         

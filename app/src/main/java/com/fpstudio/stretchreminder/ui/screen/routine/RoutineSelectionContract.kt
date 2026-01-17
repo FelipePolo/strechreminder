@@ -19,7 +19,6 @@ data class RoutineSelectionUiState(
     val hasSavedRoutines: Boolean = true, // TODO: Replace with actual saved routines check
     val showSaveRoutineSheet: Boolean = false,
     val saveRoutineState: SaveRoutineState = SaveRoutineState(),
-    val showMyRoutinesSheet: Boolean = false,
     val savedRoutines: List<Routine> = emptyList(),
     val selectedRoutineId: Long? = null,
     val shouldNavigateToExercise: Boolean = false,
@@ -53,6 +52,7 @@ sealed class RoutineSelectionIntent {
     object Retry : RoutineSelectionIntent()
     data class EditRoutine(val routine: Routine) : RoutineSelectionIntent()
     object SaveRoutine : RoutineSelectionIntent()
+    object CreateNewRoutine : RoutineSelectionIntent()
     object NavigateToMyRoutines : RoutineSelectionIntent()
     object ShowSaveRoutineSheet : RoutineSelectionIntent()
     object HideSaveRoutineSheet : RoutineSelectionIntent()
@@ -64,8 +64,7 @@ sealed class RoutineSelectionIntent {
     object ClearSelection : RoutineSelectionIntent()
     data class RemoveVideoFromRoutine(val video: Video) : RoutineSelectionIntent()
     data class ToggleVideoInRoutineCreation(val video: Video) : RoutineSelectionIntent()
-    object ShowMyRoutinesSheet : RoutineSelectionIntent()
-    object HideMyRoutinesSheet : RoutineSelectionIntent()
+    data class DeleteRoutine(val routineId: Long) : RoutineSelectionIntent()
     data class SelectRoutine(val routineId: Long) : RoutineSelectionIntent()
     object StartSelectedRoutine : RoutineSelectionIntent()
     object HidePremiumUnlockSheet : RoutineSelectionIntent()

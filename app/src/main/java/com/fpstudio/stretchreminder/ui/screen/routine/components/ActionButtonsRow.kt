@@ -16,10 +16,9 @@ import androidx.compose.ui.unit.dp
 fun ActionButtonsRow(
     selectedCount: Int,
     totalDurationSeconds: Int,
-    hasSavedRoutines: Boolean,
     userIsPremium: Boolean,
+    hasCustomRoutineSelected: Boolean = false,
     onSaveRoutine: () -> Unit,
-    onMyRoutines: () -> Unit,
     onStart: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -29,6 +28,22 @@ fun ActionButtonsRow(
             .padding(16.dp)
     ) {
         when {
+            // Case 1: Custom routine selected → Only show "Start" button (no Save)
+            hasCustomRoutineSelected && selectedCount > 0 -> {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    ContinueButton(
+                        enabled = true,
+                        selectedCount = selectedCount,
+                        totalDurationSeconds = totalDurationSeconds,
+                        onClick = onStart,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+            
             // Case 2: 2+ videos selected → Show "Save Routine" + enabled "Start"
             selectedCount >= 2 -> {
                 Row(

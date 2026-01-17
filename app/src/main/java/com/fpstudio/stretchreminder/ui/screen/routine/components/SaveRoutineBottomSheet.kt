@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -48,6 +49,7 @@ fun SaveRoutineBottomSheet(
     onRemoveVideo: (Video) -> Unit,
     onVideoToggle: (Video) -> Unit,
     onSave: () -> Unit,
+    onDelete: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var currentStep by remember { mutableIntStateOf(if (state.videos.isEmpty()) 0 else 1) }
@@ -98,7 +100,8 @@ fun SaveRoutineBottomSheet(
                         onColorSelect = onColorSelect,
                         onReorderVideos = onReorderVideos,
                         onRemoveVideo = onRemoveVideo,
-                        onSave = onSave
+                        onSave = onSave,
+                        onDelete = onDelete
                     )
                 }
             }
@@ -312,7 +315,8 @@ private fun RoutineDetailsStep(
     onColorSelect: (RoutineColor) -> Unit,
     onReorderVideos: (Int, Int) -> Unit,
     onRemoveVideo: (Video) -> Unit,
-    onSave: () -> Unit
+    onSave: () -> Unit,
+    onDelete: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -482,20 +486,36 @@ private fun RoutineDetailsStep(
                 .padding(bottom = 24.dp, top = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Cancel Button
+            // Delete/Cancel Button - Shows Delete when editing (state.id != null)
+            val isEditing = state.id != null
+            
             OutlinedButton(
-                onClick = onDismiss,
+                onClick = if (isEditing) onDelete else onDismiss,
                 modifier = Modifier
                     .weight(1f)
                     .height(56.dp),
                 shape = RoundedCornerShape(28.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = Color(0xFFF5F5F5),
-                    contentColor = Color.Black
+                    containerColor = if (isEditing) Color(0xFFFEF2F2) else Color(0xFFF5F5F5), // Light red bg when Delete
+                    contentColor = if (isEditing) Color(0xFFEF4444) else Color.Black // Red text when Delete
                 ),
-                border = BorderStroke(0.dp, Color.Transparent)
+                border = BorderStroke(
+                    width = if (isEditing) 1.dp else 0.dp,
+                    color = if (isEditing) Color(0xFFEF4444) else Color.Transparent
+                )
             ) {
-                Text("Cancel", fontWeight = FontWeight.Bold)
+                if (isEditing) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = null,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+                Text(
+                    text = if (isEditing) "Delete" else "Cancel",
+                    fontWeight = FontWeight.Bold
+                )
             }
 
             // Save Button

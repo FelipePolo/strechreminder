@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +32,7 @@ import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.data.model.Routine
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 import androidx.core.graphics.toColorInt
+import kotlinx.coroutines.delay
 
 @Composable
 fun MyRoutinesSection(
@@ -56,9 +58,9 @@ fun MyRoutinesSection(
                 if (userIsPremium) onNavigateToCreate() else onNavigateToPremium()
             }
         )
-        
+
         Spacer(modifier = Modifier.height(16.dp))
-        
+
         // Content
         when {
             !userIsPremium -> {
@@ -66,11 +68,13 @@ fun MyRoutinesSection(
                     onUnlockClick = onNavigateToPremium
                 )
             }
+
             savedRoutines.isEmpty() -> {
                 EmptyRoutinesCard(
                     onStartBuildingClick = onNavigateToCreate
                 )
             }
+
             else -> {
                 SavedRoutinesCarousel(
                     routines = savedRoutines,
@@ -94,14 +98,14 @@ private fun MyRoutinesHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column (horizontalAlignment = Alignment.Start) {
+        Column(horizontalAlignment = Alignment.Start) {
             Text(
                 text = "My Routines",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF111827) // Gray-900
             )
-            
+
             if (userIsPremium && routineCount > 0) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
@@ -112,7 +116,7 @@ private fun MyRoutinesHeader(
                 )
             }
         }
-        
+
         Surface(
             onClick = onCreateClick,
             color = Color.Transparent
@@ -135,7 +139,7 @@ private fun MyRoutinesHeader(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
-                
+
                 if (!userIsPremium) {
                     Spacer(modifier = Modifier.width(4.dp))
                     Icon(
@@ -158,7 +162,10 @@ private fun PremiumRoutinesLockedCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE5E7EB)) // Gray-200 dashed border logic handled by modifier? No, simple border for now.
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            Color(0xFFE5E7EB)
+        ) // Gray-200 dashed border logic handled by modifier? No, simple border for now.
         // Dash border is complex in Compose, sticking to solid or dashed via specialized modifier if needed.
         // Image implies dashed. Using solid light gray for simplicity first.
     ) {
@@ -169,7 +176,7 @@ private fun PremiumRoutinesLockedCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-             // Gray Icon
+            // Gray Icon
             Surface(
                 shape = CircleShape,
                 color = Color(0xFFF3F4F6), // Gray-100
@@ -184,7 +191,7 @@ private fun PremiumRoutinesLockedCard(
                     )
                 }
             }
-            
+
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = "Custom Routines",
@@ -200,7 +207,7 @@ private fun PremiumRoutinesLockedCard(
                     textAlign = TextAlign.Center
                 )
             }
-            
+
             Button(
                 onClick = onUnlockClick,
                 colors = ButtonDefaults.buttonColors(containerColor = TurquoiseAccent),
@@ -248,7 +255,7 @@ private fun EmptyRoutinesCard(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // Green Icon
-             Surface(
+            Surface(
                 shape = CircleShape,
                 color = Color(0xFFECFDF5), // Green-50
                 modifier = Modifier.size(80.dp)
@@ -262,7 +269,7 @@ private fun EmptyRoutinesCard(
                     )
                 }
             }
-            
+
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = "No Custom Routines Yet",
@@ -278,7 +285,7 @@ private fun EmptyRoutinesCard(
                     textAlign = TextAlign.Center
                 )
             }
-            
+
             Button(
                 onClick = onStartBuildingClick,
                 colors = ButtonDefaults.buttonColors(containerColor = TurquoiseAccent),
@@ -303,7 +310,21 @@ private fun SavedRoutinesCarousel(
     onRoutineClick: (Long) -> Unit,
     onEditRoutine: (Long) -> Unit
 ) {
+    val listState = androidx.compose.foundation.lazy.rememberLazyListState()
+    
+    // Auto-scroll to selected routine when it changes with smooth animation
+    LaunchedEffect(selectedRoutineId) {
+        selectedRoutineId?.let { routineId ->
+            val index = routines.indexOfFirst { it.id == routineId }
+            if (index >= 0) {
+                // Use smooth scroll for a more visible, slower animation
+                listState.animateScrollToItem(index)
+            }
+        }
+    }
+    
     LazyRow(
+        state = listState,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(end = 16.dp)
     ) {
@@ -329,12 +350,12 @@ private fun SavedRoutineCard(
     val cardColor = try {
         Color(routine.color.hex.toColorInt())
     } catch (e: Exception) {
-         Color(0xFFE0F2F1) // Default light teal
+        Color(0xFFE0F2F1) // Default light teal
     }
-    
+
     val backgroundColor = cardColor.copy(alpha = 0.1f)
     val iconBackgroundColor = cardColor
-    
+
     Box(
         modifier = Modifier
             .width(160.dp)
@@ -342,7 +363,7 @@ private fun SavedRoutineCard(
             .then(
                 if (isSelected) {
                     Modifier.shadow(
-                        elevation = 12.dp,
+                        elevation = 0.dp,
                         shape = RoundedCornerShape(20.dp),
                         ambientColor = cardColor.copy(alpha = 0.5f),
                         spotColor = cardColor.copy(alpha = 0.5f)
@@ -366,9 +387,11 @@ private fun SavedRoutineCard(
                 defaultElevation = 0.dp
             )
         ) {
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier
+                .fillMaxSize()
+            ) {
                 // Edit Icon Top Right
-                 Surface(
+                Surface(
                     shape = CircleShape,
                     color = Color.White,
                     modifier = Modifier
@@ -377,7 +400,7 @@ private fun SavedRoutineCard(
                         .size(28.dp)
                         .clickable(onClick = onEdit)
                 ) {
-                     Icon(
+                    Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = "Edit",
                         tint = Color.Gray,
@@ -386,7 +409,7 @@ private fun SavedRoutineCard(
                             .size(14.dp)
                     )
                 }
-                
+
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -410,9 +433,9 @@ private fun SavedRoutineCard(
                             )
                         }
                     }
-                    
+
                     Spacer(modifier = Modifier.height(16.dp))
-                    
+
                     // Name
                     Text(
                         text = routine.name,
@@ -422,20 +445,21 @@ private fun SavedRoutineCard(
                         maxLines = 1,
                         textAlign = TextAlign.Center
                     )
-                    
+
                     Spacer(modifier = Modifier.height(8.dp))
-                    
+
                     // Stats Row
                     Row(
+                        modifier = Modifier,
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.Center
                     ) {
                         // Exercises count
                         Icon(
-                             painter = painterResource(id = R.drawable.routine_icon_3),
-                             contentDescription = null,
-                             tint = Color(0xFF6B7280),
-                             modifier = Modifier.size(12.dp)
+                            painter = painterResource(id = R.drawable.routine_icon_3),
+                            contentDescription = null,
+                            tint = Color(0xFF6B7280),
+                            modifier = Modifier.size(12.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
@@ -444,17 +468,17 @@ private fun SavedRoutineCard(
                             color = Color(0xFF6B7280),
                             fontWeight = FontWeight.Bold
                         )
-                        
+
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(text = "•", color = Color(0xFFD1D5DB))
                         Spacer(modifier = Modifier.width(8.dp))
-                        
+
                         // Duration
                         Icon(
-                             painter = painterResource(id = android.R.drawable.ic_menu_recent_history),
-                             contentDescription = null,
-                             tint = iconBackgroundColor,
-                             modifier = Modifier.size(12.dp)
+                            painter = painterResource(id = android.R.drawable.ic_menu_recent_history),
+                            contentDescription = null,
+                            tint = iconBackgroundColor,
+                            modifier = Modifier.size(12.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         val minutes = routine.totalDuration / 60
