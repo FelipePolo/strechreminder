@@ -85,7 +85,7 @@ val appModule = module {
         )
     }
     viewModelOf(::ThreeYesViewModel)
-    viewModel { HomeViewModel(getRoutineStatsUseCase = get(), getUserUseCase = get(), calculateStreakUseCase = get()) }
+    viewModel { HomeViewModel(getRoutineStatsUseCase = get(), getUserUseCase = get(), calculateStreakUseCase = get(), checkNetworkConnectivityUseCase = get()) }
     viewModel { RoutineSelectionViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     viewModel { IntroViewModel(get()) }
     viewModel { SettingsScreenViewModel(getUserUseCase = get(), saveUserUseCase = get(), getSubscriptionInfoUseCase = get()) }

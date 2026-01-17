@@ -111,28 +111,14 @@ fun PremiumUnlockBottomSheet(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // Benefits Grid
-                    Row(
+                    // Benefits List
+                    Column(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            BenefitItem("Ad-free experience")
-                            BenefitItem("Create custom routines")
-                        }
-
-                        Spacer(modifier = Modifier.width(12.dp))
-
-                        Column(
-                            modifier = Modifier.weight(1f),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            BenefitItem("Access all routines")
-                            BenefitItem("offline mode")
-                        }
+                        BenefitItem("Ad-free experience")
+                        BenefitItem("Create custom routines")
+                        BenefitItem("Access all routines")
                     }
                 }
             }

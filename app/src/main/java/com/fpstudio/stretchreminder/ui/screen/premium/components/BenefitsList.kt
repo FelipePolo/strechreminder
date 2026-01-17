@@ -39,10 +39,6 @@ fun BenefitsList(
         Benefit(
             title = "Access to all content",
             description = "select all the exercises planned for you"
-        ),
-        Benefit(
-            title = "Offline mode",
-            description = "View your exercises and routines offline"
         )
     )
     

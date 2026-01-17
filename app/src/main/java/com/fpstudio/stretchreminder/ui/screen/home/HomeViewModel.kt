@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import com.fpstudio.stretchreminder.domain.usecase.GetRoutineStatsUseCase
 import com.fpstudio.stretchreminder.domain.usecase.GetUserUseCase
 import com.fpstudio.stretchreminder.domain.usecase.CalculateStreakUseCase
+import com.fpstudio.stretchreminder.domain.usecase.CheckNetworkConnectivityUseCase
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -22,7 +23,8 @@ import java.util.Locale
 class HomeViewModel(
     private val getRoutineStatsUseCase: GetRoutineStatsUseCase,
     private val getUserUseCase: GetUserUseCase,
-    private val calculateStreakUseCase: CalculateStreakUseCase
+    private val calculateStreakUseCase: CalculateStreakUseCase,
+    private val checkNetworkConnectivityUseCase: CheckNetworkConnectivityUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -30,6 +32,19 @@ class HomeViewModel(
 
     init {
         loadInitialData()
+    }
+    
+    fun checkInternetBeforeNavigation(onSuccess: () -> Unit) {
+        val hasInternet = checkNetworkConnectivityUseCase()
+        if (hasInternet) {
+            onSuccess()
+        } else {
+            _uiState.update { it.copy(showNoInternetDialog = true) }
+        }
+    }
+    
+    fun hideNoInternetDialog() {
+        _uiState.update { it.copy(showNoInternetDialog = false) }
     }
 
     private fun loadInitialData() {

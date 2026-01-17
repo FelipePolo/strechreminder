@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -54,9 +55,17 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    // Auto-hide dialog when screen becomes active if internet is back
+    LaunchedEffect(Unit) {
+        if (uiState.showNoInternetDialog) {
+            viewModel.hideNoInternetDialog()
+        }
+    }
+
     HomeContent(
         uiState = uiState,
-        onStretchButtonClick = onStretchButtonClick,
+        onCheckInternet = { viewModel.checkInternetBeforeNavigation(onStretchButtonClick) },
+        onHideNoInternetDialog = viewModel::hideNoInternetDialog,
         onMenuClick = onMenuClick
     )
 }
@@ -64,7 +73,8 @@ fun HomeScreen(
 @Composable
 fun HomeContent(
     uiState: HomeUiState,
-    onStretchButtonClick: () -> Unit = {},
+    onCheckInternet: () -> Unit = {},
+    onHideNoInternetDialog: () -> Unit = {},
     onMenuClick: () -> Unit = {}
 ) {
     var showStreakInfo by remember { mutableStateOf(false) }
@@ -87,7 +97,7 @@ fun HomeContent(
                         isVisible = true,
                         backgroundColor = TurquoiseAccent
                     ),
-                    onClick = onStretchButtonClick
+                    onClick = onCheckInternet
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -226,6 +236,14 @@ fun HomeContent(
                     .padding(horizontal = 16.dp),
                 model = uiState.calendarState
             )
+            
+            // No Internet Dialog
+            if (uiState.showNoInternetDialog) {
+                com.fpstudio.stretchreminder.ui.composable.NoInternetConnectionDialog(
+                    onRetry = onCheckInternet,
+                    onDismiss = onHideNoInternetDialog
+                )
+            }
         }
     }
 }

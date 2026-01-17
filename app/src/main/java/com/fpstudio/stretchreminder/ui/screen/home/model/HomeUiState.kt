@@ -9,7 +9,8 @@ data class HomeUiState(
     val dailyStatsState: DailyStatsUiState = DailyStatsUiState(),
     val calendarState: Calendar = Calendar(
         today = LocalDate.now()
-    )
+    ),
+    val showNoInternetDialog: Boolean = false
 )
 
 data class HeaderUiState(

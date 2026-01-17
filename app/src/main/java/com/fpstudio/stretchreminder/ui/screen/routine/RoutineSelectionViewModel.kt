@@ -735,6 +735,13 @@ class RoutineSelectionViewModel(
     }
     
     private fun onStartSelectedRoutine() {
+        // Check internet connection before proceeding
+        val hasInternet = checkNetworkConnectivityUseCase()
+        if (!hasInternet) {
+            _uiState.update { it.copy(showNoInternetDialog = true) }
+            return
+        }
+        
         val state = _uiState.value
         
         // Case 1: Saved Routine selected (via My Routines sheet)

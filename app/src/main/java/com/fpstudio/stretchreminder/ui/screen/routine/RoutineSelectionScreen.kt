@@ -197,7 +197,7 @@ private fun RoutineSelectionContent(
                     }
                 },
                 onStart = {
-                    onContinue(uiState.selectedVideos)
+                    onIntent(RoutineSelectionIntent.StartSelectedRoutine)
                 }
             )
         }
@@ -264,7 +264,7 @@ private fun RoutineSelectionContent(
         // No Internet Connection Dialog
         if (uiState.showNoInternetDialog) {
             com.fpstudio.stretchreminder.ui.composable.NoInternetConnectionDialog(
-                onRetry = { onIntent(RoutineSelectionIntent.CheckInternetConnection) },
+                onRetry = { onIntent(RoutineSelectionIntent.StartSelectedRoutine) },
                 onDismiss = { onIntent(RoutineSelectionIntent.HideNoInternetDialog) }
             )
         }
