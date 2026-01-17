@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.fpstudio.stretchreminder.data.model.BodyPartID
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 import kotlinx.coroutines.launch
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 
 sealed class VideoFilter {
     object All : VideoFilter()
@@ -91,7 +93,7 @@ fun FilterChipsRow(
                 onClick = { onFilterSelected(VideoFilter.Recommended) },
                 label = {
                     Text(
-                        text = "Recommended",
+                        text = stringResource(id = R.string.filter_recommended),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 },
@@ -113,7 +115,7 @@ fun FilterChipsRow(
                 onClick = { onFilterSelected(VideoFilter.All) },
                 label = {
                     Text(
-                        text = "All",
+                        text = stringResource(id = R.string.filter_all),
                         style = MaterialTheme.typography.bodyMedium
                     )
                 },

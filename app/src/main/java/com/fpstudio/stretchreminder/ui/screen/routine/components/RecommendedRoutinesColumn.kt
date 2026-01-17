@@ -13,6 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.data.model.RecommendedRoutine
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun RecommendedRoutinesColumn(
@@ -56,13 +58,13 @@ fun RecommendedRoutinesColumn(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Recommended",
+                    text = stringResource(id = R.string.section_recommended),
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1F2937) // Dark Slate/Black
                 )
                 Text(
-                    text = "CREATED FOR YOU",
+                    text = stringResource(id = R.string.section_created_for_you),
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF9CA3AF), // Gray-400

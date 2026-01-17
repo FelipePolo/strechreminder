@@ -1,5 +1,7 @@
 package com.fpstudio.stretchreminder.ui.screen.routine.components
 
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -94,7 +96,7 @@ private fun MyRoutinesHeader(
     ) {
         Column(horizontalAlignment = Alignment.Start) {
             Text(
-                text = "My Routines",
+                text = stringResource(R.string.section_my_routines),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF111827) // Gray-900
@@ -103,7 +105,7 @@ private fun MyRoutinesHeader(
             if (userIsPremium && routineCount > 0) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "$routineCount custom",
+                    text = stringResource(R.string.section_my_routines_custom_count, routineCount),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color(0xFF9CA3AF), // Gray-400
                     modifier = Modifier.padding(bottom = 4.dp)
@@ -127,7 +129,7 @@ private fun MyRoutinesHeader(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "Create New",
+                    text = stringResource(R.string.action_create_new),
                     style = MaterialTheme.typography.labelLarge,
                     color = TurquoiseAccent,
                     fontSize = 16.sp,
@@ -138,7 +140,7 @@ private fun MyRoutinesHeader(
                     Spacer(modifier = Modifier.width(4.dp))
                     Icon(
                         imageVector = Icons.Default.Lock,
-                        contentDescription = "Locked",
+                        contentDescription = stringResource(R.string.content_desc_locked),
                         tint = TurquoiseAccent,
                         modifier = Modifier.size(16.dp)
                     )
@@ -188,14 +190,14 @@ private fun PremiumRoutinesLockedCard(
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "Custom Routines",
+                    text = stringResource(R.string.title_custom_routines),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Tailor your stretching experience to your needs. Create a custom flow just for you.",
+                    text = stringResource(R.string.desc_custom_routines),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color(0xFF6B7280), // Gray-500
                     textAlign = TextAlign.Center
@@ -221,7 +223,7 @@ private fun PremiumRoutinesLockedCard(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Unlock Premium",
+                        text = stringResource(R.string.action_unlock_premium),
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
@@ -266,14 +268,14 @@ private fun EmptyRoutinesCard(
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = "No Custom Routines Yet",
+                    text = stringResource(R.string.title_no_custom_routines),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Tailor your stretching experience to your needs. Create a custom flow just for you.",
+                    text = stringResource(R.string.desc_custom_routines),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color(0xFF6B7280), // Gray-500
                     textAlign = TextAlign.Center
@@ -288,7 +290,7 @@ private fun EmptyRoutinesCard(
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = 8.dp),
-                    text = "Start Building",
+                    text = stringResource(R.string.action_start_building),
                     color = Color.White,
                     fontWeight = FontWeight.Bold
                 )
@@ -396,7 +398,7 @@ private fun SavedRoutineCard(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Edit,
-                        contentDescription = "Edit",
+                        contentDescription = stringResource(R.string.content_desc_edit),
                         tint = Color.Gray,
                         modifier = Modifier
                             .padding(6.dp)

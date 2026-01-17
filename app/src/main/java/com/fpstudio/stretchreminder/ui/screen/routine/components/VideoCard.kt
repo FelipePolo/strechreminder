@@ -27,6 +27,8 @@ import com.fpstudio.stretchreminder.data.model.UserType
 import com.fpstudio.stretchreminder.data.model.Video
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
 import org.koin.compose.koinInject
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun VideoCard(
@@ -143,7 +145,7 @@ fun VideoCard(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Lock,
-                            contentDescription = "Locked",
+                            contentDescription = stringResource(R.string.content_desc_locked),
                             tint = Color.White,
                             modifier = Modifier.size(24.dp)
                         )
@@ -166,7 +168,7 @@ fun VideoCard(
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                text = "Watch an AD",
+                                text = stringResource(R.string.action_watch_ad),
                                 color = Color.White,
                                 style = MaterialTheme.typography.labelSmall,
                                 fontWeight = FontWeight.Bold
@@ -184,7 +186,7 @@ fun VideoCard(
                     ) {
                         Icon(
                             imageVector = Icons.Default.PlayArrow,
-                            contentDescription = "Play",
+                            contentDescription = stringResource(R.string.content_desc_play),
                             tint = TurquoiseAccent,
                             modifier = Modifier.size(32.dp)
                         )

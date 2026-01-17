@@ -26,6 +26,8 @@ import coil.compose.AsyncImage
 import com.fpstudio.stretchreminder.data.model.RecommendedRoutine
 import com.fpstudio.stretchreminder.data.model.UserType
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun RecommendedRoutineCard(
@@ -194,7 +196,7 @@ fun RecommendedRoutineCard(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Lock,
-                            contentDescription = "Premium",
+                            contentDescription = stringResource(id = R.string.card_premium_content_desc),
                             tint = Color(0xFFfcbf24), // Gold
                             modifier = Modifier
                                 .padding(14.dp)
@@ -224,7 +226,7 @@ fun RecommendedRoutineCard(
                                 modifier = Modifier.size(12.dp)
                             )
                             Text(
-                                text = "PREMIUM",
+                                text = stringResource(id = R.string.card_premium_badge),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold,
@@ -252,7 +254,7 @@ fun RecommendedRoutineCard(
                                 modifier = Modifier.size(12.dp)
                             )
                             Text(
-                                text = "Based on your preferences",
+                                text = stringResource(id = R.string.card_based_on_preferences),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold,
@@ -289,7 +291,7 @@ fun RecommendedRoutineCard(
                     }
                 ) {
                     Text(
-                        text = "${routine.quantity} Exercises",
+                        text = stringResource(id = R.string.card_exercises_count, routine.quantity),
                         style = MaterialTheme.typography.bodySmall,
                         color = if (isPremium) {
                             Color(0xFFFF8C00) // Dark orange for premium

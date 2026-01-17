@@ -216,4 +216,32 @@
     <string name="achievement_icon_wellness">🌟</string>
     <string name="achievement_icon_default">🎯</string>
     <string name="home_build_routine_button">Build Your Routine</string>
+    
+    <!-- Routine Selection Screen -->
+    <string name="routine_selection_title">Select Your Routine</string>
+    <string name="routine_selection_subtitle">Browse individual stretches by body part. Select your favorites to create the perfect routine for you, and save it for later!</string>
+    <string name="routine_selection_error_empty_title">We couldn\'t find any routine</string>
+    <string name="routine_selection_error_empty_desc">please try again later</string>
+    <string name="content_desc_back">Back</string>
+    <string name="filter_recommended">Recommended</string>
+    <string name="filter_all">All</string>
+    <string name="section_recommended">Recommended</string>
+    <string name="section_created_for_you">CREATED FOR YOU</string>
+    <string name="card_premium_badge">PREMIUM</string>
+    <string name="card_based_on_preferences">Based on your preferences</string>
+    <string name="card_premium_content_desc">Premium</string>
+    <string name="card_exercises_count">%d Exercises</string>
+    <string name="section_my_routines">My Routines</string>
+    <string name="section_my_routines_custom_count">%d custom</string>
+    <string name="action_create_new">Create New</string>
+    <string name="content_desc_locked">Locked</string>
+    <string name="title_custom_routines">Custom Routines</string>
+    <string name="desc_custom_routines">Tailor your stretching experience to your needs. Create a custom flow just for you.</string>
+    <string name="action_unlock_premium">Unlock Premium</string>
+    <string name="title_no_custom_routines">No Custom Routines Yet</string>
+    <string name="action_start_building">Start Building</string>
+    <string name="content_desc_edit">Edit</string>
+    <string name="action_save">Save</string>
+    <string name="action_watch_ad">Watch an AD</string>
+    <string name="content_desc_play">Play</string>
 </resources>

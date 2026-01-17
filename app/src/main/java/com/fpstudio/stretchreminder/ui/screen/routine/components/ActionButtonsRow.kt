@@ -8,6 +8,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.fpstudio.stretchreminder.R
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun ActionButtonsRow(
@@ -49,7 +51,7 @@ fun ActionButtonsRow(
                 ) {
                     SaveRoutineButton(
                         onClick = onSaveRoutine,
-                        text = "Save",
+                        text = stringResource(R.string.action_save),
                         modifier = Modifier.weight(0.3f),
                         leadingIcon = if (userIsPremium) {
                             {
@@ -64,7 +66,7 @@ fun ActionButtonsRow(
                             {
                                 Icon(
                                     imageVector = Icons.Default.Lock,
-                                    contentDescription = "Locked",
+                                    contentDescription = stringResource(R.string.content_desc_locked),
                                     modifier = Modifier.size(16.dp)
                                 )
                             }
