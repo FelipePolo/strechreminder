@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fpstudio.stretchreminder.domain.model.SubscriptionInfo
-import com.fpstudio.stretchreminder.domain.model.PlanType
 import java.text.SimpleDateFormat
 import java.util.*
 

@@ -40,7 +40,6 @@ import com.fpstudio.stretchreminder.util.Constants.SPACE
 import com.fpstudio.stretchreminder.util.Constants.TERMS_AND_CONDITIONS_URL
 import org.koin.androidx.compose.koinViewModel
 
-
 @Composable
 fun IntroScreen(
     viewModel: IntroViewModel = koinViewModel(),

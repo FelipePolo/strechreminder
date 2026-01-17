@@ -1,8 +1,6 @@
 package com.fpstudio.stretchreminder.ui.screen.routine
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
@@ -12,21 +10,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.data.model.Video
-import com.fpstudio.stretchreminder.ui.composable.button.StretchButtonUiModel
 import com.fpstudio.stretchreminder.ui.composable.lupe.LupeScreen
 import com.fpstudio.stretchreminder.ui.composable.lupe.LupeUiModel
 import com.fpstudio.stretchreminder.ui.screen.routine.components.*
-import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalContext
 import com.fpstudio.stretchreminder.domain.repository.AdMobRepository
 

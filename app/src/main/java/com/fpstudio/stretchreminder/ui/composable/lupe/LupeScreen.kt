@@ -23,8 +23,6 @@ import com.airbnb.lottie.compose.LottieCompositionSpec.RawRes
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
-import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenContract.Intent
 import com.fpstudio.stretchreminder.ui.theme.Gray3
 
 

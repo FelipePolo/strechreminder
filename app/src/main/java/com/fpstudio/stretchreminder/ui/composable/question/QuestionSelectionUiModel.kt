@@ -2,7 +2,6 @@ package com.fpstudio.stretchreminder.ui.composable.question
 
 import com.fpstudio.stretchreminder.data.model.BodyPartID
 import com.fpstudio.stretchreminder.data.model.UserAchievement
-import java.util.Calendar
 
 sealed class QuestionSelectionUiModel {
     data class StringSelectionUiModel(val selection: String) : QuestionSelectionUiModel()

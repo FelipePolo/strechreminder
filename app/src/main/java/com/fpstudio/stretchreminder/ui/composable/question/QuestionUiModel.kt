@@ -4,7 +4,6 @@ import com.fpstudio.stretchreminder.data.model.BodyPart
 import com.fpstudio.stretchreminder.data.model.BodyPartID
 import com.fpstudio.stretchreminder.data.model.UserAchievement
 import com.fpstudio.stretchreminder.util.Constants.EMPTY
-import java.util.Calendar
 
 sealed class QuestionUiModel(
     open val id: QuestionID = QuestionID.NONE,

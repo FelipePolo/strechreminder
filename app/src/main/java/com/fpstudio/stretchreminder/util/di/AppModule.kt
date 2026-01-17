@@ -2,6 +2,7 @@ package com.fpstudio.stretchreminder.util.di
 
 import com.fpstudio.stretchreminder.data.datasource.RoutineSessionsLocalDataSource
 import com.fpstudio.stretchreminder.data.datasource.RoutinesLocalDataSource
+import com.fpstudio.stretchreminder.data.remote.ApiClient
 import com.fpstudio.stretchreminder.data.repository.BodyPartRepository
 import com.fpstudio.stretchreminder.data.repository.RoutineRepositoryImpl
 import com.fpstudio.stretchreminder.data.repository.RoutineSessionRepositoryImpl
@@ -16,8 +17,6 @@ import com.fpstudio.stretchreminder.ui.screen.tutorial.TutorialScreenViewModel
 import com.fpstudio.stretchreminder.ui.screen.routine.RoutineSelectionViewModel
 import com.fpstudio.stretchreminder.ui.screen.intro.IntroViewModel
 import com.fpstudio.stretchreminder.ui.screen.settings.SettingsScreenViewModel
-import com.fpstudio.stretchreminder.ui.screen.premium.PremiumScreenViewModel
-import com.fpstudio.stretchreminder.util.NetworkConnectivityHelper
 import com.fpstudio.stretchreminder.domain.usecase.CheckNetworkConnectivityUseCase
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.viewModel
@@ -28,6 +27,13 @@ import com.fpstudio.stretchreminder.data.repository.TemporaryAccessRepositoryImp
 import com.fpstudio.stretchreminder.domain.repository.TemporaryAccessRepository
 import com.fpstudio.stretchreminder.domain.repository.AdMobRepository
 import com.fpstudio.stretchreminder.data.repository.AdMobRepositoryImpl
+import com.fpstudio.stretchreminder.data.repository.FeedbackRepositoryImpl
+import com.fpstudio.stretchreminder.data.repository.RevenueCatRepositoryImpl
+import com.fpstudio.stretchreminder.domain.repository.FeedbackRepository
+import com.fpstudio.stretchreminder.domain.repository.RevenueCatRepository
+import com.fpstudio.stretchreminder.ui.screen.feedback.FeedbackScreenViewModel
+import com.fpstudio.stretchreminder.ui.screen.premium.PremiumScreenViewModel
+import com.fpstudio.stretchreminder.util.NetworkConnectivityHelper
 
 val appModule = module {
     // Routine Session Tracking
@@ -40,7 +46,7 @@ val appModule = module {
     // Saved Routines
     single { RoutinesLocalDataSource(androidContext()) }
     single<RoutineRepository> { RoutineRepositoryImpl(get()) }
-    single { com.fpstudio.stretchreminder.domain.usecase.SaveRoutineUseCase(get()) }
+    single { SaveRoutineUseCase(get()) }
     single { GetSavedRoutinesUseCase(get()) }
     single { HasSavedRoutinesUseCase(get()) }
     single { DeleteRoutineUseCase(get()) }
@@ -50,12 +56,12 @@ val appModule = module {
     single { GetBodyPartsUseCase(get()) }
     
     // RevenueCat
-    single<com.fpstudio.stretchreminder.domain.repository.RevenueCatRepository> { com.fpstudio.stretchreminder.data.repository.RevenueCatRepositoryImpl() }
-    single { com.fpstudio.stretchreminder.domain.usecase.CheckEntitlementUseCase(get()) }
+    single<RevenueCatRepository> { RevenueCatRepositoryImpl() }
+    single { CheckEntitlementUseCase(get()) }
     single { GetSubscriptionInfoUseCase(get()) }
     
     // Network Connectivity
-    single { com.fpstudio.stretchreminder.util.NetworkConnectivityHelper(androidContext()) }
+    single { NetworkConnectivityHelper(androidContext()) }
     single { CheckNetworkConnectivityUseCase(get()) }
     
     // Temporary Access
@@ -65,12 +71,12 @@ val appModule = module {
     single<AdMobRepository> { AdMobRepositoryImpl() }
     
     // Feedback
-    single<com.fpstudio.stretchreminder.domain.repository.FeedbackRepository> { 
-        com.fpstudio.stretchreminder.data.repository.FeedbackRepositoryImpl(
-            com.fpstudio.stretchreminder.data.remote.ApiClient.videoApiService
+    single<FeedbackRepository> {
+        FeedbackRepositoryImpl(
+            ApiClient.videoApiService
         ) 
     }
-    single { com.fpstudio.stretchreminder.domain.usecase.SubmitFeedbackUseCase(get()) }
+    single { SubmitFeedbackUseCase(get()) }
     
     // ViewModels
     viewModel { FormViewModel(saveUserUseCase = get(), getUserUseCase = get()) }
@@ -91,8 +97,8 @@ val appModule = module {
     viewModel { SettingsScreenViewModel(getUserUseCase = get(), saveUserUseCase = get(), getSubscriptionInfoUseCase = get()) }
     
     // Premium Screen
-    viewModel { 
-        com.fpstudio.stretchreminder.ui.screen.premium.PremiumScreenViewModel(
+    viewModel {
+        PremiumScreenViewModel(
             revenueCatRepository = get(),
             checkEntitlementUseCase = get()
         )
@@ -100,7 +106,7 @@ val appModule = module {
     
     // Feedback Screen
     viewModel {
-        com.fpstudio.stretchreminder.ui.screen.feedback.FeedbackScreenViewModel(
+        FeedbackScreenViewModel(
             submitFeedbackUseCase = get(),
             getSubscriptionInfoUseCase = get()
         )
