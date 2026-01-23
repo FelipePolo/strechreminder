@@ -13,12 +13,14 @@ object FeedbackScreenContract {
         val error: String? = null
     )
     
-    enum class FeedbackSubject(val displayName: String, @DrawableRes val iconRes: Int) {
-        BUG_REPORT("Bug Report", R.drawable.subject_bug_icon),
-        FEATURE_REQUEST("Feature Request", R.drawable.subject_light_icon),
-        GENERAL_FEEDBACK("General Feedback", R.drawable.subject_comment_icon),
-        OTHER("Other", R.drawable.subject_pen_icon)
+
+    enum class FeedbackSubject(@androidx.annotation.StringRes val displayNameRes: Int, @DrawableRes val iconRes: Int) {
+        BUG_REPORT(R.string.feedback_subject_bug, R.drawable.subject_bug_icon),
+        FEATURE_REQUEST(R.string.feedback_subject_feature, R.drawable.subject_light_icon),
+        GENERAL_FEEDBACK(R.string.feedback_subject_general, R.drawable.subject_comment_icon),
+        OTHER(R.string.feedback_subject_other, R.drawable.subject_pen_icon)
     }
+
     
     sealed class Intent {
         data class SelectSubject(val subject: FeedbackSubject) : Intent()

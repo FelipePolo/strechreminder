@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.data.model.UserAchievement
 
@@ -33,7 +34,7 @@ fun ImprovementObjectivesSelector(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = "Improvement Objectives",
+            text = stringResource(R.string.settings_improvement_objectives),
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray
         )

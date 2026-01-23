@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.screen.home.model.DailyGoalUiState
 import com.fpstudio.stretchreminder.ui.theme.StretchReminderTheme
 import com.fpstudio.stretchreminder.ui.theme.TurquoiseAccent
@@ -51,7 +53,7 @@ fun DailyGoalCard(
             )
             Text(
                 text = "${uiState.progress}%",
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
@@ -63,18 +65,18 @@ fun DailyGoalCard(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = "Daily Goal",
+                text = stringResource(R.string.home_daily_goal_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
             Text(
-                text = "${uiState.sessionsCompleted}/${uiState.totalSessions} sessions done",
+                text = stringResource(R.string.home_daily_goal_status, uiState.sessionsCompleted, uiState.totalSessions),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.White
             )
             Text(
-                text = uiState.motivationalMessage,
+                text = stringResource(uiState.motivationalMessage),
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.White.copy(alpha = 0.9f)
             )
@@ -91,7 +93,7 @@ private fun DailyGoalCardPreview() {
                 progress = 100,
                 sessionsCompleted = 2,
                 totalSessions = 2,
-                motivationalMessage = "You're doing great, keep it up!"
+                motivationalMessage = R.string.home_motivational_message
             )
         )
     }

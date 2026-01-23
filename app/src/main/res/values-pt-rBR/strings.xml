@@ -1,0 +1,467 @@
+<resources>
+    <string name="app_name">Stretch Reminder</string>
+    <string name="intro_promise">Mova-se mais. Sente-se menos. Sinta-se ótimo todos os dias no seu próprio ritmo</string>
+    <string name="intro_button_text">Sinta-se Melhor Agora</string>
+    <string name="intro_term_services">Termos de Serviço</string>
+    <string name="intro_privacy">Política de Privacidade</string>
+    <string name="intro_private_and_policy">Ao continuar, você concorda com nossos</string>
+    <string name="and">e</string>
+    <string name="question">Pergunta</string>
+    <string name="off">desligado</string>
+    <string name="agre_question">Qual é a sua idade?</string>
+    <string name="over">Mais de</string>
+    <string name="gender_question">Qual é o seu gênero?</string>
+    <string name="male">masculino</string>
+    <string name="female">feminino</string>
+    <string name="other">Outro</string>
+    <string name="next">Continuar</string>
+    <string name="work_days">Selecione seus dias de trabalho</string>
+    <string name="mon">Seg</string>
+    <string name="tue">Ter</string>
+    <string name="wed">Qua</string>
+    <string name="thu">Qui</string>
+    <string name="fri">Sex</string>
+    <string name="sat">Sáb</string>
+    <string name="sun">Dom</string>
+    <string name="working_hour">Horário de trabalho</string>
+    <string name="start">Início</string>
+    <string name="end">Fim</string>
+    <string name="main_posture">Selecione a postura principal durante o trabalho</string>
+    <string name="standing">De pé</string>
+    <string name="sitting">Sentado</string>
+    <string name="lying">Deitado</string>
+    <string name="allow_notification">Permitir notificações para apoiar sua rotina</string>
+    
+    <!-- Common Buttons -->
+    <string name="common_button_yes">Sim</string>
+    <string name="common_button_no">Não</string>
+    <string name="common_button_continue">Continuar</string>
+    
+    <!-- ThreeYes Screen -->
+    <string name="threeyes_question1_part1">Você quer se sentir com mais</string>
+    <string name="threeyes_question1_highlight1">energia</string>
+    <string name="threeyes_question1_part2">e aliviar a</string>
+    <string name="threeyes_question1_highlight2">Dor?</string>
+    
+    <string name="threeyes_question2_part1">Pronto para</string>
+    <string name="threeyes_question2_highlight1">melhorar</string>
+    <string name="threeyes_question2_part2">sua postura no trabalho?</string>
+    
+    <string name="threeyes_question3_part1">Você quer desfrutar de uma vida livre de</string>
+    <string name="threeyes_question3_highlight1">tensão</string>
+    <string name="threeyes_question3_part2">e</string>
+    <string name="threeyes_question3_highlight2">estresse?</string>
+    
+    <!-- Promises - Plan Success -->
+    <string name="promises_plan_success_title">Ótimo! Seu plano se adapta ao seu nível!</string>
+    <string name="promises_plan_success_description">Além disso, ajustamos o programa às mudanças do seu corpo para garantir que você ganhe flexibilidade de forma fácil e agradável.</string>
+    
+    <!-- Promises - Made For You -->
+    <string name="promises_made_for_you_title">Stretch Reminder\nfoi feito para você.</string>
+    <string name="promises_made_for_you_subtitle">Ajudamos outros como você a se sentirem mais flexíveis, energizados e a retomar o controle da saúde.</string>
+    <string name="promises_made_for_you_card1_icon">⏱️</string>
+    <string name="promises_made_for_you_card1_title">Pausas saudáveis</string>
+    <string name="promises_made_for_you_card1_description">Lembretes inteligentes e pausas de 2-5 min que não interrompem seu fluxo.</string>
+    <string name="promises_made_for_you_card2_icon">🤸</string>
+    <string name="promises_made_for_you_card2_title">Melhorar postura</string>
+    <string name="promises_made_for_you_card2_description">Rotinas curtas para corrigir postura e tensão no pescoço e lombar.</string>
+    <string name="promises_made_for_you_card3_icon">🧘</string>
+    <string name="promises_made_for_you_card3_title">Reduzir tensão muscular</string>
+    <string name="promises_made_for_you_card3_description">Alivie a rigidez com micro-alongamentos guiados que você pode fazer em minutos.</string>
+    
+    <!-- Tutorial Screen -->
+    <string name="tutorial_welcome_title">Nenhum alongamento registrado.</string>
+    <string name="tutorial_welcome_description">Este breve exercício ajudará você a entender como funcionam as sessões de alongamento: simples, guiadas e fáceis de seguir.</string>
+    <string name="tutorial_button_start_exercise">Iniciar Exercício</string>
+    <string name="tutorial_get_ready">Prepare-se</string>
+    <string name="tutorial_disclaimer">Se sentir dor ou desconforto ao exercitar-se, pare imediatamente e consulte seu médico ou profissional de saúde antes de continuar.</string>
+
+    <!-- Form Questions -->
+    <string name="form_question_name_subtitle">Primeiro o mais importante</string>
+    <string name="form_question_name">Como devemos te chamar?</string>
+    
+    <string name="form_question_achievement_subtitle">Então nos conte, </string>
+    <string name="form_question_achievement">O que você quer alcançar?</string>
+    
+    <string name="form_question_body_subtitle">Agora...,</string>
+    <string name="form_question_body">Quais partes do corpo você quer exercitar?</string>
+    
+    <string name="form_question_frequency_subtitle1">Construindo hábitos que funcionam para você</string>
+    <string name="form_question_frequency">Com que frequência você se alonga durante o trabalho?</string>
+    <string name="form_question_frequency_subtitle2">Sua resposta nos ajuda a criar um plano personalizado</string>
+    
+    <string name="form_question_gender">Qual é o seu gênero?</string>
+    <string name="form_question_gender_subtitle">Apenas para personalizar sua experiência um pouco mais.</string>
+    
+    <string name="form_question_age_subtitle1">Vamos tornar esta rotina verdadeiramente sua</string>
+    <string name="form_question_age_subtitle2">Sua idade nos ajuda a encontrar os exercícios certos</string>
+    
+    <string name="form_question_work_days">Selecione seus dias de trabalho</string>
+    <string name="form_question_work_days_subtitle">Para sabermos quais dias e quando lembrar você de alongar</string>
+    
+    <string name="form_question_work_hours">Horário de Trabalho</string>
+    
+    <string name="form_question_posture">Selecione sua postura principal</string>
+    <string name="form_question_posture_subtitle">Sentado, de pé ou deitado -- para que os exercícios se adaptem à sua postura</string>
+    
+    <string name="form_question_notification">Mantenha o foco com notificações</string>
+    <string name="form_question_notification_subtitle">Receba lembretes gentis para manter seus alongamentos e se sentir melhor a cada dia</string>
+    
+    <!-- Achievements -->
+    <string name="achievement_muscle_tension_title">Reduzir Tensão Muscular</string>
+    <string name="achievement_muscle_tension_desc">Reduzir Tensão Muscular</string>
+    <string name="achievement_stress_title">Reduzir Estresse e Ansiedade</string>
+    <string name="achievement_stress_desc">Reduzir Estresse e Ansiedade</string>
+    <string name="achievement_posture_title">Melhorar Postura</string>
+    <string name="achievement_posture_desc">Melhorar Postura</string>
+    <string name="achievement_energy_title">Aumentar Energia</string>
+    <string name="achievement_energy_desc">Aumentar Energia</string>
+    <string name="achievement_sleep_title">Melhorar Qualidade do Sono</string>
+    <string name="achievement_sleep_desc">Melhorar Qualidade do Sono</string>
+    <string name="achievement_breaks_title">Criar Pausas Saudáveis</string>
+    <string name="achievement_breaks_desc">Criar Pausas Saudáveis</string>
+    <string name="achievement_flexibility_title">Melhorar Flexibilidade e Mobilidade</string>
+    <string name="achievement_flexibility_desc">Melhorar Flexibilidade e Mobilidade</string>
+    <string name="achievement_health_title">Prevenir Problemas de Saúde</string>
+    <string name="achievement_health_desc">Prevenir Problemas de Saúde a Longo Prazo</string>
+
+    <!-- Body Parts -->
+    <string name="body_part_neck">Pescoço</string>
+    <string name="body_part_shoulders">Ombros</string>
+    <string name="body_part_upper_back">Parte Superior das Costas</string>
+    <string name="body_part_lower_back">Parte Inferior das Costas</string>
+    <string name="body_part_hands">Mãos</string>
+    <string name="body_part_hips">Quadris</string>
+    <string name="body_part_legs">Pernas</string>
+
+    <!-- Frequencies -->
+    <string name="frequency_never">Nunca</string>
+    <string name="frequency_once">Uma vez ao dia</string>
+    <string name="frequency_twice">Duas vezes ao dia</string>
+    <string name="frequency_three">Três vezes ao dia</string>
+    <string name="frequency_four">Quatro ou mais vezes ao dia</string>
+    
+    <string name="time_range_start_time">Hora Início</string>
+    <string name="time_range_end_time">Hora Fim</string>
+    
+    <string name="weekday_mon">Seg</string>
+    <string name="weekday_tue">Ter</string>
+    <string name="weekday_wed">Qua</string>
+    <string name="weekday_thu">Qui</string>
+    <string name="weekday_fri">Sex</string>
+    <string name="weekday_sat">Sáb</string>
+    <string name="weekday_sun">Dom</string>
+    
+    <string name="age_range_18_35">18 - 35</string>
+    <string name="age_range_36_45">36 - 45</string>
+    <string name="age_range_46_55">46 - 55</string>
+    <string name="age_range_56_69">56 - 69</string>
+    <string name="age_range_over_70">Mais de 70</string>
+
+    <!-- Gender/Age Options -->
+    <string name="gender_male">Homem</string>
+    <string name="gender_female">Mulher</string>
+    <string name="gender_prefer_not_to_say">Prefiro não dizer</string>
+    <!-- ThreeYes / Agreement Screens -->
+    <string name="agreement_screen_1_part_1">Você quer sentir mais </string>
+    <string name="agreement_screen_1_part_2">energia</string>
+    <string name="agreement_screen_1_part_3"> e aliviar a</string>
+    <string name="agreement_screen_1_part_4"> Dor?</string>
+    
+    <string name="agreement_screen_2_part_1">Pronto para</string>
+    <string name="agreement_screen_2_part_2"> melhorar</string>
+    <string name="agreement_screen_2_part_3"> sua postura no trabalho?</string>
+    
+    <string name="agreement_screen_3_part_1">Você quer desfrutar de uma vida livre de </string>
+    <string name="agreement_screen_3_part_2">tensão</string>
+    <string name="agreement_screen_3_part_3"> e</string>
+    <string name="agreement_screen_3_part_4"> estresse?</string>
+    
+    <!-- Exercise Timer and Strings -->
+    <string name="exercise_timer_format">⏱️ %1$s (%2$d/%3$d)</string>
+    <string name="exercise_timer_format_simple">⏱️ %1$s</string>
+    <string name="exercise_next_up">Próximo: %1$s</string>
+    
+    <!-- Made For You Cards -->
+    <string name="mfy_card_reduce_tension_title">Reduzir Tensão Muscular</string>
+    <string name="mfy_card_reduce_tension_desc">Alivie a rigidez com micro-alongamentos guiados.</string>
+    <string name="mfy_card_improve_posture_title">Melhorar Postura</string>
+    <string name="mfy_card_improve_posture_desc">Rotinas curtas para corrigir sua postura e evitar dor.</string>
+    <string name="mfy_card_increase_energy_title">Aumentar Energia</string>
+    <string name="mfy_card_increase_energy_desc">Aumente seus níveis de energia com pausas rápidas.</string>
+    <string name="mfy_card_reduce_stress_title">Reduzir Estresse e Ansiedade</string>
+    <string name="mfy_card_reduce_stress_desc">Acalme sua mente e corpo com movimentos suaves.</string>
+    <string name="mfy_card_improve_sleep_title">Melhorar Qualidade do Sono</string>
+    <string name="mfy_card_improve_sleep_desc">Relaxe com alongamentos para descansar melhor.</string>
+    <string name="mfy_card_build_breaks_title">Criar Pausas Saudáveis</string>
+    <string name="mfy_card_build_breaks_desc">Lembretes inteligentes que não interrompem seu fluxo.</string>
+    <string name="mfy_card_flexibility_title">Melhorar Flexibilidade</string>
+    <string name="mfy_card_flexibility_desc">Aumente sua amplitude de movimento com exercícios específicos.</string>
+    <string name="mfy_card_prevent_issues_title">Prevenir Problemas de Saúde</string>
+    <string name="mfy_card_prevent_issues_desc">Proteja seu corpo de dores crônicas com cuidado diário.</string>
+    <string name="mfy_card_complete_wellness_title">Bem-estar Completo</string>
+    <string name="mfy_card_complete_wellness_desc">Uma abordagem holística para melhorar sua saúde geral.</string>
+    <string name="mfy_card_default_desc">Alongamentos personalizados projetados para suas metas.</string>
+    <string name="mfy_card_default_title">Plano Personalizado</string>
+    
+    <!-- Achievement Icons -->
+    <string name="achievement_icon_muscle">💪</string>
+    <string name="achievement_icon_posture">🧘‍♂️</string>
+    <string name="achievement_icon_energy">⚡</string>
+    <string name="achievement_icon_stress">😌</string>
+    <string name="achievement_icon_sleep">😴</string>
+    <string name="achievement_icon_breaks">⏱️</string>
+    <string name="achievement_icon_flexibility">🤸‍♂️</string>
+    <string name="achievement_icon_health">❤️</string>
+    <string name="achievement_icon_wellness">🌟</string>
+    <string name="achievement_icon_default">🎯</string>
+    <string name="home_build_routine_button">Crie Sua Rotina</string>
+    
+    <!-- Routine Selection Screen -->
+    <string name="routine_selection_title">Selecione Sua Rotina</string>
+    <string name="routine_selection_subtitle">Explore alongamentos individuais por parte do corpo. Selecione seus favoritos para criar a rotina perfeita e salve para depois!</string>
+    <string name="routine_selection_error_empty_title">Não conseguimos encontrar nenhuma rotina</string>
+    <string name="routine_selection_error_empty_desc">por favor tente mais tarde</string>
+    <string name="content_desc_back">Voltar</string>
+    <string name="filter_recommended">Recomendado</string>
+    <string name="filter_all">Todos</string>
+    <string name="section_recommended">Recomendado</string>
+    <string name="section_created_for_you">CRIADO PARA VOCÊ</string>
+    <string name="card_premium_badge">PREMIUM</string>
+    <string name="card_based_on_preferences">Baseado em suas preferências</string>
+    <string name="card_premium_content_desc">Premium</string>
+    <string name="card_exercises_count">%d Exercícios</string>
+    <string name="section_my_routines">Minhas Rotinas</string>
+    <string name="section_my_routines_custom_count">%d personalizadas</string>
+    <string name="action_create_new">Criar Nova</string>
+    <string name="content_desc_locked">Bloqueado</string>
+    <string name="title_custom_routines">Rotinas Personalizadas</string>
+    <string name="desc_custom_routines">Adapte sua experiência de alongamento às suas necessidades. Crie um fluxo exclusivo para você.</string>
+    <string name="action_unlock_premium">Desbloquear Premium</string>
+    <string name="title_no_custom_routines">Ainda Não Há Rotinas</string>
+    <string name="action_start_building">C omeçar a Criar</string>
+    <string name="content_desc_edit">Editar</string>
+    <string name="action_save">Salvar</string>
+    <string name="action_watch_ad">Assistir ANÚNCIO</string>
+    <string name="content_desc_play">Tocar</string>
+
+    <string name="save_routine_select_videos">Selecionar Vídeos</string>
+    <string name="save_routine_selected_count">%d Selecionados</string>
+    <string name="save_routine_name_my_routine">Nomear Minha Rotina</string>
+    <string name="save_routine_name_header">Nomeie Sua Rotina</string>
+    <string name="save_routine_saving_details">Salvando %1$d vídeos • %2$s total</string>
+    <string name="save_routine_label_name">NOME DA ROTINA</string>
+    <string name="save_routine_placeholder_name">ex. Alongamento Matinal</string>
+    <string name="save_routine_error_duplicate">Este nome de rotina já existe</string>
+    <string name="save_routine_label_icon">SELECIONAR ÍCONE</string>
+    <string name="save_routine_label_color">SELECIONAR COR</string>
+    <string name="save_routine_label_reorder">REORDENAR VÍDEOS</string>
+    <string name="save_routine_hold_to_move">Segure para mover</string>
+    <string name="action_delete">Excluir</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="content_desc_drag_handle">Alça de arrastar</string>
+    <string name="content_desc_remove_video">Remover vídeo</string>
+    
+    <string name="unlock_choose_access">Escolha Seu Acesso:</string>
+    <string name="unlock_subtitle">Consulte suas opções para desbloquear esta rotina\ne melhorar seu bem-estar.</string>
+    <string name="unlock_benefits_title">BENEFÍCIOS PREMIUM A LONGO PRAZO</string>
+    <string name="unlock_benefit_1">Experiência sem anúncios</string>
+    <string name="unlock_benefit_2">Criar rotinas personalizadas</string>
+    <string name="unlock_benefit_3">Acesso a todas as rotinas</string>
+    <string name="unlock_action_go_premium">Seja Premium para acesso ilimitado</string>
+    <string name="unlock_action_watch_ad">Ver ANÚNCIO para desbloquear esta sessão</string>
+    <string name="unlock_action_maybe_later">Talvez depois</string>
+    
+    <string name="error_title_oops">Ops! Algo deu errado</string>
+    <string name="error_default_message">Não foi possível carregar os exercícios. Verifique sua conexão.</string>
+    <string name="action_try_again">Tentar Novamente</string>
+
+    <string name="action_start_time_format">Começar %s</string>
+    <string name="action_select_exercise_hint">Selecione pelo menos 1 exercício</string>
+    <string name="action_save_routine">Salvar Rotina</string>
+    <string name="loading_exercises">Carregando exercícios...</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Configurações</string>
+    <string name="settings_save_changes">Salvar Alterações</string>
+    <string name="settings_routine_preferences">Preferências de Rotina</string>
+    <string name="settings_notifications">Notificações</string>
+    <string name="settings_rate_app">Avaliar no Google Play</string>
+    <string name="settings_send_feedback">Enviar Feedback</string>
+    
+    <!-- Profile Section -->
+    <string name="profile_title">Perfil</string>
+    <string name="profile_display_name">Nome de Exibição</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_done">Pronto</string>
+
+    <!-- Plan Card -->
+    <string name="plan_card_title">Plano Atual</string>
+    <string name="plan_upgrade_button">Mudar para Premium</string>
+    <string name="plan_ads_enabled">Anúncios ativados</string>
+    <string name="plan_ad_free">Sem anúncios</string>
+
+    <!-- Premium Member Card -->
+    <string name="premium_card_title">PLANO ATUAL</string>
+    <string name="premium_plan_pro">PRO</string>
+    <string name="premium_member_title">Membro\nPremium</string>
+    <string name="premium_renews_on">Renova em</string>
+    <string name="premium_feature_ads">Experiência sem anúncios</string>
+    <string name="premium_feature_routines">Rotinas Ilimitadas</string>
+    <string name="premium_feature_content">Acesso a todo o conteúdo</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_unsaved_title">Alterações não salvas</string>
+    <string name="dialog_unsaved_message">Você tem alterações não salvas. Deseja salvar antes de sair?</string>
+    <string name="action_save_changes">Salvar</string>
+    <string name="action_exit_without_saving">Sair sem salvar</string>
+    
+    <!-- Time Picker -->
+    <string name="time_picker_title">Selecionar Hora</string>
+    <string name="action_ok">OK</string>
+
+    <!-- Objectives -->
+    <string name="objectives_title">Selecionar Objetivos</string>
+    <string name="action_save_selection">Salvar Seleção</string>
+    
+    <!-- Premium Screen -->
+    <string name="premium_screen_title">Premium</string>
+    <string name="premium_start_trial_btn">Iniciar Teste Grátis de 7 Dias →</string>
+    <string name="premium_billing_disclaimer">Cobrança recorrente. Cancele a qualquer momento nas configurações do seu dispositivo pelo menos 24 horas antes do fim do período de teste.</string>
+    <string name="premium_error_billing">Não foi possível conectar ao serviço de cobrança. Verifique sua conexão com a internet.</string>
+    <string name="action_restore">Restaurar</string>
+    <string name="action_close">Fechar</string>
+    <string name="loading">Carregando</string>
+
+    <!-- Premium Header -->
+    <string name="premium_header_title">Desbloqueie Todo o Potencial</string>
+    <string name="premium_header_desc">Tenha acesso ilimitado a todos os benefícios premium</string>
+
+    <!-- Benefits List -->
+    <string name="premium_benefits_title">Benefícios Premium</string>
+    <string name="premium_benefit_ads_title">Experiência sem anúncios</string>
+    <string name="premium_benefit_ads_desc">Foque na sua rotina sem distrações</string>
+    <string name="premium_benefit_custom_title">Rotinas Personalizadas Ilimitadas</string>
+    <string name="premium_benefit_custom_desc">Crie e salve quantas rotinas precisar</string>
+    <string name="premium_benefit_all_title">Acesso a todo o conteúdo</string>
+    <string name="premium_benefit_all_desc">selecione todos os exercícios planejados para você</string>
+
+    <!-- Subscription Plans -->
+    <string name="premium_plan_annual">Anual</string>
+    <string name="premium_plan_monthly">Mensal</string>
+    <string name="premium_save_badge">MELHOR VALOR</string>
+    <string name="premium_save_text">Economize 50%</string>
+    <string name="premium_monthly_calculation">R$ 3,33 / mês</string>
+    <string name="premium_purchase_failed">Compra falhou: %s</string>
+    <string name="premium_restore_success">Compras restauradas com sucesso!</string>
+    <string name="premium_restore_failed">Restauração falhou: %s</string>
+
+    <!-- Settings Enums -->
+    <string name="settings_work_position_title">Postura Diária de Trabalho</string>
+    <string name="settings_focus_areas_title">Áreas de Foco</string>
+    <string name="settings_workdays_title">Dias de Trabalho</string>
+    <string name="content_desc_navigate">Navegar</string>
+
+    <string name="position_sitting">Sentado</string>
+    <string name="position_standing">De pé</string>
+    <string name="position_laying_down">Deitado</string>
+    
+    <string name="day_monday">Segunda-feira</string>
+    <string name="day_tuesday">Terça-feira</string>
+    <string name="day_wednesday">Quarta-feira</string>
+    <string name="day_thursday">Quinta-feira</string>
+    <string name="day_friday">Sexta-feira</string>
+    <string name="day_saturday">Sábado</string>
+    <string name="day_sunday">Domingo</string>
+
+    <string name="day_short_monday">S</string>
+    <string name="day_short_tuesday">T</string>
+    <string name="day_short_wednesday">Q</string>
+    <string name="day_short_thursday">Q</string>
+    <string name="day_short_friday">S</string>
+    <string name="day_short_saturday">S</string>
+    <string name="day_short_sunday">D</string>
+
+    <!-- Feedback Screen -->
+    <string name="feedback_title">Enviar Feedback</string>
+    <string name="feedback_intro_title">Adoraríamos ouvir você</string>
+    <string name="feedback_intro_desc">Seu feedback nos ajuda a melhorar a experiência de alongamento para todos.</string>
+    <string name="feedback_subject_label">Assunto</string>
+    <string name="feedback_optional_label">(Opcional)</string>
+    <string name="feedback_custom_subject_placeholder">ex. Sugestão de recurso</string>
+    <string name="feedback_message_label">Mensagem</string>
+    <string name="feedback_message_placeholder">Conte-nos o que você acha...</string>
+    <string name="feedback_subject_bug">Relatório de erro</string>
+    <string name="feedback_subject_feature">Sugestão de recurso</string>
+    <string name="feedback_subject_general">Feedback geral</string>
+    <string name="feedback_subject_other">Outro</string>
+    <string name="content_desc_tag_icon">Ícone de categoria</string>
+    <string name="content_desc_close">Fechar</string>
+
+
+    <!-- Congratulation Screen -->
+    <string name="congratulation_title">Parabéns por dar este passo!</string>
+    <string name="congratulation_subtitle">Seu eu do futuro agradecerá — vamos continuar crescendo juntos.</string>
+    <string name="content_desc_congratulation_image">Imagem de celebração</string>
+
+    <!-- Purchase Success Screen -->
+    <string name="purchase_success_title">Parabéns!</string>
+    <string name="purchase_success_message">Você assinou o Premium com sucesso. Seu potencial total está desbloqueado!</string>
+    <string name="purchase_success_features_title">Recursos desbloqueados</string>
+    <string name="purchase_success_feature_ads">Experiência sem anúncios</string>
+    <string name="purchase_success_feature_routines">Rotinas personalizadas ilimitadas</string>
+    <string name="purchase_success_feature_content">Acesso a todo o conteúdo</string>
+    <string name="purchase_success_feature_offline">Modo offline</string>
+    <string name="action_start_stretching">Começar a alongar</string>
+    <string name="content_desc_success_star">Estrela de sucesso</string>
+
+    <!-- Home Screen -->
+    <string name="home_daily_goal_title">Meta diária</string>
+    <string name="home_daily_goal_status">%1$d/%2$d sessões feitas</string>
+    <string name="home_info_streak_title">Sequência</string>
+    <string name="home_info_streak_value">%d Dia</string>
+    <string name="home_info_duration_title">Duração</string>
+    <string name="home_info_duration_sec">%d seg</string>
+    <string name="home_info_duration_min">%d min</string>
+
+    <!-- Calendar -->
+    <string name="calendar_title">Calendário</string>
+    <string name="calendar_today">Hoje</string>
+    <string name="calendar_stretched">Alongado</string>
+    <string name="content_desc_prev_month">Mês anterior</string>
+    <string name="content_desc_next_month">Próximo mês</string>
+    <string name="calendar_day_s">D</string>
+    <string name="calendar_day_m">S</string>
+    <string name="calendar_day_t">T</string>
+    <string name="calendar_day_w">Q</string>
+    <string name="calendar_day_th">Q</string>
+    <string name="calendar_day_f">S</string>
+    <string name="calendar_day_sa">S</string>
+
+    <!-- Stats Icons -->
+    <string name="content_desc_stats_icon">Ícone de estatísticas</string>
+    <string name="content_desc_menu">Menu</string>
+
+    <!-- Home Header -->
+    <string name="home_header_greeting">Olá, %s!</string>
+    <string name="home_header_ready">Pronto para alongar?</string>
+    <string name="home_motivational_message">Você está indo muito bem, continue assim!</string>
+
+    <!-- Streak Info Dialog -->
+    <string name="streak_dialog_title">Mantenha o Fogo Aceso!</string>
+    <string name="streak_dialog_description">Sua chama fica mais forte a cada dia consecutivo que você se exercita.</string>
+    <string name="streak_dialog_days">Dias</string>
+    <string name="action_got_it">Entendi!</string>
+
+    <!-- No Internet Connection Dialog -->
+    <string name="dialog_no_internet_title">Sem Conexão com a Internet</string>
+    <string name="dialog_no_internet_message">Por favor, verifique sua conexão com a internet e tente novamente para continuar usando todos os recursos do aplicativo.</string>
+    <string name="content_desc_no_internet">Sem Internet</string>
+
+    <!-- Settings -->
+    <string name="settings_improvement_objectives">Objetivos de Melhoria</string>
+    <string name="settings_routine_schedule">Horário da Rotina</string>
+    <string name="settings_time_start">Início</string>
+    <string name="settings_time_end">Fim</string>
+    <string name="settings_time_to">até</string>
+</resources>

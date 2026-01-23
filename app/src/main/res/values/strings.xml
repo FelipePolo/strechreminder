@@ -381,4 +381,86 @@
     <string name="day_short_friday">F</string>
     <string name="day_short_saturday">S</string>
     <string name="day_short_sunday">S</string>
+
+    <!-- Feedback Screen -->
+    <string name="feedback_title">Send Feedback</string>
+    <string name="feedback_intro_title">We\'d love to hear from you</string>
+    <string name="feedback_intro_desc">Your feedback helps us improve the stretching experience for everyone.</string>
+    <string name="feedback_subject_label">Subject</string>
+    <string name="feedback_optional_label">(Optional)</string>
+    <string name="feedback_custom_subject_placeholder">e.g. Feature Suggestion</string>
+    <string name="feedback_message_label">Message</string>
+    <string name="feedback_message_placeholder">Tell us what you think...</string>
+    <string name="feedback_subject_bug">Bug Report</string>
+    <string name="feedback_subject_feature">Feature Request</string>
+    <string name="feedback_subject_general">General Feedback</string>
+    <string name="feedback_subject_other">Other</string>
+    <string name="content_desc_tag_icon">Category Icon</string>
+    <string name="content_desc_close">Close</string>
+
+    <!-- Congratulation Screen -->
+    <string name="congratulation_title">Congratulations on Taking this Step!</string>
+    <string name="congratulation_subtitle">Your future self will thank you — let\'s keep growing together.</string>
+    <string name="content_desc_congratulation_image">Celebration Image</string>
+
+    <!-- Purchase Success Screen -->
+    <string name="purchase_success_title">Congratulations!</string>
+    <string name="purchase_success_message">You\'ve successfully subscribed to Premium. Your full potential is now unlocked!</string>
+    <string name="purchase_success_features_title">Unlocked Features</string>
+    <string name="purchase_success_feature_ads">Ad-free experience</string>
+    <string name="purchase_success_feature_routines">Unlimited Custom Routines</string>
+    <string name="purchase_success_feature_content">Access all content</string>
+    <string name="purchase_success_feature_offline">Offline mode</string>
+    <string name="action_start_stretching">Start Stretching</string>
+    <string name="content_desc_success_star">Success Star</string>
+
+    <!-- Home Screen -->
+    <string name="home_daily_goal_title">Daily Goal</string>
+    <string name="home_daily_goal_status">%1$d/%2$d sessions done</string>
+    <string name="home_info_streak_title">Streak</string>
+    <string name="home_info_streak_value">%d Day</string>
+    <string name="home_info_duration_title">Duration</string>
+    <string name="home_info_duration_sec">%d sec</string>
+    <string name="home_info_duration_min">%d min</string>
+
+    <!-- Calendar -->
+    <string name="calendar_title">Calendar</string>
+    <string name="calendar_today">Today</string>
+    <string name="calendar_stretched">Stretched</string>
+    <string name="content_desc_prev_month">Previous month</string>
+    <string name="content_desc_next_month">Next month</string>
+    <string name="calendar_day_s">S</string>
+    <string name="calendar_day_m">M</string>
+    <string name="calendar_day_t">T</string>
+    <string name="calendar_day_w">W</string>
+    <string name="calendar_day_th">T</string>
+    <string name="calendar_day_f">F</string>
+    <string name="calendar_day_sa">S</string>
+
+    <!-- Stats Icons -->
+    <string name="content_desc_stats_icon">Stats Icon</string>
+    <string name="content_desc_menu">Menu</string>
+
+    <!-- Home Header -->
+    <string name="home_header_greeting">Hello, %s!</string>
+    <string name="home_header_ready">Ready to stretch?</string>
+    <string name="home_motivational_message">You\'re doing great, keep it up!</string>
+
+    <!-- Streak Info Dialog -->
+    <string name="streak_dialog_title">Keep the Fire Burning!</string>
+    <string name="streak_dialog_description">Your flame grows stronger with every consecutive day you exercise.</string>
+    <string name="streak_dialog_days">Days</string>
+    <string name="action_got_it">Got it!</string>
+
+    <!-- No Internet Connection Dialog -->
+    <string name="dialog_no_internet_title">No Internet Connection</string>
+    <string name="dialog_no_internet_message">Please check your internet connection and try again to continue using all features of the app.</string>
+    <string name="content_desc_no_internet">No Internet</string>
+
+    <!-- Settings -->
+    <string name="settings_improvement_objectives">Improvement Objectives</string>
+    <string name="settings_routine_schedule">Routine Schedule</string>
+    <string name="settings_time_start">Start</string>
+    <string name="settings_time_end">End</string>
+    <string name="settings_time_to">to</string>
 </resources>

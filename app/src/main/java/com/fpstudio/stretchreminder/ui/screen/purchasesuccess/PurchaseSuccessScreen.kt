@@ -42,7 +42,7 @@ fun PurchaseSuccessScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Close",
+                        contentDescription = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.content_desc_close),
                         tint = Color.Black
                     )
                 }
@@ -61,7 +61,7 @@ fun PurchaseSuccessScreen(
                     shape = RoundedCornerShape(16.dp)
                 ) {
                     Text(
-                        text = "Start Stretching",
+                        text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.action_start_stretching),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
@@ -99,7 +99,7 @@ fun PurchaseSuccessScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Star,
-                        contentDescription = "Success",
+                        contentDescription = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.content_desc_success_star),
                         tint = Color.White,
                         modifier = Modifier.size(60.dp)
                     )
@@ -109,7 +109,7 @@ fun PurchaseSuccessScreen(
             Spacer(modifier = Modifier.height(32.dp))
             
             Text(
-                text = "Congratulations!",
+                text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.purchase_success_title),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 fontSize = 28.sp,
@@ -119,7 +119,7 @@ fun PurchaseSuccessScreen(
             Spacer(modifier = Modifier.height(12.dp))
             
             Text(
-                text = "You've successfully subscribed to Premium. Your full potential is now unlocked!",
+                text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.purchase_success_message),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
                 color = Color.Gray,
@@ -157,17 +157,17 @@ fun PurchaseSuccessScreen(
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = "Unlocked Features",
+                            text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.purchase_success_features_title),
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
                             color = Color.Black
                         )
                     }
                     
-                    SuccessFeatureItem("Ad-free experience")
-                    SuccessFeatureItem("Unlimited Custom Routines")
-                    SuccessFeatureItem("Access all content")
-                    SuccessFeatureItem("Offline mode")
+                    SuccessFeatureItem(androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.purchase_success_feature_ads))
+                    SuccessFeatureItem(androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.purchase_success_feature_routines))
+                    SuccessFeatureItem(androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.purchase_success_feature_content))
+                    SuccessFeatureItem(androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.purchase_success_feature_offline))
                 }
             }
         }

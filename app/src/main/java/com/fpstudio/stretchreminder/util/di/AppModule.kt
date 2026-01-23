@@ -108,7 +108,8 @@ val appModule = module {
     viewModel {
         FeedbackScreenViewModel(
             submitFeedbackUseCase = get(),
-            getSubscriptionInfoUseCase = get()
+            getSubscriptionInfoUseCase = get(),
+            context = androidContext()
         )
     }
 }

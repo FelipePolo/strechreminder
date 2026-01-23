@@ -71,7 +71,7 @@ fun CongratulationScreen(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_figure),
-                contentDescription = "Congratulation",
+                contentDescription = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.content_desc_congratulation_image),
                 modifier = Modifier.size(
                     200.dp,
                     200.dp
@@ -84,7 +84,7 @@ fun CongratulationScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = uiModel.title,
+                text = androidx.compose.ui.res.stringResource(uiModel.titleRes),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 fontSize = 30.sp,
@@ -95,7 +95,7 @@ fun CongratulationScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = uiModel.subtitle,
+                text = androidx.compose.ui.res.stringResource(uiModel.subtitleRes),
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.SemiBold,

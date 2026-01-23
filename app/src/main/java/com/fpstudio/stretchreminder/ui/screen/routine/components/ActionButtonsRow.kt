@@ -52,7 +52,7 @@ fun ActionButtonsRow(
                     SaveRoutineButton(
                         onClick = onSaveRoutine,
                         text = stringResource(R.string.action_save),
-                        modifier = Modifier.weight(0.3f),
+                        modifier = Modifier.weight(0.4f),
                         leadingIcon = if (userIsPremium) {
                             {
                                 Icon(

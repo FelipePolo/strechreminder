@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.res.stringResource
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -51,7 +52,7 @@ fun StreakInfoDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Keep the Fire Burning!",
+                    text = stringResource(R.string.streak_dialog_title),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
@@ -60,7 +61,7 @@ fun StreakInfoDialog(
                 Spacer(modifier = Modifier.height(8.dp))
                 
                 Text(
-                    text = "Your flame grows stronger with every consecutive day you exercise.",
+                    text = stringResource(R.string.streak_dialog_description),
                     style = MaterialTheme.typography.bodyMedium,
                     textAlign = TextAlign.Center,
                     color = Color.Gray
@@ -88,7 +89,7 @@ fun StreakInfoDialog(
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
-                        text = "Got it!",
+                        text = stringResource(R.string.action_got_it),
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )

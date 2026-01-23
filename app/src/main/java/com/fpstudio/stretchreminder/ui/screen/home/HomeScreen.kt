@@ -134,8 +134,8 @@ fun HomeContent(
                     0, 1 -> {
                         InfoCard(
                             modifier = Modifier.weight(1f),
-                            title = "Streak",
-                            value = "${uiState.dailyStatsState.stretchDays} Day",
+                            title = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.home_info_streak_title),
+                            value = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.home_info_streak_value, uiState.dailyStatsState.stretchDays),
                             onInfoClick = { showStreakInfo = true }
                         ) {
                             val composition by rememberLottieComposition(
@@ -154,8 +154,8 @@ fun HomeContent(
                     2 -> {
                         InfoCard(
                             modifier = Modifier.weight(1f),
-                            title = "Streak",
-                            value = "${uiState.dailyStatsState.stretchDays} Day",
+                            title = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.home_info_streak_title),
+                            value = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.home_info_streak_value, uiState.dailyStatsState.stretchDays),
                             onInfoClick = { showStreakInfo = true }
                         ) {
                             val composition by rememberLottieComposition(
@@ -174,8 +174,8 @@ fun HomeContent(
                     3 -> {
                         InfoCard(
                             modifier = Modifier.weight(1f),
-                            title = "Streak",
-                            value = "${uiState.dailyStatsState.stretchDays} Day",
+                            title = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.home_info_streak_title),
+                            value = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.home_info_streak_value, uiState.dailyStatsState.stretchDays),
                             onInfoClick = { showStreakInfo = true }
                         ) {
                             val composition by rememberLottieComposition(
@@ -194,8 +194,8 @@ fun HomeContent(
                     else -> {
                         InfoCard(
                             modifier = Modifier.weight(1f),
-                            title = "Streak",
-                            value = "${uiState.dailyStatsState.stretchDays} Day",
+                            title = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.home_info_streak_title),
+                            value = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.home_info_streak_value, uiState.dailyStatsState.stretchDays),
                             onInfoClick = { showStreakInfo = true }
                         ) {
                             val composition by rememberLottieComposition(
@@ -215,11 +215,11 @@ fun HomeContent(
 
                 InfoCard(
                     modifier = Modifier.weight(1f),
-                    title = "Duration",
+                    title = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.home_info_duration_title),
                     value = if (uiState.dailyStatsState.stretchingTime < 60) {
-                        "${uiState.dailyStatsState.stretchingTime} sec"
+                        androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.home_info_duration_sec, uiState.dailyStatsState.stretchingTime)
                     } else {
-                        "${uiState.dailyStatsState.stretchingTime / 60} min"
+                        androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.home_info_duration_min, uiState.dailyStatsState.stretchingTime / 60)
                     },
                     icon = R.drawable.ic_clock
                 )
@@ -253,7 +253,7 @@ fun HomeScreenPreviewStreak0() {
         HomeContent(
             uiState = HomeUiState(
                 headerState = HeaderUiState("Juan", "29 Nov, 2025"),
-                dailyGoalState = DailyGoalUiState(0, 0, 2, "Let's start!"),
+                dailyGoalState = DailyGoalUiState(0, 0, 2, R.string.home_motivational_message),
                 dailyStatsState = DailyStatsUiState(0, 0),
                 calendarState = Calendar(LocalDate.now(), emptyList())
             )
@@ -268,7 +268,7 @@ fun HomeScreenPreviewStreak1() {
         HomeContent(
             uiState = HomeUiState(
                 headerState = HeaderUiState("Juan", "29 Nov, 2025"),
-                dailyGoalState = DailyGoalUiState(50, 1, 2, "Good start!"),
+                dailyGoalState = DailyGoalUiState(50, 1, 2, R.string.home_motivational_message),
                 dailyStatsState = DailyStatsUiState(900, 1),
                 calendarState = Calendar(LocalDate.now(), listOf(LocalDate.now()))
             )
@@ -283,7 +283,7 @@ fun HomeScreenPreviewStreak2() {
         HomeContent(
             uiState = HomeUiState(
                 headerState = HeaderUiState("Juan", "29 Nov, 2025"),
-                dailyGoalState = DailyGoalUiState(100, 2, 2, "On fire!"),
+                dailyGoalState = DailyGoalUiState(100, 2, 2, R.string.home_motivational_message),
                 dailyStatsState = DailyStatsUiState(1800, 2),
                 calendarState = Calendar(
                     LocalDate.now(),
@@ -301,7 +301,7 @@ fun HomeScreenPreviewStreak3() {
         HomeContent(
             uiState = HomeUiState(
                 headerState = HeaderUiState("Juan", "29 Nov, 2025"),
-                dailyGoalState = DailyGoalUiState(100, 2, 2, "Unstoppable!"),
+                dailyGoalState = DailyGoalUiState(100, 2, 2, R.string.home_motivational_message),
                 dailyStatsState = DailyStatsUiState(2700, 3),
                 calendarState = Calendar(
                     LocalDate.now(),
@@ -323,7 +323,7 @@ fun HomeScreenPreviewStreak4() {
         HomeContent(
             uiState = HomeUiState(
                 headerState = HeaderUiState("Juan", "29 Nov, 2025"),
-                dailyGoalState = DailyGoalUiState(100, 2, 2, "Legendary!"),
+                dailyGoalState = DailyGoalUiState(100, 2, 2, R.string.home_motivational_message),
                 dailyStatsState = DailyStatsUiState(3600, 10),
                 calendarState = Calendar(
                     LocalDate.now(),

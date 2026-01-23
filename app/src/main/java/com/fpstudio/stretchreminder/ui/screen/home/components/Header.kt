@@ -20,6 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.ui.screen.home.model.HeaderUiState
 import com.fpstudio.stretchreminder.ui.theme.StretchReminderTheme
 
@@ -37,7 +39,7 @@ fun Header(
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = "Ready to stretch?",
+                text = stringResource(R.string.home_header_ready),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray,
                 fontWeight = FontWeight.SemiBold,
@@ -45,7 +47,7 @@ fun Header(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Hello, ${uiState.userName}!",
+                text = stringResource(R.string.home_header_greeting, uiState.userName),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
@@ -54,7 +56,7 @@ fun Header(
         IconButton(onClick = onMenuClick) {
             Icon(
                 imageVector = Icons.Default.Menu,
-                contentDescription = "Menu",
+                contentDescription = stringResource(R.string.content_desc_menu),
                 tint = Color.Black
             )
         }

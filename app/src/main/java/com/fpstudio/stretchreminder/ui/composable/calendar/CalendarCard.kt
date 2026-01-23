@@ -84,7 +84,7 @@ private fun CalendarHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Calendar",
+            text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.calendar_title),
             style = MaterialTheme.typography.headlineSmall,
             fontWeight = FontWeight.Bold,
             color = Color.Black
@@ -103,7 +103,7 @@ private fun CalendarHeader(
             IconButton(onClick = onPreviousMonth) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowLeft,
-                    contentDescription = "Previous month",
+                    contentDescription = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.content_desc_prev_month),
                     tint = TurquoiseAccent
                 )
             }
@@ -111,7 +111,7 @@ private fun CalendarHeader(
             IconButton(onClick = onNextMonth) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowRight,
-                    contentDescription = "Next month",
+                    contentDescription = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.content_desc_next_month),
                     tint = TurquoiseAccent
                 )
             }
@@ -125,10 +125,18 @@ private fun DaysOfWeekHeader() {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        val daysOfWeek = listOf("S", "M", "T", "W", "T", "F", "S")
-        daysOfWeek.forEach { day ->
+        val daysOfWeek = listOf(
+            com.fpstudio.stretchreminder.R.string.calendar_day_s,
+            com.fpstudio.stretchreminder.R.string.calendar_day_m,
+            com.fpstudio.stretchreminder.R.string.calendar_day_t,
+            com.fpstudio.stretchreminder.R.string.calendar_day_w,
+            com.fpstudio.stretchreminder.R.string.calendar_day_th,
+            com.fpstudio.stretchreminder.R.string.calendar_day_f,
+            com.fpstudio.stretchreminder.R.string.calendar_day_sa
+        )
+        daysOfWeek.forEach { dayRes ->
             Text(
-                text = day,
+                text = androidx.compose.ui.res.stringResource(dayRes),
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium,
@@ -287,7 +295,7 @@ private fun CalendarLegend() {
 
             )
             Text(
-                text = "Today",
+                text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.calendar_today),
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Gray
             )
@@ -307,7 +315,7 @@ private fun CalendarLegend() {
                     .background(TurquoiseAccent)
             )
             Text(
-                text = "Stretched",
+                text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.calendar_stretched),
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.Gray
             )

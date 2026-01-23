@@ -2,7 +2,7 @@ package com.fpstudio.stretchreminder.ui.screen.congratulation
 
 data class CongratulationUiModel(
     val visible: Boolean = false,
-    val title: String = "Congratulations on Taking this Step!",
-    val subtitle: String = "Your future self will thank you — let's keep growing together.",
+    @androidx.annotation.StringRes val titleRes: Int = com.fpstudio.stretchreminder.R.string.congratulation_title,
+    @androidx.annotation.StringRes val subtitleRes: Int = com.fpstudio.stretchreminder.R.string.congratulation_subtitle,
     val animation: String = "congratulations.json"
 )

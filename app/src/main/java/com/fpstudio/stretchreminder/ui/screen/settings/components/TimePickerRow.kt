@@ -18,6 +18,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
 
 @Composable
 fun TimePickerRow(
@@ -32,7 +34,7 @@ fun TimePickerRow(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = "Routine Schedule",
+            text = stringResource(R.string.settings_routine_schedule),
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray
         )
@@ -42,21 +44,21 @@ fun TimePickerRow(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             TimePickerItem(
-                label = "Start",
+                label = stringResource(R.string.settings_time_start),
                 time = startTime,
                 onClick = onStartTimeClick,
                 modifier = Modifier.weight(1f)
             )
             
             Text(
-                text = "to",
+                text = stringResource(R.string.settings_time_to),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray,
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
             
             TimePickerItem(
-                label = "End",
+                label = stringResource(R.string.settings_time_end),
                 time = endTime,
                 onClick = onEndTimeClick,
                 modifier = Modifier.weight(1f)

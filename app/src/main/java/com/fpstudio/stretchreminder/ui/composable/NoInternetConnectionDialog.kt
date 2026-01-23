@@ -16,6 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.res.stringResource
+import com.fpstudio.stretchreminder.R
 
 @Composable
 fun NoInternetConnectionDialog(
@@ -53,7 +55,7 @@ fun NoInternetConnectionDialog(
                 ) {
                     Icon(
                         imageVector = Icons.Default.CloudOff,
-                        contentDescription = "No Internet",
+                        contentDescription = stringResource(R.string.content_desc_no_internet),
                         tint = Color(0xFFFDB022),
                         modifier = Modifier.size(40.dp)
                     )
@@ -61,7 +63,7 @@ fun NoInternetConnectionDialog(
 
                 // Title
                 Text(
-                    text = "No Internet Connection",
+                    text = stringResource(R.string.dialog_no_internet_title),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1E293B),
@@ -71,7 +73,7 @@ fun NoInternetConnectionDialog(
 
                 // Message
                 Text(
-                    text = "Please check your internet connection and try again to continue using all features of the app.",
+                    text = stringResource(R.string.dialog_no_internet_message),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color(0xFF64748B),
                     textAlign = TextAlign.Center,
@@ -90,7 +92,7 @@ fun NoInternetConnectionDialog(
                     )
                 ) {
                     Text(
-                        text = "Try Again",
+                        text = stringResource(R.string.action_try_again),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.White,

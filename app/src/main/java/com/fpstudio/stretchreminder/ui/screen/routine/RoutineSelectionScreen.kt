@@ -163,10 +163,10 @@ private fun RoutineSelectionContent(
                     ) {
                         // Help text for individual exercises (not shown on Recommended)
                         if (uiState.selectedFilter != VideoFilter.Recommended) {
-                            androidx.compose.material3.Text(
+                            Text(
                                 text = stringResource(R.string.routine_selection_subtitle),
-                                style = androidx.compose.material3.MaterialTheme.typography.bodyMedium,
-                                color = androidx.compose.ui.graphics.Color(0xFF9CA3AF), // Pastel gray
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = Color(0xFF9CA3AF), // Pastel gray
                                 fontSize = 14.sp,
                                 modifier = Modifier
                                     .fillMaxWidth()

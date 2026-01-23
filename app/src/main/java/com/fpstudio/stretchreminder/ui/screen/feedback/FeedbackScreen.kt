@@ -72,7 +72,7 @@ fun FeedbackScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "Send Feedback",
+                        text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.feedback_title),
                         fontWeight = FontWeight.Bold
                     )
                 },
@@ -80,7 +80,7 @@ fun FeedbackScreen(
                     IconButton(onClick = { viewModel.handleIntent(Intent.NavigateBack) }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.content_desc_back)
                         )
                     }
                 },
@@ -117,7 +117,7 @@ fun FeedbackScreen(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
-                                text = "Send Feedback",
+                                text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.feedback_title),
                                 color = Color.White,
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 16.sp
@@ -174,7 +174,7 @@ fun FeedbackScreen(
 
                 // Header text
                 Text(
-                    text = "We'd love to hear from you",
+                    text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.feedback_intro_title),
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
@@ -185,7 +185,7 @@ fun FeedbackScreen(
 
                 Text(
                     modifier = Modifier.padding(horizontal = 20.dp),
-                    text = "Your feedback helps us improve the stretching experience for everyone.",
+                    text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.feedback_intro_desc),
                     fontSize = 14.sp,
                     color = Color(0xFF9E9E9E),
                     textAlign = TextAlign.Center,
@@ -202,14 +202,14 @@ fun FeedbackScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Subject",
+                        text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.feedback_subject_label),
                         fontSize = 15.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color(0xFF616161)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "(Optional)",
+                        text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.feedback_optional_label),
                         fontSize = 13.sp,
                         color = Color(0xFFBDBDBD)
                     )
@@ -268,7 +268,7 @@ fun FeedbackScreen(
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.Star,
-                                contentDescription = "TAG",
+                                contentDescription = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.content_desc_tag_icon),
                                 modifier = Modifier
                                     .size(20.dp)
                                     .offset(x = 6.dp),
@@ -277,7 +277,7 @@ fun FeedbackScreen(
                         },
                         placeholder = {
                             Text(
-                                "e.g. Feature Suggestion",
+                                androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.feedback_custom_subject_placeholder),
                                 color = Color(0xFFBDBDBD),
                                 fontSize = 14.sp
                             )
@@ -299,7 +299,7 @@ fun FeedbackScreen(
 
                 // Message section
                 Text(
-                    text = "Message",
+                    text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.feedback_message_label),
                     fontSize = 15.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF616161),
@@ -313,7 +313,7 @@ fun FeedbackScreen(
                     onValueChange = { viewModel.handleIntent(Intent.UpdateMessage(it)) },
                     placeholder = {
                         Text(
-                            "Tell us what you think...",
+                            androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.feedback_message_placeholder),
                             color = Color(0xFFBDBDBD),
                             fontSize = 14.sp
                         )
@@ -357,7 +357,7 @@ fun FeedbackScreen(
                         IconButton(onClick = { viewModel.handleIntent(Intent.DismissError) }) {
                             Icon(
                                 painter = painterResource(android.R.drawable.ic_menu_close_clear_cancel),
-                                contentDescription = "Dismiss",
+                                contentDescription = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.content_desc_close),
                                 tint = Color(0xFFC62828)
                             )
                         }
@@ -388,13 +388,13 @@ private fun SubjectChip(
             ) {
                 Icon(
                     painter = painterResource(id = subject.iconRes),
-                    contentDescription = subject.displayName,
+                    contentDescription = androidx.compose.ui.res.stringResource(subject.displayNameRes),
                     modifier = Modifier.size(20.dp),
                     tint = if (isSelected) Color.White else Color(0xFF424242)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = subject.displayName,
+                    text = androidx.compose.ui.res.stringResource(subject.displayNameRes),
                     fontSize = 13.sp,
                     fontWeight = if (isSelected) FontWeight.Bold else FontWeight.SemiBold
                 )

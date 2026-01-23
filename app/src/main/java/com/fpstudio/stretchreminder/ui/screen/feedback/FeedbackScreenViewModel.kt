@@ -1,5 +1,6 @@
 package com.fpstudio.stretchreminder.ui.screen.feedback
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fpstudio.stretchreminder.domain.usecase.GetSubscriptionInfoUseCase
@@ -18,7 +19,8 @@ import java.util.Locale
 
 class FeedbackScreenViewModel(
     private val submitFeedbackUseCase: SubmitFeedbackUseCase,
-    private val getSubscriptionInfoUseCase: GetSubscriptionInfoUseCase
+    private val getSubscriptionInfoUseCase: GetSubscriptionInfoUseCase,
+    private val context: Context
 ) : ViewModel() {
     
     private val _uiState = MutableStateFlow(UiState())
@@ -68,7 +70,7 @@ class FeedbackScreenViewModel(
         val subject = if (state.selectedSubject == com.fpstudio.stretchreminder.ui.screen.feedback.contract.FeedbackScreenContract.FeedbackSubject.OTHER && state.customSubject.isNotBlank()) {
             state.customSubject
         } else {
-            state.selectedSubject.displayName
+            context.getString(state.selectedSubject.displayNameRes)
         }
         
         _uiState.update { it.copy(isLoading = true, error = null) }
