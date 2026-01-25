@@ -10,7 +10,8 @@ import org.koin.dsl.module
 
 val userModule = module {
     single { UserLocalDataSource(androidContext()) }
-    single<UserRepository> { UserRepositoryImpl(get()) }
+    single { com.fpstudio.stretchreminder.util.notification.NotificationScheduler(androidContext()) }
+    single<UserRepository> { UserRepositoryImpl(get(), get()) }
     factory { SaveUserUseCase(get()) }
     factory { GetUserUseCase(get()) }
 }

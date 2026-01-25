@@ -33,7 +33,7 @@ android {
         
         create("production") {
             dimension = "environment"
-            buildConfigField("String", "REVENUECAT_API_KEY", "\"YOUR_PRODUCTION_KEY_HERE\"")
+            buildConfigField("String", "REVENUECAT_API_KEY", "\"goog_gzqcUbvZZACHIiahuanLuxvmCTJ\"")
             // No suffix for production
         }
     }
