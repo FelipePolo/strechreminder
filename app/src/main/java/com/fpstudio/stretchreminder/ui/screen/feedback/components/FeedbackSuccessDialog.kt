@@ -75,7 +75,7 @@ fun FeedbackSuccessDialog(
                 
                 // Title
                 Text(
-                    text = "Feedback Sent!",
+                    text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.feedback_success_title),
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1A1A1A),
@@ -84,7 +84,7 @@ fun FeedbackSuccessDialog(
                 
                 // Description
                 Text(
-                    text = "Thank you for your feedback. We appreciate your help in making our stretching app better for everyone!",
+                    text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.feedback_success_desc),
                     fontSize = 15.sp,
                     color = Color(0xFF757575),
                     textAlign = TextAlign.Center,

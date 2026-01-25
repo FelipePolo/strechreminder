@@ -464,4 +464,14 @@
     <string name="settings_time_start">Inicio</string>
     <string name="settings_time_end">Fin</string>
     <string name="settings_time_to">a</string>
+
+    <!-- Notification Permission -->
+    <string name="notification_permission_title">Stretch Reminder quisiera enviarte notificaciones</string>
+    <string name="notification_permission_desc">Las notificaciones pueden incluir alertas, sonidos e insignias de iconos, que pueden configurarse en Ajustes.</string>
+    <string name="notification_permission_allow">Permitir</string>
+    <string name="notification_permission_deny">No permitir</string>
+
+    <!-- Feedback Success -->
+    <string name="feedback_success_title">¡Comentarios Enviados!</string>
+    <string name="feedback_success_desc">Gracias por tus comentarios. ¡Apreciamos tu ayuda para hacer nuestra aplicación de estiramiento mejor para todos!</string>
 </resources>

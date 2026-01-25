@@ -68,7 +68,7 @@ fun PremiumUnlockBottomSheet(
 
             // Title
             Text(
-                text = "Choose Your Access:",
+                text = stringResource(R.string.unlock_choose_access),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF1E293B),
@@ -79,7 +79,7 @@ fun PremiumUnlockBottomSheet(
 
             // Subtitle
             Text(
-                text = "Weigh your options to unlock this routine\nand enhance your well-being.",
+                text = stringResource(R.string.unlock_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color(0xFF64748B),
                 textAlign = TextAlign.Center,
@@ -148,7 +148,7 @@ fun PremiumUnlockBottomSheet(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "Go Premium for unlimited access",
+                        text = stringResource(R.string.unlock_action_go_premium),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.White

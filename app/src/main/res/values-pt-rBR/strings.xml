@@ -464,4 +464,14 @@
     <string name="settings_time_start">Início</string>
     <string name="settings_time_end">Fim</string>
     <string name="settings_time_to">até</string>
+
+    <!-- Notification Permission -->
+    <string name="notification_permission_title">O Stretch Reminder gostaria de enviar notificações</string>
+    <string name="notification_permission_desc">As notificações podem incluir alertas, sons e avisos nos ícones, que podem ser configurados nos Ajustes.</string>
+    <string name="notification_permission_allow">Permitir</string>
+    <string name="notification_permission_deny">Não Permitir</string>
+
+    <!-- Feedback Success -->
+    <string name="feedback_success_title">Feedback Enviado!</string>
+    <string name="feedback_success_desc">Obrigado pelo seu feedback. Agradecemos sua ajuda para tornar nosso aplicativo de alongamento melhor para todos!</string>
 </resources>

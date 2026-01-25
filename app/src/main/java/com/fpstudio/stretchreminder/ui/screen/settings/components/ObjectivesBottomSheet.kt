@@ -60,7 +60,7 @@ fun ObjectivesBottomSheet(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Select Objectives",
+                    text = stringResource(R.string.objectives_title),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black

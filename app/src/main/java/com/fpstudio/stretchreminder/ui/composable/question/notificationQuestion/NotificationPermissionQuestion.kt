@@ -49,7 +49,7 @@ fun NotificationPermissionQuestion(
             ) {
                 // Card Title
                 Text(
-                    text = "Stretch Reminder would like to send you notifications",
+                    text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.notification_permission_title),
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center,
@@ -58,7 +58,7 @@ fun NotificationPermissionQuestion(
 
                 // Card Description
                 Text(
-                    text = "Notifications may include alerts, sounds, and icon badges, which can be configured in Settings.",
+                    text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.notification_permission_desc),
                     fontSize = 14.sp,
                     textAlign = TextAlign.Center,
                     color = Color.Gray,
@@ -83,7 +83,7 @@ fun NotificationPermissionQuestion(
                         shape = RoundedCornerShape(8.dp)
                     ) {
                         Text(
-                            text = "Don't Allow",
+                            text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.notification_permission_deny),
                             color = Color.Black
                         )
                     }
@@ -100,7 +100,7 @@ fun NotificationPermissionQuestion(
                         shape = RoundedCornerShape(8.dp)
                     ) {
                         Text(
-                            text = "Allow",
+                            text = androidx.compose.ui.res.stringResource(com.fpstudio.stretchreminder.R.string.notification_permission_allow),
                             color = Color.White
                         )
                     }

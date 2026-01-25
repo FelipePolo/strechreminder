@@ -464,4 +464,14 @@
     <string name="settings_time_start">Début</string>
     <string name="settings_time_end">Fin</string>
     <string name="settings_time_to">à</string>
+
+    <!-- Notification Permission -->
+    <string name="notification_permission_title">Stretch Reminder souhaite vous envoyer des notifications</string>
+    <string name="notification_permission_desc">Les notifications peuvent inclure des alertes, des sons et des badges, configurables dans les Paramètres.</string>
+    <string name="notification_permission_allow">Autoriser</string>
+    <string name="notification_permission_deny">Refuser</string>
+
+    <!-- Feedback Success -->
+    <string name="feedback_success_title">Commentaire envoyé !</string>
+    <string name="feedback_success_desc">Merci pour vos commentaires. Nous apprécions votre aide pour améliorer notre application pour tout le monde !</string>
 </resources>

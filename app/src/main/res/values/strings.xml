@@ -61,7 +61,7 @@
     <string name="promises_made_for_you_subtitle">We\'ve helped others just like you feel more flexible, energized, and take back control of their health.</string>
     <string name="promises_made_for_you_card1_icon">⏱️</string>
     <string name="promises_made_for_you_card1_title">Build healthy work breaks</string>
-    <string name="promises_made_for_you_card1_description">Smart reminders and 2-5 min breaks that won\'t interrupt your flow.</string>
+    <string name="promises_made_for_you_card1_description">Smart reminders and 2–5 min breaks that won\'t interrupt your flow.</string>
     <string name="promises_made_for_you_card2_icon">🤸</string>
     <string name="promises_made_for_you_card2_title">Improve posture</string>
     <string name="promises_made_for_you_card2_description">Short routines to correct slouching, tense neck and lower back strain.</string>
@@ -71,7 +71,7 @@
     
     <!-- Tutorial Screen -->
     <string name="tutorial_welcome_title">No Stretches logged yet.</string>
-    <string name="tutorial_welcome_description">This short exercise will help you understand how stretch sessions work--simple, guided, and easy to follow.</string>
+    <string name="tutorial_welcome_description">This short exercise will help you understand how stretch sessions work—simple, guided, and easy to follow.</string>
     <string name="tutorial_button_start_exercise">Start Exercise</string>
     <string name="tutorial_get_ready">Get Ready</string>
     <string name="tutorial_disclaimer">If your experience pain or discomfort while exercising, please stop immediately and consult your doctor or qualified healthcare professional before continuing.</string>
@@ -83,7 +83,7 @@
     <string name="form_question_achievement_subtitle">So tell us, </string>
     <string name="form_question_achievement">What do you want to achieve?</string>
     
-    <string name="form_question_body_subtitle">Now...,</string>
+    <string name="form_question_body_subtitle">Now…,</string>
     <string name="form_question_body">Which parts of your body do you want to exercise?</string>
     
     <string name="form_question_frequency_subtitle1">Building habits that work for you</string>
@@ -102,7 +102,7 @@
     <string name="form_question_work_hours">Working Hours</string>
     
     <string name="form_question_posture">Select the main posture during your workday</string>
-    <string name="form_question_posture_subtitle">Sitting, standing or lying down -- so exercises adapt to your posture</string>
+    <string name="form_question_posture_subtitle">Sitting, standing or lying down — so exercises adapt to your posture</string>
     
     <string name="form_question_notification">Stay on track with notifications</string>
     <string name="form_question_notification_subtitle">Get gentle reminders to keep up with your stretches and feel your best every day</string>
@@ -152,10 +152,10 @@
     <string name="weekday_sat">Sat</string>
     <string name="weekday_sun">Sun</string>
     
-    <string name="age_range_18_35">18 - 35</string>
-    <string name="age_range_36_45">36 - 45</string>
-    <string name="age_range_46_55">46 - 55</string>
-    <string name="age_range_56_69">56 - 69</string>
+    <string name="age_range_18_35">18 – 35</string>
+    <string name="age_range_36_45">36 – 45</string>
+    <string name="age_range_46_55">46 – 55</string>
+    <string name="age_range_56_69">56 – 69</string>
     <string name="age_range_over_70">Over 70</string>
 
     <!-- Gender/Age Options -->
@@ -194,7 +194,7 @@
     <string name="mfy_card_improve_sleep_title">Improve Sleep quality</string>
     <string name="mfy_card_improve_sleep_desc">Wind down with relaxing stretches that prepare your body for better rest.</string>
     <string name="mfy_card_build_breaks_title">Build Healthy Work Breaks</string>
-    <string name="mfy_card_build_breaks_desc">Smart reminders and 2-5 min breaks that won\'t interrupt your flow.</string>
+    <string name="mfy_card_build_breaks_desc">Smart reminders and 2–5 min breaks that won\'t interrupt your flow.</string>
     <string name="mfy_card_flexibility_title">Enhanced Flexibility and Mobility</string>
     <string name="mfy_card_flexibility_desc">Increase your range of motion with targeted flexibility exercises.</string>
     <string name="mfy_card_prevent_issues_title">Prevent Long-Term Health Issues</string>
@@ -279,7 +279,7 @@
     <string name="action_start_time_format">Start %s</string>
     <string name="action_select_exercise_hint">Select at least 1 exercise</string>
     <string name="action_save_routine">Save Routine</string>
-    <string name="loading_exercises">Loading exercises...</string>
+    <string name="loading_exercises">Loading exercises…</string>
 
     <!-- Settings Screen -->
     <string name="settings_title">Settings</string>
@@ -390,7 +390,7 @@
     <string name="feedback_optional_label">(Optional)</string>
     <string name="feedback_custom_subject_placeholder">e.g. Feature Suggestion</string>
     <string name="feedback_message_label">Message</string>
-    <string name="feedback_message_placeholder">Tell us what you think...</string>
+    <string name="feedback_message_placeholder">Tell us what you think…</string>
     <string name="feedback_subject_bug">Bug Report</string>
     <string name="feedback_subject_feature">Feature Request</string>
     <string name="feedback_subject_general">General Feedback</string>
@@ -463,4 +463,14 @@
     <string name="settings_time_start">Start</string>
     <string name="settings_time_end">End</string>
     <string name="settings_time_to">to</string>
+
+    <!-- Notification Permission -->
+    <string name="notification_permission_title">Stretch Reminder would like to send you notifications</string>
+    <string name="notification_permission_desc">Notifications may include alerts, sounds, and icon badges, which can be configured in Settings.</string>
+    <string name="notification_permission_allow">Allow</string>
+    <string name="notification_permission_deny">Don\'t Allow</string>
+
+    <!-- Feedback Success -->
+    <string name="feedback_success_title">Feedback Sent!</string>
+    <string name="feedback_success_desc">Thank you for your feedback. We appreciate your help in making our stretching app better for everyone!</string>
 </resources>

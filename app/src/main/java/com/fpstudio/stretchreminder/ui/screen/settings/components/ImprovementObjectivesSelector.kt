@@ -72,7 +72,7 @@ fun ImprovementObjectivesSelector(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = "Select Objectives",
+                    text = stringResource(R.string.objectives_title),
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.Black
