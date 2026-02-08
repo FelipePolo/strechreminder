@@ -35,6 +35,18 @@ android {
                 "REVENUECAT_API_KEY",
                 "\"test_BdwdCXvFTRKaBYBzcrHPtakECas\""
             )
+            // AdMob Test IDs for development
+            buildConfigField(
+                "String",
+                "ADMOB_APP_ID",
+                "\"ca-app-pub-3940256099942544~3347511713\""
+            )
+            buildConfigField(
+                "String",
+                "ADMOB_REWARDED_AD_UNIT_ID",
+                "\"ca-app-pub-3940256099942544/5224354917\""
+            )
+            manifestPlaceholders["ADMOB_APP_ID"] = "ca-app-pub-3940256099942544~3347511713"
             applicationIdSuffix = ".sandbox"
             versionNameSuffix = "-sandbox"
         }
@@ -46,6 +58,18 @@ android {
                 "REVENUECAT_API_KEY",
                 "\"goog_gzqcUbvZZACHIiahuanLuxvmCTJ\""
             )
+            // AdMob Production IDs
+            buildConfigField(
+                "String",
+                "ADMOB_APP_ID",
+                "\"ca-app-pub-3623633830858999~7946399972\""
+            )
+            buildConfigField(
+                "String",
+                "ADMOB_REWARDED_AD_UNIT_ID",
+                "\"ca-app-pub-3623633830858999/2775455031\""
+            )
+            manifestPlaceholders["ADMOB_APP_ID"] = "ca-app-pub-3623633830858999~7946399972"
             // No suffix for production
         }
     }
@@ -165,6 +189,7 @@ dependencies {
 
     // RevenueCat
     implementation(libs.revenuecat.purchases)
+    implementation(libs.purchases.ui)
 
     // Reorderable
     implementation(libs.reorderable)

@@ -99,7 +99,6 @@ val appModule = module {
     // Premium Screen
     viewModel {
         PremiumScreenViewModel(
-            revenueCatRepository = get(),
             checkEntitlementUseCase = get()
         )
     }

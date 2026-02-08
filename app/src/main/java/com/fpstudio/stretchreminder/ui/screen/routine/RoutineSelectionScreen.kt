@@ -39,9 +39,8 @@ fun RoutineSelectionScreen(
     
     // Load Ad on entry
     LaunchedEffect(Unit) {
-        val TEST_AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
         adMobRepository.initialize(context)
-        adMobRepository.loadRewardedAd(context, TEST_AD_UNIT_ID)
+        adMobRepository.loadRewardedAd(context, com.fpstudio.stretchreminder.BuildConfig.ADMOB_REWARDED_AD_UNIT_ID)
     }
 
     RoutineSelectionContent(
@@ -264,8 +263,7 @@ private fun RoutineSelectionContent(
                             },
                             onAdClosed = {
                                 // Reload ad for next time
-                                val TEST_AD_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
-                                adMobRepository.loadRewardedAd(context, TEST_AD_UNIT_ID)
+                                adMobRepository.loadRewardedAd(context, com.fpstudio.stretchreminder.BuildConfig.ADMOB_REWARDED_AD_UNIT_ID)
                             },
                             onAdFailedToLoad = {
                                 // Handle failure (optional)
