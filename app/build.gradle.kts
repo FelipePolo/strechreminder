@@ -1,3 +1,7 @@
+import java.io.FileInputStream
+import java.util.Locale
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -26,15 +30,37 @@ android {
     productFlavors {
         create("sandbox") {
             dimension = "environment"
-            buildConfigField("String", "REVENUECAT_API_KEY", "\"test_BdwdCXvFTRKaBYBzcrHPtakECas\"")
+            buildConfigField(
+                "String",
+                "REVENUECAT_API_KEY",
+                "\"test_BdwdCXvFTRKaBYBzcrHPtakECas\""
+            )
             applicationIdSuffix = ".sandbox"
             versionNameSuffix = "-sandbox"
         }
-        
+
         create("production") {
             dimension = "environment"
-            buildConfigField("String", "REVENUECAT_API_KEY", "\"goog_gzqcUbvZZACHIiahuanLuxvmCTJ\"")
+            buildConfigField(
+                "String",
+                "REVENUECAT_API_KEY",
+                "\"goog_gzqcUbvZZACHIiahuanLuxvmCTJ\""
+            )
             // No suffix for production
+        }
+    }
+
+    signingConfigs {
+        create("release") {
+            val keystorePropertiesFile = rootProject.file("keystore.properties")
+            if (keystorePropertiesFile.exists()) {
+                val props = Properties()
+                FileInputStream(keystorePropertiesFile).use { props.load(it) }
+                keyAlias = props.getProperty("keyAlias")
+                keyPassword = props.getProperty("keyPassword")
+                storeFile = file(props.getProperty("storeFile"))
+                storePassword = props.getProperty("storePassword")
+            }
         }
     }
 
@@ -48,6 +74,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     
@@ -149,7 +176,15 @@ android.applicationVariants.all {
     val variant = this
     if (variant.flavorName == "sandbox") {
         variant.outputs.all {
-            tasks.matching { it.name == "process${variant.name.capitalize()}GoogleServices" }
+            tasks.matching {
+                it.name == "process${
+                    variant.name.replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(
+                            Locale.getDefault()
+                        ) else it.toString()
+                    }
+                }GoogleServices"
+            }
                 .configureEach { enabled = false }
         }
     }
