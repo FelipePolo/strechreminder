@@ -53,6 +53,7 @@ fun InfoCard(
                     lottieIcon()
                 } else if (icon != null) {
                     Icon(
+                        modifier = Modifier.size(28.dp),
                         painter = painterResource(id = icon),
                         contentDescription = null,
                         tint = if (title.contains("Streak", ignoreCase = true)) {

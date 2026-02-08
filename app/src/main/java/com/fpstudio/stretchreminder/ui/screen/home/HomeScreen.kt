@@ -146,7 +146,7 @@ fun HomeContent(
                             LottieAnimation(
                                 composition = composition,
                                 iterations = LottieConstants.IterateForever,
-                                modifier = Modifier.size(36.dp).offset(y = (5).dp)
+                                modifier = Modifier.size(28.dp)
                             )
                         }
                     }
@@ -166,7 +166,7 @@ fun HomeContent(
                             LottieAnimation(
                                 composition = composition,
                                 iterations = LottieConstants.IterateForever,
-                                modifier = Modifier.size(36.dp)
+                                modifier = Modifier.size(28.dp)
                             )
                         }
                     }
@@ -186,7 +186,7 @@ fun HomeContent(
                             LottieAnimation(
                                 composition = composition,
                                 iterations = LottieConstants.IterateForever,
-                                modifier = Modifier.size(36.dp)
+                                modifier = Modifier.size(28.dp)
                             )
                         }
                     }
@@ -206,7 +206,7 @@ fun HomeContent(
                             LottieAnimation(
                                 composition = composition,
                                 iterations = LottieConstants.IterateForever,
-                                modifier = Modifier.size(36.dp)
+                                modifier = Modifier.size(28.dp)
                             )
                         }
                     }
