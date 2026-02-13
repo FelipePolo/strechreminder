@@ -90,8 +90,8 @@ class FormViewModel(
         if (nextPage >= uiState.value.form.size) {
             viewModelScope.launch {
                 saveUserUseCase.invoke(uiState.value.toUser())
+                emitSideEffect(SideEffect.NavigateNext)
             }
-            viewModelScope.emitSideEffect(SideEffect.NavigateNext)
         } else {
             val form = uiState.value.form[uiState.value.page]
             if (FormComponentHelper.allRequiredQuestionAreAnswered(form)) {
@@ -191,8 +191,8 @@ class FormViewModel(
                 if (nextPage >= uiState.value.form.size) {
                     viewModelScope.launch {
                         saveUserUseCase.invoke(uiState.value.toUser())
+                        emitSideEffect(SideEffect.NavigateNext)
                     }
-                    viewModelScope.emitSideEffect(SideEffect.NavigateNext)
                 }else {
                     val uiState = shouldShowPromiseScreen(nextPage)
                     updateUiState {

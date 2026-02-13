@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.fpstudio.stretchreminder.R
 import com.fpstudio.stretchreminder.util.foundation.LaunchedSideEffect
 import com.fpstudio.stretchreminder.ui.component.form.FormComponent
 import com.fpstudio.stretchreminder.ui.composable.button.StretchButton
@@ -30,6 +31,7 @@ import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.SideEffect
 import com.fpstudio.stretchreminder.ui.screen.form.FormScreenContract.SideEffect.NavigateNext
 import com.fpstudio.stretchreminder.ui.screen.promises.madeforyou.MadeForYouScreen
 import com.fpstudio.stretchreminder.ui.screen.promises.plansuccess.PlanSuccessScreen
+import com.fpstudio.stretchreminder.ui.screen.promises.plansuccess.PlanSuccessUiModel
 
 @Composable
 fun FormScreen(
@@ -157,6 +159,9 @@ fun FormScreenContent(
                 visible = uiState.planSuccess.isVisible,
             ) {
                 PlanSuccessScreen(
+                    model = PlanSuccessUiModel(
+                        imageResId = if (uiState.userGender == 0) R.drawable.male else R.drawable.female,
+                    ),
                     onBackClick = {
                         onIntent(Intent.OnPlanSuccessCloseClick)
                     },

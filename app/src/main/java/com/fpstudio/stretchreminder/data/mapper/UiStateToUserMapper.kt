@@ -121,10 +121,14 @@ fun FormScreenContract.UiState.toUser(): User {
             }
         }
     }
+    
+    // Use userGender from UiState if available, otherwise use the value from form questions
+    val finalGender = if (this.userGender != 0) this.userGender else gender
+    
     return User(
         name = name,
         lastFormPage = this.page,
-        gender = gender,
+        gender = finalGender,
         ageRange = age,
         mainPosture = mainPosture,
         workDays = workDays,

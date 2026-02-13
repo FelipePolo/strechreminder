@@ -31,14 +31,14 @@ interface ThreeYesContract {
     }
 }
 
-private fun getBaseThreeYesList(): List<AgreementUiModel> = listOf(
-    getScreen1(),
-    getScreen2(),
-    getScreen3()
+fun getBaseThreeYesList(isFemale: Boolean = false): List<AgreementUiModel> = listOf(
+    getScreen1(isFemale),
+    getScreen2(isFemale),
+    getScreen3(isFemale)
 )
 
 
-private fun getScreen1(): AgreementUiModel {
+private fun getScreen1(isFemale: Boolean): AgreementUiModel {
     val titleParts = listOf(
         AgreementTextPart(R.string.agreement_screen_1_part_1, isHighlight = false),
         AgreementTextPart(R.string.agreement_screen_1_part_2, isHighlight = true),
@@ -47,7 +47,7 @@ private fun getScreen1(): AgreementUiModel {
     )
     return AgreementUiModel(
         titleParts = titleParts,
-        backgroundImg = R.drawable.male1,
+        backgroundImg = if (isFemale) R.drawable.female1 else R.drawable.male1,
         noButton = StretchButtonUiModel.Outline(
             text = R.string.common_button_no,
             shape = RoundedCornerShape(12.dp),
@@ -63,7 +63,7 @@ private fun getScreen1(): AgreementUiModel {
     )
 }
 
-private fun getScreen2(): AgreementUiModel {
+private fun getScreen2(isFemale: Boolean): AgreementUiModel {
     val titleParts = listOf(
         AgreementTextPart(R.string.agreement_screen_2_part_1, isHighlight = false),
         AgreementTextPart(R.string.agreement_screen_2_part_2, isHighlight = true),
@@ -71,7 +71,7 @@ private fun getScreen2(): AgreementUiModel {
     )
     return AgreementUiModel(
         titleParts = titleParts,
-        backgroundImg = R.drawable.male2,
+        backgroundImg = if (isFemale) R.drawable.female2 else R.drawable.male2,
         noButton = StretchButtonUiModel.Outline(
             text = R.string.common_button_no,
             shape = RoundedCornerShape(12.dp),
@@ -87,7 +87,7 @@ private fun getScreen2(): AgreementUiModel {
     )
 }
 
-private fun getScreen3(): AgreementUiModel {
+private fun getScreen3(isFemale: Boolean): AgreementUiModel {
     val titleParts = listOf(
         AgreementTextPart(R.string.agreement_screen_3_part_1, isHighlight = false),
         AgreementTextPart(R.string.agreement_screen_3_part_2, isHighlight = true),
@@ -96,7 +96,7 @@ private fun getScreen3(): AgreementUiModel {
     )
     return AgreementUiModel(
         titleParts = titleParts,
-        backgroundImg = R.drawable.male3,
+        backgroundImg = if (isFemale) R.drawable.female3 else R.drawable.male3,
         noButton = StretchButtonUiModel.Outline(
             text = R.string.common_button_no,
             shape = RoundedCornerShape(12.dp),
