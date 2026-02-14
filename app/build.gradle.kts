@@ -19,8 +19,8 @@ android {
         applicationId = "com.fpstudio.stretchreminder"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.0.0"
+        versionCode = 6
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -93,7 +93,9 @@ android {
             isDebuggable = true
         }
         release {
-            isMinifyEnabled = false
+            isShrinkResources = true
+            isDebuggable = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
