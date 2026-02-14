@@ -161,11 +161,6 @@ fun CustomBodyQuestionPreview() {
 
     val bodyParts = listOf(
         Pair(
-            R.drawable.selected_all, BodyPart(
-                id = BodyPartID.All, com.fpstudio.stretchreminder.R.string.app_name
-            )
-        ),
-        Pair(
             R.drawable.selected_neck,
             BodyPart(
                 id = BodyPartID.NECK, com.fpstudio.stretchreminder.R.string.body_part_neck
